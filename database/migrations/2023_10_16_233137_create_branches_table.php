@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateBranchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,29 +13,17 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id_user');
+        Schema::create('branches', function (Blueprint $table) {
+            $table->increments('id_branch');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
-            $table->boolean('temporary_password')->default(true);
-            $table->rememberToken();
-            $table->boolean('active')->default(true);
-            $table->dateTime('last_access')->nullable();
-            $table->integer('count_access')->nullable();
-            $table->enum('type_user', ['admin', 'user'])->default('user');
-            $table->string('cpf_or_cnpj', 20)->nullable();
-            $table->string('id_card', 20)->nullable();
-            $table->string('pis', 20)->nullable();
-            $table->date('birth_date', 20)->nullable();
+            $table->string('abbreviation');
             $table->string('zip_code', 10)->nullable();
             $table->string('address')->nullable();
             $table->string('number', 10)->nullable();
             $table->string('complement')->nullable();
             $table->string('district')->nullable();
             $table->string('city')->nullable();
-            $table->string('state',2)->nullable();
+            $table->string('state', 2)->nullable();
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
@@ -53,6 +41,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('branches');
     }
 }
