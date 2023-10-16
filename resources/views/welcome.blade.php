@@ -1,132 +1,1044 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
+@section('title', 'ASFSS')
 
-        <title>Laravel</title>
+@section('content')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- begin: .tray-center -->
+    <div class="tray tray-center pv40 ph30 va-t posr animated-delay animated-long" data-animate='["800","fadeIn"]'>
+        <div class="mw1100 center-block">
 
-        <!-- Styles -->
-        <style>
-            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--bg-opacity:1;background-color:#fff;background-color:rgba(255,255,255,var(--bg-opacity))}.bg-gray-100{--bg-opacity:1;background-color:#f7fafc;background-color:rgba(247,250,252,var(--bg-opacity))}.border-gray-200{--border-opacity:1;border-color:#edf2f7;border-color:rgba(237,242,247,var(--border-opacity))}.border-t{border-top-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.text-center{text-align:center}.text-gray-200{--text-opacity:1;color:#edf2f7;color:rgba(237,242,247,var(--text-opacity))}.text-gray-300{--text-opacity:1;color:#e2e8f0;color:rgba(226,232,240,var(--text-opacity))}.text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.text-gray-500{--text-opacity:1;color:#a0aec0;color:rgba(160,174,192,var(--text-opacity))}.text-gray-600{--text-opacity:1;color:#718096;color:rgba(113,128,150,var(--text-opacity))}.text-gray-700{--text-opacity:1;color:#4a5568;color:rgba(74,85,104,var(--text-opacity))}.text-gray-900{--text-opacity:1;color:#1a202c;color:rgba(26,32,44,var(--text-opacity))}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--bg-opacity:1;background-color:#2d3748;background-color:rgba(45,55,72,var(--bg-opacity))}.dark\:bg-gray-900{--bg-opacity:1;background-color:#1a202c;background-color:rgba(26,32,44,var(--bg-opacity))}.dark\:border-gray-700{--border-opacity:1;border-color:#4a5568;border-color:rgba(74,85,104,var(--border-opacity))}.dark\:text-white{--text-opacity:1;color:#fff;color:rgba(255,255,255,var(--text-opacity))}.dark\:text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.dark\:text-gray-500{--tw-text-opacity:1;color:#6b7280;color:rgba(107,114,128,var(--tw-text-opacity))}}
-        </style>
+            <h2 class="lh30 mt10 text-center">With <b class="text-primary">Admin Forms</b> you have
+                everything you need.</h2>
+            <p class="lead mb35 text-center">We even included dozens of prebuilt form layouts so you can
+                leave work early .
+            </p>
 
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            }
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+            <!-- begin: .admin-form -->
+            <div class="admin-form">
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+                <div id="p1" class="panel heading-border">
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
-                        <g clip-path="url(#clip0)" fill="#EF3B2D">
-                            <path d="M248.032 44.676h-16.466v100.23h47.394v-14.748h-30.928V44.676zM337.091 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.431 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162-.001 2.863-.479 5.584-1.432 8.161zM463.954 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.432 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162 0 2.863-.479 5.584-1.432 8.161zM650.772 44.676h-15.606v100.23h15.606V44.676zM365.013 144.906h15.607V93.538h26.776V78.182h-42.383v66.724zM542.133 78.182l-19.616 51.096-19.616-51.096h-15.808l25.617 66.724h19.614l25.617-66.724h-15.808zM591.98 76.466c-19.112 0-34.239 15.706-34.239 35.079 0 21.416 14.641 35.079 36.239 35.079 12.088 0 19.806-4.622 29.234-14.688l-10.544-8.158c-.006.008-7.958 10.449-19.832 10.449-13.802 0-19.612-11.127-19.612-16.884h51.777c2.72-22.043-11.772-40.877-33.023-40.877zm-18.713 29.28c.12-1.284 1.917-16.884 18.589-16.884 16.671 0 18.697 15.598 18.813 16.884h-37.402zM184.068 43.892c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002-35.648-20.524a2.971 2.971 0 00-2.964 0l-35.647 20.522-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v38.979l-29.706 17.103V24.493a3 3 0 00-.103-.776c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002L40.098 1.396a2.971 2.971 0 00-2.964 0L1.487 21.919l-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v122.09c0 1.063.568 2.044 1.489 2.575l71.293 41.045c.156.089.324.143.49.202.078.028.15.074.23.095a2.98 2.98 0 001.524 0c.069-.018.132-.059.2-.083.176-.061.354-.119.519-.214l71.293-41.045a2.971 2.971 0 001.489-2.575v-38.979l34.158-19.666a2.971 2.971 0 001.489-2.575V44.666a3.075 3.075 0 00-.106-.774zM74.255 143.167l-29.648-16.779 31.136-17.926.001-.001 34.164-19.669 29.674 17.084-21.772 12.428-43.555 24.863zm68.329-76.259v33.841l-12.475-7.182-17.231-9.92V49.806l12.475 7.182 17.231 9.92zm2.97-39.335l29.693 17.095-29.693 17.095-29.693-17.095 29.693-17.095zM54.06 114.089l-12.475 7.182V46.733l17.231-9.92 12.475-7.182v74.537l-17.231 9.921zM38.614 7.398l29.693 17.095-29.693 17.095L8.921 24.493 38.614 7.398zM5.938 29.632l12.475 7.182 17.231 9.92v79.676l.001.005-.001.006c0 .114.032.221.045.333.017.146.021.294.059.434l.002.007c.032.117.094.222.14.334.051.124.088.255.156.371a.036.036 0 00.004.009c.061.105.149.191.222.288.081.105.149.22.244.314l.008.01c.084.083.19.142.284.215.106.083.202.178.32.247l.013.005.011.008 34.139 19.321v34.175L5.939 144.867V29.632h-.001zm136.646 115.235l-65.352 37.625V148.31l48.399-27.628 16.953-9.677v33.862zm35.646-61.22l-29.706 17.102V66.908l17.231-9.92 12.475-7.182v33.841z"/>
-                        </g>
-                    </svg>
-                </div>
-
-                <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-2">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Documentation</a></div>
+                    <div class="panel-body bg-light">
+                        <form method="post" action="" id="form-ui">
+                            <div class="section-divider mb40" id="spy1">
+                                <span>Form UI Elements</span>
                             </div>
+                            <!-- .section-divider -->
 
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
+                            <!-- Basic Inputs -->
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="section">
+                                        <label class="field">
+                                            <input type="text" name="from" id="from" class="gui-input"
+                                                placeholder="Input no icon">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field">
+                                            <input type="text" name="from" id="from" class="gui-input"
+                                                placeholder="Disabled no icon" disabled>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laracasts.com" class="underline text-gray-900 dark:text-white">Laracasts</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
+                            <!-- Input Icons -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="text" name="firstname" id="firstname" class="gui-input"
+                                                placeholder="Input icon left">
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field append-icon">
+                                            <input type="text" name="firstname" id="firstname" class="gui-input"
+                                                placeholder="Input icon right">
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="text" name="firstname" id="firstname" class="gui-input"
+                                                placeholder="Disabled with icon" disabled>
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel-news.com/" class="underline text-gray-900 dark:text-white">Laravel News</a></div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
+                            <!-- Input Formats -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="url" name="website" id="website" class="gui-input"
+                                                placeholder="URL input">
+                                            <label for="website" class="field-icon"><i class="fa fa-globe"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="email" name="email" id="email" class="gui-input"
+                                                placeholder="Email input">
+                                            <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 hidden">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="tel" name="mobile" id="mobile" class="gui-input"
+                                                placeholder="Telephone input">
+                                            <label for="mobile" class="field-icon"><i class="fa fa-phone-square"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="search" name="s" id="s" class="gui-input"
+                                                placeholder="Disabled Search input" disabled>
+                                            <label for="s" class="field-icon"><i class="fa fa-search"></i>
+                                            </label>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
-                            <div class="flex items-center">
-                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</div>
-                            </div>
-
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline">Forge</a>, <a href="https://vapor.laravel.com" class="underline">Vapor</a>, <a href="https://nova.laravel.com" class="underline">Nova</a>, and <a href="https://envoyer.io" class="underline">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline">Telescope</a>, and more.
+                            <!-- Multi Selects -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field select">
+                                            <select id="country" name="country">
+                                                <option value="">Select with single arrow</option>
+                                                <option value="AL">Albania</option>
+                                                <option value="DZ">Algeria</option>
+                                            </select>
+                                            <i class="arrow"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field select">
+                                            <select id="location" name="location">
+                                                <option value="">Select with double arrows</option>
+                                                <option value="AL">Albania</option>
+                                                <option value="DZ">Algeria</option>
+                                            </select>
+                                            <i class="arrow double"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field select">
+                                            <select id="location" name="location" disabled>
+                                                <option value="">Select with double arrows</option>
+                                                <option value="AL">Albania</option>
+                                                <option value="DZ">Algeria</option>
+                                            </select>
+                                            <i class="arrow double"></i>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 sm:text-left">
-                        <div class="flex items-center">
-                            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="-mt-px w-5 h-5 text-gray-400">
-                                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
+                            <!-- Text Areas -->
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <textarea class="gui-textarea" id="comment" name="comment" placeholder="Text area"></textarea>
+                                            <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
+                                            </label>
+                                            <span class="input-footer">
+                                                <strong>Hint:</strong>Don't be negative or off topic! just
+                                                be awesome...</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <textarea class="gui-textarea" id="comment" name="comment" placeholder="Disabled Text area" disabled></textarea>
+                                            <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
+                                            </label>
+                                            <span class="input-footer">
+                                                <strong>Hint:</strong>Don't be negative or off topic!</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section-divider mv40" id="spy2">
+                                <span>File Uploaders</span>
+                            </div>
+                            <!-- .section-divider -->
 
-                            <a href="https://laravel.bigcartel.com" class="ml-1 underline">
-                                Shop
-                            </a>
+                            <!-- File Uploaders -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <label class="field prepend-icon append-button file">
+                                            <span class="button">Choose File</span>
+                                            <input type="file" class="gui-file" name="file1" id="file1"
+                                                onChange="document.getElementById('uploader1').value = this.value;">
+                                            <input type="text" class="gui-input" id="uploader1"
+                                                placeholder="Please Select A File">
+                                            <label class="field-icon"><i class="fa fa-upload"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <label class="field prepend-icon file">
+                                            <span class="button">Choose File</span>
+                                            <input type="file" class="gui-file" name="file2" id="file2"
+                                                onChange="document.getElementById('uploader2').value = this.value;">
+                                            <input type="text" class="gui-input" id="uploader2"
+                                                placeholder="Please Select A File">
+                                            <label class="field-icon"><i class="fa fa-upload"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="ml-4 -mt-px w-5 h-5 text-gray-400">
-                                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                            </svg>
+                            <!-- File Uploaders2 -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <label class="field prepend-icon append-button file">
+                                            <span class="button" disabled>Choose File</span>
+                                            <input type="file" class="gui-file" name="file3" id="file3"
+                                                onChange="document.getElementById('uploader3').value = this.value;"
+                                                disabled>
+                                            <input type="text" class="gui-input" id="uploader3"
+                                                placeholder="Disabled File Select">
+                                            <label class="field-icon"><i class="fa fa-upload"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <label class="field prepend-icon file">
+                                            <span class="button" disabled>Choose File</span>
+                                            <input type="file" class="gui-file" name="file4" id="file4"
+                                                onChange="document.getElementById('uploader4').value = this.value;"
+                                                disabled>
+                                            <input type="text" class="gui-input" id="uploader4"
+                                                placeholder="Disabled File Select">
+                                            <label class="field-icon"><i class="fa fa-upload"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <a href="https://github.com/sponsors/taylorotwell" class="ml-1 underline">
-                                Sponsor
-                            </a>
-                        </div>
-                    </div>
+                            <!-- File Uploaders2 -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="section">
+                                        <label class="field prepend-icon append-button file">
+                                            <span class="button btn-primary">Choose File</span>
+                                            <input type="file" class="gui-file" name="file3" id="file3"
+                                                onChange="document.getElementById('uploader3').value = this.value;">
+                                            <input type="text" class="gui-input" id="uploader3"
+                                                placeholder="Disabled File Select">
+                                            <label class="field-icon"><i class="fa fa-upload"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="section">
+                                        <label class="field prepend-icon append-button file disabled">
+                                            <span class="button btn-primary" disabled>Choose File</span>
+                                            <input type="file" class="gui-file" name="file4" id="file4"
+                                                onChange="document.getElementById('uploader4').value = this.value;"
+                                                disabled>
+                                            <input type="text" class="gui-input" id="uploader4"
+                                                placeholder="Disabled File Select">
+                                            <label class="field-icon"><i class="fa fa-upload"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section-divider mv40" id="spy3">
+                                <span>Form Addons</span>
+                            </div>
+                            <!-- .section-divider -->
 
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                            <!-- Form Addons -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <div class="smart-widget sm-right smr-50">
+                                            <label class="field">
+                                                <input type="text" name="sub" id="sub" class="gui-input"
+                                                    placeholder="Smart widget right 50">
+                                            </label>
+                                            <button type="submit" class="button"> <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <!-- end section -->
+                                    <div class="section">
+                                        <div class="smart-widget sm-right smr-80">
+                                            <label class="field prepend-icon">
+                                                <input type="text" name="sub2" id="sub2" class="gui-input"
+                                                    placeholder="Smart widget right 80">
+                                                <label for="s" class="field-icon"><i class="fa fa-search"></i>
+                                                </label>
+                                            </label>
+                                            <button type="submit" class="button">Search</button>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <!-- end section -->
+                                    <div class="section">
+                                        <div class="smart-widget sm-right smr-120">
+                                            <label class="field">
+                                                <input type="text" name="sub3" id="sub3" class="gui-input"
+                                                    placeholder="Smart widget right 120">
+                                            </label>
+                                            <button type="submit" class="button">Subscribe</button>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <!-- end section -->
+                                    <div class="section">
+                                        <div class="smart-widget sm-right smr-160">
+                                            <label class="field">
+                                                <input type="text" name="sub3" id="sub3" class="gui-input"
+                                                    placeholder="Smart widget right 160">
+                                            </label>
+                                            <button type="submit" class="button">Join Mailing
+                                                List</button>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <!-- end section -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <div class="smart-widget sm-left sml-50">
+                                            <label class="field">
+                                                <input type="text" name="sm3" id="sm3" class="gui-input"
+                                                    placeholder="Smart widget left 50">
+                                            </label>
+                                            <label for="sm3" class="button"> <i class="fa fa-search"></i>
+                                            </label>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <div class="section">
+                                        <div class="smart-widget sm-left sml-80">
+                                            <label class="field">
+                                                <input type="text" name="sm2" id="sm2" class="gui-input"
+                                                    placeholder="Smart widget left 80">
+                                            </label>
+                                            <label for="sm2" class="button">Search</label>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <!-- end section -->
+                                    <div class="section">
+                                        <div class="smart-widget sm-left sml-120">
+                                            <label class="field">
+                                                <input type="text" name="sm" id="sm" class="gui-input"
+                                                    placeholder="Smart widget left 120">
+                                            </label>
+                                            <label for="sm" class="button">Subscribe</label>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <!-- end section -->
+                                    <div class="section">
+                                        <div class="smart-widget sm-left sml-160">
+                                            <label class="field">
+                                                <input type="text" name="sm" id="sm" class="gui-input"
+                                                    placeholder="Smart widget left 160">
+                                            </label>
+                                            <label for="sm" class="button">Join Mailing
+                                                List</label>
+                                        </div>
+                                        <!-- end .smart-widget section -->
+                                    </div>
+                                    <!-- end section -->
+                                </div>
+                            </div>
+
+                            <!-- Radios and Checkboxes -->
+                            <div class="section-divider mt40 mb25" id="spy4">
+                                <span>Radios and Checkboxes</span>
+                            </div>
+                            <!-- .section-divider -->
+
+                            <div class="section row">
+                                <div class="col-md-6 pl20 prn">
+                                    <div class="section mv15">
+                                        <div class="option-group field">
+                                            <label class="option">
+                                                <input type="checkbox" name="checked" value="checked" checked>
+                                                <span class="checkbox"></span>Check</label>
+                                            <label class="option">
+                                                <input type="checkbox" name="disabled" value="disabled" disabled>
+                                                <span class="checkbox"></span>Disable</label>
+                                            <label class="option">
+                                                <input type="checkbox" name="mobileos" value="CH">
+                                                <span class="checkbox"></span>Empty</label>
+                                        </div>
+                                        <!-- end .option-group section -->
+                                    </div>
+                                    <div class="section mb15">
+                                        <div class="option-group field">
+                                            <label class="option">
+                                                <input type="radio" name="payment" checked>
+                                                <span class="radio"></span>Check</label>
+                                            <label class="option">
+                                                <input type="radio" name="disabled" disabled>
+                                                <span class="radio"></span>Disable</label>
+                                            <label class="option">
+                                                <input type="radio" name="payment">
+                                                <span class="radio"></span>Empty</label>
+                                        </div>
+                                        <!-- end .option-group section -->
+                                    </div>
+                                    <!-- end section -->
+
+                                    <div class="mb15">
+                                        <label class="field option block">
+                                            <input type="checkbox" name="terms">
+                                            <span class="checkbox"></span>Please agree to our
+                                            <a href="javascript:;" class="smart-link"> terms </a>
+                                        </label>
+                                    </div>
+                                    <div class="section">
+                                        <label class="field option block">
+                                            <input type="radio" name="terms">
+                                            <span class="radio"></span> Please agree to our
+                                            <a href="javascript:;" class="smart-link"> terms </a>
+                                        </label>
+                                    </div>
+                                    <!-- end section -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            <div class="option-group field section">
+                                                <label for="disabled" class="option block mt15">
+                                                    <input type="radio" name="disabled" id="disabled"
+                                                        value="disabled" disabled>
+                                                    <span class="radio"></span>Disabled</label>
+                                                <label for="female" class="option block mt15">
+                                                    <input type="radio" name="gender" id="female" value="female">
+                                                    <span class="radio"></span>Radio</label>
+                                                <label for="other" class="option block mt15">
+                                                    <input type="radio" name="gender" id="other" value="other">
+                                                    <span class="radio"></span>Other</label>
+                                                <label for="checked" class="option block mt15">
+                                                    <input type="radio" name="gender" id="checked" value="checked"
+                                                        checked>
+                                                    <span class="radio"></span>Checked</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <!-- end .option-group section -->
+                                            <div class="option-group field section">
+                                                <label class="option block mt15">
+                                                    <input type="checkbox" name="disabled" value="disabled" disabled>
+                                                    <span class="checkbox"></span>Disabled</label>
+                                                <label class="option block mt15">
+                                                    <input type="checkbox" name="mobileos" value="FR">
+                                                    <span class="checkbox"></span>Android Kitkat</label>
+                                                <label class="option block mt15">
+                                                    <input type="checkbox" name="mobileos" value="CH">
+                                                    <span class="checkbox"></span>Apple IOS 7</label>
+                                                <label class="option block mt15">
+                                                    <input type="checkbox" name="checked" value="checked" checked>
+                                                    <span class="checkbox"></span>Checked</label>
+                                            </div>
+                                            <!-- end .option-group section -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end .colm section -->
+                            </div>
+                            <!-- end .section row section -->
+
+                            <div class="section-divider mt40 mb25" id="spy5">
+                                <span>Toggle Switches</span>
+                            </div>
+                            <!-- .section-divider -->
+
+                            <div class="section row">
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="features" id="f1" value="javascript">
+                                        <label for="f1" data-on="ON" data-off="OFF"></label>
+                                        <span>Javascript</span>
+                                    </label>
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="features" id="f2" value="downloads">
+                                        <label for="f2" data-on="ON" data-off="OFF"></label>
+                                        <span>Downloads</span>
+                                    </label>
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="features" id="f3" value="cookies">
+                                        <label for="f3" data-on="ON" data-off="OFF"></label>
+                                        <span>Cookies</span>
+                                    </label>
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="features" id="f4" value="popups" checked>
+                                        <label for="f4" data-on="ON" data-off="OFF"></label>
+                                        <span>Popups</span>
+                                    </label>
+                                </div>
+                                <!-- end .colm section -->
+
+                                <div class="hidden-xs col-md-3">
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="tools" id="t1" value="analytics">
+                                        <label for="t1" data-on="YES" data-off="NO"></label>
+                                        <span>Analytics</span>
+                                    </label>
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="tools" id="t2" value="reports">
+                                        <label for="t2" data-on="YES" data-off="NO"></label>
+                                        <span>Reports</span>
+                                    </label>
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="tools" id="t3" value="social">
+                                        <label for="t3" data-on="YES" data-off="NO"></label>
+                                        <span>Social</span>
+                                    </label>
+                                    <label class="switch block mt15">
+                                        <input type="checkbox" name="tools" id="t4" value="admin" checked>
+                                        <label for="t4" data-on="YES" data-off="NO"></label>
+                                        <span>Access</span>
+                                    </label>
+                                </div>
+                                <!-- end .colm section -->
+
+                                <div class="col-xs-6 col-md-3">
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework" id="fr1" value="mootols">
+                                        <label for="fr1" data-on="ON" data-off="OFF"></label>
+                                        <span>MooTools</span>
+                                    </label>
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework" id="fr2" value="angular">
+                                        <label for="fr2" data-on="ON" data-off="OFF"></label>
+                                        <span>Angular JS</span>
+                                    </label>
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework" id="fr3" value="jquery">
+                                        <label for="fr3" data-on="ON" data-off="OFF"></label>
+                                        <span>jQuery</span>
+                                    </label>
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework" id="fr4" value="dojo" checked>
+                                        <label for="fr4" data-on="ON" data-off="OFF"></label>
+                                        <span>Dojo</span>
+                                    </label>
+                                </div>
+                                <!-- end .colm section -->
+
+                                <div class="hidden-xs col-md-3">
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework2" id="fr5" value="mootols">
+                                        <label for="fr5" data-on="YES" data-off="NO"></label>
+                                        <span>MooTools</span>
+                                    </label>
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework2" id="fr6" value="angular">
+                                        <label for="fr6" data-on="YES" data-off="NO"></label>
+                                        <span>Angular JS</span>
+                                    </label>
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework2" id="fr7" value="jquery">
+                                        <label for="fr7" data-on="YES" data-off="NO"></label>
+                                        <span>jQuery</span>
+                                    </label>
+                                    <label class="switch switch-round block mt15">
+                                        <input type="radio" name="framework2" id="fr8" value="dojo" checked>
+                                        <label for="fr8" data-on="YES" data-off="NO"></label>
+                                        <span>Dojo</span>
+                                    </label>
+                                </div>
+                                <!-- end .colm section -->
+                            </div>
+                            <!-- end .section row section -->
+
+                            <!-- Ratings Widget -->
+                            <div class="section-divider mb40" style="margin-top: 60px;" id="spy6">
+                                <span>Review &amp; Rating Widget</span>
+                            </div>
+                            <div class="section row">
+                                <div class="col-xs-6 pr40 border-right">
+                                    <span class="rating block">
+                                        <span class="lbl-text">Customization</span>
+                                        <input class="rating-input" id="r5" type="radio" name="custom"
+                                            checked>
+                                        <label class="rating-star" for="r5"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="r4" type="radio" name="custom">
+                                        <label class="rating-star" for="r4"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="r3" type="radio" name="custom">
+                                        <label class="rating-star" for="r3"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="r2" type="radio" name="custom">
+                                        <label class="rating-star" for="r2"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="r1" type="radio" name="custom">
+                                        <label class="rating-star" for="r1"><i class="fa fa-star"></i>
+                                        </label>
+                                    </span>
+                                    <span class="rating block">
+                                        <span class="lbl-text">Reliability</span>
+                                        <input class="rating-input" id="rr5" type="radio" name="reliable">
+                                        <label class="rating-star" for="rr5"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rr4" type="radio" name="reliable"
+                                            checked>
+                                        <label class="rating-star" for="rr4"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rr3" type="radio" name="reliable">
+                                        <label class="rating-star" for="rr3"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rr2" type="radio" name="reliable">
+                                        <label class="rating-star" for="rr2"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rr1" type="radio" name="reliable">
+                                        <label class="rating-star" for="rr1"><i class="fa fa-star"></i>
+                                        </label>
+                                    </span>
+                                    <span class="rating block">
+                                        <span class="lbl-text">Relevance</span>
+                                        <input class="rating-input" id="rx5" type="radio" name="relevance">
+                                        <label class="rating-star" for="rx5"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rx4" type="radio" name="relevance">
+                                        <label class="rating-star" for="rx4"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rx3" type="radio" name="relevance"
+                                            checked>
+                                        <label class="rating-star" for="rx3"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rx2" type="radio" name="relevance">
+                                        <label class="rating-star" for="rx2"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="rx1" type="radio" name="relevance">
+                                        <label class="rating-star" for="rx1"><i class="fa fa-star"></i>
+                                        </label>
+                                    </span>
+                                </div>
+                                <!-- end  section -->
+
+                                <div class="col-xs-6 pl40">
+                                    <span class="rating block">
+                                        <span class="lbl-text">Our products</span>
+                                        <input class="rating-input" id="five-stars" type="radio" name="product-rate">
+                                        <label class="rating-star" for="five-stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="four-stars" type="radio" name="product-rate">
+                                        <label class="rating-star" for="four-stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="three-stars" type="radio" name="product-rate"
+                                            checked>
+                                        <label class="rating-star" for="three-stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="two-stars" type="radio" name="product-rate">
+                                        <label class="rating-star" for="two-stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="one-star" type="radio" name="product-rate">
+                                        <label class="rating-star" for="one-star"><i class="fa fa-star"></i>
+                                        </label>
+                                    </span>
+                                    <span class="rating block">
+                                        <span class="lbl-text">Support team</span>
+                                        <input class="rating-input" id="5stars" type="radio" name="support-rate">
+                                        <label class="rating-star" for="5stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="4stars" type="radio" name="support-rate">
+                                        <label class="rating-star" for="4stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="3stars" type="radio" name="support-rate">
+                                        <label class="rating-star" for="3stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="2stars" type="radio" name="support-rate"
+                                            checked>
+                                        <label class="rating-star" for="2stars"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="1star" type="radio" name="support-rate">
+                                        <label class="rating-star" for="1star"><i class="fa fa-star"></i>
+                                        </label>
+                                    </span>
+                                    <span class="rating block">
+                                        <span class="lbl-text">Response time</span>
+                                        <input class="rating-input" id="5s" type="radio" name="response-rate">
+                                        <label class="rating-star" for="5s"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="4s" type="radio" name="response-rate">
+                                        <label class="rating-star" for="4s"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="3s" type="radio" name="response-rate">
+                                        <label class="rating-star" for="3s"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="2s" type="radio" name="response-rate">
+                                        <label class="rating-star" for="2s"><i class="fa fa-star"></i>
+                                        </label>
+                                        <input class="rating-input" id="1s" type="radio" name="response-rate"
+                                            checked>
+                                        <label class="rating-star" for="1s"><i class="fa fa-star"></i>
+                                        </label>
+                                    </span>
+                                </div>
+                                <!-- end  section -->
+                            </div>
+                            <!-- end .section row  section -->
+
+                            <div class="section-divider mv40 hidden">
+                                <span class="bg-light">Buttons</span>
+                            </div>
+                            <!-- .tagline -->
+
+                            <div class="section button-list hidden">
+                                <button class="button"> <i class="fa fa-align-left"></i>
+                                </button>
+                                <button class="button"> <i class="fa fa-align-justify"></i>
+                                </button>
+                                <a href="javascript:;" class="button"><i class="fa fa-align-center"></i>
+                                </a>
+                                <a href="javascript:;" class="button"><i class="fa fa-align-right"></i>
+                                </a>
+                                <a href="javascript:;" class="button"><i class="fa fa-align-center"></i>
+                                </a>
+                                <a href="javascript:;" class="button btn-primary"><i class="fa fa-align-right"></i>
+                                </a>
+                                <button class="button btn-primary"> <i class="fa fa-align-left"></i>
+                                </button>
+                                <button class="button btn-primary"> <i class="fa fa-align-justify"></i>
+                                </button>
+                                <a href="javascript:;" class="button btn-primary"><i class="fa fa-align-center"></i>
+                                </a>
+                                <a href="javascript:;" class="button btn-primary"><i class="fa fa-align-right"></i>
+                                </a>
+                            </div>
+                            <!-- end section -->
+
+                            <div class="section button-list hidden">
+                                <input type="submit" value="Button normal" class="button">
+                                <button class="button btn-primary">Button primary</button>
+                                <a href="javascript:;" class="button btn-rounded">Button rounded</a>
+                                <a href="javascript:;" class="button btn-primary btn-rounded">Primary
+                                    rounded</a>
+                            </div>
+                            <!-- end section -->
+
+                            <div class="section button-list hidden">
+                                <input type="submit" value="Pushed normal" class="button pushed">
+                                <button class="button pushed btn-primary">Pushed primary</button>
+                                <a href="javascript:;" class="button pushed btn-rounded">Pushed
+                                    round</a>
+                                <a href="javascript:;" class="button pushed btn-primary btn-rounded">Pushed round</a>
+                            </div>
+                            <!-- end section -->
+
+                            <div class="section button-list hidden">
+                                <button class="button button-left">Button Left</button>
+                                <button class="button button-right">Button right</button>
+                                <a href="javascript:;" class="button btn-primary button-left">Primary
+                                    Left</a>
+                                <a href="javascript:;" class="button btn-primary button-right">Primary
+                                    Right</a>
+                            </div>
+                            <!-- end section -->
+
+                            <div class="section button-list hidden">
+                                <button class="button btn-pointed button-left">Pointed Left</button>
+                                <button class="button btn-pointed button-right">Pointed right</button>
+                                <a href="javascript:;" class="button btn-pointed btn-primary button-left">Pointed Left</a>
+                                <a href="javascript:;" class="button btn-pointed  btn-primary button-right">Pointed
+                                    Right</a>
+                            </div>
+                            <!-- end section -->
+
+                            <div class="section-divider hidden">
+                                <span class="bg-light">Simple Pricing Grid</span>
+                            </div>
+                            <!-- .tagline -->
+
+                            <!-- Pricing Tables -->
+                            <div class="section row hidden">
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <div class="price-box">
+                                            <h4><sup>$</sup>29
+                                                <span class="per-month">/month</span>
+                                            </h4>
+                                            <h5>Starter</h5>
+                                            <div class="spacer mt20 mb20"></div>
+                                            <p>For those looking for something simple to get started.</p>
+                                            <div class="spacer mt20 mb20"></div>
+                                            <a href="#" class="button block pushed expand"> Learn
+                                                more </a>
+                                        </div>
+                                        <!-- end .price-box section -->
+
+                                    </div>
+                                    <!-- end .section section -->
+                                </div>
+                                <!-- end .colm section -->
+
+                                <div class="col-md-6">
+                                    <div class="section">
+                                        <div class="price-box selected-box">
+                                            <div class="ribbon-large">
+                                                <div class="ribbon-inner">POPULAR</div>
+                                            </div>
+                                            <h4><sup>$</sup>179
+                                                <span class="per-month">/month</span>
+                                            </h4>
+                                            <h5>Professional</h5>
+                                            <div class="spacer mt20 mb20"></div>
+                                            <p>For large enterprises selling over one million plus a year.
+                                            </p>
+                                            <div class="spacer mt20 mb20"></div>
+                                            <a href="#" class="button btn-primary block pushed expand"> Learn more
+                                            </a>
+                                        </div>
+                                        <!-- end .price-box section -->
+
+                                    </div>
+                                    <!-- end .section section -->
+                                </div>
+                                <!-- end .colm section -->
+
+                            </div>
+                            <!-- end section row section -->
+
+                            <div class="section-divider mv40 hidden">
+                                <span class="bg-light">Google Map</span>
+                            </div>
+                            <!-- .tagline -->
+
+                            <!-- Google Map -->
+                            <div class="section hidden">
+                                <div class="map-container">
+                                    <div id="map_canvas"></div>
+                                </div>
+                                <!-- end .map-container -->
+                            </div>
+                            <!-- end .section -->
+
+                            <!-- Notifications + Progress Bars -->
+                            <div class="section-divider mv40 hidden">
+                                <span class="bg-light">Notifications + Progress Bars</span>
+                            </div>
+                            <div class="section hidden">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                                        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                                        aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                        <span class="sr-only">20% Complete</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+                                        aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                        <span class="sr-only">60% Complete (warning)</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                                        aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                        <span class="sr-only">80% Complete (danger)</span>
+                                    </div>
+                                </div>
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <span aria-hidden="true">×</span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                    <strong>Well done!</strong>You successfully read this important alert
+                                    message.
+                                </div>
+                                <div class="alert alert-info alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <span aria-hidden="true">×</span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                    <strong>Heads up!</strong>This alert needs your attention, but it's not
+                                    super important.
+                                </div>
+                                <div class="alert alert-warning alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <span aria-hidden="true">×</span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                    <strong>Warning!</strong>Better check yourself, you're not looking too
+                                    good.
+                                </div>
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <span aria-hidden="true">×</span>
+                                        <span class="sr-only">Close</span>
+                                    </button>
+                                    <strong>Oh snap!</strong>Change a few things up and try submitting
+                                    again.
+                                </div>
+                            </div>
+                            <!-- end .section section -->
+
+                            <!-- end .form-body section -->
+                            <div class="panel-footer hidden">
+                                <button type="submit" class="button btn-primary">Proceed to
+                                    confirm</button>
+                            </div>
+                            <!-- end .form-footer section -->
+                        </form>
                     </div>
                 </div>
             </div>
+            <!-- end: .admin-form -->
+
         </div>
-    </body>
-</html>
+    </div>
+    <!-- end: .tray-center -->
+
+    <!-- begin: .tray-right -->
+    <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
+        <div class="animated-delay p20 pb15" data-animate='["300","fadeIn"]'>
+            <h4 class="mt5 mb20"> Admin Panels - <span class="fs14 fw400 text-muted">A Theme
+                    Exclusive</span></h4>
+
+            <ul class="fs14 list-unstyled list-spacing-10 mb10 pl5">
+                <li>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
+                    <b> Author:</b> Admin Designs
+                </li>
+                <li>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
+                    <b> License:</b> CC - Commercial 3.0
+                </li>
+                <li>
+                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
+                    <b> Info:</b>
+                    <a href="http://www.themeforest.net/user/AdminDesigns"> www.admindesigns.com </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="affix-pane" data-spy="affix" data-offset-top="200">
+
+            <div class="animated-delay animated-long" data-animate='["1000","fadeIn"]'>
+                <div id="skin-switcher" class="row tray-bin alt-btns-hover br-b-n br-h-n mn">
+                    <div class="col-xs-4 pln">
+                        <a class="btn btn-primary btn-gradient btn-alt btn-block item-active"
+                            data-form-skin="primary">Primary</a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-success btn-gradient btn-alt btn-block" data-form-skin="success">Success</a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-info btn-gradient btn-alt btn-block" data-form-skin="info">Info</a>
+                    </div>
+                    <div class="col-xs-4 pln">
+                        <a class="btn btn-warning btn-gradient btn-alt btn-block" data-form-skin="warning">Warning</a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-danger btn-gradient btn-alt btn-block" data-form-skin="danger">Danger</a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-alert btn-gradient btn-alt btn-block" data-form-skin="alert">Alert</a>
+                    </div>
+                    <div class="col-xs-4 pln">
+                        <a class="btn btn-system btn-gradient btn-alt btn-block" data-form-skin="system">System</a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-dark btn-gradient btn-alt btn-block" data-form-skin="dark">Dark</a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-default btn-gradient btn-alt btn-block" data-form-skin="default">Default</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="nav-spy">
+                <ul class="nav tray-nav custom-nav-animation">
+                    <li class="active">
+                        <a href="#spy1">
+                            <span class="fa fa-edit fa-lg"></span> Form UI Elements</a>
+                    </li>
+                    <li>
+                        <a href="#spy2">
+                            <span class="fa fa-files-o fa-lg"></span> File Uploaders</a>
+                    </li>
+                    <li>
+                        <a href="#spy3">
+                            <span class="fa fa-caret-square-o-right fa-lg"></span> Form Input Addons</a>
+                    </li>
+                    <li>
+                        <a href="#spy4">
+                            <span class="fa fa-check-square-o fa-lg"></span> Radios & Checkboxes</a>
+                    </li>
+                    <li>
+                        <a href="#spy5">
+                            <span class="fa fa-toggle-off fa-lg"></span> Input Switches</a>
+                    </li>
+                    <li>
+                        <a href="#spy6">
+                            <span class="fa fa-star-o fa-lg"></span> Review & Rating Widgets</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <!-- end: .tray-right -->
+
+
+
+
+@endsection
+
+
+@section('right')
+    dsfdsfdsfdsfd
+@endsection
