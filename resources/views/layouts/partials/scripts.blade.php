@@ -127,7 +127,7 @@
             buttons.removeClass().addClass('button btn-' + btnData);
         });
 
-
+/*
         setTimeout(function() {
             adminForm.addClass('theme-primary');
             Panel.addClass('panel-primary');
@@ -158,7 +158,7 @@
             });
             buttons.removeClass().addClass('button btn-primary');
         }, 2200);
-
+*/
 
 
         $("#toggle_sidemenu_l,.sidebar-toggle-mini a").click(function() {

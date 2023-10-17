@@ -7,6 +7,22 @@
     <div class="tray tray-center pv40 ph30 va-t posr animated-delay animated-long" data-animate='["800","fadeIn"]'>
         <div class="mw1100 center-block">
 
+            <div class="text-end">
+                <a href="{{ route('logout') }}" class="btn btn-outline-light me-2">Logout</a>
+            </div>
+            @auth
+                {{ auth()->user()->name }}
+                <div class="text-end">
+                    <a href="{{ route('logout') }}" class="btn btn-outline-light me-2">Logout</a>
+                </div>
+            @endauth
+
+            @guest
+                <div class="text-end">
+                    <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Login</a>
+                </div>
+            @endguest
+
             <h2 class="lh30 mt10 text-center">With <b class="text-primary">Admin Forms</b> you have
                 everything you need.</h2>
             <p class="lead mb35 text-center">We even included dozens of prebuilt form layouts so you can

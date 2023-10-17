@@ -15,7 +15,8 @@ class AddUserAdmin extends Migration
     {
         DB::table('users')->insert([
             'id_user' => 1,
-            'name' => 'admin',
+            'name' => 'Admin',
+            'username' => 'admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('1234'),
             'type_user' => 'admin',
