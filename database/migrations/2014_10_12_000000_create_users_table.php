@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->boolean('active')->default(true);
             $table->dateTime('last_access')->nullable();
             $table->integer('count_access')->nullable();
-            $table->enum('type_user', ['admin', 'user'])->default('user');
+            $table->boolean('root')->default(0);
             $table->string('cpf_or_cnpj', 20)->nullable();
             $table->string('id_card', 20)->nullable();
             $table->string('pis', 20)->nullable();

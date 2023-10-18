@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserAdmin extends Migration
+class AddSystemDefault extends Migration
 {
     /**
      * Run the migrations.
@@ -11,12 +11,11 @@ class AddUserAdmin extends Migration
      */
     public function up()
     {
-        DB::table('users')->insert([
-            'id_user' => 1,
+        DB::table('systems')->insert([
+            'id_system' => 1,
+            'slug' => 'root',
             'name' => 'Admin',
-            'username' => 'admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('1234'),
+            'icon' => 'glyphicons glyphicons-cogwheels',
             'root' => true,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
@@ -30,6 +29,6 @@ class AddUserAdmin extends Migration
      */
     public function down()
     {
-        DB::table('users')->where('id_user', 1)->delete();
+        DB::table('systems')->where('id_system', 1)->delete();
     }
 }

@@ -14,7 +14,7 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedInteger('id_employment_type')->after('type_user')->nullable();
+            $table->unsignedInteger('id_employment_type')->after('root')->nullable();
             $table->unsignedInteger('id_civil_status')->after('birth_date')->nullable();
             $table->unsignedInteger('id_branch')->after('state')->nullable();
 
