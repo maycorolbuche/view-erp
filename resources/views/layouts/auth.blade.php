@@ -29,7 +29,26 @@
             <!-- Begin: Content -->
             <section id="content">
                 <div class="admin-form theme-info" id="login1" style="max-width: 500px;">
-                    @yield('content')
+
+                    <div class="row mb15 table-layout">
+
+                        <div class="col-xs-6 va-m pln">
+                            <a href="{{ route('home') }}">
+                                <img src="{{ asset('assets/img/logos/logo-white.png') }}" style="height: 50px;">
+                            </a>
+                        </div>
+
+                        <div class="col-xs-6 text-right va-b pr5">
+                            <div class="login-links">
+                                @yield('header-links')
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-info mt10 br-n">
+                        @yield('content')
+                    </div>
                 </div>
             </section>
             <!-- End: Content -->
@@ -43,9 +62,9 @@
 
     @include('layouts.partials.scripts')
 
-    <script type="text/javascript" src="assets/js/pages/login/EasePack.min.js"></script>
-    <script type="text/javascript" src="assets/js/pages/login/TweenLite.min.js"></script>
-    <script type="text/javascript" src="assets/js/pages/login/login.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/pages/login/EasePack.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/pages/login/TweenLite.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/pages/login/login.js') }}"></script>
 
     <script type="text/javascript">
         CanvasBG.init({

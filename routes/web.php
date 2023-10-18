@@ -15,16 +15,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::group(['middleware' => ['guest']], function () {
-        /**
-         * Login Routes
-         */
-        Route::get('/login', 'LoginController@index')->name('login');
-        Route::post('/login', 'LoginController@login')->name('login.auth');
+        Route::get('/login', 'Auth\LoginController@index')->name('login');
+        Route::post('/login', 'Auth\LoginController@login')->name('login.auth');
+
+        Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        Route::get('password/email', function () {
+            return redirect('password/reset');
+        });
+        Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.token');
+        Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');
     });
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/', 'HomeController@index')->name('home');
-        Route::get('/logout', 'LogoutController@index')->name('logout');
+
+        Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     });
 });
 
