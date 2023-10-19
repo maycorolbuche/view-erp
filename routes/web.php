@@ -34,9 +34,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::group(['prefix' => '{system}', 'middleware' => ['system']], function () {
             Route::get('/', 'HomeController@dashboard')->name('dashboard');
 
-            //Route::group(['middleware' => ['auth']], function () {
-            //'middleware' => ['auth']
-            //});
+            Route::group(['middleware' => ['access']], function () {
+                Route::get('/profile', 'HomeController@dashboard');
+                Route::get('/systems', 'HomeController@dashboard');
+            });
         });
     });
 });

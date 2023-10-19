@@ -15,8 +15,8 @@ class CreateUsersSystems extends Migration
     {
         Schema::create('users_systems', function (Blueprint $table) {
             $table->increments('id_user_system');
-            $table->unsignedInteger('id_user')->nullable();
-            $table->unsignedInteger('id_system')->nullable();
+            $table->unsignedInteger('id_user');
+            $table->unsignedInteger('id_system');
 
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->foreign('id_system')->references('id_system')->on('systems');

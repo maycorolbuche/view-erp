@@ -14,6 +14,6 @@ class System extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'users_systems', 'id_system', 'id_user');
+        return $this->belongsToMany(User::class, UserSystem::class, 'id_system', 'id_user');
     }
 }

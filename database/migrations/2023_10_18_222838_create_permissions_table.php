@@ -15,8 +15,8 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id_permission');
-            $table->unsignedInteger('id_system');
             $table->string('route');
+            $table->unsignedInteger('id_system');
             $table->unsignedInteger('id_user')->nullable();
             $table->unsignedInteger('id_profile')->nullable();
 
@@ -24,7 +24,8 @@ class CreatePermissionsTable extends Migration
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->foreign('id_profile')->references('id_profile')->on('profiles');
 
-            $table->unique(['id_system', 'route', 'id_user', 'id_profile']);
+            $table->unique(['route', 'id_system', 'id_user']);
+            $table->unique(['route', 'id_system', 'id_profile']);
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

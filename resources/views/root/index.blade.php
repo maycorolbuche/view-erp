@@ -10,6 +10,9 @@
     <div id="topbar-dropmenu" class="topbar-menu-open" style="display: block;">
         <div class="row ml5 mb5">
             <div class="col-12">
+                <span class="text-white">Olá, {{ auth()->user()->name }}</span>
+            </div>
+            <div class="col-12">
                 <span class="text-white text-bold">Escolha o Sistema:</span>
             </div>
         </div>
