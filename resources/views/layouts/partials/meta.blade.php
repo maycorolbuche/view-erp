@@ -19,4 +19,17 @@
     .text-bold {
         font-weight: bold;
     }
+
+    .initials {
+        background: #2eaad8;
+        padding: 5px;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+    }
 </style>

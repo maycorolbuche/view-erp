@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements CanResetPassword
 {
@@ -68,6 +68,25 @@ class User extends Authenticatable implements CanResetPassword
     {
         $this->notify(new ResetPassword($token));
     }
+
+    public function getShortNameAttribute()
+    {
+        $names = explode(' ', trim($this->name));
+        $firstName = $names[0];
+        $lastName = (count($names) > 1 ? ' ' . end($names) : '');
+
+        return $firstName . $lastName;
+    }
+
+    public function getInitialsAttribute()
+    {
+        $names = explode(' ', mb_strtoupper(trim($this->name)));
+        $firstName = mb_substr($names[0], 0, 1, 'UTF-8');
+        $lastName = (count($names) > 1 ? mb_substr(end($names), 0, 1, 'UTF-8') : '');
+
+        return $firstName . $lastName;
+    }
+
 
     public function systems()
     {

@@ -1,4 +1,3 @@
-<!-- Start: Header -->
 <header class="navbar navbar-fixed-top bg-dark">
     <div class="navbar-branding">
         <a class="navbar-brand" href="{{ route('home') }}" style="width: calc(100% - 60px);">
@@ -80,80 +79,39 @@
                 </li>
             </ul>
         </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:">
-                <span class="flag-xs flag-us"></span>
-                <span class="fw600">US</span>
-            </a>
-            <ul class="dropdown-menu animated animated-short flipInX" role="menu">
-                <li>
-                    <a href="javascript:void(0);" class="fw600">
-                        <span class="flag-xs flag-in mr10"></span> Hindu </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" class="fw600">
-                        <span class="flag-xs flag-tr mr10"></span> Turkish </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);" class="fw600">
-                        <span class="flag-xs flag-es mr10"></span> Spanish </a>
-                </li>
-            </ul>
-        </li>
         <li class="ph10 pv20 hidden-xs"> <i class="fa fa-circle text-tp fs8"></i>
         </li>
         <li class="dropdown">
-            <a href="javascript:" class="dropdown-toggle fw600 p15" data-toggle="dropdown">
-                <img src="{{ asset('assets/img/avatars/1.jpg') }}" alt="avatar" class="mw30 br64 mr15">
-                <span>{{ auth()->user()->name }}</span>
+            <a href="javascript:" class="dropdown-toggle fw600 p15"
+                data-toggle="dropdown"style="display: flex;align-items: center;">
+                <div class="initials mw30 br64 mr15">
+                    {{ auth()->user()->initials }}
+                </div>
+                <span>{{ auth()->user()->short_name }}</span>
                 <span class="caret caret-tp hidden-xs"></span>
             </a>
             <ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
-                <li class="bg-light br-b br-light p8">
-                    <span class="pull-left ml10">
-                        <select id="user-status">
-                            <optgroup label="Current Status:">
-                                <option value="1-1">Away</option>
-                                <option value="1-2">Offline</option>
-                                <option value="1-3" selected="selected">Online</option>
-                            </optgroup>
-                        </select>
-                    </span>
-
-                    <span class="pull-right mr10">
-                        <select id="user-role">
-                            <optgroup label="Logged in As:">
-                                <option value="1-1">Client</option>
-                                <option value="1-2">Editor</option>
-                                <option value="1-3" selected="selected">Admin</option>
-                            </optgroup>
-                        </select>
-                    </span>
-                    <div class="clearfix"></div>
-
-                </li>
                 <li class="of-h">
                     <a href="javascript:" class="fw600 p12 animated animated-short fadeInUp">
-                        <span class="fa fa-envelope pr5"></span> Messages
+                        <span class="fa fa-envelope pr5"></span> Mensagens
                         <span class="pull-right lh20 h-20 label label-warning label-sm">2</span>
                     </a>
                 </li>
                 <li class="br-t of-h">
                     <a href="javascript:" class="fw600 p12 animated animated-short fadeInUp">
-                        <span class="fa fa-user pr5"></span> Friends
+                        <span class="fa fa-user pr5"></span> Perfil
                         <span class="pull-right lh20 h-20 label label-warning label-sm">6</span>
                     </a>
                 </li>
                 <li class="br-t of-h">
                     <a href="javascript:" class="fw600 p12 animated animated-short fadeInDown">
-                        <span class="fa fa-gear pr5"></span> Account Settings </a>
+                        <span class="fa fa-lock pr5"></span> Alterar Senha </a>
                 </li>
                 <li class="br-t of-h">
-                    <a href="javascript:" class="fw600 p12 animated animated-short fadeInDown">
+                    <a href="{{ route('logout') }}" class="fw600 p12 animated animated-short fadeInDown">
                         <span class="fa fa-power-off pr5"></span> Logout </a>
                 </li>
             </ul>
         </li>
     </ul>
 </header>
-<!-- End: Header -->
