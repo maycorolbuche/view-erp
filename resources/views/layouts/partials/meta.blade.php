@@ -14,3 +14,9 @@
 
 <!-- Admin Forms CSS -->
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin-tools/admin-forms/css/admin-forms.css') }}">
+
+<style>
+    .text-bold {
+        font-weight: bold;
+    }
+</style>

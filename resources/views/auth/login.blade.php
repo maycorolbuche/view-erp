@@ -53,9 +53,9 @@
 
         <div class="panel-footer clearfix p10 ph15">
             <button type="submit" class="button btn-primary mr10 pull-right">Entrar</button>
-            <label class="switch switch-round block switch-primary pull-left input-align mt10">
-                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                <label for="remember" data-on="SIM" data-off="NÃO"></label>
+            <label class="switch switch-round switch-primary pull-left input-align mt10">
+                <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                <label for="remember"></label>
                 <span>Mantenha-me conectado</span>
             </label>
         </div>

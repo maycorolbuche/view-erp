@@ -29,8 +29,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/', 'HomeController@index')->name('home');
-
         Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+
+        Route::group(['prefix' => '{system}', 'middleware' => ['system']], function () {
+            Route::get('/', 'HomeController@dashboard')->name('dashboard');
+
+            //Route::group(['middleware' => ['auth']], function () {
+            //'middleware' => ['auth']
+            //});
+        });
     });
 });
 

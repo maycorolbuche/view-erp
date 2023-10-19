@@ -68,4 +68,9 @@ class User extends Authenticatable implements CanResetPassword
     {
         $this->notify(new ResetPassword($token));
     }
+
+    public function systems()
+    {
+        return $this->belongsToMany(System::class, 'users_systems', 'id_user', 'id_system');
+    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 <head>
     <title>@yield('title')
@@ -28,7 +28,7 @@
 
             <!-- Begin: Content -->
             <section id="content">
-                <div class="admin-form theme-info" id="login1" style="max-width: 500px;">
+                <div class="admin-form theme-info" style="max-width: @yield('width', 500)px;">
 
                     <div class="row mb15 table-layout">
 
