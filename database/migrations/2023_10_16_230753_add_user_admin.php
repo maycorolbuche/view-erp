@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use App\Models\User;
 
 class AddUserAdmin extends Migration
 {
@@ -11,15 +12,13 @@ class AddUserAdmin extends Migration
      */
     public function up()
     {
-        DB::table('users')->insert([
+        User::create([
             'id_user' => 1,
             'name' => 'Admin',
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('1234'),
             'root' => true,
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s"),
         ]);
     }
 

@@ -12,6 +12,13 @@ class System extends Model
     protected $table = 'systems';
     protected $primaryKey = 'id_system';
 
+    protected $fillable = [
+        'slug',
+        'name',
+        'icon',
+        'root'
+    ];
+
     public function users()
     {
         return $this->belongsToMany(User::class, UserSystem::class, 'id_system', 'id_user');

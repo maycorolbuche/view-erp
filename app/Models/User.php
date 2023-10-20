@@ -29,10 +29,31 @@ class User extends Authenticatable implements CanResetPassword
      */
     protected $fillable = [
         'name',
-        'email',
         'username',
+        'email',
+        'email_verified_at',
         'password',
+        'remember_token',
+        'active',
+        'last_access',
+        'count_access',
+        'root',
+        'id_employment_type',
+        'cpf_or_cnpj',
+        'id_card',
+        'pis',
+        'birth_date',
+        'id_civil_status',
+        'zip_code',
+        'address',
+        'number',
+        'complement',
+        'district',
+        'city',
+        'state',
+        'id_branch',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.

@@ -37,6 +37,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::group(['middleware' => ['access']], function () {
                 Route::get('/profile', 'HomeController@dashboard');
                 Route::get('/systems', 'HomeController@dashboard');
+                Route::post('/systems', 'HomeController@dashboard');
+                Route::get('/profile/as', 'HomeController@dashboard');
+                Route::get('/systems/ds', 'HomeController@dashboard');
+                Route::post('/systems/as', 'HomeController@dashboard');
+                Route::post('/ADS/as', 'HomeController@dashboard');
             });
         });
     });

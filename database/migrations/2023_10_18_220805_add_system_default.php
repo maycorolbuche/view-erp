@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use App\Models\System;
 
 class AddSystemDefault extends Migration
 {
@@ -11,14 +12,12 @@ class AddSystemDefault extends Migration
      */
     public function up()
     {
-        DB::table('systems')->insert([
+        System::create([
             'id_system' => 1,
             'slug' => 'root',
             'name' => 'Admin',
             'icon' => 'glyphicons glyphicons-cogwheels',
             'root' => true,
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s"),
         ]);
     }
 

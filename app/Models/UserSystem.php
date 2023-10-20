@@ -11,4 +11,9 @@ class UserSystem extends Model
 
     protected $table = 'users_systems';
     protected $primaryKey = 'id_user_system';
+
+    protected $fillable = [
+        'id_user',
+        'id_system',
+    ];
 }
