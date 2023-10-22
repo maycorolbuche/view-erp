@@ -15,7 +15,7 @@ class CreateEmploymentTypesTable extends Migration
     {
         Schema::create('employment_types', function (Blueprint $table) {
             $table->increments('id_employment_type');
-            $table->string('description');
+            $table->string('description')->unique();
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

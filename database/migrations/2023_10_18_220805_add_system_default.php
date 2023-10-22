@@ -28,6 +28,6 @@ class AddSystemDefault extends Migration
      */
     public function down()
     {
-        DB::table('systems')->where('id_system', 1)->delete();
+        System::where('id_system', 1)->delete();
     }
 }

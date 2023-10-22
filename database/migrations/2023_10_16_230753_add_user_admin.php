@@ -17,7 +17,7 @@ class AddUserAdmin extends Migration
             'name' => 'Admin',
             'username' => 'admin',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('1234'),
+            'password' => '1234',
             'root' => true,
         ]);
     }
@@ -29,6 +29,6 @@ class AddUserAdmin extends Migration
      */
     public function down()
     {
-        DB::table('users')->where('id_user', 1)->delete();
+        User::where('id_user', 1)->delete();
     }
 }
