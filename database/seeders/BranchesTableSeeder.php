@@ -16,7 +16,7 @@ class BranchesTableSeeder extends Seeder
         for ($i = 1; $i <= 4; $i++) {
             try {
                 Branch::create([
-                    'name' => $faker->name,
+                    'name' => $faker->city,
                     'short_name' => $faker->word,
                     'zip_code' => $faker->postcode,
                     'address' => $faker->streetAddress,
