@@ -13,7 +13,6 @@ class AddUserAdmin extends Migration
     public function up()
     {
         User::create([
-            'id_user' => 1,
             'name' => 'Admin',
             'username' => 'admin',
             'email' => 'admin@admin.com',
@@ -29,6 +28,6 @@ class AddUserAdmin extends Migration
      */
     public function down()
     {
-        User::where('id_user', 1)->delete();
+        User::truncate();
     }
 }

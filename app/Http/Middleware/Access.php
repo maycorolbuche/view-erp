@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Route;
 
 class Access
 {
@@ -20,22 +21,22 @@ class Access
         $path = explode("/", $request->path());
 
         $id_system = ($request->input('__id_system'));
-
+        $id_route = Route::where('uri', $path[1] ?? '')->first()['id_route'];
 
         //Verifica se tem permissão para acessar esta rota
-        $access = Auth::user()->load(['permissions' => function ($query) use ($path, $id_system) {
-            $query->where('route', $path[1] ?? '')->where('id_system', $id_system);
+        $access = Auth::user()->load(['permissions' => function ($query) use ($id_route, $id_system) {
+            $query->where('id_route', $id_route)->where('id_system', $id_system);
         }])['permissions'];
 
         if (count($access) <= 0) {
 
 
             //Verifica se o(s) perfil(s) tem permissão para acessar esta rota
-            $access = Auth::user()->load(['profiles' => function ($query) use ($path, $id_system) {
-                $query->where('id_system', $id_system)->whereHas('permissions', function ($subquery) use ($path, $id_system) {
-                    $subquery->where('route', $path[1] ?? '')->where('id_system', $id_system);
-                })->with(['permissions' => function ($subquery) use ($path, $id_system) {
-                    $subquery->where('route', $path[1] ?? '')->where('id_system', $id_system);
+            $access = Auth::user()->load(['profiles' => function ($query) use ($id_route, $id_system) {
+                $query->where('id_system', $id_system)->whereHas('permissions', function ($subquery) use ($id_route, $id_system) {
+                    $subquery->where('id_route', $id_route)->where('id_system', $id_system);
+                })->with(['permissions' => function ($subquery) use ($id_route, $id_system) {
+                    $subquery->where('id_route', $id_route)->where('id_system', $id_system);
                 }]);
             }])['profiles'];
 

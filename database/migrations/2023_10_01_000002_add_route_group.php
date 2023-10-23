@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use App\Models\System;
+use App\Models\RouteGroup;
 
-class AddSystemDefault extends Migration
+class AddRouteGroup extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class AddSystemDefault extends Migration
      */
     public function up()
     {
-        System::create([
-            'slug' => 'root',
-            'name' => 'Admin',
+        RouteGroup::create([
+            'id_route_group' => 1,
             'icon' => 'glyphicons glyphicons-cogwheels',
-            'root' => true,
+            'label' => 'Parametrização',
+            'sequence' => 1,
         ]);
     }
 
@@ -27,6 +27,6 @@ class AddSystemDefault extends Migration
      */
     public function down()
     {
-        System::truncate();
+        RouteGroup::truncate();
     }
 }

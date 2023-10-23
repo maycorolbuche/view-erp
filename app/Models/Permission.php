@@ -13,9 +13,14 @@ class Permission extends Model
     protected $primaryKey = 'id_permission';
 
     protected $fillable = [
-        'route',
+        'id_route',
         'id_system',
         'id_user',
-        'id_profile'
+        'id_profile',
+        'permissions',
+    ];
+
+    protected $casts = [
+        'permissions' => 'array',
     ];
 }

@@ -4,8 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Helpers\Permissions;
-use App\Models\System as SystemModel;
 use Illuminate\Support\Facades\Auth;
 
 class System
@@ -33,9 +31,17 @@ class System
             return response()->view('errors.system_not_found', [], 403);
         }
 
-        $request->merge(['__id_system' => $access[0]['id_system']]);
+        $id_system = $access[0]['id_system'];
+        $request->merge(['__id_system' => $id_system]);
         $request->merge(['__system' => $access[0]['name']]);
         $request->merge(['__system_icon' => $access[0]['icon']]);
+
+        $permissions = Auth::user()->load(
+            ['permissions' => function ($query) use ($id_system) {
+                $query->where('id_system', $id_system);
+            }]
+        )['permissions']->keyBy('id_route')->toArray();
+        $request->merge(['__permissions' => $permissions]);
 
         return $next($request);
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Route as Routes;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,13 +42,32 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::get('/', 'HomeController@dashboard')->name('dashboard');
 
             Route::group(['middleware' => ['access']], function () {
-                Route::get('/profile', 'HomeController@dashboard');
-                Route::get('/systems', 'HomeController@dashboard');
-                Route::post('/systems', 'HomeController@dashboard');
-                Route::get('/profile/as', 'HomeController@dashboard');
-                Route::get('/systems/ds', 'HomeController@dashboard');
-                Route::post('/systems/as', 'HomeController@dashboard');
-                Route::post('/ADS/as', 'HomeController@dashboard');
+                $routes = Routes::all();
+                foreach ($routes as $route) {
+                    if (in_array("index", $route->resources)) {
+                        Route::get($route->uri, $route->controller . '@index')->name($route->name . '.index');
+                    }
+                    if (in_array("create", $route->resources)) {
+                        Route::get($route->uri . '/create', $route->controller . '@create')->name($route->name . '.create');
+                    }
+                    if (in_array("store", $route->resources)) {
+                        Route::post($route->uri, $route->controller . '@store')->name($route->name . '.store');
+                    }
+                    if (in_array("show", $route->resources)) {
+                        Route::get($route->uri . '/{id}', $route->controller . '@show')->name($route->name . '.show');
+                    }
+                    if (in_array("edit", $route->resources)) {
+                        Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->name($route->name . '.edit');
+                    }
+                    if (in_array("update", $route->resources)) {
+                        Route::put($route->uri . '/{id}', $route->controller . '@update')->name($route->name . '.update');
+                    }
+                    if (in_array("update", $route->resources)) {
+                        Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->name($route->name . '.destroy');
+                    }
+                }
+
+                Route::get('/systems', 'HomeController@dashboard')->name('systems');
             });
         });
     });

@@ -2,6 +2,7 @@
 <aside id="sidebar_left" class="nano nano-primary affix">
     <div class="nano-content">
 
+
         <!-- sidebar menu -->
         <ul class="nav sidebar-menu">
             <li class="sidebar-label pt20">Menu</li>

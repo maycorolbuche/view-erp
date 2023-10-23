@@ -16,6 +16,7 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id_profile');
             $table->string('name');
+            $table->boolean('root')->default(0);
             $table->unsignedInteger('id_system');
 
             $table->foreign('id_system')->references('id_system')->on('systems');
