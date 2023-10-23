@@ -25,6 +25,7 @@ class CreateRoutesTable extends Migration
             $table->json('permissions');
             $table->string('icon')->nullable();
             $table->integer('sequence');
+            $table->boolean('root')->default(0);
 
             $table->foreign('id_route_group')->references('id_route_group')->on('routes_groups');
             $table->foreign('id_route_parent')->references('id_route')->on('routes');

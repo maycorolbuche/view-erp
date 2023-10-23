@@ -22,6 +22,7 @@ class AddRoute extends Migration
             'permissions' => ["store", "update", "destroy"],
             'icon' => 'glyphicons glyphicons-show_big_thumbnails',
             'sequence' => 10,
+            'root' => 1,
         ]);
     }
 

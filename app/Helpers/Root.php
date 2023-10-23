@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\System;
 use App\Models\Permission;
 use App\Models\Profile;
+use App\Models\Route;
 use App\Models\UserSystem;
 use Illuminate\Database\QueryException;
 
@@ -14,7 +15,37 @@ class Root
 
     public static function run()
     {
-        //Concete acesso total aos usuários root.
+        //Adiciona as rota "root" para os sistemas "root"
+        $routes = Route::select(['id_route', 'permissions'])->where('root', true)->get();
+        $systems = System::select('id_system')->where('root', true)->get();
+        foreach ($systems as $system) {
+            foreach ($routes as $route) {
+                $permission = Permission::where([
+                    'id_route' => $route->id_route,
+                    'id_system' => $system->id_system,
+                    'id_user' => null,
+                    'id_profile' => null,
+                ])->first();
+                if ($permission == null) {
+                    Permission::create([
+                        'id_route' => $route->id_route,
+                        'id_system' => $system->id_system,
+                        'permissions' => $route->permissions,
+                    ]);
+                } else {
+                    Permission::where('id_route', $route->id_route)
+                        ->where('id_system', $system->id_system)
+                        ->where('id_user', null)
+                        ->where('id_profile', null)
+                        ->update([
+                            'permissions' => $route->permissions,
+                        ]);
+                }
+            }
+        }
+
+
+        //Verifica as permissões
         $users = User::select(['id_user', 'root'])->get();
         $systems = System::select('id_system')->get();
 

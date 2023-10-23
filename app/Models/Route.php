@@ -23,6 +23,7 @@ class Route extends Model
         'permissions',
         'icon',
         'sequence',
+        'root',
     ];
 
     protected $casts = [
