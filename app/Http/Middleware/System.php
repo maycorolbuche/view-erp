@@ -34,6 +34,7 @@ class System
         $id_system = $access[0]['id_system'];
         $request->merge(['__id_system' => $id_system]);
         $request->merge(['__system' => $access[0]['name']]);
+        $request->merge(['__system_slug' => $access[0]['slug']]);
         $request->merge(['__system_icon' => $access[0]['icon']]);
 
         $permissions = Auth::user()->load(

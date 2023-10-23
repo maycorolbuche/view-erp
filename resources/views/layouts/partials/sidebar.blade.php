@@ -22,7 +22,7 @@
                                 @endphp
                             @endif
                             <li class="{{ $item['route']['uri'] == (request('__uri') ?? '') ? 'active' : '' }}">
-                                <a href="admin_forms-elements.html">
+                                <a href="{{ route($item['route']['name'], ['system' => request('__system_slug')]) }}">
                                     <span class="{{ $item['route']['icon'] }}"></span>
                                     {{ $item['route']['label'] }}
                                 </a>

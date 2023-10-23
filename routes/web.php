@@ -45,7 +45,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                 $routes = Routes::all();
                 foreach ($routes as $route) {
                     if (in_array("index", $route->resources)) {
-                        Route::get($route->uri, $route->controller . '@index')->name($route->name . '.index');
+                        Route::get($route->uri, $route->controller . '@index')->name($route->name);
                     }
                     if (in_array("create", $route->resources)) {
                         Route::get($route->uri . '/create', $route->controller . '@create')->name($route->name . '.create');
@@ -66,8 +66,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                         Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->name($route->name . '.destroy');
                     }
                 }
-
-                Route::get('/systems', 'HomeController@dashboard')->name('systems');
             });
         });
     });
