@@ -18,8 +18,8 @@ class AddRoute extends Migration
             'name' => 'systems',
             'uri' => 'systems',
             'controller' => 'SystemController',
-            'resources' => '["index","create","store","show","edit","update","destroy"]',
-            'permissions' => '["store","update","destroy"]',
+            'resources' => ["index", "create", "store", "show", "edit", "update", "destroy"],
+            'permissions' => ["store", "update", "destroy"],
             'icon' => 'glyphicons glyphicons-show_big_thumbnails',
             'sequence' => 10,
         ]);
