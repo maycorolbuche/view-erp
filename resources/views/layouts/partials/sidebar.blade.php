@@ -3,6 +3,14 @@
 
 
         <ul class="nav sidebar-menu">
+            <li class="sidebar-label pt20">Início</li>
+            <li>
+                <a href="{{ route('dashboard', ['system' => request('__system')['slug']]) }}">
+                    <span class="glyphicons glyphicons-home"></span>
+                    <span class="sidebar-title">Dashboard</span>
+                </a>
+            </li>
+
             <li class="sidebar-label pt20">Menu</li>
             @php
                 $open = '';
@@ -22,7 +30,8 @@
                                 @endphp
                             @endif
                             <li class="{{ $item['route']['uri'] == (request('__uri') ?? '') ? 'active' : '' }}">
-                                <a href="{{ route($item['route']['name'], ['system' => request('__system_slug')]) }}">
+                                <a
+                                    href="{{ route($item['route']['name'], ['system' => request('__system')['slug']]) }}">
                                     <span class="{{ $item['route']['icon'] }}"></span>
                                     {{ $item['route']['label'] }}
                                 </a>

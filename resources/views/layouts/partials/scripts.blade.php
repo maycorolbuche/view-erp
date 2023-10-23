@@ -127,38 +127,38 @@
             buttons.removeClass().addClass('button btn-' + btnData);
         });
 
-/*
-        setTimeout(function() {
-            adminForm.addClass('theme-primary');
-            Panel.addClass('panel-primary');
+        /*
+                setTimeout(function() {
+                    adminForm.addClass('theme-primary');
+                    Panel.addClass('panel-primary');
 
-            $(options).each(function(i, e) {
-                if ($(e).hasClass('block')) {
-                    $(e).removeClass().addClass('block mt15 option option-primary');
-                } else {
-                    $(e).removeClass().addClass('option option-primary');
-                }
-            });
-            $(switches).each(function(i, ele) {
+                    $(options).each(function(i, e) {
+                        if ($(e).hasClass('block')) {
+                            $(e).removeClass().addClass('block mt15 option option-primary');
+                        } else {
+                            $(e).removeClass().addClass('option option-primary');
+                        }
+                    });
+                    $(switches).each(function(i, ele) {
 
-                if ($(ele).hasClass('switch-round')) {
-                    if ($(ele).hasClass('block')) {
-                        $(ele).removeClass().addClass(
-                            'block mt15 switch switch-round switch-primary');
-                    } else {
-                        $(ele).removeClass().addClass('switch switch-round switch-primary');
-                    }
-                } else {
-                    if ($(ele).hasClass('block')) {
-                        $(ele).removeClass().addClass('block mt15 switch switch-primary');
-                    } else {
-                        $(ele).removeClass().addClass('switch switch-primary');
-                    }
-                }
-            });
-            buttons.removeClass().addClass('button btn-primary');
-        }, 2200);
-*/
+                        if ($(ele).hasClass('switch-round')) {
+                            if ($(ele).hasClass('block')) {
+                                $(ele).removeClass().addClass(
+                                    'block mt15 switch switch-round switch-primary');
+                            } else {
+                                $(ele).removeClass().addClass('switch switch-round switch-primary');
+                            }
+                        } else {
+                            if ($(ele).hasClass('block')) {
+                                $(ele).removeClass().addClass('block mt15 switch switch-primary');
+                            } else {
+                                $(ele).removeClass().addClass('switch switch-primary');
+                            }
+                        }
+                    });
+                    buttons.removeClass().addClass('button btn-primary');
+                }, 2200);
+        */
 
 
         $("#toggle_sidemenu_l,.sidebar-toggle-mini a").click(function() {
@@ -171,6 +171,19 @@
 
                 localStorage.setItem("sidemenu_class", type);
             }, 1000);
+        });
+
+
+
+        $('select').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            filterPlaceholder: "Localizar",
+            nonSelectedText: "Não selecionado",
+            nSelectedText: "selecionado",
+            allSelectedText: "Selecionar Todos",
+            selectAllText: " Selecionar Todos",
+            enableCaseInsensitiveFiltering: true,
         });
     });
 </script>

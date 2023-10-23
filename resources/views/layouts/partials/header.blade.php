@@ -17,9 +17,9 @@
         @if (count(auth()->user()->load('systems')->systems) > 1)
             <li>
                 <a class="topbar-menu-toggle" href="javascript:">
-                    <span class="{{ request('__system_icon') }} fs16"></span>
+                    <span class="{{ request('__system')['icon'] }} fs16"></span>
                     &nbsp;
-                    <span class="fw600">{{ request('__system') }}</span>
+                    <span class="fw600">{{ request('__system')['name'] }}</span>
                 </a>
             </li>
         @endif

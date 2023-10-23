@@ -13,7 +13,7 @@ class SystemController extends Controller
      */
     public function index()
     {
-        return "ASFD";
+        return view('systems.index');
     }
 
     /**

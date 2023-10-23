@@ -14,16 +14,17 @@
 
 
 <body class="admin-elements-page" data-spy="scroll" data-target="#nav-spy" data-offset="300">
-
     <div id="main">
         @include('layouts.partials.header')
         @include('layouts.partials.sidebar')
 
         <!-- Start: Content-Wrapper -->
         <section id="content_wrapper">
-
             @include('layouts.partials.topbar-systems')
-            @include('layouts.partials.topbar')
+            @include('layouts.partials.topbar', [
+                'breadcrumb' => View::getSection('breadcrumb'),
+                'bt_right' => !empty(trim($__env->yieldContent('right'))),
+            ])
 
             <section id="content" class="table-layout animated fadeIn">
                 @yield('content')

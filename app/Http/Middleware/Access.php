@@ -23,7 +23,9 @@ class Access
         $request->merge(['__uri' => $path[1]]);
 
         $id_system = ($request->input('__id_system'));
-        $id_route = Route::where('uri', $path[1] ?? '')->first()['id_route'];
+        $route = Route::where('uri', $path[1] ?? '')->first();
+        $request->merge(['__route' => $route->toArray()]);
+        $id_route = $route['id_route'];
 
         //Verifica se tem permissão para acessar esta rota
         $access = Auth::user()->load(['permissions' => function ($query) use ($id_route, $id_system) {

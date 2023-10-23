@@ -14,7 +14,7 @@ class AddRouteGroup extends Migration
     {
         RouteGroup::create([
             'id_route_group' => 1,
-            'icon' => 'glyphicons glyphicons-cogwheels',
+            'icon' => 'glyphicons glyphicons-cogwheel',
             'label' => 'Parametrização',
             'sequence' => 1,
         ]);

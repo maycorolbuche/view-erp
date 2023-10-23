@@ -12,9 +12,6 @@
 <!-- Theme CSS -->
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/skin/default_skin/css/theme.css') }}">
 
-<!-- Admin Forms CSS -->
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin-tools/admin-forms/css/admin-forms.css') }}">
-
 <style>
     .text-bold {
         font-weight: bold;
@@ -31,5 +28,14 @@
         align-items: center;
         font-weight: bold;
         font-size: 14px;
+    }
+
+    #content_wrapper {
+        padding-top: 60px;
+    }
+
+    .breadcrumb>li.crumb-active>span {
+        color: #555;
+        font-size: 18px;
     }
 </style>
