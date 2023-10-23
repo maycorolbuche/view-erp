@@ -23,4 +23,9 @@ class Permission extends Model
     protected $casts = [
         'permissions' => 'array',
     ];
+
+    public function route()
+    {
+        return $this->hasOne(Route::class, 'id_route', 'id_route');
+    }
 }

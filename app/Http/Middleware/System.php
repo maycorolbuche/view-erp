@@ -38,10 +38,28 @@ class System
 
         $permissions = Auth::user()->load(
             ['permissions' => function ($query) use ($id_system) {
-                $query->where('id_system', $id_system);
+                $query->where('id_system', $id_system)->with(['route' => function ($subquery) {
+                    $subquery->with('route_group');
+                }]);
             }]
-        )['permissions']->keyBy('id_route')->toArray();
-        $request->merge(['__permissions' => $permissions]);
+        )['permissions']->toArray();
+
+        $permissions_group = [];
+        foreach ($permissions as $permission) {
+            $n01 = str_pad($permission['route']['route_group']['sequence'], 6, '0', STR_PAD_LEFT)
+                . '-' . $permission['route']['route_group']['id_route_group'];
+            $n02 = str_pad($permission['route']['sequence'], 6, '0', STR_PAD_LEFT)
+                . '-' . $permission['route']['id_route'];
+
+            $permissions_group[$n01]["label"] = $permission['route']['route_group']["label"];
+            $permissions_group[$n01]["icon"] = $permission['route']['route_group']["icon"];
+            $permissions_group[$n01]["items"][$n02] = $permission;
+            ksort($permissions_group[$n01]["items"]);
+        }
+
+        ksort($permissions_group);
+
+        $request->merge(['__permissions' => $permissions_group]);
 
         return $next($request);
     }

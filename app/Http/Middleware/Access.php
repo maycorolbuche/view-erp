@@ -20,6 +20,8 @@ class Access
     {
         $path = explode("/", $request->path());
 
+        $request->merge(['__uri' => $path[1]]);
+
         $id_system = ($request->input('__id_system'));
         $id_route = Route::where('uri', $path[1] ?? '')->first()['id_route'];
 

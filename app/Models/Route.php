@@ -30,4 +30,9 @@ class Route extends Model
         'resources' => 'array',
         'permissions' => 'array',
     ];
+
+    public function route_group()
+    {
+        return $this->hasOne(RouteGroup::class, 'id_route_group', 'id_route_group');
+    }
 }
