@@ -38,14 +38,23 @@
         </ol>
     </div>
     <div class="topbar-right">
-        <select id="multiselect1" data-mdb-clear-button="true">
-            <option value="cheese">Cheese</option>
-            <option value="tomatoes">Tomatoes</option>
-            <option value="mozarella" selected>Mozzarella</option>
-            <option value="mushrooms">Mushrooms</option>
-            <option value="pepperoni">Pepperoni</option>
-            <option value="onions">Onions</option>
-        </select>
+        <div style="width:300px;" class="search-routes">
+            <select onchange="window.location.href = $(this).val()">
+                <option value="{{ route('dashboard', ['system' => request('__system')['slug']]) }}">Buscar Menu...
+                </option>
+                @foreach (request('__permissions') as $group_key => $group)
+                    <optgroup label="{{ $group['label'] }}">
+                        @foreach ($group['items'] as $item)
+                            <option
+                                value="{{ route($item['route']['name'], ['system' => request('__system')['slug']]) }}"
+                                {{ $item['route']['uri'] == (request('__uri') ?? '') ? 'selected' : '' }}>
+                                {{ $item['route']['label'] }}
+                            </option>
+                        @endforeach
+                    </optgroup>
+                @endforeach
+            </select>
+        </div>
 
         <div class="ml15 ib va-m" id="toggle_sidemenu_r">
             @if ($bt_right ?? false)

@@ -38,4 +38,26 @@
         color: #555;
         font-size: 18px;
     }
+
+    select+.btn-group,
+    select+.btn-group button {
+        width: 100%;
+    }
+
+    select+.btn-group button.dropdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .topbar-right {
+        display: flex;
+        align-items: center;
+    }
+
+    @media (max-width: 500px) {
+        .topbar-right .search-routes {
+            display: none;
+        }
+    }
 </style>

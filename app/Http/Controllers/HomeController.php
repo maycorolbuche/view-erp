@@ -8,12 +8,13 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $systems = Auth::user()->load('systems')['systems']->toArray();
         if (count($systems) <= 0) {
             return view('errors.systems');
         } elseif (count($systems) == 1) {
             return redirect('/' . $systems[0]["slug"]);
         } else {
-            return view('root.index');
+            return view('root.index', compact("systems"));
         }
     }
     public function dashboard()
