@@ -23,10 +23,14 @@
                     <x-button type="store-new" />
                     <x-button type="update" />
                     <x-button type="delete" />
-                    <x-button type="cancel" route-name="systems" confirm="Deseja executar isso?" />
+                    <x-button type="cancel" route-name="systems" />
                 </x-group>
 
             </x-form>
+        </x-panel>
+
+        <x-panel title="Dados">
+            <x-data-table data-origin="systems.datatable" />
         </x-panel>
     </x-content>
 

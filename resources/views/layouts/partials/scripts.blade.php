@@ -1,27 +1,3 @@
-<style>
-    /* demo page styles */
-    body {
-        min-height: 2300px;
-    }
-
-    .affix-pane.affix {
-        top: 80px;
-    }
-
-    .admin-form .panel.heading-border:before,
-    .admin-form .panel .heading-border:before {
-        transition: all 0.7s ease;
-    }
-
-    .custom-nav-animation li {
-        display: none;
-    }
-
-    .custom-nav-animation li.animated {
-        display: block;
-    }
-</style>
-
 <!-- BEGIN: PAGE SCRIPTS -->
 
 <!-- jQuery -->
@@ -30,6 +6,16 @@
 
 <!-- Bootstrap -->
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
+
+<!-- Datatables -->
+<script type="text/javascript" src="{{ asset('vendor/plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+
+<!-- Datatables Tabletools addon -->
+<script type="text/javascript"
+    src="{{ asset('vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js') }}"></script>
+
+<!-- Datatables Bootstrap Modifications  -->
+<script type="text/javascript" src="{{ asset('vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
 
 <!-- Page Plugins -->
 <script type="text/javascript" src="{{ asset('assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>

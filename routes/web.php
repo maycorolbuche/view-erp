@@ -44,6 +44,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::group(['middleware' => ['access']], function () {
                 $routes = Routes::all();
                 foreach ($routes as $route) {
+                    Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
                     if (in_array("index", $route->resources)) {
                         Route::get($route->uri, $route->controller . '@index')->name($route->name);
                     }
