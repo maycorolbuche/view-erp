@@ -60,4 +60,57 @@
             display: none;
         }
     }
+
+    .error-icon,
+    .success-icon {
+        display: none;
+    }
+
+    .has-error .error-icon,
+    .has-success .success-icon {
+        display: block;
+    }
+
+    .has-error em {
+        color: #e9573f;
+        font-size: 11px;
+        font-style: normal;
+    }
+
+    ::placeholder {
+        color: #BBB !important;
+    }
+
+    #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #5f5f5f61;
+        z-index: 9999;
+    }
+
+    #loading-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 </style>

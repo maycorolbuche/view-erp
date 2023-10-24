@@ -43,6 +43,10 @@
         @endif
     </div>
 
+    <div id="loading-overlay">
+        <div id="loading-spinner"></div>
+    </div>
+
     @include('layouts.partials.scripts')
     @yield('scripts')
 

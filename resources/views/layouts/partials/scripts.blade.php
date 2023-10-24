@@ -31,6 +31,14 @@
 <!-- Bootstrap -->
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
 
+<!-- Page Plugins -->
+<script type="text/javascript" src="{{ asset('assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+
+<!-- Confirm -->
+<!-- https://craftpip.github.io/jquery-confirm/ -->
+<script type="text/javascript" src="{{ asset('vendor/plugins/confirm/jquery-confirm.min.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/plugins/confirm/jquery-confirm.min.css') }}">
+
 <!-- Theme Javascript -->
 <script type="text/javascript" src="{{ asset('assets/js/utility/utility.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
@@ -44,6 +52,7 @@
         Core.init({
             sbl: localStorage.getItem("sidemenu_class") ?? "sb-l-o"
         });
+        loading(false);
 
         // Init custom page animation
         setTimeout(function() {
@@ -257,6 +266,80 @@
             liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
          }
          */
+
+
+        $(".validate").validate({
+
+            /* @validation states + elements 
+            ------------------------------------------- */
+
+            errorClass: "has-error",
+            //validClass: "has-success",
+            validClass: "",
+            errorElement: "em",
+
+            /* @validation rules 
+            ------------------------------------------ */
+
+            rules: {},
+
+            /* @validation error messages 
+            ---------------------------------------------- */
+
+            messages: {},
+
+            /* @validation highlighting + error placement  
+            ---------------------------------------------------- */
+
+            highlight: function(element, errorClass, validClass) {
+                $(element).closest('.field').addClass(errorClass).removeClass(validClass);
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).closest('.field').removeClass(errorClass).addClass(validClass);
+            },
+            errorPlacement: function(error, element) {
+                if (element.is(":radio") || element.is(":checkbox")) {
+                    element.closest('.option-group').after(error);
+                } else {
+                    error.insertAfter(element.parent());
+                }
+            }
+
+        });
+
+        jQuery.extend(jQuery.validator.messages, {
+            required: "Este campo é obrigatório.",
+            remote: "Por favor, corrija este campo.",
+            email: "Por favor, informe um endereço de e-mail válido.",
+            url: "Por favor, informe uma URL válida.",
+            date: "Por favor, informe uma data válida.",
+            dateISO: "Por favor, informe uma data válida (no formato ISO).",
+            number: "Por favor, informe um número válido.",
+            digits: "Por favor, informe somente dígitos.",
+            creditcard: "Por favor, informe um número de cartão de crédito válido.",
+            equalTo: "Por favor, informe o mesmo valor novamente.",
+            accept: "Por favor, informe um valor com uma extensão válida.",
+            maxlength: jQuery.validator.format("Por favor, informe no máximo {0} caracteres."),
+            minlength: jQuery.validator.format("Por favor, informe pelo menos {0} caracteres."),
+            rangelength: jQuery.validator.format(
+                "Por favor, informe um valor com comprimento entre {0} e {1} caracteres."),
+            range: jQuery.validator.format("Por favor, informe um valor entre {0} e {1}."),
+            max: jQuery.validator.format("Por favor, informe um valor menor ou igual a {0}."),
+            min: jQuery.validator.format("Por favor, informe um valor maior ou igual a {0}.")
+        });
+
     });
+
+    function loading(show) {
+        if (show == undefined) {
+            show = true;
+        }
+
+        if (show) {
+            $('#loading-overlay').fadeIn();
+        } else {
+            $('#loading-overlay').fadeOut();
+        }
+    }
 </script>
 <!-- END: PAGE SCRIPTS -->

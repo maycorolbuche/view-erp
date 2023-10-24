@@ -5,9 +5,7 @@
 @endsection
 
 @section('content')
-    <form method="post" action="{{ route('login.auth') }}">
-        {{ csrf_field() }}
-
+    <x-form :action="route('login.auth')">
         <div class="panel-body bg-light p30">
             <div class="row">
                 <div class="col-sm-12 pr30">
@@ -60,5 +58,5 @@
             </label>
         </div>
 
-    </form>
+    </x-form>
 @endsection
