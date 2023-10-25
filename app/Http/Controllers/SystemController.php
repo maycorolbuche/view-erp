@@ -47,7 +47,10 @@ class SystemController extends Controller
      */
     public function show($id)
     {
-        //
+        $system = System::find($id);
+        echo "ff".$id;
+        dd($system);
+        return view('systems.index', compact("system"));
     }
 
     /**
@@ -91,11 +94,12 @@ class SystemController extends Controller
         $data = System::latest()->get();
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('systems.show', ['system' => request('__system')['slug'], 'id' => $row->id_system]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['actions'])
             ->make(true);
     }
 }

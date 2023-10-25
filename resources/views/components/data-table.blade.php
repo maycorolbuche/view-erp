@@ -1,16 +1,12 @@
-<table id="{{ $id }}" class="table table-striped table-hover display" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>id_system</th>
-            <th>slug</th>
-            <th>name</th>
-            <th>icon</th>
-            <th>root</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table id="{{ $id }}" class="table table-striped table-condensed table-hover display" cellspacing="0"
+        width="100%">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -18,22 +14,14 @@
             serverSide: true,
             processing: true,
             ajax: '{{ $dataOrigin }}',
-            columns: [{
-                    data: 'id_system'
-                },
-                {
-                    data: 'slug'
-                },
-                {
-                    data: 'name'
-                },
-                {
-                    data: 'icon'
-                },
-                {
-                    data: 'action'
-                },
-            ]
+            columns: {!! html_entity_decode($columns) !!},
+            //pagingType: 'full_numbers',
+            // ordering: true,
+            order: {!! html_entity_decode($order) ?: '[]' !!},
+            language: {
+                url: '{{ asset('vendor/plugins/datatables/media/js/pt-BR.json') }}',
+            },
+            //
         });
     });
 </script>

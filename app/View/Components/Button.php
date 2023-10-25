@@ -42,7 +42,7 @@ class Button extends Component
         }
 
         if ($routeName) {
-            $this->route = route($routeName, ['system' => request('__system')['slug']]);
+            $this->route = route($routeName);
         } else {
             $this->route = $route;
         }

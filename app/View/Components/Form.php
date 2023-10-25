@@ -19,7 +19,7 @@ class Form extends Component
         string $actionName = '',
     ) {
         if ($actionName) {
-            $this->action = route($actionName, ['system' => request('__system')['slug']]);
+            $this->action = route($actionName);
         } else {
             $this->action = $action ?: url()->full();
         }

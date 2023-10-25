@@ -30,8 +30,23 @@
         </x-panel>
 
         <x-panel title="Dados">
-            <x-data-table data-origin="systems.datatable" />
+            <x-data-table data-origin="systems.datatable" order="name"
+                columns="{{ json_encode([
+                    [
+                        'data' => 'actions',
+                        'width' => '20px',
+                        'orderable' => false,
+                    ],
+                    [
+                        'title' => 'Código',
+                        'data' => 'id_system',
+                        'className' => 'text-right',
+                    ],
+                    [
+                        'title' => 'Nome',
+                        'data' => 'name',
+                    ],
+                ]) }}" />
         </x-panel>
     </x-content>
-
 @endsection

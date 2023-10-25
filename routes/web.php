@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\System;
 use App\Models\Route as Routes;
 
 /*
@@ -38,36 +39,43 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-        Route::group(['prefix' => '{system}', 'middleware' => ['system']], function () {
-            Route::get('/', 'HomeController@dashboard')->name('dashboard');
+        $routes = Routes::all();
+        $systems = System::all();
+        $path = explode("/", request()->path());
 
-            Route::group(['middleware' => ['access']], function () {
-                $routes = Routes::all();
-                foreach ($routes as $route) {
-                    Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
-                    if (in_array("index", $route->resources)) {
-                        Route::get($route->uri, $route->controller . '@index')->name($route->name);
-                    }
-                    if (in_array("create", $route->resources)) {
-                        Route::get($route->uri . '/create', $route->controller . '@create')->name($route->name . '.create');
-                    }
-                    if (in_array("store", $route->resources)) {
-                        Route::post($route->uri, $route->controller . '@store')->name($route->name . '.store');
-                    }
-                    if (in_array("show", $route->resources)) {
-                        Route::get($route->uri . '/{id}', $route->controller . '@show')->name($route->name . '.show');
-                    }
-                    if (in_array("edit", $route->resources)) {
-                        Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->name($route->name . '.edit');
-                    }
-                    if (in_array("update", $route->resources)) {
-                        Route::put($route->uri . '/{id}', $route->controller . '@update')->name($route->name . '.update');
-                    }
-                    if (in_array("update", $route->resources)) {
-                        Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->name($route->name . '.destroy');
-                    }
+        foreach ($systems as $system) {
+            Route::group(['prefix' => $system->slug, 'middleware' => ['system']], function () use ($routes, $path, $system) {
+                if ($path[0] == $system->slug) {
+                    Route::get('/', 'HomeController@dashboard')->name('dashboard');
+
+                    Route::group(['middleware' => ['access']], function () use ($routes) {
+                        foreach ($routes as $route) {
+                            Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
+                            if (in_array("index", $route->resources)) {
+                                Route::get($route->uri, $route->controller . '@index')->name($route->name);
+                            }
+                            if (in_array("create", $route->resources)) {
+                                Route::get($route->uri . '/create', $route->controller . '@create')->name($route->name . '.create');
+                            }
+                            if (in_array("store", $route->resources)) {
+                                Route::post($route->uri, $route->controller . '@store')->name($route->name . '.store');
+                            }
+                            if (in_array("show", $route->resources)) {
+                                Route::get($route->uri . '/{id}', $route->controller . '@show')->name($route->name . '.show');
+                            }
+                            if (in_array("edit", $route->resources)) {
+                                Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->name($route->name . '.edit');
+                            }
+                            if (in_array("update", $route->resources)) {
+                                Route::put($route->uri . '/{id}', $route->controller . '@update')->name($route->name . '.update');
+                            }
+                            if (in_array("update", $route->resources)) {
+                                Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->name($route->name . '.destroy');
+                            }
+                        }
+                    });
                 }
             });
-        });
+        }
     });
 });

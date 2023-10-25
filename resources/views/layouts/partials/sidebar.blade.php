@@ -5,7 +5,7 @@
         <ul class="nav sidebar-menu">
             <li class="sidebar-label pt20">Início</li>
             <li>
-                <a href="{{ route('dashboard', ['system' => request('__system')['slug']]) }}">
+                <a href="{{ route('dashboard') }}">
                     <span class="glyphicons glyphicons-home"></span>
                     <span class="sidebar-title">Dashboard</span>
                 </a>
@@ -17,7 +17,7 @@
             @endphp
             @foreach (request('__permissions') as $group_key => $group)
                 <li data-id='{{ $group_key }}'>
-                    <a class="accordion-toggle" href="#">
+                    <a class="accordion-toggle" href="javascript:">
                         <span class="{{ $group['icon'] }}"></span>
                         <span class="sidebar-title">{{ $group['label'] }}</span>
                         <span class="caret"></span>
@@ -30,8 +30,7 @@
                                 @endphp
                             @endif
                             <li class="{{ $item['route']['uri'] == (request('__uri') ?? '') ? 'active' : '' }}">
-                                <a
-                                    href="{{ route($item['route']['name'], ['system' => request('__system')['slug']]) }}">
+                                <a href="{{ route($item['route']['name']) }}">
                                     <span class="{{ $item['route']['icon'] }}"></span>
                                     {{ $item['route']['label'] }}
                                 </a>
@@ -45,7 +44,7 @@
                 <li class="sidebar-label pt15">Sistemas</li>
                 @foreach (auth()->user()->load('systems')->systems as $system)
                     <li>
-                        <a href="{{ route('dashboard', ['system' => $system['slug']]) }}">
+                        <a href="{{ url('/' . $system->slug) }}">
                             <span class="{{ $system['icon'] }}"></span>
                             <span class="sidebar-title">{{ $system['name'] }}</span>
                         </a>
@@ -54,7 +53,7 @@
             @endif
         </ul>
         <div class="sidebar-toggle-mini">
-            <a href="#">
+            <a href="javascript:">
                 <span class="fa fa-sign-out"></span>
             </a>
         </div>

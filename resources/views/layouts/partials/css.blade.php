@@ -136,4 +136,13 @@
             transform: rotate(360deg);
         }
     }
+
+    table>thead>tr>th {
+        font-weight: bold !important;
+        background-color: #E9ECEF !important;
+    }
+
+    .nav.sidebar-menu {
+        background-color: #30363e;
+    }
 </style>

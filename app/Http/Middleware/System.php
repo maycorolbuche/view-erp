@@ -17,7 +17,8 @@ class System
      */
     public function handle(Request $request, Closure $next)
     {
-        $system = $request->route('system');
+        $path = explode("/", $request->path());
+        $system = $path[0];
 
 
         //Verifica se tem permissão para acessar este sistema
@@ -28,7 +29,7 @@ class System
         )['systems'];
 
         if (count($access) <= 0) {
-            return response()->view('errors.system_not_found', [], 403);
+            return response()->view('errors.404', [], 404);
         }
 
         $id_system = $access[0]['id_system'];
