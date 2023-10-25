@@ -145,4 +145,8 @@
     .nav.sidebar-menu {
         background-color: #30363e;
     }
+
+    input.slug {
+        text-transform: lowercase;
+    }
 </style>

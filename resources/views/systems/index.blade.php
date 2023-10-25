@@ -5,24 +5,24 @@
 @section('content')
 
     <x-content>
+
         <x-panel title="Formulário">
-            <x-form action-name="systems.store">
+
+            @include('layouts.partials.messages')
+
+            <x-form action-name="systems" action-id="{{ isset($data) ? $data->id_system : null }}">
                 <x-group>
-                    <x-input width="100" label="Ates" disabled value="ddd" />
-                    <x-input width=100 name="AAA" label="Teste" label="required" required="false" readonly />
-                    <x-input id="BBB" label="required true" required="true" />
-                    <x-input label="required false" required="false" />
-                    <x-input label="R2" name="CCC" id="DDD" label="required str" required="dfsd" />
-                    <x-input label="required 0" required=0 />
-                    <x-input type="number" label="required 1" required="1" />
-                    <x-input label="required 0" required="0" placeholder="ASDdd" value="fds" />
+                    <x-input name="name" width="400" label="Nome" required value="{{ $data->name ?? '' }}" />
+                    <x-input name="icon" width="100" label="Ícone" value="{{ $data->icon ?? '' }}" />
+                    <x-input type="slug" name="slug" width="150" label="Nome URL"
+                        value="{{ $data->slug ?? '' }}" />
                 </x-group>
 
                 <x-group right>
-                    <x-button type="store" />
-                    <x-button type="store-new" />
-                    <x-button type="update" />
-                    <x-button type="delete" />
+                    <x-button type="store" hidden="{{ isset($data) }}" />
+                    <x-button type="store-new" hidden="{{ !isset($data) }}" />
+                    <x-button type="update" hidden="{{ !isset($data) }}" />
+                    <x-button type="delete" hidden="{{ !isset($data) }}" />
                     <x-button type="cancel" route-name="systems" />
                 </x-group>
 
@@ -46,7 +46,18 @@
                         'title' => 'Nome',
                         'data' => 'name',
                     ],
-                ]) }}" />
+                ]) }}"
+                created-row="if (data['root'] == 1) { $('td', row).addClass('warning'); }" />
         </x-panel>
     </x-content>
+@endsection
+
+@section('scripts')
+    <script>
+        $("[name=name]").blur(function() {
+            if ($("[name=slug]").val() == "") {
+                $("[name=slug]").val($("[name=name]").val()).blur()
+            }
+        });
+    </script>
 @endsection

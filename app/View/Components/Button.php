@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class Button extends Component
 {
-    public $name, $id, $route, $routeName, $type, $value, $label, $layout, $confirm, $confirmTitle;
+    public $name, $id, $route, $routeName, $type, $value, $label, $layout, $confirm, $confirmTitle, $method;
     public bool $disabled, $hidden, $novalidate;
 
     /**
@@ -29,6 +29,7 @@ class Button extends Component
         string $layout = '',
         string $confirm = '',
         string $confirmTitle = '',
+        string $method = '',
     ) {
         if ($name == '') {
             $name = $id;
@@ -66,6 +67,7 @@ class Button extends Component
                 $value = $value ?: 'update';
                 $layout = $layout ?: 'success';
                 $type = "submit";
+                $method = 'put';
                 break;
             case 'destroy':
             case 'delete':
@@ -75,6 +77,7 @@ class Button extends Component
                 $type = "submit";
                 $novalidate = 1;
                 $confirm = "Deseja realmente excluir este registro?";
+                $method = 'delete';
                 break;
             case 'cancel':
                 $label = $label ?: 'Cancelar';
@@ -93,6 +96,7 @@ class Button extends Component
         $this->layout = $layout ?: 'primary';
         $this->confirm = $confirm;
         $this->confirmTitle = $confirmTitle;
+        $this->method = $method;
 
         $this->disabled = $disabled && $disabled != "false";
         $this->hidden = $hidden && $hidden != "false";

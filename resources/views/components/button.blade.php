@@ -48,6 +48,9 @@
 
     function actions_btn_{{ $id }}() {
         $("#{{ $id }}").closest('form').find('[name=_action]').val('{{ $value }}');
+        @if ($method != '')
+            $("#{{ $id }}").closest('form').find("[name='_method']").val('{{ $method }}');
+        @endif
         @if ($route != '')
             window.location.href = '{{ $route }}';
             event.preventDefault();

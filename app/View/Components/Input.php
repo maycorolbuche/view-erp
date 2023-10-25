@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class Input extends Component
 {
-    public string $name, $id;
+    public string $name, $id, $field, $type, $class;
     public bool $required, $disabled, $readonly, $hidden;
 
     /**
@@ -16,10 +16,10 @@ class Input extends Component
      * @return void
      */
     public function __construct(
-        public string $type = 'text',
         public $value = '',
         public int $width = 400,
         public string $label = '',
+        string $type = '',
         string $required = 'false',
         string $disabled = 'false',
         string $readonly = 'false',
@@ -27,6 +27,8 @@ class Input extends Component
         public string $placeholder = '',
         string $name = '',
         string $id = '',
+        string $field = '',
+        string $class = '',
     ) {
         if ($name == '') {
             $name = $id;
@@ -39,8 +41,17 @@ class Input extends Component
             $name = $id;
         }
 
+        $type = $type ?: 'text';
+        if ($type == 'slug') {
+            $type = 'text';
+            $class .= ' slug ';
+        }
+
         $this->id = $id;
         $this->name = $name;
+        $this->field = $field ?: $name;
+        $this->type = $type;
+        $this->class = $class;
 
         $this->required = $required && $required != "false";
         $this->disabled = $disabled && $disabled != "false";

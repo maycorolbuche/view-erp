@@ -1,6 +1,9 @@
-<form role="form" method="{{ $method }}" action="{{ $action }}" novalidate="novalidate" class="validate">
+<form role="form" method="{{ $method == 'put' ? 'post' : $method }}" action="{{ $action }}" novalidate="novalidate"
+    class="validate">
     {{ csrf_field() }}
+    @method($method)
     <input type="hidden" name="_action">
+    <input type="hidden" name="_id" value="{{ $actionId ?: '' }}">
 
     {{ $slot }}
 </form>

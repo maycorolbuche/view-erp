@@ -21,7 +21,9 @@
             language: {
                 url: '{{ asset('vendor/plugins/datatables/media/js/pt-BR.json') }}',
             },
-            //
+            createdRow: function(row, data, index) {
+                {!! html_entity_decode($createdRow) !!}
+            },
         });
     });
 </script>

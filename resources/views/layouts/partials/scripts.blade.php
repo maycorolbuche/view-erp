@@ -19,6 +19,13 @@
 
 <!-- Page Plugins -->
 <script type="text/javascript" src="{{ asset('assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
+<!--
+<script type="text/javascript" src="{{ asset('vendor/plugins/daterange/daterangepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/datepicker/js/bootstrap-datetimepicker.min.js') }}">
+</script>
+-->
+<script type="text/javascript" src="{{ asset('vendor/plugins/colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/jquerymask/jquery.maskedinput.min.js') }}"></script>
 
 <!-- Confirm -->
 <!-- https://craftpip.github.io/jquery-confirm/ -->
@@ -313,6 +320,25 @@
             max: jQuery.validator.format("Por favor, informe um valor menor ou igual a {0}."),
             min: jQuery.validator.format("Por favor, informe um valor maior ou igual a {0}.")
         });
+
+
+        // Init jQuery masked inputs
+        $('.slug').mask('a?aaaaaaaaaaaaaaaa');
+        /*
+        $('.date').mask('99/99/9999');
+        $('.time').mask('99:99:99');
+        $('.date_time').mask('99/99/9999 99:99:99');
+        $('.zip').mask('99999-999');
+        $('.phone').mask('(999) 999-9999');
+        $('.phoneext').mask("(999) 999-9999 x99999");
+        $(".money").mask("999,999,999.999");
+        $(".product").mask("999.999.999.999");
+        $(".tin").mask("99-9999999");
+        $(".ssn").mask("999-99-9999");
+        $(".ip").mask("9ZZ.9ZZ.9ZZ.9ZZ");
+        $(".eyescript").mask("~9.99 ~9.99 999");
+        $(".custom").mask("9.99.999.9999");
+        */
 
     });
 
