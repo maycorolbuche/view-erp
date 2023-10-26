@@ -18,9 +18,9 @@ class AlterUsersTable extends Migration
             $table->unsignedInteger('id_civil_status')->after('birth_date')->nullable();
             $table->unsignedInteger('id_branch')->after('state')->nullable();
 
-            $table->foreign('id_employment_type')->references('id_employment_type')->on('employment_types');
-            $table->foreign('id_civil_status')->references('id_civil_status')->on('civil_statuses');
-            $table->foreign('id_branch')->references('id_branch')->on('branches');
+            $table->foreign('id_employment_type')->references('id_employment_type')->on('employment_types')->onUpdate('set null')->onDelete('set null');
+            $table->foreign('id_civil_status')->references('id_civil_status')->on('civil_statuses')->onUpdate('set null')->onDelete('set null');
+            $table->foreign('id_branch')->references('id_branch')->on('branches')->onUpdate('set null')->onDelete('set null');
         });
     }
 

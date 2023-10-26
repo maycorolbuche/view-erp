@@ -18,8 +18,8 @@ class CreateUsersProfilesTable extends Migration
             $table->unsignedInteger('id_user');
             $table->unsignedInteger('id_profile');
 
-            $table->foreign('id_user')->references('id_user')->on('users');
-            $table->foreign('id_profile')->references('id_profile')->on('profiles');
+            $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_profile')->references('id_profile')->on('profiles')->onUpdate('cascade')->onDelete('cascade');
 
             $table->unique(['id_user', 'id_profile']);
 

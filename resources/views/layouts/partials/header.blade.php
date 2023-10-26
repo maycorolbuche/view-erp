@@ -16,7 +16,8 @@
     <ul class="nav navbar-nav navbar-right">
         @if (count(auth()->user()->load('systems')->systems) > 1)
             <li>
-                <a class="topbar-menu-toggle" href="javascript:">
+                <a class="topbar-menu-toggle" href="javascript:"
+                    onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');">
                     <span class="{{ request('__system')['icon'] }} fs16"></span>
                     &nbsp;
                     <span class="fw600">{{ request('__system')['name'] }}</span>

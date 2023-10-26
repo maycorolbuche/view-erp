@@ -21,10 +21,10 @@ class CreatePermissionsTable extends Migration
             $table->unsignedInteger('id_profile')->nullable();
             $table->json('permissions');
 
-            $table->foreign('id_system')->references('id_system')->on('systems');
-            $table->foreign('id_route')->references('id_route')->on('routes');
-            $table->foreign('id_user')->references('id_user')->on('users');
-            $table->foreign('id_profile')->references('id_profile')->on('profiles');
+            $table->foreign('id_system')->references('id_system')->on('systems')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_route')->references('id_route')->on('routes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_profile')->references('id_profile')->on('profiles')->onUpdate('cascade')->onDelete('cascade');
 
             $table->unique(['id_route', 'id_system', 'id_user']);
             $table->unique(['id_route', 'id_system', 'id_profile']);

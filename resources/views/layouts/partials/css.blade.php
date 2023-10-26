@@ -2,6 +2,9 @@
 <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,500,700,300">
 
+<!-- Vendor CSS -->
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/plugins/magnific/magnific-popup.css') }}">
+
 <!-- Theme CSS -->
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/skin/default_skin/css/theme.css') }}">
 
@@ -148,5 +151,48 @@
 
     input.slug {
         text-transform: lowercase;
+    }
+
+
+    /* Input Group Merge Addon */
+    .input-group-merge {
+        display: block;
+    }
+
+    .input-group-merge .input-group-addon {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        border: 0;
+        background: transparent;
+        z-index: 3;
+        font-size: 13px;
+    }
+
+    .input-group-merge .input-group-addon+input.form-control {
+        display: block;
+        float: none;
+        padding-left: 60px;
+    }
+
+    /* Input Group Merge Addon - Sizes */
+    .input-hero.input-group-merge .input-group-addon,
+    .input-hero.input-group-merge input.form-control {
+        font-size: 16px;
+    }
+
+    .input-hero.input-group-merge .input-group-addon {
+        top: 12px;
+        font-size: 18px;
+    }
+
+    .input-hero.input-group-merge input {
+        border-left: 3px solid #4a89dc !important;
+    }
+
+    /**/
+
+    .multiselect-container li a:has(label input[value='']) {
+        display: none;
     }
 </style>

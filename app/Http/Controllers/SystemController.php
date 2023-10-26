@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\System;
 use App\Http\Requests\SystemRequest;
+use App\Helpers\Root;
 use DataTables;
 
 class SystemController extends Controller
@@ -31,6 +31,7 @@ class SystemController extends Controller
 
         try {
             $system = System::create($request->all());
+            Root::run();
             return redirect()->route('systems.show', ['id' => $system->id_system])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -75,6 +76,7 @@ class SystemController extends Controller
             $system = System::find($id);
             if ($system) {
                 $system->update($request->all());
+                Root::run();
                 return redirect()->route('systems.show', ['id' => $system->id_system])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('systems')->with('error', 'Registro não encontrado!');
@@ -120,7 +122,10 @@ class SystemController extends Controller
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
-            ->rawColumns(['actions'])
+            ->addColumn('icon', function ($row) {
+                return "<i style='font-size:20px' class='" . $row->icon . "'></i>";
+            })
+            ->rawColumns(['actions', 'icon'])
             ->make(true);
     }
 }

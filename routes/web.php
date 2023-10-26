@@ -39,12 +39,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
+        Route::group(['prefix' => 'data'], function () {
+            Route::get('/icons', 'Data\IconController@index')->name('icons');
+        });
+
         $routes = Routes::all();
         $systems = System::all();
         $path = explode("/", request()->path());
 
         foreach ($systems as $system) {
             Route::group(['prefix' => $system->slug, 'middleware' => ['system']], function () use ($routes, $path, $system) {
+
+                Route::get('/', 'HomeController@dashboard')->name('system.' . $system->slug);
+
                 if ($path[0] == $system->slug) {
                     Route::get('/', 'HomeController@dashboard')->name('dashboard');
 

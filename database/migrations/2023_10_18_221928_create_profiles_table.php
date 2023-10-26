@@ -19,7 +19,7 @@ class CreateProfilesTable extends Migration
             $table->boolean('root')->default(0);
             $table->unsignedInteger('id_system');
 
-            $table->foreign('id_system')->references('id_system')->on('systems');
+            $table->foreign('id_system')->references('id_system')->on('systems')->onUpdate('cascade')->onDelete('cascade');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

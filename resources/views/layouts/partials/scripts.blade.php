@@ -26,6 +26,7 @@
 -->
 <script type="text/javascript" src="{{ asset('vendor/plugins/colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/jquerymask/jquery.maskedinput.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
 
 <!-- Confirm -->
 <!-- https://craftpip.github.io/jquery-confirm/ -->

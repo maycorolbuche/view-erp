@@ -19,7 +19,7 @@
         <div class="topbar-menu row">
             @foreach ($systems as $system)
                 <div class="col-xs-6 col-sm-3">
-                    <a href="{{ route('dashboard', ['system' => $system['slug']]) }}"
+                    <a href="{{ route('system.' . $system['slug']) }}"
                         class="metro-tile bg-success animated animated-short fadeInDown" style="opacity: 1;">
                         <span class="metro-icon {{ $system['icon'] }}"></span>
                         <p class="metro-title">{{ $system['name'] }}</p>

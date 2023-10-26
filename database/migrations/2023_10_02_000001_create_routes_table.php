@@ -27,8 +27,8 @@ class CreateRoutesTable extends Migration
             $table->integer('sequence');
             $table->boolean('root')->default(0);
 
-            $table->foreign('id_route_group')->references('id_route_group')->on('routes_groups');
-            $table->foreign('id_route_parent')->references('id_route')->on('routes');
+            $table->foreign('id_route_group')->references('id_route_group')->on('routes_groups')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_route_parent')->references('id_route')->on('routes')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

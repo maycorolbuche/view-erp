@@ -24,10 +24,16 @@ class SystemRequest extends FormRequest
      */
     public function rules()
     {
+        $reservedWords = ['data', 'logout', 'login', 'password'];
+
         return [
-            'slug' => 'required|unique:systems,slug,' . $this->_id . ',id_system',
+            'slug' => [
+                'required',
+                'unique:systems,slug,' . $this->_id . ',id_system',
+                'not_in:' . implode(',', $reservedWords),
+            ],
             'name' => 'required',
-            'icon' => 'required'
+            'icon' => 'required',
         ];
     }
 
@@ -37,6 +43,13 @@ class SystemRequest extends FormRequest
             'slug' => 'nome url',
             'name' => 'nome',
             'icon' => 'ícone'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'slug.not_in' => 'A palavra ":input" é reservada, e não pode ser usada no campo :attribute'
         ];
     }
 

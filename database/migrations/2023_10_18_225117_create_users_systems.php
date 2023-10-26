@@ -18,8 +18,8 @@ class CreateUsersSystems extends Migration
             $table->unsignedInteger('id_user');
             $table->unsignedInteger('id_system');
 
-            $table->foreign('id_user')->references('id_user')->on('users');
-            $table->foreign('id_system')->references('id_system')->on('systems');
+            $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_system')->references('id_system')->on('systems')->onUpdate('cascade')->onDelete('cascade');
 
             $table->unique(['id_user', 'id_system']);
 

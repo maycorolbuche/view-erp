@@ -40,13 +40,14 @@
     <div class="topbar-right">
         <div style="width:300px;" class="search-routes">
             <select onchange="window.location.href = $(this).val()">
-                <option value="{{ route('dashboard', ['system' => request('__system')['slug']]) }}">Buscar Menu...
+                <option></option>
+                <option value="{{ route('dashboard') }}" {{ request('__uri') ?? '' == '' ? 'selected' : '' }}>
+                    Buscar Menu...
                 </option>
                 @foreach (request('__permissions') as $group_key => $group)
                     <optgroup label="{{ $group['label'] }}">
                         @foreach ($group['items'] as $item)
-                            <option
-                                value="{{ route($item['route']['name'], ['system' => request('__system')['slug']]) }}"
+                            <option value="{{ route($item['route']['name']) }}"
                                 {{ $item['route']['uri'] == (request('__uri') ?? '') ? 'selected' : '' }}>
                                 {{ $item['route']['label'] }}
                             </option>

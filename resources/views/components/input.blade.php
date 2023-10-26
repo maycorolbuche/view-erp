@@ -4,18 +4,38 @@
         {{ $label ? $label . ':' : '' }}&nbsp;{!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
     <div style="position: relative;">
-        <span class="append-icon right error-icon">
-            <i class="fa fa-remove"></i>
-        </span>
-        <span class="append-icon right success-icon">
-            <i class="fa fa-check"></i>
-        </span>
-        <input type="{{ $type }}" id="{{ $id }}" name="{{ $name }}"
-            value="{{ old($field) ?: $value }}" class="form-control {{ $class }}"
-            placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
-            {{ $readonly ? 'readonly' : '' }}>
+        @if ($type == 'icon')
+            <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ old($field) ?: $value }}"
+                {{ $required ? 'required' : '' }}>
+
+            <button type="button" id="ibt_{{ $id }}" onclick="open_popup_{{ $id }}()"
+                class="btn btn-dark">
+                <i class="{{ old($field) ?: $value }}"></i>
+                <span>Selecionar</span>
+            </button>
+        @else
+            <span class="append-icon right error-icon">
+                <i class="fa fa-remove"></i>
+            </span>
+            <span class="append-icon right success-icon">
+                <i class="fa fa-check"></i>
+            </span>
+            <input type="{{ $type }}" id="{{ $id }}" name="{{ $name }}"
+                value="{{ old($field) ?: $value }}" class="form-control {{ $class }}"
+                placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
+                {{ $readonly ? 'readonly' : '' }}>
+        @endif
     </div>
     @if ($errors->has($field))
         <em for="{{ $id }}" class="has-error">{{ $errors->first($field) }}</em>
     @endif
 </div>
+
+@if ($type == 'icon')
+    @include('components.partials.modal-icon', compact('id'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            sel_icon_{{ $id }}('{{ old($field) ?: $value }}');
+        });
+    </script>
+@endif
