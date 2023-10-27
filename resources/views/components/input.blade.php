@@ -33,9 +33,11 @@
 
 @if ($type == 'icon')
     @include('components.partials.modal-icon', compact('id'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            sel_icon_{{ $id }}('{{ old($field) ?: $value }}');
-        });
-    </script>
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                sel_icon_{{ $id }}('{{ old($field) ?: $value }}');
+            });
+        </script>
+    @endpush
 @endif

@@ -24,6 +24,19 @@ class AddRoute extends Migration
             'sequence' => 10,
             'root' => 1,
         ]);
+        Route::create([
+            'id_route_group' => 1,
+            'id_route_parent' => 1,
+            'label' => 'Menus Sistemas',
+            'name' => 'systems.permissions',
+            'uri' => 'systems/permissions',
+            'controller' => 'SystemPermissionController',
+            'resources' => ["index",  "show", "update"],
+            'permissions' => ["update"],
+            'icon' => 'glyphicon glyphicon-th-list',
+            'sequence' => 20,
+            'root' => 1,
+        ]);
     }
 
     /**

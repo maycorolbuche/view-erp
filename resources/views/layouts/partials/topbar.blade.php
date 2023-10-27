@@ -39,21 +39,24 @@
     </div>
     <div class="topbar-right">
         <div style="width:300px;" class="search-routes">
+            @php
+                $current_route = explode('.', Route::currentRouteName() ?? '');
+            @endphp
             <select onchange="window.location.href = $(this).val()">
-                <option></option>
-                <option value="{{ route('dashboard') }}" {{ request('__uri') ?? '' == '' ? 'selected' : '' }}>
+                <option value="{{ route('dashboard') }}" {{ $current_route[0] == '' ? 'selected' : '' }}>
                     Buscar Menu...
                 </option>
                 @foreach (request('__permissions') as $group_key => $group)
                     <optgroup label="{{ $group['label'] }}">
                         @foreach ($group['items'] as $item)
                             <option value="{{ route($item['route']['name']) }}"
-                                {{ $item['route']['uri'] == (request('__uri') ?? '') ? 'selected' : '' }}>
+                                {{ $item['route']['name'] == $current_route[0] ? 'selected' : '' }}>
                                 {{ $item['route']['label'] }}
                             </option>
                         @endforeach
                     </optgroup>
                 @endforeach
+                <option></option>
             </select>
         </div>
 

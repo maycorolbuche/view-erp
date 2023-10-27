@@ -8,22 +8,24 @@
     </table>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        $('#{{ $id }}').DataTable({
-            serverSide: true,
-            processing: true,
-            ajax: '{{ $dataOrigin }}',
-            columns: {!! html_entity_decode($columns) !!},
-            //pagingType: 'full_numbers',
-            // ordering: true,
-            order: {!! html_entity_decode($order) ?: '[]' !!},
-            language: {
-                url: '{{ asset('vendor/plugins/datatables/media/js/pt-BR.json') }}',
-            },
-            createdRow: function(row, data, index) {
-                {!! html_entity_decode($createdRow) !!}
-            },
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#{{ $id }}').DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: '{{ $dataOrigin }}?id-field={{ $idField ?: '' }}&{{ $queryString ?: '' }}',
+                columns: {!! html_entity_decode($columns) !!},
+                //pagingType: 'full_numbers',
+                // ordering: true,
+                order: {!! html_entity_decode($order) ?: '[]' !!},
+                language: {
+                    url: '{{ asset('vendor/plugins/datatables/media/js/pt-BR.json') }}',
+                },
+                createdRow: function(row, data, index) {
+                    {!! html_entity_decode($createdRow) !!}
+                },
+            });
         });
-    });
-</script>
+    </script>
+@endpush

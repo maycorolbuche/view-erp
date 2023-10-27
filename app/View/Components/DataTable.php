@@ -16,6 +16,8 @@ class DataTable extends Component
     public function __construct(
         public string $columns,
         public string $createdRow = '',
+        public string $queryString = '',
+        public string $idField = '',
         string $order = '',
         string $orderDir = '',
         string $id = '',

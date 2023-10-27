@@ -42,7 +42,7 @@
     </x-content>
 @endsection
 
-@push('scripts')
+@section('scripts')
     <script>
         $("[name=name]").blur(function() {
             if ($("[name=slug]").val() == "") {
@@ -50,4 +50,4 @@
             }
         });
     </script>
-@endpush
+@endsection

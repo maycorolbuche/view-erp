@@ -57,11 +57,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
                     Route::group(['middleware' => ['access']], function () use ($routes) {
                         foreach ($routes as $route) {
+
                             if (in_array("datatable", $route->resources)) {
                                 Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
                             }
                             if (in_array("index", $route->resources)) {
-                                Route::get($route->uri, $route->controller . '@index')->name($route->name);
+                                if (strpos($route->uri, "/{pid}/") !== false) {
+                                    Route::get(str_replace("/{pid}/", "/", $route->uri), $route->controller . '@parent')->name($route->name);
+                                    Route::get($route->uri, $route->controller . '@index')->name($route->name . ".index");
+                                } else {
+                                    Route::get($route->uri, $route->controller . '@index')->name($route->name);
+                                }
                             }
                             if (in_array("create", $route->resources)) {
                                 Route::get($route->uri . '/create', $route->controller . '@create')->name($route->name . '.create');
@@ -70,16 +76,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                                 Route::post($route->uri, $route->controller . '@store')->name($route->name . '.store');
                             }
                             if (in_array("show", $route->resources)) {
-                                Route::get($route->uri . '/{id}', $route->controller . '@show')->name($route->name . '.show');
+                                Route::get($route->uri . '/{id}', $route->controller . '@show')->where('id', '[0-9]+')->name($route->name . '.show');
                             }
                             if (in_array("edit", $route->resources)) {
-                                Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->name($route->name . '.edit');
+                                Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->where('id', '[0-9]+')->name($route->name . '.edit');
                             }
                             if (in_array("update", $route->resources)) {
-                                Route::put($route->uri . '/{id}', $route->controller . '@update')->name($route->name . '.update');
+                                Route::put($route->uri . '/{id}', $route->controller . '@update')->where('id', '[0-9]+')->name($route->name . '.update');
                             }
                             if (in_array("update", $route->resources)) {
-                                Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->name($route->name . '.destroy');
+                                Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->where('id', '[0-9]+')->name($route->name . '.destroy');
                             }
                         }
                     });

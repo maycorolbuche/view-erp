@@ -18,12 +18,10 @@ class Access
      */
     public function handle(Request $request, Closure $next)
     {
-        $path = explode("/", $request->path());
-
-        $request->merge(['__uri' => $path[1]]);
+        $current_route = explode(".", \Route::currentRouteName() ?? '');
 
         $id_system = ($request->input('__id_system'));
-        $route = Route::where('uri', $path[1] ?? '')->first();
+        $route = Route::where('name', $current_route[0])->first();
         $request->merge(['__route' => $route->toArray()]);
         $id_route = $route['id_route'];
 

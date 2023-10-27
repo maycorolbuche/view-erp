@@ -1,7 +1,6 @@
 <aside id="sidebar_left" class="nano nano-primary affix">
     <div class="nano-content">
 
-
         <ul class="nav sidebar-menu">
             <li class="sidebar-label pt20">Início</li>
             <li>
@@ -13,6 +12,7 @@
 
             <li class="sidebar-label pt20">Menu</li>
             @php
+                $current_route = explode('.', Route::currentRouteName() ?? '');
                 $open = '';
             @endphp
             @foreach (request('__permissions') as $group_key => $group)
@@ -24,12 +24,12 @@
                     </a>
                     <ul class="nav sub-nav">
                         @foreach ($group['items'] as $item)
-                            @if ($item['route']['uri'] == (request('__uri') ?? '') ? 'active' : '')
+                            @if ($item['route']['name'] == $current_route[0])
                                 @php
                                     $open = $group_key;
                                 @endphp
                             @endif
-                            <li class="{{ $item['route']['uri'] == (request('__uri') ?? '') ? 'active' : '' }}">
+                            <li class="{{ $item['route']['name'] == $current_route[0] ? 'active' : '' }}">
                                 <a href="{{ route($item['route']['name']) }}">
                                     <span class="{{ $item['route']['icon'] }}"></span>
                                     {{ $item['route']['label'] }}
@@ -61,14 +61,13 @@
 </aside>
 
 @if ($open != '')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelector("[data-id='{{ $open }}']")
-                .classList.add('active');
-
-            document.querySelector("[data-id='{{ $open }}']")
-                .querySelector('a.accordion-toggle')
-                .classList.add('menu-open');
-        });
-    </script>
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                $("[data-id='{{ $open }}']").addClass('active')
+                    .find('a.accordion-toggle')
+                    .addClass('menu-open');
+            });
+        </script>
+    @endpush
 @endif

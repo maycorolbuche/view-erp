@@ -7,8 +7,12 @@ use App\Http\Requests\SystemRequest;
 use App\Helpers\Root;
 use DataTables;
 
-class SystemController extends Controller
+class SystemPermissionController extends Controller
 {
+    public function parent()
+    {
+        return view('systems.permissions.parent');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +20,8 @@ class SystemController extends Controller
      */
     public function index()
     {
-        return view('systems.index');
+        return "INDEX";
+        return view('systems.permissions.index');
     }
 
     /**
@@ -32,7 +37,7 @@ class SystemController extends Controller
         try {
             $system = System::create($request->all());
             Root::run();
-            return redirect()->route('systems.show', ['id' => $system->id_system])->with('success', 'Registro cadastrado com sucesso');
+            return redirect()->route('systems.permissions.show', ['id' => $system->id_system])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
@@ -48,7 +53,7 @@ class SystemController extends Controller
     {
         $data = System::find($id);
         if ($data) {
-            return view('systems.index', compact("data"));
+            return view('systems.permissions.index', compact("data"));
         } else {
             return redirect()->route('systems')->with('error', 'Registro não encontrado!');
         }
@@ -77,7 +82,7 @@ class SystemController extends Controller
             if ($system) {
                 $system->update($request->all());
                 Root::run();
-                return redirect()->route('systems.show', ['id' => $system->id_system])->with('success', 'Registro salvo com sucesso');
+                return redirect()->route('systems.permissions.show', ['id' => $system->id_system])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('systems')->with('error', 'Registro não encontrado!');
             }
@@ -114,12 +119,10 @@ class SystemController extends Controller
     public function datatable()
     {
         $data = System::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
         return DataTables::of($data)
             ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'systems.show', [$id_field => $row->id_system]);
+            ->addColumn('actions', function ($row) {
+                $edit_route = route(request('route') ?: 'systems.permissions.show', ['id' => $row->id_system]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
