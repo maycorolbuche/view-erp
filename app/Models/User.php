@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\CreatedUpdatedBy;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, CreatedUpdatedBy;
 
     /**
      * The database table used by the model.

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatedUpdatedBy;
 
 class Profile extends Model
 {
-    use HasFactory;
+    use HasFactory, CreatedUpdatedBy;
 
     protected $table = 'profiles';
     protected $primaryKey = 'id_profile';
