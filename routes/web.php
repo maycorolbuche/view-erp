@@ -81,10 +81,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                             if (in_array("edit", $route->resources)) {
                                 Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->where('id', '[0-9]+')->name($route->name . '.edit');
                             }
-                            if (in_array("update", $route->resources)) {
+
+                            if (in_array("update-all", $route->resources)) {
+                                Route::put($route->uri, $route->controller . '@update')->where('id', '[0-9]+')->name($route->name . '.update');
+                            } elseif (in_array("update", $route->resources)) {
                                 Route::put($route->uri . '/{id}', $route->controller . '@update')->where('id', '[0-9]+')->name($route->name . '.update');
                             }
-                            if (in_array("update", $route->resources)) {
+
+                            if (in_array("destroy", $route->resources)) {
                                 Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->where('id', '[0-9]+')->name($route->name . '.destroy');
                             }
                         }

@@ -19,7 +19,9 @@ class Form extends Component
         string $actionName = '',
         string $actionId = '',
     ) {
-        if ($actionName) {
+        if ($action) {
+            $this->action = $action ?: url()->full();
+        } elseif ($actionName) {
             if ($actionId) {
                 $method = 'put';
                 $this->action = route($actionName . '.update', ['id' => $actionId]);

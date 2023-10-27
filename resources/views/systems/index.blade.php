@@ -5,7 +5,11 @@
 @section('content')
     <x-content>
 
-        <x-panel title="Formulário">
+        <x-panel title="Formulário" type="primary">
+
+            @include('systems.components.header', ['system' => isset($data) ? $data : null])
+
+            @include('systems.components.tabs', ['id' => isset($data) ? $data->id_system : null])
 
             @include('layouts.partials.messages')
 
@@ -39,7 +43,7 @@
             </x-form>
         </x-panel>
 
-        <x-panel title="Dados">
+        <x-panel title="Dados" type="warning">
             @include('systems.components.datatable', ['route' => 'systems.show'])
         </x-panel>
     </x-content>

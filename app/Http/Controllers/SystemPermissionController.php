@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\System;
-use App\Http\Requests\SystemRequest;
+use App\Models\Permission;
+use App\Models\RouteGroup;
+use Illuminate\Http\Request;
 use App\Helpers\Root;
-use DataTables;
 
 class SystemPermissionController extends Controller
 {
@@ -18,10 +19,17 @@ class SystemPermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return "INDEX";
-        return view('systems.permissions.index');
+        $system = System::find($id);
+        $routes = RouteGroup::orderBy('sequence')->with(['routes' => function ($query) {
+            $query->orderBy('sequence');
+        }])->get();
+        $permissions = Permission::where('id_system', $id)->whereNull('id_user')->whereNull('id_profile')->get()->keyBy('id_route');;
+
+        $pid = $id;
+
+        return view('systems.permissions.index', compact('pid', 'system', 'routes', 'permissions'));
     }
 
     /**
@@ -31,25 +39,44 @@ class SystemPermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SystemRequest $request, $id)
+    public function update(Request $request, $id)
     {
         if (!in_array('update', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
         }
 
-        if ($request->_action == "store") {
-            $id = null;
-            $storeRequest = new SystemRequest();
-            $request->validate($storeRequest->rules());
-            $storeRequest->merge($request->all());
-            return $this->store($storeRequest);
-        }
         try {
             $system = System::find($id);
             if ($system) {
-                $system->update($request->all());
+                if ($system->root == true) {
+                    return redirect()->back()->with('error', 'Este sistema não pode ser alterado, pois é o sistema raiz.')->withInput();
+                }
+
+                Permission::where('id_system', $id)->whereNull('id_user')->whereNull('id_profile')->delete();
+                if (isset($request->route)) {
+                    foreach ($request->route as $id_route => $value) {
+                        $data = [];
+                        $data['id_system'] = $id;
+                        $data['id_route'] = $id_route;
+
+                        $perm = [];
+                        if (isset($request['store'][$id_route])) {
+                            $perm[] = "store";
+                        }
+                        if (isset($request['update'][$id_route])) {
+                            $perm[] = "update";
+                        }
+                        if (isset($request['destroy'][$id_route])) {
+                            $perm[] = "destroy";
+                        }
+
+                        $data['permissions'] = $perm;
+
+                        Permission::create($data);
+                    }
+                }
                 Root::run();
-                return redirect()->route('systems.permissions.show', ['id' => $system->id_system])->with('success', 'Registro salvo com sucesso');
+                return redirect()->route('systems-permissions.index', ['pid' => $system->id_system])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('systems')->with('error', 'Registro não encontrado!');
             }
@@ -57,5 +84,4 @@ class SystemPermissionController extends Controller
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
     }
-
 }

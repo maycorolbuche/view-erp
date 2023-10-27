@@ -6,6 +6,8 @@
 
     <x-content>
         <x-panel title="Dados">
+            @include('systems.components.tabs')
+
             @include('systems.components.datatable', [
                 'route' => 'systems-permissions.index',
                 'field' => 'pid',

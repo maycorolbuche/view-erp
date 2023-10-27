@@ -18,4 +18,9 @@ class RouteGroup extends Model
         'icon',
         'sequence',
     ];
+
+    public function routes()
+    {
+        return $this->hasMany(Route::class, 'id_route_group', 'id_route_group');
+    }
 }
