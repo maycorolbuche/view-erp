@@ -25,41 +25,6 @@ class SystemPermissionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(SystemRequest $request)
-    {
-        unset($request["root"]);
-
-        try {
-            $system = System::create($request->all());
-            Root::run();
-            return redirect()->route('systems.permissions.show', ['id' => $system->id_system])->with('success', 'Registro cadastrado com sucesso');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $data = System::find($id);
-        if ($data) {
-            return view('systems.permissions.index', compact("data"));
-        } else {
-            return redirect()->route('systems')->with('error', 'Registro não encontrado!');
-        }
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -68,7 +33,9 @@ class SystemPermissionController extends Controller
      */
     public function update(SystemRequest $request, $id)
     {
-        unset($request["root"]);
+        if (!in_array('update', request('__permissions_page'))) {
+            return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
+        }
 
         if ($request->_action == "store") {
             $id = null;
@@ -91,45 +58,4 @@ class SystemPermissionController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        try {
-            $system = System::find($id);
-            if ($system) {
-                if ($system->root == true) {
-                    return redirect()->back()->with('error', 'Este sistema não pode ser apagado, pois é o sistema raiz.')->withInput();
-                }
-                $system->delete();
-                return redirect()->route('systems')->with('success', 'Registro apagado com sucesso');
-            } else {
-                return redirect()->route('systems')->with('error', 'Registro não encontrado!');
-            }
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
-        }
-    }
-
-
-    public function datatable()
-    {
-        $data = System::latest()->get();
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route(request('route') ?: 'systems.permissions.show', ['id' => $row->id_system]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('icon', function ($row) {
-                return "<i style='font-size:20px' class='" . $row->icon . "'></i>";
-            })
-            ->rawColumns(['actions', 'icon'])
-            ->make(true);
-    }
 }

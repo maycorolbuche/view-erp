@@ -27,6 +27,10 @@ class SystemController extends Controller
      */
     public function store(SystemRequest $request)
     {
+        if (!in_array('store', request('__permissions_page'))) {
+            return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
+        }
+
         unset($request["root"]);
 
         try {
@@ -63,6 +67,10 @@ class SystemController extends Controller
      */
     public function update(SystemRequest $request, $id)
     {
+        if (!in_array('update', request('__permissions_page'))) {
+            return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
+        }
+
         unset($request["root"]);
 
         if ($request->_action == "store") {
@@ -94,6 +102,10 @@ class SystemController extends Controller
      */
     public function destroy($id)
     {
+        if (!in_array('destroy', request('__permissions_page'))) {
+            return redirect()->back()->with('error', 'Você não tem permissão para excluir nessa página!')->withInput();
+        }
+
         try {
             $system = System::find($id);
             if ($system) {

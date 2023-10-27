@@ -22,6 +22,7 @@ class Button extends Component
         string $disabled = 'false',
         string $hidden = 'false',
         string $novalidate = 'false',
+        string $permission = 'true',
         string $name = '',
         string $id = '',
         string $route = '',
@@ -87,8 +88,20 @@ class Button extends Component
                 break;
         }
 
+        if (!($permission && $permission != "false")) {
+            $disabled = 'true';
+        }
+
         $this->id = $id;
         $this->name = $name;
+
+        $this->disabled = $disabled && $disabled != "false";
+        $this->hidden = $hidden && $hidden != "false";
+        $this->novalidate = $novalidate && $novalidate != "false";
+
+        if ($this->disabled) {
+            $layout = 'default';
+        }
 
         $this->type = $type;
         $this->value = $value;
@@ -97,10 +110,6 @@ class Button extends Component
         $this->confirm = $confirm;
         $this->confirmTitle = $confirmTitle;
         $this->method = $method;
-
-        $this->disabled = $disabled && $disabled != "false";
-        $this->hidden = $hidden && $hidden != "false";
-        $this->novalidate = $novalidate && $novalidate != "false";
     }
 
     /**

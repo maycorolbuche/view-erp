@@ -22,7 +22,10 @@ class Access
 
         $id_system = ($request->input('__id_system'));
         $route = Route::where('name', $current_route[0])->first();
+
         $request->merge(['__route' => $route->toArray()]);
+        $request->merge(['__permissions_page' => $request['__permissions_list'][$route->name]]);
+
         $id_route = $route['id_route'];
 
         //Verifica se tem permissão para acessar esta rota

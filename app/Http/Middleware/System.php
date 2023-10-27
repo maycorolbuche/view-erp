@@ -44,6 +44,7 @@ class System
             }]
         )['permissions']->toArray();
 
+        $permissions_list = [];
         $permissions_group = [];
         foreach ($permissions as $permission) {
             $n01 = str_pad($permission['route']['route_group']['sequence'], 6, '0', STR_PAD_LEFT)
@@ -55,11 +56,13 @@ class System
             $permissions_group[$n01]["icon"] = $permission['route']['route_group']["icon"];
             $permissions_group[$n01]["items"][$n02] = $permission;
             ksort($permissions_group[$n01]["items"]);
-        }
 
+            $permissions_list[$permission['route']['name']] = $permission["permissions"];
+        }
         ksort($permissions_group);
 
         $request->merge(['__permissions' => $permissions_group]);
+        $request->merge(['__permissions_list' => $permissions_list]);
 
         return $next($request);
     }
