@@ -111,6 +111,16 @@ class Root
                 }
             }
 
+            //Verifica se esse sistema tem perfil root, com acesso total, e cria se não tiver
+            $profiles_root = Profile::select(['id_profile', 'root'])->where(['id_system' => $system->id_system, 'root' => true])->get();
+            if (count($profiles_root->toArray()) <= 0) {
+                Profile::create([
+                    'name' => 'Acesso Total',
+                    'id_system' => $system->id_system,
+                    'root' => true
+                ]);
+            }
+
             $profiles = Profile::select(['id_profile', 'root'])->where('id_system', $system->id_system)->get();
             foreach ($profiles as $profile) {
                 foreach ($routes  as $route) {
