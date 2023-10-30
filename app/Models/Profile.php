@@ -13,6 +13,12 @@ class Profile extends Model
     protected $table = 'profiles';
     protected $primaryKey = 'id_profile';
 
+    protected $fillable = [
+        'name',
+        'root',
+        'id_system',
+    ];
+
     public function permissions()
     {
         return $this->hasMany(Permission::class, 'id_profile', 'id_profile');
