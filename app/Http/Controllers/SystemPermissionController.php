@@ -48,10 +48,6 @@ class SystemPermissionController extends Controller
         try {
             $system = System::find($id);
             if ($system) {
-                if ($system->root == true) {
-                    return redirect()->back()->with('error', 'Este sistema não pode ser alterado, pois é o sistema raiz.')->withInput();
-                }
-
                 Permission::where('id_system', $id)->whereNull('id_user')->whereNull('id_profile')->delete();
                 if (isset($request->route)) {
                     foreach ($request->route as $id_route => $value) {

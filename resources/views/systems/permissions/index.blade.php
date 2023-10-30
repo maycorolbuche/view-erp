@@ -16,7 +16,7 @@
 
             @if ($system->root == true)
                 <blockquote class="blockquote-warning">
-                    <p>Este é o sistema principal. Não é possível alterar as permissões dele.</p>
+                    <p>Este é o sistema principal. Algumas permissões serão sempre mantidas.</p>
                 </blockquote>
             @endif
 
@@ -44,6 +44,7 @@
                                                 <td class="text-left" style="width:100%">
                                                     <div class="checkbox-custom">
                                                         <input type="checkbox" id="route_{{ $route->id_route }}"
+                                                            data-id="{{ $route->id_route }}"
                                                             name="route[{{ $route->id_route }}]"
                                                             {{ isset($permissions[$route->id_route]) ? 'checked' : '' }}>
                                                         <label for="route_{{ $route->id_route }}">
@@ -57,6 +58,7 @@
                                                     <div class="checkbox-custom checkbox-info fill">
                                                         @if (in_array('store', $route->permissions))
                                                             <input type="checkbox" id="store_{{ $route->id_route }}"
+                                                                data-id="{{ $route->id_route }}"
                                                                 name="store[{{ $route->id_route }}]"
                                                                 {{ isset($permissions[$route->id_route]) && in_array('store', $permissions[$route->id_route]->permissions) ? 'checked' : '' }}>
                                                             <label for="store_{{ $route->id_route }}">&nbsp;</label>
@@ -67,6 +69,7 @@
                                                     <div class="checkbox-custom checkbox-warning fill">
                                                         @if (in_array('update', $route->permissions))
                                                             <input type="checkbox" id="update_{{ $route->id_route }}"
+                                                                data-id="{{ $route->id_route }}"
                                                                 name="update[{{ $route->id_route }}]"
                                                                 {{ isset($permissions[$route->id_route]) && in_array('update', $permissions[$route->id_route]->permissions) ? 'checked' : '' }}>
                                                             <label for="update_{{ $route->id_route }}">&nbsp;</label>
@@ -77,6 +80,7 @@
                                                     <div class="checkbox-custom checkbox-danger fill">
                                                         @if (in_array('destroy', $route->permissions))
                                                             <input type="checkbox" id="destroy_{{ $route->id_route }}"
+                                                                data-id="{{ $route->id_route }}"
                                                                 name="destroy[{{ $route->id_route }}]"
                                                                 {{ isset($permissions[$route->id_route]) && in_array('destroy', $permissions[$route->id_route]->permissions) ? 'checked' : '' }}>
                                                             <label for="destroy_{{ $route->id_route }}">&nbsp;</label>
@@ -93,8 +97,7 @@
                 @endforeach
 
                 <x-group right>
-                    <x-button type="update" disabled="{{ $system->root }}"
-                        permission="{{ in_array('update', request('__permissions_page')) }}" />
+                    <x-button type="update" permission="{{ in_array('update', request('__permissions_page')) }}" />
                     <x-button type="cancel" route-name="systems-permissions" />
                 </x-group>
             </x-form>
@@ -108,4 +111,26 @@
             ])
         </x-panel>
     </x-content>
+
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                $("[name^='route']").change(function() {
+                    let id = $(this).data("id");
+                    let checked = $(this).is(":checked");
+
+                    $(`[name='store[${id}]'`).prop('checked', checked);
+                    $(`[name='update[${id}]'`).prop('checked', checked);
+                    $(`[name='destroy[${id}]'`).prop('checked', checked);
+                });
+                $("[name^='store'],[name^='update'],[name^='destroy']").change(function() {
+                    if ($(this).is(":checked")) {
+                        let id = $(this).data("id");
+
+                        $(`[name='route[${id}]'`).prop('checked', true);
+                    }
+                });
+            });
+        </script>
+    @endpush
 @endsection

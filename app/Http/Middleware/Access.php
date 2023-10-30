@@ -23,6 +23,10 @@ class Access
         $id_system = ($request->input('__id_system'));
         $route = Route::where('name', $current_route[0])->first();
 
+        if (!isset($request['__permissions_list'][$route->name])) {
+            return response()->view('errors.unauthorized', [], 403);
+        }
+
         $request->merge(['__route' => $route->toArray()]);
         $request->merge(['__permissions_page' => $request['__permissions_list'][$route->name]]);
 

@@ -16,7 +16,13 @@ class AddRouteGroup extends Migration
             'id_route_group' => 1,
             'icon' => 'glyphicons glyphicons-cogwheel',
             'label' => 'Parametrização',
-            'sequence' => 1,
+            'sequence' => 10,
+        ]);
+        RouteGroup::create([
+            'id_route_group' => 2,
+            'icon' => 'fas fa-users-cog',
+            'label' => 'Usuários e Acessos',
+            'sequence' => 20,
         ]);
     }
 

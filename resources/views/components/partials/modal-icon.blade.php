@@ -58,8 +58,13 @@
                         let list = {};
                         Object.keys(result).map(group => {
                             result[group].map(icon => {
-                                let name = icon.substr(group.length + 1);
-                                list[name] = `${group} ${icon}`;
+                                let name;
+                                if (group == 'fab' || group == 'far' || group == 'fas') {
+                                    name = icon.substr(group.length);
+                                } else {
+                                    name = icon.substr(group.length + 1);
+                                }
+                                list[`${name}|${group}`] = `${group} ${icon}`;
                             });
                         });
 
@@ -76,11 +81,11 @@
                             let icon = list[name];
                             let html = ''
                             html +=
-                                `<a href='javascript:' onclick="sel_icon_{{ $id }}('${icon}')" data-name='${name}' class='btn btn-hover btn-default btn-block' style="height: 66px;display: flex;flex-direction: column;align-items: center;margin: 10px;justify-content: center;width: 100px;">`;
+                                `<a href='javascript:' onclick="sel_icon_{{ $id }}('${icon}')" data-name='${name.split("|")[0]}' class='btn btn-hover btn-default btn-block' style="height: 66px;display: flex;flex-direction: column;align-items: center;margin: 10px;justify-content: center;width: 100px;">`;
                             html +=
                                 `<div style='flex-grow: 1;flex-shrink: 1;'><span class='${icon}' style='font-size: 24px;'></span></div>`;
                             html +=
-                                `<span style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 100%;text-align: center;">${name}</span>`;
+                                `<span style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 100%;text-align: center;">${name.split("|")[0]}</span>`;
                             html += "</a>";
                             el.append(html);
                         });

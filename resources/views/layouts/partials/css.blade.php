@@ -16,6 +16,12 @@
 <link rel="stylesheet" type="text/css"
     href="{{ asset('vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
 
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
 <style>
     /* demo page styles */
     body {
