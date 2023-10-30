@@ -23,6 +23,12 @@ class Access
         $id_system = ($request->input('__id_system'));
         $route = Route::where('name', $current_route[0])->first();
 
+        $res = $current_route[1] ?? '';
+
+        if ($res == "datatable") {
+            return $next($request);
+        }
+
         if (!isset($request['__permissions_list'][$route->name])) {
             return response()->view('errors.unauthorized', [], 403);
         }

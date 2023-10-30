@@ -59,9 +59,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                         Route::group(['middleware' => ['access']], function () use ($routes) {
                             foreach ($routes as $route) {
 
-                                if (in_array("datatable", $route->resources)) {
+                                //if (in_array("datatable", $route->resources)) {
                                     Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
-                                }
+                                //}
                                 if (in_array("index", $route->resources)) {
                                     if (strpos($route->uri, "/{pid}/") !== false) {
                                         Route::get(str_replace("/{pid}/", "/", $route->uri), $route->controller . '@parent')->name($route->name);

@@ -8,19 +8,19 @@
 
         <x-panel title="Formulário" type="primary">
 
-            @include('systems.components.header', compact('system'))
+            @include('profiles.components.header', compact('profile'))
 
-            @include('systems.components.tabs', ['id' => $pid])
+            @include('profiles.components.tabs', ['id' => $pid])
 
             @include('layouts.partials.messages')
 
-            @if ($system->root == true)
+            @if ($profile->root == true)
                 <blockquote class="blockquote-warning">
-                    <p>Este é o sistema principal. Algumas permissões serão sempre mantidas.</p>
+                    <p>Este é um perfil do sistema. Não é possível alterar as permissões.</p>
                 </blockquote>
             @endif
 
-            <x-form action-name="systems-permissions" action="{{ route('systems-permissions.update', compact('pid')) }}">
+            <x-form action-name="profiles-permissions" action="{{ route('profiles-permissions.update', compact('pid')) }}">
                 @foreach ($routes as $group)
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -40,6 +40,9 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($group->routes as $route)
+                                            @php
+                                                $route_permissions = $route->toArray()['permissions'][0]['permissions'] ?? [];
+                                            @endphp
                                             <tr>
                                                 <td class="text-left" style="width:100%">
                                                     <div class="checkbox-custom">
@@ -56,7 +59,7 @@
 
                                                 <td class="text-right">
                                                     <div class="checkbox-custom checkbox-info fill">
-                                                        @if (in_array('store', $route->permissions))
+                                                        @if (in_array('store', $route_permissions))
                                                             <input type="checkbox" id="store_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
                                                                 name="store[{{ $route->id_route }}]"
@@ -67,7 +70,7 @@
                                                 </td>
                                                 <td class="text-right">
                                                     <div class="checkbox-custom checkbox-warning fill">
-                                                        @if (in_array('update', $route->permissions))
+                                                        @if (in_array('update', $route_permissions))
                                                             <input type="checkbox" id="update_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
                                                                 name="update[{{ $route->id_route }}]"
@@ -78,7 +81,7 @@
                                                 </td>
                                                 <td class="text-right">
                                                     <div class="checkbox-custom checkbox-danger fill">
-                                                        @if (in_array('destroy', $route->permissions))
+                                                        @if (in_array('destroy', $route_permissions))
                                                             <input type="checkbox" id="destroy_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
                                                                 name="destroy[{{ $route->id_route }}]"
@@ -97,16 +100,17 @@
                 @endforeach
 
                 <x-group right>
-                    <x-button type="update" permission="{{ in_array('update', request('__permissions_page')) }}" />
-                    <x-button type="cancel" route-name="systems-permissions" />
+                    <x-button type="update" disabled="{{ $profile->root }}"
+                        permission="{{ in_array('update', request('__permissions_page')) }}" />
+                    <x-button type="cancel" route-name="profiles-permissions" />
                 </x-group>
             </x-form>
 
         </x-panel>
 
         <x-panel title="Dados" type="warning">
-            @include('systems.components.datatable', [
-                'route' => 'systems-permissions.index',
+            @include('profiles.components.datatable', [
+                'route' => 'profiles-permissions.index',
                 'field' => 'pid',
             ])
         </x-panel>

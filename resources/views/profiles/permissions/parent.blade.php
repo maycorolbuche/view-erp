@@ -6,10 +6,10 @@
 
     <x-content>
         <x-panel title="Dados">
-            @include('systems.components.tabs')
+            @include('profiles.components.tabs')
 
-            @include('systems.components.datatable', [
-                'route' => 'systems-permissions.index',
+            @include('profiles.components.datatable', [
+                'route' => 'profiles-permissions.index',
                 'field' => 'pid',
             ])
         </x-panel>

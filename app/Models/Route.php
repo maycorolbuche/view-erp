@@ -36,4 +36,9 @@ class Route extends Model
     {
         return $this->hasOne(RouteGroup::class, 'id_route_group', 'id_route_group');
     }
+
+    public function permissions()
+    {
+        return $this->hasMany(Permission::class, 'id_route', 'id_route');
+    }
 }
