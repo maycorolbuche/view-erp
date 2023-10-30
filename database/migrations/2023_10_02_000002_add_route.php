@@ -5,6 +5,12 @@ use App\Models\Route;
 
 class AddRoute extends Migration
 {
+    private static $sequenceValue = 0;
+
+    public function sequence()
+    {
+        return ++self::$sequenceValue;
+    }
     /**
      * Run the migrations.
      *
@@ -18,6 +24,7 @@ class AddRoute extends Migration
         $update_resources = ["index", "update-all"];
         $update_permissions = ["update"];
 
+        /* PARAMETRIZAÇÃO */
         Route::create([
             'id_route_group' => 1,
             'label' => 'Sistemas',
@@ -27,7 +34,7 @@ class AddRoute extends Migration
             'resources' => $all_resources,
             'permissions' => $all_permissions,
             'icon' => 'glyphicons glyphicons-show_big_thumbnails',
-            'sequence' => 10,
+            'sequence' => self::sequence(),
             'root' => 1,
         ]);
         Route::create([
@@ -39,33 +46,11 @@ class AddRoute extends Migration
             'resources' => $update_resources,
             'permissions' => $update_permissions,
             'icon' => 'glyphicon glyphicon-th-list',
-            'sequence' => 20,
+            'sequence' => self::sequence(),
             'root' => 1,
         ]);
-        Route::create([
-            'id_route_group' => 2,
-            'label' => 'Perfis',
-            'name' => 'profiles',
-            'uri' => 'profiles',
-            'controller' => 'ProfileController',
-            'resources' => $all_resources,
-            'permissions' => $all_permissions,
-            'icon' => 'fas fa-id-card-alt',
-            'sequence' => 60,
-            'root' => 0,
-        ]);
-        Route::create([
-            'id_route_group' => 2,
-            'label' => 'Acessos Perfis',
-            'name' => 'profiles-permissions',
-            'uri' => 'profiles/{pid}/permissions',
-            'controller' => 'ProfilePermissionController',
-            'resources' => $update_resources,
-            'permissions' => $update_permissions,
-            'icon' => 'glyphicons glyphicons-vcard',
-            'sequence' => 70,
-            'root' => 0,
-        ]);
+
+        /* USUÁRIOS E ACESSOS */
         Route::create([
             'id_route_group' => 2,
             'label' => 'Usuários',
@@ -75,7 +60,19 @@ class AddRoute extends Migration
             'resources' => $update_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-users',
-            'sequence' => 30,
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => 2,
+            'label' => 'Sistemas Usuários',
+            'name' => 'users-systems',
+            'uri' => 'users/{pid}/systems',
+            'controller' => 'UserSystemController',
+            'resources' => $all_resources,
+            'permissions' => $all_resources,
+            'icon' => 'fas fa-user-cog',
+            'sequence' => self::sequence(),
             'root' => 0,
         ]);
         Route::create([
@@ -87,7 +84,7 @@ class AddRoute extends Migration
             'resources' => $all_resources,
             'permissions' => $all_resources,
             'icon' => 'fas fa-address-card',
-            'sequence' => 40,
+            'sequence' => self::sequence(),
             'root' => 0,
         ]);
         Route::create([
@@ -99,9 +96,35 @@ class AddRoute extends Migration
             'resources' => $update_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-user-tag',
-            'sequence' => 50,
+            'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => 2,
+            'label' => 'Perfis',
+            'name' => 'profiles',
+            'uri' => 'profiles',
+            'controller' => 'ProfileController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-id-card-alt',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => 2,
+            'label' => 'Acessos Perfis',
+            'name' => 'profiles-permissions',
+            'uri' => 'profiles/{pid}/permissions',
+            'controller' => 'ProfilePermissionController',
+            'resources' => $update_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'glyphicons glyphicons-vcard',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+
+        /* PESSOAS */
         Route::create([
             'id_route_group' => 3,
             'label' => 'Pessoas',
@@ -111,7 +134,7 @@ class AddRoute extends Migration
             'resources' => $all_resources,
             'permissions' => $all_permissions,
             'icon' => 'fas fa-user-friends',
-            'sequence' => 100,
+            'sequence' => self::sequence(),
             'root' => 0,
         ]);
     }

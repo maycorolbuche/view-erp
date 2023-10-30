@@ -54,7 +54,7 @@
         </ul>
         <div class="sidebar-toggle-mini">
             <a href="javascript:">
-                <span class="fa fa-sign-out"></span>
+                <span class="fa fa-sign-out-alt"></span>
             </a>
         </div>
     </div>

@@ -14,6 +14,18 @@
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
+            'title' => 'Sistemas',
+            'name' => 'users-systems',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
+            'title' => 'Perfis',
+            'name' => 'users-profiles',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
             'title' => 'Permissões',
             'name' => 'users-permissions',
             'resource' => isset($id) ? '.index' : null,
