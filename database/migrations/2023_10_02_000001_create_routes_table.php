@@ -16,7 +16,6 @@ class CreateRoutesTable extends Migration
         Schema::create('routes', function (Blueprint $table) {
             $table->increments('id_route');
             $table->unsignedInteger('id_route_group');
-            $table->unsignedInteger('id_route_parent')->nullable();
             $table->string('label');
             $table->string('name')->unique();
             $table->string('uri')->unique();
@@ -28,7 +27,6 @@ class CreateRoutesTable extends Migration
             $table->boolean('root')->default(0);
 
             $table->foreign('id_route_group')->references('id_route_group')->on('routes_groups')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_route_parent')->references('id_route')->on('routes')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

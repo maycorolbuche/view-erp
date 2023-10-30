@@ -29,6 +29,7 @@ class Input extends Component
         string $id = '',
         string $field = '',
         string $class = '',
+        public string $tip = '',
     ) {
         if ($name == '') {
             $name = $id;

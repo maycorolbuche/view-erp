@@ -11,52 +11,55 @@
         </button>
     @endif
 </div>
-<script>
-    function confirm_btn_{{ $id }}() {
-        @if ($confirm != '')
-            if ($("#{{ $id }}").hasClass("no-confirm")) {
-                actions_btn_{{ $id }}();
-                $("#{{ $id }}").removeClass("no-confirm");
-            } else {
-                $.confirm({
-                    title: '{{ $confirmTitle ?: '' }}',
-                    content: '<span style="font-weight: 600;">{{ $confirm }}</span>',
-                    animation: 'scale',
-                    closeAnimation: 'scale',
-                    opacity: 0.5,
-                    buttons: {
-                        confirm: {
-                            text: 'Sim',
-                            btnClass: 'btn-info',
-                            action: function() {
-                                $("#{{ $id }}").addClass("no-confirm");
-                                $("#{{ $id }}").click();
-                                event.preventDefault();
-                            }
-                        },
-                        cancel: {
-                            text: 'Não',
-                        },
-                    }
-                });
-                event.preventDefault();
-            }
-        @else
-            actions_btn_{{ $id }}();
-        @endif
-    }
 
-    function actions_btn_{{ $id }}() {
-        $("#{{ $id }}").closest('form').find('[name=_action]').val('{{ $value }}');
-        @if ($method != '')
-            $("#{{ $id }}").closest('form').find("[name='_method']").val('{{ $method }}');
-        @endif
-        @if ($route != '')
-            window.location.href = '{{ $route }}';
-            event.preventDefault();
-        @elseif ($novalidate == true)
-            $("#{{ $id }}").closest('form')[0].submit();
-            event.preventDefault();
-        @endif
-    }
-</script>
+@push('scripts')
+    <script>
+        function confirm_btn_{{ $id }}() {
+            @if ($confirm != '')
+                if ($("#{{ $id }}").hasClass("no-confirm")) {
+                    actions_btn_{{ $id }}();
+                    $("#{{ $id }}").removeClass("no-confirm");
+                } else {
+                    $.confirm({
+                        title: '{{ $confirmTitle ?: '' }}',
+                        content: '<span style="font-weight: 600;">{{ $confirm }}</span>',
+                        animation: 'scale',
+                        closeAnimation: 'scale',
+                        opacity: 0.5,
+                        buttons: {
+                            confirm: {
+                                text: 'Sim',
+                                btnClass: 'btn-info',
+                                action: function() {
+                                    $("#{{ $id }}").addClass("no-confirm");
+                                    $("#{{ $id }}").click();
+                                    event.preventDefault();
+                                }
+                            },
+                            cancel: {
+                                text: 'Não',
+                            },
+                        }
+                    });
+                    event.preventDefault();
+                }
+            @else
+                actions_btn_{{ $id }}();
+            @endif
+        }
+
+        function actions_btn_{{ $id }}() {
+            $("#{{ $id }}").closest('form').find('[name=_action]').val('{{ $value }}');
+            @if ($method != '')
+                $("#{{ $id }}").closest('form').find("[name='_method']").val('{{ $method }}');
+            @endif
+            @if ($route != '')
+                window.location.href = '{{ $route }}';
+                event.preventDefault();
+            @elseif ($novalidate == true)
+                $("#{{ $id }}").closest('form')[0].submit();
+                event.preventDefault();
+            @endif
+        }
+    </script>
+@endpush

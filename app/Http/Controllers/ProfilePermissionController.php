@@ -25,7 +25,7 @@ class ProfilePermissionController extends Controller
         $profile = Profile::find($id);
         $routes = RouteGroup::orderBy('sequence')->with(['routes' => function ($query) use ($id_system) {
             $query->select([
-                "id_route", "id_route_group", "id_route_parent", "label", "name", "uri", "controller", "resources", "icon", "sequence", "root"
+                "id_route", "id_route_group", "label", "name", "uri", "controller", "resources", "icon", "sequence", "root"
             ])->with(['permissions' => function ($subquery) use ($id_system) {
                 $subquery->where('id_system', $id_system)->whereNull('id_user')->whereNull('id_profile');
             }])->whereHas('permissions', function ($subquery) use ($id_system) {

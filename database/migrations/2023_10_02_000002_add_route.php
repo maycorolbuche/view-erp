@@ -12,14 +12,13 @@ class AddRoute extends Migration
      */
     public function up()
     {
-        $all_resources = ["index",  "store", "show", "update", "destroy", "datatable"];
+        $all_resources = ["index",  "store", "show", "update", "destroy"];
         $all_permissions = ["store", "update", "destroy"];
 
         $update_resources = ["index", "update-all"];
         $update_permissions = ["update"];
 
         Route::create([
-            'id_route' => 1,
             'id_route_group' => 1,
             'label' => 'Sistemas',
             'name' => 'systems',
@@ -32,8 +31,6 @@ class AddRoute extends Migration
             'root' => 1,
         ]);
         Route::create([
-            'id_route' => 2,
-            'id_route_parent' => 1,
             'id_route_group' => 1,
             'label' => 'Acessos Sistemas',
             'name' => 'systems-permissions',
@@ -46,7 +43,6 @@ class AddRoute extends Migration
             'root' => 1,
         ]);
         Route::create([
-            'id_route' => 3,
             'id_route_group' => 2,
             'label' => 'Perfis',
             'name' => 'profiles',
@@ -59,8 +55,6 @@ class AddRoute extends Migration
             'root' => 0,
         ]);
         Route::create([
-            'id_route' => 4,
-            'id_route_parent' => 3,
             'id_route_group' => 2,
             'label' => 'Acessos Perfis',
             'name' => 'profiles-permissions',
@@ -73,21 +67,18 @@ class AddRoute extends Migration
             'root' => 0,
         ]);
         Route::create([
-            'id_route' => 5,
             'id_route_group' => 2,
             'label' => 'Usuários',
-            'name' => 'users',
-            'uri' => 'users',
-            'controller' => 'UserController',
-            'resources' => $all_resources,
-            'permissions' => $all_permissions,
+            'name' => 'users-access',
+            'uri' => 'users/{pid}/access',
+            'controller' => 'UserAccessController',
+            'resources' => $update_resources,
+            'permissions' => $update_permissions,
             'icon' => 'fas fa-users',
             'sequence' => 30,
             'root' => 0,
         ]);
         Route::create([
-            'id_route' => 6,
-            'id_route_parent' => 5,
             'id_route_group' => 2,
             'label' => 'Perfis Usuários',
             'name' => 'users-profiles',
@@ -100,8 +91,6 @@ class AddRoute extends Migration
             'root' => 0,
         ]);
         Route::create([
-            'id_route' => 7,
-            'id_route_parent' => 5,
             'id_route_group' => 2,
             'label' => 'Acessos Usuários',
             'name' => 'users-permissions',
@@ -111,6 +100,18 @@ class AddRoute extends Migration
             'permissions' => $update_permissions,
             'icon' => 'fas fa-user-tag',
             'sequence' => 50,
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => 3,
+            'label' => 'Pessoas',
+            'name' => 'users',
+            'uri' => 'users',
+            'controller' => 'UserController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-user-friends',
+            'sequence' => 100,
             'root' => 0,
         ]);
     }

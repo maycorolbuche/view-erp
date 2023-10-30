@@ -1,0 +1,18 @@
+@extends('layouts.app')
+@section('title', request('__route')['label'])
+@section('breadcrumb', json_encode([request('__route')]))
+
+@section('content')
+
+    <x-content>
+        <x-panel title="Dados">
+            @include('profiles.components.tabs')
+
+            @include('profiles.components.datatable', [
+                'route' => 'profiles-permissions.index',
+                'field' => 'pid',
+            ])
+        </x-panel>
+    </x-content>
+
+@endsection

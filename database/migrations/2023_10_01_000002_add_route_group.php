@@ -24,6 +24,12 @@ class AddRouteGroup extends Migration
             'label' => 'Usuários e Acessos',
             'sequence' => 20,
         ]);
+        RouteGroup::create([
+            'id_route_group' => 3,
+            'icon' => 'fas fa-user-tie',
+            'label' => 'Pessoas',
+            'sequence' => 30,
+        ]);
     }
 
     /**

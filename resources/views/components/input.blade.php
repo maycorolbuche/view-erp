@@ -26,6 +26,11 @@
                 {{ $readonly ? 'readonly' : '' }}>
         @endif
     </div>
+
+    @if ($tip != '')
+        <span class="help-block mt5">{{ $tip }}</span>
+    @endif
+
     @if ($errors->has($field))
         <em for="{{ $id }}" class="has-error">{{ $errors->first($field) }}</em>
     @endif

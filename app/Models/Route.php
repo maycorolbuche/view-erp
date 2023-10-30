@@ -13,9 +13,7 @@ class Route extends Model
     protected $primaryKey = 'id_route';
 
     protected $fillable = [
-        'id_route',
         'id_route_group',
-        'id_route_parent',
         'label',
         'name',
         'uri',
