@@ -29,4 +29,9 @@ class Permission extends Model
     {
         return $this->hasOne(Route::class, 'id_route', 'id_route');
     }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'id_profile', 'id_profile');
+    }
 }

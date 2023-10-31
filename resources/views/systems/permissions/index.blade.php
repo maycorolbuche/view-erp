@@ -55,7 +55,7 @@
                                                 </td>
 
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-info fill">
+                                                    <div class="checkbox-custom checkbox-info">
                                                         @if (in_array('store', $route->permissions))
                                                             <input type="checkbox" id="store_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
@@ -66,7 +66,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-warning fill">
+                                                    <div class="checkbox-custom checkbox-warning">
                                                         @if (in_array('update', $route->permissions))
                                                             <input type="checkbox" id="update_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
@@ -77,7 +77,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-danger fill">
+                                                    <div class="checkbox-custom checkbox-danger">
                                                         @if (in_array('destroy', $route->permissions))
                                                             <input type="checkbox" id="destroy_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"

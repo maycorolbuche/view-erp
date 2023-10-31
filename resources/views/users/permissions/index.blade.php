@@ -8,19 +8,19 @@
 
         <x-panel title="Formulário" type="primary">
 
-            @include('profiles.components.header', compact('profile'))
+            @include('users.components.header', compact('user'))
 
-            @include('profiles.components.tabs', ['id' => $pid])
+            @include('users.components.tabs', ['id' => $pid])
 
             @include('layouts.partials.messages')
 
-            @if ($profile->root == true)
+            @if ($user->root == true)
                 <blockquote class="blockquote-warning">
                     <p>Este é um perfil do sistema. Não é possível alterar as permissões.</p>
                 </blockquote>
             @endif
 
-            <x-form action-name="profiles-permissions" action="{{ route('profiles-permissions.update', compact('pid')) }}">
+            <x-form action-name="users-permissions" action="{{ route('users-permissions.update', compact('pid')) }}">
                 @foreach ($routes as $group)
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -45,7 +45,8 @@
                                             @endphp
                                             <tr>
                                                 <td class="text-left" style="width:100%">
-                                                    <div class="checkbox-custom">
+                                                    <div
+                                                        class="checkbox-custom {{ isset($permissions_profiles[$route->id_route]) ? 'fill' : '' }}">
                                                         <input type="checkbox" id="route_{{ $route->id_route }}"
                                                             data-id="{{ $route->id_route }}"
                                                             name="route[{{ $route->id_route }}]"
@@ -55,10 +56,32 @@
                                                             &nbsp;{{ $route->label }}
                                                         </label>
                                                     </div>
+                                                    @if (isset($permissions_profiles[$route->id_route]))
+                                                        <div style='padding-left: 35px;'>
+                                                            @foreach ($permissions_profiles[$route->id_route] as $perm)
+                                                                <span class='badge badge-warning small'
+                                                                    style='font-size:9px;'>
+                                                                    {{ $perm['profile']['name'] }}
+                                                                </span>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
                                                 </td>
 
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-info fill">
+                                                    @php
+                                                        $active = false;
+                                                    @endphp
+                                                    @if (isset($permissions_profiles[$route->id_route]))
+                                                        @foreach ($permissions_profiles[$route->id_route] as $perm)
+                                                            @if (in_array('store', $perm['permissions']))
+                                                                @php
+                                                                    $active = true;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                    <div class="checkbox-custom checkbox-info {{ $active ? 'fill' : '' }}">
                                                         @if (in_array('store', $route_permissions))
                                                             <input type="checkbox" id="store_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
@@ -69,7 +92,20 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-warning fill">
+                                                    @php
+                                                        $active = false;
+                                                    @endphp
+                                                    @if (isset($permissions_profiles[$route->id_route]))
+                                                        @foreach ($permissions_profiles[$route->id_route] as $perm)
+                                                            @if (in_array('update', $perm['permissions']))
+                                                                @php
+                                                                    $active = true;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                    <div
+                                                        class="checkbox-custom checkbox-warning {{ $active ? 'fill' : '' }}">
                                                         @if (in_array('update', $route_permissions))
                                                             <input type="checkbox" id="update_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
@@ -80,7 +116,20 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-danger fill">
+                                                    @php
+                                                        $active = false;
+                                                    @endphp
+                                                    @if (isset($permissions_profiles[$route->id_route]))
+                                                        @foreach ($permissions_profiles[$route->id_route] as $perm)
+                                                            @if (in_array('destroy', $perm['permissions']))
+                                                                @php
+                                                                    $active = true;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                    <div
+                                                        class="checkbox-custom checkbox-danger {{ $active ? 'fill' : '' }}">
                                                         @if (in_array('destroy', $route_permissions))
                                                             <input type="checkbox" id="destroy_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
@@ -100,17 +149,17 @@
                 @endforeach
 
                 <x-group right>
-                    <x-button type="update" disabled="{{ $profile->root }}"
+                    <x-button type="update" disabled="{{ $user->root }}"
                         permission="{{ in_array('update', request('__permissions_page')) }}" />
-                    <x-button type="cancel" route-name="profiles-permissions" />
+                    <x-button type="cancel" route-name="users-permissions" />
                 </x-group>
             </x-form>
 
         </x-panel>
 
         <x-panel title="Dados" type="warning">
-            @include('profiles.components.datatable', [
-                'route' => 'profiles-permissions.index',
+            @include('users.components.datatable', [
+                'route' => 'users-permissions.index',
                 'field' => 'pid',
             ])
         </x-panel>
