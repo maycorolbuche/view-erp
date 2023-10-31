@@ -21,7 +21,7 @@
             @endif
 
             <x-form action-name="users-systems" action="{{ route('users-systems.update', compact('pid')) }}">
-                <div class="panel panel-success">
+                <div class="panel panel-danger">
                     <div class="panel-heading">
                         <span class="panel-title">
                             Lista de Sistemas
@@ -33,14 +33,15 @@
                                 <tbody>
                                     @foreach ($systems as $system)
                                         <tr>
-                                            <td class="text-left" style="width:100%">
-                                                <div class="checkbox-custom">
+                                            <td class="text-left {{ $system->root ? 'warning' : '' }}" style="width:100%">
+                                                <div class="checkbox-custom {{ $system->root ? 'checkbox-warning' : '' }}">
                                                     <input type="checkbox" id="system_{{ $system->id_system }}"
                                                         name="system[{{ $system->id_system }}]"
                                                         {{ isset($users_systems[$system->id_system]) ? 'checked' : '' }}>
                                                     <label for="system_{{ $system->id_system }}">
                                                         <i class="{{ $system->icon }}"></i>
                                                         &nbsp;{{ $system->name }}
+                                                        &nbsp;<span class='badge badge-info'>/{{ $system->slug }}</span>
                                                     </label>
                                                 </div>
                                             </td>

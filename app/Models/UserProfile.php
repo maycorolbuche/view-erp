@@ -12,4 +12,9 @@ class UserProfile extends Model
 
     protected $table = 'users_profiles';
     protected $primaryKey = 'id_user_profile';
+
+    protected $fillable = [
+        'id_user',
+        'id_profile',
+    ];
 }

@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\System;
+use App\Models\Profile;
+use App\Models\UserProfile;
 use App\Models\UserSystem;
 use Illuminate\Http\Request;
 use App\Helpers\Root;
 
-class UserSystemController extends Controller
+class UserProfileController extends Controller
 {
     public function parent()
     {
-        return view('users.systems.parent');
+        return view('users.profiles.parent');
     }
 
     /**
@@ -23,15 +24,18 @@ class UserSystemController extends Controller
     public function index($id)
     {
         $pid = $id;
+        $id_system = request('__id_system');
+
         try {
             $user = User::find($id);
             if ($user) {
-                $systems = System::orderBy('name')->get();
-                $users_systems = UserSystem::where('id_user', $id)->get()->keyBy('id_system');
+                $profiles = Profile::where('id_system', $id_system)->orderBy('name')->get();
+                $users_profiles = UserProfile::where('id_user', $id)->get()->keyBy('id_profile');
+                $has_access = UserSystem::where('id_system', $id_system)->where('id_user', $id)->exists();
 
-                return view('users.systems.index', compact('pid', 'user', 'systems', 'users_systems'));
+                return view('users.profiles.index', compact('pid', 'user', 'profiles', 'users_profiles', 'has_access'));
             } else {
-                return redirect()->route('users-systems')->with('error', 'Registro não encontrado!');
+                return redirect()->route('users-profiles')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -56,19 +60,19 @@ class UserSystemController extends Controller
             if ($user) {
 
                 if ($user->root) {
-                    return redirect()->back()->with('error', 'Não é possível alterar os sistemas do usuário raiz!');
+                    return redirect()->back()->with('error', 'Não é possível alterar os perfis do usuário raiz!');
                 } else {
-                    UserSystem::where('id_user', $id)->delete();
-                    if (isset($request->system)) {
-                        foreach (array_keys($request->system) as $id_system) {
-                            UserSystem::create(['id_user' => $id, 'id_system' => $id_system]);
+                    UserProfile::where('id_user', $id)->delete();
+                    if (isset($request->profile)) {
+                        foreach (array_keys($request->profile) as $id_profile) {
+                            UserProfile::create(['id_user' => $id, 'id_profile' => $id_profile]);
                         }
                     }
                 }
                 Root::run();
-                return redirect()->route('users-systems.index', ['pid' => $id])->with('success', 'Registro salvo com sucesso');
+                return redirect()->route('users-profiles.index', ['pid' => $id])->with('success', 'Registro salvo com sucesso');
             } else {
-                return redirect()->route('users-systems')->with('error', 'Registro não encontrado!');
+                return redirect()->route('users-profiles')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
