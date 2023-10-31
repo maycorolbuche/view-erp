@@ -42,7 +42,8 @@
                                         @foreach ($group->routes as $route)
                                             <tr>
                                                 <td class="text-left" style="width:100%">
-                                                    <div class="checkbox-custom">
+                                                    <div
+                                                        class="checkbox-custom {{ $system->root && $route->root ? 'fill' : '' }}">
                                                         <input type="checkbox" id="route_{{ $route->id_route }}"
                                                             data-id="{{ $route->id_route }}"
                                                             name="route[{{ $route->id_route }}]"
@@ -55,7 +56,8 @@
                                                 </td>
 
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-info">
+                                                    <div
+                                                        class="checkbox-custom checkbox-info {{ $system->root && $route->root ? 'fill' : '' }}">
                                                         @if (in_array('store', $route->permissions))
                                                             <input type="checkbox" id="store_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
@@ -66,7 +68,8 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-warning">
+                                                    <div
+                                                        class="checkbox-custom checkbox-warning {{ $system->root && $route->root ? 'fill' : '' }}">
                                                         @if (in_array('update', $route->permissions))
                                                             <input type="checkbox" id="update_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
@@ -77,7 +80,8 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right">
-                                                    <div class="checkbox-custom checkbox-danger">
+                                                    <div
+                                                        class="checkbox-custom checkbox-danger {{ $system->root && $route->root ? 'fill' : '' }}">
                                                         @if (in_array('destroy', $route->permissions))
                                                             <input type="checkbox" id="destroy_{{ $route->id_route }}"
                                                                 data-id="{{ $route->id_route }}"
