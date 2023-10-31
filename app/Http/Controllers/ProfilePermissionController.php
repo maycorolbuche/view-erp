@@ -23,6 +23,10 @@ class ProfilePermissionController extends Controller
     {
         $id_system = request('__id_system');
         $profile = Profile::find($id);
+        if (!$profile) {
+            return redirect()->route('profiles-permissions')->with('error', 'Registro não encontrado!');
+        }
+
         $routes = RouteGroup::orderBy('sequence')->with(['routes' => function ($query) use ($id_system) {
             $query->select([
                 "id_route", "id_route_group", "label", "name", "uri", "controller", "resources", "icon", "sequence", "root"

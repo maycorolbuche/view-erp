@@ -8,6 +8,8 @@
         <x-panel title="Dados">
             @include('users.components.tabs')
 
+            @include('layouts.partials.messages')
+
             @include('users.components.datatable', [
                 'route' => 'users-access.index',
                 'field' => 'pid',

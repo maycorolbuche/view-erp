@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
-use App\Helpers\Root;
+use App\Http\Requests\UserAccessRequest;
 
 class UserAccessController extends Controller
 {
@@ -41,7 +39,7 @@ class UserAccessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserAccessRequest $request, $id)
     {
         if (!in_array('update', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
@@ -57,7 +55,6 @@ class UserAccessController extends Controller
             $user = User::find($id);
             if ($user) {
                 $user->update($request->all());
-                Root::run();
                 return redirect()->route('users-access.index', ['pid' => $id, 'user' => $user])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('users-access')->with('error', 'Registro não encontrado!');

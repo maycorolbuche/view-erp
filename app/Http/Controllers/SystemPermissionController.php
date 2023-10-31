@@ -22,10 +22,14 @@ class SystemPermissionController extends Controller
     public function index($id)
     {
         $system = System::find($id);
+        if (!$system) {
+            return redirect()->route('profiles-permissions')->with('error', 'Registro não encontrado!');
+        }
+
         $routes = RouteGroup::orderBy('sequence')->with(['routes' => function ($query) {
             $query->orderBy('sequence');
         }])->get();
-        $permissions = Permission::where('id_system', $id)->whereNull('id_user')->whereNull('id_profile')->get()->keyBy('id_route');;
+        $permissions = Permission::where('id_system', $id)->whereNull('id_user')->whereNull('id_profile')->get()->keyBy('id_route');
 
         $pid = $id;
 

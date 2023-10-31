@@ -8,6 +8,8 @@
         <x-panel title="Dados">
             @include('systems.components.tabs')
 
+            @include('layouts.partials.messages')
+
             @include('systems.components.datatable', [
                 'route' => 'systems-permissions.index',
                 'field' => 'pid',
