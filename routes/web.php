@@ -22,7 +22,10 @@ Route::get('/home', function () {
 
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
+    Route::get('/install', 'Data\InstallController@install')->name('install');
+
     Route::group(['middleware' => ['guest']], function () {
+
         Route::get('/login', 'Auth\LoginController@index')->name('login');
         Route::post('/login', 'Auth\LoginController@login')->name('login.auth');
 
@@ -60,7 +63,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                             foreach ($routes as $route) {
 
                                 //if (in_array("datatable", $route->resources)) {
-                                    Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
+                                Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
                                 //}
                                 if (in_array("index", $route->resources)) {
                                     if (strpos($route->uri, "/{pid}/") !== false) {
