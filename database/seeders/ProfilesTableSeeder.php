@@ -6,9 +6,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\QueryException;
 use App\Models\Profile;
-use App\Models\EmploymentType;
 use App\Models\System;
-use App\Models\Branch;
 
 class ProfilesTableSeeder extends Seeder
 {

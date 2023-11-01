@@ -184,8 +184,8 @@
             filterPlaceholder: "Localizar",
             nonSelectedText: "Não selecionado",
             nSelectedText: "selecionado",
-            allSelectedText: "Selecionar Todos",
-            selectAllText: " Selecionar Todos",
+            allSelectedText: "Todos Selecionados",
+            selectAllText: "Selecionar Todos",
             enableCaseInsensitiveFiltering: true,
 
         });
@@ -324,7 +324,30 @@
 
 
         // Init jQuery masked inputs
-        $('.slug').mask('a?aaaaaaaaaaaaaaaa');
+        $('.slug').mask('a?aaaaaaaaaaaaaaaa', {
+            placeholder: ' '
+        });
+        //$('.cpf_cnpj').mask('9?99.999.999-999');
+        $('.cpf_cnpj').keyup(function() {
+            $(this).val($(this).val().replace(/\D/g, ''));
+            let len = $(this).val().replace(/\D/g, '').length;
+            if (len >= 12) {
+                $(this).unmask();
+                $('.cpf_cnpj').mask('9?9.999.999/9999-99', {
+                    placeholder: ' '
+                });
+            } else if (len >= 3) {
+                $(this).unmask();
+                $('.cpf_cnpj').mask('9?99.999.999-999', {
+                    placeholder: ' '
+                });
+            } else {
+                $(this).unmask();
+            }
+        });
+        $('.pis').mask('9?99.99999.99-9', {
+            placeholder: ' '
+        });
         /*
         $('.date').mask('99/99/9999');
         $('.time').mask('99:99:99');
@@ -340,6 +363,10 @@
         $(".eyescript").mask("~9.99 ~9.99 999");
         $(".custom").mask("9.99.999.9999");
         */
+
+        $('.numeric').on('input', function() {
+            $(this).val($(this).val().replace(/\D/g, ''));
+        });
 
     });
 

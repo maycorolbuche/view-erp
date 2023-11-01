@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\System;
+use App\Models\EmploymentType;
+use App\Models\CivilStatus;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Str;
 use DataTables;
 
 class UserController extends Controller
@@ -16,7 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        $employment_types = EmploymentType::all();
+        $civil_statuses = CivilStatus::all();
+        return view('users.index', compact('employment_types', 'civil_statuses'));
     }
 
     /**
@@ -34,7 +39,13 @@ class UserController extends Controller
         unset($request["root"]);
 
         if (!$request->username) {
-            $request->merge(['username' => explode("@", $request->email)[0]]);
+            $username = explode("@", $request->email)[0];
+            $user = User::where('username', $username)->get();
+            while (count($user->toArray()) > 0) {
+                $username = explode("@", $request->email)[0] . Str::random(8);;
+                $user = User::where('username', $username)->get();
+            }
+            $request->merge(['username' => $username]);
         }
 
 
@@ -54,9 +65,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $data = User::find($id);
+        $data = User::with('employment_type')->find($id);
         if ($data) {
-            return view('users.index', compact("data"));
+            $employment_types = EmploymentType::all();
+            $civil_statuses = CivilStatus::all();
+
+            return view('users.index', compact('data', 'employment_types', 'civil_statuses'));
         } else {
             return redirect()->route('users')->with('error', 'Registro não encontrado!');
         }

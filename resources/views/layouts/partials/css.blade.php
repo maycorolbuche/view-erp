@@ -74,6 +74,7 @@
     select+.btn-group,
     select+.btn-group button {
         width: 100%;
+        background: #FFF;
     }
 
     select+.btn-group button.dropdown-toggle {

@@ -15,5 +15,9 @@
             'title' => 'Nome',
             'data' => 'name',
         ],
+        [
+            'title' => 'E-mail',
+            'data' => 'email',
+        ],
     ]) }}"
     created-row="if (data['root'] == 1) { $('td', row).addClass('warning'); }" />

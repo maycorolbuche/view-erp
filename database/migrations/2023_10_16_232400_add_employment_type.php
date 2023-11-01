@@ -21,6 +21,9 @@ class AddEmploymentType extends Migration
         EmploymentType::create([
             'description' => 'Sócio',
         ]);
+        EmploymentType::create([
+            'description' => 'Externo',
+        ]);
     }
 
     /**

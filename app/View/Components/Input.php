@@ -30,6 +30,9 @@ class Input extends Component
         string $field = '',
         string $class = '',
         public string $tip = '',
+        public string $list = '[]',
+        public string $listValue = '',
+        public string $listText = '',
     ) {
         if ($name == '') {
             $name = $id;
@@ -46,6 +49,15 @@ class Input extends Component
         if ($type == 'slug') {
             $type = 'text';
             $class .= ' slug ';
+        } elseif ($type == 'cpf_cnpj') {
+            $type = 'text';
+            $class .= ' cpf_cnpj numeric ';
+        } elseif ($type == 'numeric') {
+            $type = 'text';
+            $class .= ' numeric ';
+        } elseif ($type == 'pis') {
+            $type = 'text';
+            $class .= ' pis numeric ';
         }
 
         $this->id = $id;

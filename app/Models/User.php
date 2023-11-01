@@ -124,4 +124,9 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasMany(Permission::class, 'id_user', 'id_user');
     }
+
+    public function employment_type()
+    {
+        return $this->hasOne(EmploymentType::class, 'id_employment_type', 'id_employment_type');
+    }
 }
