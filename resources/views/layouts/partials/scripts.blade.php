@@ -348,6 +348,9 @@
         $('.pis').mask('9?99.99999.99-9', {
             placeholder: ' '
         });
+        $('.zip_code').mask('99999-999', {
+            placeholder: ' '
+        });
         /*
         $('.date').mask('99/99/9999');
         $('.time').mask('99:99:99');

@@ -26,7 +26,7 @@ class AddRouteGroup extends Migration
         ]);
         RouteGroup::create([
             'id_route_group' => 3,
-            'icon' => 'fas fa-user-tie',
+            'icon' => 'fas fa-user-friends',
             'label' => 'Pessoas',
             'sequence' => 30,
         ]);

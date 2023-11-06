@@ -8,6 +8,12 @@
             'params' => isset($id) ? ['id' => $id] : null,
         ],
         [
+            'title' => 'Endereço',
+            'name' => 'users-address',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
             'title' => 'Usuário',
             'name' => 'users-access',
             'resource' => isset($id) ? '.index' : null,

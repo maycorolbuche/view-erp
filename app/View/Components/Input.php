@@ -58,6 +58,9 @@ class Input extends Component
         } elseif ($type == 'pis') {
             $type = 'text';
             $class .= ' pis numeric ';
+        } elseif ($type == 'zip_code') {
+            $type = 'text';
+            $class .= ' zip_code numeric ';
         }
 
         $this->id = $id;

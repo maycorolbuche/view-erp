@@ -13,8 +13,10 @@ class Group extends Component
      *
      * @return void
      */
-    public function __construct(string $right = 'false',)
-    {
+    public function __construct(
+        string $right = 'false',
+        public string $title = '',
+    ) {
         $this->right = $right && $right != "false";
     }
 

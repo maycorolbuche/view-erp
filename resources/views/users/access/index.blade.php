@@ -46,25 +46,4 @@
         </x-panel>
     </x-content>
 
-    @push('scripts')
-        <script>
-            $(document).ready(function() {
-                $("[name^='route']").change(function() {
-                    let id = $(this).data("id");
-                    let checked = $(this).is(":checked");
-
-                    $(`[name='store[${id}]'`).prop('checked', checked);
-                    $(`[name='update[${id}]'`).prop('checked', checked);
-                    $(`[name='destroy[${id}]'`).prop('checked', checked);
-                });
-                $("[name^='store'],[name^='update'],[name^='destroy']").change(function() {
-                    if ($(this).is(":checked")) {
-                        let id = $(this).data("id");
-
-                        $(`[name='route[${id}]'`).prop('checked', true);
-                    }
-                });
-            });
-        </script>
-    @endpush
 @endsection

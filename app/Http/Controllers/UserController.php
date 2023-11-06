@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\System;
 use App\Models\EmploymentType;
 use App\Models\CivilStatus;
+use App\Models\Branch;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Str;
 use DataTables;
@@ -21,7 +22,8 @@ class UserController extends Controller
     {
         $employment_types = EmploymentType::all();
         $civil_statuses = CivilStatus::all();
-        return view('users.index', compact('employment_types', 'civil_statuses'));
+        $branches = Branch::all();
+        return view('users.index', compact('employment_types', 'civil_statuses', 'branches'));
     }
 
     /**
@@ -69,8 +71,9 @@ class UserController extends Controller
         if ($data) {
             $employment_types = EmploymentType::all();
             $civil_statuses = CivilStatus::all();
+            $branches = Branch::all();
 
-            return view('users.index', compact('data', 'employment_types', 'civil_statuses'));
+            return view('users.index', compact('data', 'employment_types', 'civil_statuses', 'branches'));
         } else {
             return redirect()->route('users')->with('error', 'Registro não encontrado!');
         }
