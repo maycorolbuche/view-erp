@@ -9,4 +9,9 @@
             </small>
         @endif
     </h1>
+    @if ($user->root == true)
+        <blockquote class="blockquote-warning">
+            <p>Este é um perfil do sistema.</p>
+        </blockquote>
+    @endif
 @endif

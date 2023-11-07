@@ -177,6 +177,18 @@ class AddRoute extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Admissão/Sociedade',
+            'name' => 'users-admission',
+            'uri' => 'users/{pid}/admission',
+            'controller' => 'UserAdmissionController',
+            'resources' => $update_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'fas fa-id-card-alt',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**

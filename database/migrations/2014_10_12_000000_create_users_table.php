@@ -36,6 +36,9 @@ class CreateUsersTable extends Migration
             $table->string('district')->nullable();
             $table->string('city')->nullable();
             $table->string('state', 2)->nullable();
+            $table->date('hire_date')->nullable();
+            $table->date('termination_date')->nullable();
+            $table->text('admission_notes')->nullable();
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

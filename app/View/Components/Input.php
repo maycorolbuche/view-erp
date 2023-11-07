@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class Input extends Component
 {
     public $value;
-    public string $name, $id, $field, $type, $class;
+    public string $name, $id, $field, $type, $class, $rows;
     public bool $required, $disabled, $readonly, $hidden;
 
     /**
@@ -34,6 +34,7 @@ class Input extends Component
         public string $list = '[]',
         public string $listValue = '',
         public string $listText = '',
+        string $rows = '',
     ) {
         if ($name == '') {
             $name = $id;
@@ -74,6 +75,7 @@ class Input extends Component
         $this->type = $type;
         $this->class = $class;
         $this->value = $value;
+        $this->rows = $rows ?: 5;
 
         $this->required = $required && $required != "false";
         $this->disabled = $disabled && $disabled != "false";

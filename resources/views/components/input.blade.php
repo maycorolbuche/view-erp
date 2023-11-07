@@ -124,6 +124,18 @@
             @endpush
 
             <!-- -->
+        @elseif ($type == 'textarea')
+            <!-- -->
+            <span class="append-icon right error-icon">
+                <i class="fa fa-remove"></i>
+            </span>
+            <span class="append-icon right success-icon">
+                <i class="fa fa-check"></i>
+            </span>
+            <textarea id="{{ $id }}" name="{{ $name }}" class="form-control {{ $class }}"
+                rows="{{ $rows }}" placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }}
+                {{ $disabled ? 'disabled' : '' }} {{ $readonly ? 'readonly' : '' }}>{{ old($field) ?: $value }}</textarea>
+            <!-- -->
         @else
             <!-- -->
             <span class="append-icon right error-icon">

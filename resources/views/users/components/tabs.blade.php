@@ -31,6 +31,12 @@
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
+            'title' => 'Admissão/Sociedade',
+            'name' => 'users-admission',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
             'title' => 'Usuário' . " <span class='badge badge-hero' style='padding: 0;background: initial;'><i class='fa fa-circle text-" . ($active ? 'info' : 'muted') . " fs12 pr5'></i></span>",
             'name' => 'users-access',
             'resource' => isset($id) ? '.index' : null,

@@ -14,12 +14,6 @@
 
             @include('layouts.partials.messages')
 
-            @if ($user->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este é um perfil do sistema.</p>
-                </blockquote>
-            @endif
-
             <x-form action-name="users-address" action="{{ route('users-address.update', compact('pid')) }}">
                 <x-group>
                     <x-input type="zip_code" name="zip_code" width="150" label="CEP" value="{{ $user->zip_code ?? '' }}" />

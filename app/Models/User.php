@@ -53,6 +53,9 @@ class User extends Authenticatable implements CanResetPassword
         'city',
         'state',
         'id_branch',
+        'hire_date',
+        'termination_date',
+        'admission_notes'
     ];
 
 
