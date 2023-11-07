@@ -153,6 +153,30 @@ class AddRoute extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Equipe',
+            'name' => 'users-teams',
+            'uri' => 'users/{pid}/teams',
+            'controller' => 'UserTeamController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-users',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Dependentes',
+            'name' => 'users-dependents',
+            'uri' => 'users/{pid}/dependents',
+            'controller' => 'UserDependentController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-child',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**

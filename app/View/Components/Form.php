@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class Form extends Component
 {
-    public $action, $actionName, $actionId, $method;
+    public $action, $actionName, $actionId, $actionPid, $method;
 
     /**
      * Create a new component instance.
@@ -18,15 +18,24 @@ class Form extends Component
         string $action = '',
         string $actionName = '',
         string $actionId = '',
+        string $actionPid = '',
     ) {
         if ($action) {
             $this->action = $action ?: url()->full();
         } elseif ($actionName) {
             if ($actionId) {
                 $method = 'put';
-                $this->action = route($actionName . '.update', ['id' => $actionId]);
+                $params = ['id' => $actionId];
+                if ($actionPid) {
+                    $params['pid'] = $actionPid;
+                }
+                $this->action = route($actionName . '.update', $params);
             } else {
-                $this->action = route($actionName . '.store');
+                $params = [];
+                if ($actionPid) {
+                    $params['pid'] = $actionPid;
+                }
+                $this->action = route($actionName . '.store', $params);
             }
         } else {
             $this->action = $action ?: url()->full();

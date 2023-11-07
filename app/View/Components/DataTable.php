@@ -22,9 +22,14 @@ class DataTable extends Component
         string $orderDir = '',
         string $id = '',
         string $dataOrigin = '',
+        string $pid = '',
     ) {
         if ($dataOrigin) {
-            $this->dataOrigin = route($dataOrigin);
+            if ($pid <> "") {
+                $this->dataOrigin = route($dataOrigin, compact('pid'));
+            } else {
+                $this->dataOrigin = route($dataOrigin);
+            }
         }
 
         $this->id = $id ?: Str::random(8);

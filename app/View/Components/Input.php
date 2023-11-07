@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class Input extends Component
 {
+    public $value;
     public string $name, $id, $field, $type, $class;
     public bool $required, $disabled, $readonly, $hidden;
 
@@ -16,7 +17,7 @@ class Input extends Component
      * @return void
      */
     public function __construct(
-        public $value = '',
+        $value = '',
         public int $width = 400,
         public string $label = '',
         string $type = '',
@@ -61,6 +62,10 @@ class Input extends Component
         } elseif ($type == 'zip_code') {
             $type = 'text';
             $class .= ' zip_code numeric ';
+        } elseif ($type == 'date') {
+            if ($value <> "") {
+                $value = date("Y-m-d", strtotime($value));
+            }
         }
 
         $this->id = $id;
@@ -68,6 +73,7 @@ class Input extends Component
         $this->field = $field ?: $name;
         $this->type = $type;
         $this->class = $class;
+        $this->value = $value;
 
         $this->required = $required && $required != "false";
         $this->disabled = $disabled && $disabled != "false";

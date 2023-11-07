@@ -1,4 +1,8 @@
 @php
+    $dependents_count = $user->dependents_count ?? ($data->dependents_count ?? 0);
+    $parents_count = $user->parents_count ?? ($data->parents_count ?? 0);
+    $childs_count = $user->childs_count ?? ($data->childs_count ?? 0);
+
     $current_route = explode('.', Route::currentRouteName() ?? '')[0];
     $tabs = [
         [
@@ -10,6 +14,18 @@
         [
             'title' => 'Endereço',
             'name' => 'users-address',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
+            'title' => 'Equipe' . ($parents_count > 0 ? " <span class='badge badge-danger'>$parents_count</span>" : '') . ($childs_count > 0 ? " <span class='badge badge-warning'>$childs_count</span>" : ''),
+            'name' => 'users-teams',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
+            'title' => 'Dependentes' . ($dependents_count > 0 ? " <span class='badge badge-info'>$dependents_count</span>" : ''),
+            'name' => 'users-dependents',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
@@ -39,12 +55,13 @@
         ],
     ];
 @endphp
+
 <x-tabs>
     @foreach ($tabs as $tab)
         @if (isset(request('__permissions_list')[$tab['name']]))
             <li class="{{ $current_route == $tab['name'] ? 'active' : '' }}">
                 <a href="{{ route($tab['name'] . ($tab['resource'] ?? ''), $tab['params'] ?? null) }}">
-                    {{ $tab['title'] }}
+                    {!! $tab['title'] !!}
                 </a>
             </li>
         @endif

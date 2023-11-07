@@ -129,4 +129,46 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasOne(EmploymentType::class, 'id_employment_type', 'id_employment_type');
     }
+
+    public function users_dependents()
+    {
+        return $this->hasMany(UserDependent::class, 'id_user', 'id_user');
+    }
+
+    public function users_parent()
+    {
+        return $this->hasOne(UserTeam::class, 'id_user_child', 'id_user');
+    }
+
+    public function users_child()
+    {
+        return $this->hasOne(UserTeam::class, 'id_user_parent', 'id_user');
+    }
+
+    public function getDependentsCountAttribute()
+    {
+        if ($this->relationLoaded('users_dependents')) {
+            return $this->users_dependents->count();
+        }
+
+        return $this->users_dependents()->count();
+    }
+
+    public function getParentsCountAttribute()
+    {
+        if ($this->relationLoaded('users_parent')) {
+            return $this->users_parent->count();
+        }
+
+        return $this->users_parent()->count();
+    }
+
+    public function getChildsCountAttribute()
+    {
+        if ($this->relationLoaded('users_child')) {
+            return $this->users_child->count();
+        }
+
+        return $this->users_child()->count();
+    }
 }

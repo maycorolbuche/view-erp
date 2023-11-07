@@ -13,12 +13,6 @@
 
             @include('layouts.partials.messages')
 
-            @if (isset($data) && $data->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este usuário não pode ser apagado, pois é um usuário do sistema.</p>
-                </blockquote>
-            @endif
-
             <x-form action-name="users" action-id="{{ isset($data) ? $data->id_user : null }}">
                 <x-group title="Dados Pessoais">
                     <x-input name="name" width="400" label="Nome" required value="{{ $data->name ?? '' }}" />

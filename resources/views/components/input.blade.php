@@ -66,6 +66,55 @@
                 </script>
             @endpush
             <!-- -->
+        @elseif ($type == 'radio')
+            <!-- -->
+            <div style="position: relative;display: flex;height: 100%;align-items: center;padding-top: 10px;">
+                @foreach (json_decode(html_entity_decode($list), true) as $key => $item)
+                    <div class="radio-custom">
+                        <input type="radio" id="{{ $id }}_{{ $item[$listValue] }}"
+                            name="{{ $name }}" value="{{ $item[$listValue] }}"
+                            {{ (old($field) ?: $value) == $item[$listValue] ? 'checked' : '' }}>
+                        <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
+                    </div>
+                @endforeach
+            </div>
+            <!-- -->
+        @elseif ($type == 'checkbox')
+            <!-- -->
+            <div style="position: relative;display: flex;height: 100%;align-items: center;padding-top: 10px;">
+                @php
+                    $v = [];
+                    $jsonData = json_decode(html_entity_decode($value));
+                    if ($jsonData !== null) {
+                        $v = $jsonData;
+                    } else {
+                        $v[] = $value;
+                    }
+                    $value = $v;
+                @endphp
+                @foreach (json_decode(html_entity_decode($list), true) as $key => $item)
+                    <div class="checkbox-custom">
+                        <input type="checkbox" id="{{ $id }}_{{ $item[$listValue] }}"
+                            name="{{ $name }}[{{ $item[$listValue] }}]" value="{{ $item[$listValue] }}"
+                            {{ in_array($item[$listValue], is_array(old($field)) ? old($field) : $value) ? 'checked' : '' }}>
+                        <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
+                    </div>
+                @endforeach
+            </div>
+            <!-- -->
+        @elseif ($type == 'radio')
+            <!-- -->
+            <div style="position: relative;display: flex;height: 100%;align-items: center;padding-top: 10px;">
+                @foreach (json_decode(html_entity_decode($list), true) as $key => $item)
+                    <div class="radio-custom">
+                        <input type="radio" id="{{ $id }}_{{ $item[$listValue] }}"
+                            name="{{ $name }}" value="{{ $item[$listValue] }}"
+                            {{ (old($field) ?: $value) == $item[$listValue] ? 'checked' : '' }}>
+                        <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
+                    </div>
+                @endforeach
+            </div>
+            <!-- -->
         @else
             <!-- -->
             <span class="append-icon right error-icon">
