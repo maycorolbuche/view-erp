@@ -2,6 +2,7 @@
     $dependents_count = $user->dependents_count ?? ($data->dependents_count ?? 0);
     $parents_count = $user->parents_count ?? ($data->parents_count ?? 0);
     $childs_count = $user->childs_count ?? ($data->childs_count ?? 0);
+    $active = $user->active ?? ($data->active ?? 0);
 
     $current_route = explode('.', Route::currentRouteName() ?? '')[0];
     $tabs = [
@@ -18,19 +19,19 @@
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
-            'title' => 'Equipe' . ($parents_count > 0 ? " <span class='badge badge-danger'>$parents_count</span>" : '') . ($childs_count > 0 ? " <span class='badge badge-warning'>$childs_count</span>" : ''),
+            'title' => 'Equipe' . ($parents_count > 0 ? " <span class='badge badge-hero badge-danger'>$parents_count</span>" : '') . ($childs_count > 0 ? " <span class='badge badge-hero badge-warning'>$childs_count</span>" : ''),
             'name' => 'users-teams',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
-            'title' => 'Dependentes' . ($dependents_count > 0 ? " <span class='badge badge-info'>$dependents_count</span>" : ''),
+            'title' => 'Dependentes' . ($dependents_count > 0 ? " <span class='badge badge-hero badge-info'>$dependents_count</span>" : ''),
             'name' => 'users-dependents',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
-            'title' => 'Usuário',
+            'title' => 'Usuário' . " <span class='badge badge-hero' style='padding: 0;background: initial;'><i class='fa fa-circle text-" . ($active ? 'info' : 'muted') . " fs12 pr5'></i></span>",
             'name' => 'users-access',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,

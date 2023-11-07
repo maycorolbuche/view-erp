@@ -16,7 +16,7 @@
 
             @if ($user->root == true)
                 <blockquote class="blockquote-warning">
-                    <p>Este é um perfil do sistema.</p>
+                    <p>Este é um usuário do sistema. Ele não pode ser desativado!</p>
                 </blockquote>
             @endif
 
@@ -28,6 +28,8 @@
                         value="{{ $user->username ?? '' }}" />
                     <x-input type="text" name="password" width="200" label="Senha"
                         tip="Deixe em branco para não alterar." />
+                    <x-input type="bool" name="active" width="100" label="Usuário Ativo"
+                        value="{{ $user->active ?? '' }}" />
                 </x-group>
 
                 <x-group right>

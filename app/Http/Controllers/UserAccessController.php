@@ -54,6 +54,10 @@ class UserAccessController extends Controller
         try {
             $user = User::find($id);
             if ($user) {
+                if ($user->root == true) {
+                    unset($request["active"]);
+                }
+
                 $user->update($request->all());
                 return redirect()->route('users-access.index', ['pid' => $id, 'user' => $user])->with('success', 'Registro salvo com sucesso');
             } else {

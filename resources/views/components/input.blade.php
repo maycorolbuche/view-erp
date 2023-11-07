@@ -102,18 +102,27 @@
                 @endforeach
             </div>
             <!-- -->
-        @elseif ($type == 'radio')
+        @elseif ($type == 'bool' || $type == 'boolean')
             <!-- -->
-            <div style="position: relative;display: flex;height: 100%;align-items: center;padding-top: 10px;">
-                @foreach (json_decode(html_entity_decode($list), true) as $key => $item)
-                    <div class="radio-custom">
-                        <input type="radio" id="{{ $id }}_{{ $item[$listValue] }}"
-                            name="{{ $name }}" value="{{ $item[$listValue] }}"
-                            {{ (old($field) ?: $value) == $item[$listValue] ? 'checked' : '' }}>
-                        <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
-                    </div>
-                @endforeach
+            <input type="hidden" id="{{ $id }}" name="{{ $name }}"
+                value="{{ old($field) ?: $value }}">
+
+            <div class="switch switch-info round switch-inline" style="margin-top: 8px;">
+                <input id="{{ $id }}_switch" name="{{ $name }}_switch" type="checkbox"
+                    value="1" {{ (old($field) ?: $value) == true ? 'checked' : '' }}>
+                <label for="{{ $id }}_switch"></label>
             </div>
+
+            @push('scripts')
+                <script>
+                    $(document).ready(function() {
+                        $("#{{ $id }}_switch").change(function() {
+                            $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
+                        });
+                    });
+                </script>
+            @endpush
+
             <!-- -->
         @else
             <!-- -->
