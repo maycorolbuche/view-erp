@@ -11,7 +11,7 @@
     </h1>
     @if ($user->root == true)
         <blockquote class="blockquote-warning">
-            <p>Este é um perfil do sistema.</p>
+            <p>Este é um usuário do sistema.</p>
         </blockquote>
     @endif
 @endif
