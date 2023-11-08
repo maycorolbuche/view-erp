@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\System;
 
-use App\Models\Profile;
-use App\Http\Requests\ProfileRequest;
+use App\Http\Controllers\Controller;
+use App\Models\System;
+use App\Http\Requests\SystemRequest;
 use App\Helpers\Root;
 use DataTables;
 
-class ProfileController extends Controller
+class SystemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('profiles.index');
+        return view('systems.index');
     }
 
     /**
@@ -25,19 +26,18 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProfileRequest $request)
+    public function store(SystemRequest $request)
     {
         if (!in_array('store', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
         unset($request["root"]);
-        $request->merge(['id_system' => request('__id_system')]);
 
         try {
-            $profile = Profile::create($request->all());
+            $system = System::create($request->all());
             Root::run();
-            return redirect()->route('profiles.show', ['id' => $profile->id_profile])->with('success', 'Registro cadastrado com sucesso');
+            return redirect()->route('systems.show', ['id' => $system->id_system])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
@@ -51,11 +51,11 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $data = Profile::find($id);
+        $data = System::find($id);
         if ($data) {
-            return view('profiles.index', compact("data"));
+            return view('systems.index', compact("data"));
         } else {
-            return redirect()->route('profiles')->with('error', 'Registro não encontrado!');
+            return redirect()->route('systems')->with('error', 'Registro não encontrado!');
         }
     }
 
@@ -66,7 +66,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProfileRequest $request, $id)
+    public function update(SystemRequest $request, $id)
     {
         if (!in_array('update', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
@@ -76,19 +76,19 @@ class ProfileController extends Controller
 
         if ($request->_action == "store") {
             $id = null;
-            $storeRequest = new ProfileRequest();
+            $storeRequest = new SystemRequest();
             $request->validate($storeRequest->rules());
             $storeRequest->merge($request->all());
             return $this->store($storeRequest);
         }
         try {
-            $profile = Profile::find($id);
-            if ($profile) {
-                $profile->update($request->all());
+            $system = System::find($id);
+            if ($system) {
+                $system->update($request->all());
                 Root::run();
-                return redirect()->route('profiles.show', ['id' => $profile->id_profile])->with('success', 'Registro salvo com sucesso');
+                return redirect()->route('systems.show', ['id' => $system->id_system])->with('success', 'Registro salvo com sucesso');
             } else {
-                return redirect()->route('profiles')->with('error', 'Registro não encontrado!');
+                return redirect()->route('systems')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -108,15 +108,15 @@ class ProfileController extends Controller
         }
 
         try {
-            $profile = Profile::find($id);
-            if ($profile) {
-                if ($profile->root == true) {
-                    return redirect()->back()->with('error', 'Este perfil não pode ser apagado, pois é o perfil raiz.')->withInput();
+            $system = System::find($id);
+            if ($system) {
+                if ($system->root == true) {
+                    return redirect()->back()->with('error', 'Este sistema não pode ser apagado, pois é o sistema raiz.')->withInput();
                 }
-                $profile->delete();
-                return redirect()->route('profiles')->with('success', 'Registro apagado com sucesso');
+                $system->delete();
+                return redirect()->route('systems')->with('success', 'Registro apagado com sucesso');
             } else {
-                return redirect()->route('profiles')->with('error', 'Registro não encontrado!');
+                return redirect()->route('systems')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -126,18 +126,20 @@ class ProfileController extends Controller
 
     public function datatable()
     {
-        $id_system = request('__id_system');
-        $data = Profile::where('id_system', $id_system)->latest()->get();
+        $data = System::latest()->get();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'profiles.show', [$id_field => $row->id_profile]);
+                $edit_route = route(request('route') ?: 'systems.show', [$id_field => $row->id_system]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
-            ->rawColumns(['actions'])
+            ->addColumn('icon', function ($row) {
+                return "<i style='font-size:20px' class='" . $row->icon . "'></i>";
+            })
+            ->rawColumns(['actions', 'icon'])
             ->make(true);
     }
 }

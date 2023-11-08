@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
-use App\Models\User;
-use App\Models\System;
-use App\Models\EmploymentType;
-use App\Models\CivilStatus;
-use App\Models\Branch;
-use App\Http\Requests\UserRequest;
-use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
+use App\Models\Profile;
+use App\Http\Requests\ProfileRequest;
+use App\Helpers\Root;
 use DataTables;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,10 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $employment_types = EmploymentType::all();
-        $civil_statuses = CivilStatus::all();
-        $branches = Branch::all();
-        return view('users.index', compact('employment_types', 'civil_statuses', 'branches'));
+        return view('profiles.index');
     }
 
     /**
@@ -32,28 +26,19 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(ProfileRequest $request)
     {
         if (!in_array('store', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
         unset($request["root"]);
-
-        if (!$request->username) {
-            $username = explode("@", $request->email)[0];
-            $user = User::where('username', $username)->get();
-            while (count($user->toArray()) > 0) {
-                $username = explode("@", $request->email)[0] . Str::random(8);;
-                $user = User::where('username', $username)->get();
-            }
-            $request->merge(['username' => $username]);
-        }
-
+        $request->merge(['id_system' => request('__id_system')]);
 
         try {
-            $user = User::create($request->all());
-            return redirect()->route('users.show', ['id' => $user->id_user])->with('success', 'Registro cadastrado com sucesso');
+            $profile = Profile::create($request->all());
+            Root::run();
+            return redirect()->route('profiles.show', ['id' => $profile->id_profile])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
@@ -67,15 +52,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $data = User::with('employment_type')->find($id);
+        $data = Profile::find($id);
         if ($data) {
-            $employment_types = EmploymentType::all();
-            $civil_statuses = CivilStatus::all();
-            $branches = Branch::all();
-
-            return view('users.index', compact('data', 'employment_types', 'civil_statuses', 'branches'));
+            return view('profiles.index', compact("data"));
         } else {
-            return redirect()->route('users')->with('error', 'Registro não encontrado!');
+            return redirect()->route('profiles')->with('error', 'Registro não encontrado!');
         }
     }
 
@@ -86,7 +67,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(ProfileRequest $request, $id)
     {
         if (!in_array('update', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
@@ -96,18 +77,19 @@ class UserController extends Controller
 
         if ($request->_action == "store") {
             $id = null;
-            $storeRequest = new UserRequest();
+            $storeRequest = new ProfileRequest();
             $request->validate($storeRequest->rules());
             $storeRequest->merge($request->all());
             return $this->store($storeRequest);
         }
         try {
-            $user = User::find($id);
-            if ($user) {
-                $user->update($request->all());
-                return redirect()->route('users.show', ['id' => $user->id_user])->with('success', 'Registro salvo com sucesso');
+            $profile = Profile::find($id);
+            if ($profile) {
+                $profile->update($request->all());
+                Root::run();
+                return redirect()->route('profiles.show', ['id' => $profile->id_profile])->with('success', 'Registro salvo com sucesso');
             } else {
-                return redirect()->route('users')->with('error', 'Registro não encontrado!');
+                return redirect()->route('profiles')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -127,15 +109,15 @@ class UserController extends Controller
         }
 
         try {
-            $user = User::find($id);
-            if ($user) {
-                if ($user->root == true) {
+            $profile = Profile::find($id);
+            if ($profile) {
+                if ($profile->root == true) {
                     return redirect()->back()->with('error', 'Este perfil não pode ser apagado, pois é o perfil raiz.')->withInput();
                 }
-                $user->delete();
-                return redirect()->route('users')->with('success', 'Registro apagado com sucesso');
+                $profile->delete();
+                return redirect()->route('profiles')->with('success', 'Registro apagado com sucesso');
             } else {
-                return redirect()->route('users')->with('error', 'Registro não encontrado!');
+                return redirect()->route('profiles')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -146,18 +128,13 @@ class UserController extends Controller
     public function datatable()
     {
         $id_system = request('__id_system');
-        $system = System::where('id_system', $id_system)->first();
-        if ($system->root == true) {
-            $data = User::latest()->get();
-        } else {
-            $data = User::where('root', false)->latest()->get();
-        }
+        $data = Profile::where('id_system', $id_system)->latest()->get();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'users.show', [$id_field => $row->id_user]);
+                $edit_route = route(request('route') ?: 'profiles.show', [$id_field => $row->id_profile]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })

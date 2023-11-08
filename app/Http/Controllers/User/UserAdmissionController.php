@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Http\Requests\UserAccessRequest;
+use App\Http\Requests\UserAdmissionRequest;
 
-class UserAccessController extends Controller
+class UserAdmissionController extends Controller
 {
     public function parent()
     {
-        return view('users.access.parent');
+        return view('users.admission.parent');
     }
 
     /**
@@ -23,9 +24,9 @@ class UserAccessController extends Controller
         try {
             $user = User::find($id);
             if ($user) {
-                return view('users.access.index', compact('pid', 'user'));
+                return view('users.admission.index', compact('pid', 'user'));
             } else {
-                return redirect()->route('users-access')->with('error', 'Registro não encontrado!');
+                return redirect()->route('users-admission')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -39,7 +40,7 @@ class UserAccessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserAccessRequest $request, $id)
+    public function update(UserAdmissionRequest $request, $id)
     {
         if (!in_array('update', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
@@ -54,14 +55,10 @@ class UserAccessController extends Controller
         try {
             $user = User::find($id);
             if ($user) {
-                if ($user->root == true) {
-                    unset($request["active"]);
-                }
-
                 $user->update($request->all());
-                return redirect()->route('users-access.index', ['pid' => $id, 'user' => $user])->with('success', 'Registro salvo com sucesso');
+                return redirect()->route('users-admission.index', ['pid' => $id, 'user' => $user])->with('success', 'Registro salvo com sucesso');
             } else {
-                return redirect()->route('users-access')->with('error', 'Registro não encontrado!');
+                return redirect()->route('users-admission')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
