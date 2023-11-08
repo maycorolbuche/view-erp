@@ -52,7 +52,7 @@
 
             <br>
 
-            <x-panel title="Lista de Dependentes" type="success">
+            <x-panel title="Lista de Telefones" type="success">
                 <x-data-table data-origin="users-phones.datatable" pid={{ $pid }}
                     query-string="pid={{ $pid }}" order="phone"
                     columns="{{ json_encode([
