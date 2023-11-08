@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\RelationshipDegree;
 use App\Models\UserDependent;
 use App\Http\Requests\UserDependentRequest;
+use Carbon\Carbon;
 use DataTables;
 
 class UserDependentController extends Controller
@@ -170,10 +171,13 @@ class UserDependentController extends Controller
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
+            ->addColumn('birth_date', function ($row) {
+                return ($row->birth_date ? '<span style="display:none">' . $row->birth_date . '</span>' . Carbon::parse($row->birth_date)->format('d/m/Y') : '');
+            })
             ->addColumn('relationship_degree', function ($row) {
                 return $row->relationship_degree->name ?? '';
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions', 'birth_date'])
             ->make(true);
     }
 }

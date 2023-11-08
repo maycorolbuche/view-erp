@@ -18,7 +18,7 @@
                 action-pid="{{ $pid }}">
                 <x-group>
                     <x-input type="select" name="id_role" width="200" label="Cargo" list="{{ json_encode($roles) }}"
-                        list-value="id_role" list-text="name" value="{{ $data->id_role ?? '' }}" />
+                        list-value="id_role" list-text="name" value="{{ $data->id_role ?? '' }}" required />
                     <x-input type="date" name="start_date" width="200" label="Dt. Início"
                         value="{{ $data->start_date ?? '' }}" />
                     <x-input type="date" name="end_date" width="200" label="Dt. Término"

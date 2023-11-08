@@ -20,11 +20,6 @@ class UserDependent extends Model
         'birth_date',
     ];
 
-    protected $casts = [
-        'birth_date' => 'date:d/m/Y',
-    ];
-
-
     public function relationship_degree()
     {
         return $this->hasOne(RelationshipDegree::class, 'id_relationship_degree', 'id_relationship_degree');

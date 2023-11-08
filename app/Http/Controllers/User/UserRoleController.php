@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Role;
 use App\Http\Requests\UserRoleRequest;
+use Carbon\Carbon;
 use DataTables;
 
 class UserRoleController extends Controller
@@ -173,7 +174,13 @@ class UserRoleController extends Controller
             ->addColumn('role', function ($row) {
                 return $row->role->name ?? '';
             })
-            ->rawColumns(['actions'])
+            ->addColumn('start_date', function ($row) {
+                return ($row->start_date ? '<span style="display:none">' . $row->start_date . '</span>' . Carbon::parse($row->start_date)->format('d/m/Y') : '');
+            })
+            ->addColumn('end_date', function ($row) {
+                return ($row->end_date ? '<span style="display:none">' . $row->end_date . '</span>' . Carbon::parse($row->end_date)->format('d/m/Y') : '');
+            })
+            ->rawColumns(['actions', 'start_date', 'end_date'])
             ->make(true);
     }
 }

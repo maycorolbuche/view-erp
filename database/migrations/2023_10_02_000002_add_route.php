@@ -213,6 +213,18 @@ class AddRoute extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Férias',
+            'name' => 'users-vacations',
+            'uri' => 'users/{pid}/vacations',
+            'controller' => 'User\UserVacationController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'glyphicons glyphicons-airplane',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**

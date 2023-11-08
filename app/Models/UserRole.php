@@ -20,11 +20,6 @@ class UserRole extends Model
         'end_date',
     ];
 
-    protected $casts = [
-        'start_date' => 'date:d/m/Y',
-        'end_date' => 'date:d/m/Y',
-    ];
-
     public function role()
     {
         return $this->hasOne(Role::class, 'id_role', 'id_role');

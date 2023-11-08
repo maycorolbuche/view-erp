@@ -16,6 +16,7 @@ class Group extends Component
     public function __construct(
         string $right = 'false',
         public string $title = '',
+        public string $type = '',
     ) {
         $this->right = $right && $right != "false";
     }
