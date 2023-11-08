@@ -27,6 +27,7 @@
 <script type="text/javascript" src="{{ asset('vendor/plugins/colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/jquerymask/jquery.maskedinput.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/telinput/intlTelInput.js') }}"></script>
 
 <!-- Confirm -->
 <!-- https://craftpip.github.io/jquery-confirm/ -->
@@ -129,40 +130,6 @@
             });
             buttons.removeClass().addClass('button btn-' + btnData);
         });
-
-        /*
-                setTimeout(function() {
-                    adminForm.addClass('theme-primary');
-                    Panel.addClass('panel-primary');
-
-                    $(options).each(function(i, e) {
-                        if ($(e).hasClass('block')) {
-                            $(e).removeClass().addClass('block mt15 option option-primary');
-                        } else {
-                            $(e).removeClass().addClass('option option-primary');
-                        }
-                    });
-                    $(switches).each(function(i, ele) {
-
-                        if ($(ele).hasClass('switch-round')) {
-                            if ($(ele).hasClass('block')) {
-                                $(ele).removeClass().addClass(
-                                    'block mt15 switch switch-round switch-primary');
-                            } else {
-                                $(ele).removeClass().addClass('switch switch-round switch-primary');
-                            }
-                        } else {
-                            if ($(ele).hasClass('block')) {
-                                $(ele).removeClass().addClass('block mt15 switch switch-primary');
-                            } else {
-                                $(ele).removeClass().addClass('switch switch-primary');
-                            }
-                        }
-                    });
-                    buttons.removeClass().addClass('button btn-primary');
-                }, 2200);
-        */
-
 
         $("#toggle_sidemenu_l,.sidebar-toggle-mini a").click(function() {
             setTimeout(function() {
@@ -333,12 +300,12 @@
             let len = $(this).val().replace(/\D/g, '').length;
             if (len >= 12) {
                 $(this).unmask();
-                $('.cpf_cnpj').mask('9?9.999.999/9999-99', {
+                $(this).mask('9?9.999.999/9999-99', {
                     placeholder: ' '
                 });
             } else if (len >= 3) {
                 $(this).unmask();
-                $('.cpf_cnpj').mask('9?99.999.999-999', {
+                $(this).mask('9?99.999.999-999', {
                     placeholder: ' '
                 });
             } else {
@@ -367,11 +334,119 @@
         $(".custom").mask("9.99.999.9999");
         */
 
+        $(".phone").intlTelInput({
+            // whether or not to allow the dropdown
+            allowDropdown: true,
+            // if there is just a dial code in the input: remove it on blur, and re-add it on focus
+            autoHideDialCode: true,
+            // add a placeholder in the input with an example number for the selected country
+            autoPlaceholder: "polite",
+            // modify the auto placeholder
+            customPlaceholder: null,
+            // append menu to specified element
+            dropdownContainer: null,
+            // don't display these countries
+            excludeCountries: [],
+            // format the input value during initialisation and on setNumber
+            formatOnDisplay: true,
+            // geoIp lookup function
+            geoIpLookup: null,
+            // inject a hidden input with this name, and on submit, populate it with the result of getNumber
+            hiddenInput: "",
+            // initial country
+            initialCountry: "br",
+            // localized country names e.g. { 'de': 'Deutschland' }
+            localizedCountries: null,
+            // don't insert international dial codes
+            nationalMode: true,
+            // display only these countries
+            onlyCountries: [],
+            // number type to use for placeholders
+            placeholderNumberType: "MOBILE",
+            // the countries at the top of the list. defaults to united states and united kingdom
+            preferredCountries: ["br", "pt", "us"],
+            // display the country dial code next to the selected flag so it's not part of the typed number
+            separateDialCode: false,
+            // specify the path to the libphonenumber script to enable validation/formatting
+            utilsScript: "",
+        });
+
+        $('.phone').keyup(function() {
+            let val = $(this).val();
+            let p = (val.substring(0, 1) == "+");
+            let ddi = "";
+            let mask_ddi;
+
+            if (p) {
+                val = val + " ";
+                ddi = $(this).attr("data-dial-code");
+                mask_ddi = ddi.replace(/[0-9]/g, "9");
+                if (mask_ddi == "") {
+                    mask_ddi = "0";
+                }
+            }
+            let tel = val.replace(/\D/g, "");
+            let mask = "";
+
+            if (p) {
+                if (ddi == "55") {
+                    mask = tel.length === 13 ? "(99) 99999-9999" : "(99) 9999-99999";
+                } else if (ddi == "1") {
+                    mask = "(999) 999-9999";
+                } else if (ddi == "351" || ddi == "244") {
+                    mask = "999 999 999";
+                } else {
+                    mask = "99999999999999999999";
+                }
+
+                mask = "+" + mask_ddi + " " + mask;
+
+            } else {
+
+                if (tel.substring(0, 4) == "0800") {
+                    mask = "9999 999 9999";
+                } else if (tel.substring(0, 1) != "0" && tel.length > 0) {
+                    mask = "+0 99999999999999999999";
+                } else {
+                    mask = "99999999999999999999";
+                }
+
+            }
+
+            mask = "?" + mask;
+
+            $(this).unmask();
+            $(this).mask(mask, {
+                placeholder: ' '
+            });
+        });
+
+        $('.phone').keyup();
+
         $('.numeric').on('input', function() {
             $(this).val($(this).val().replace(/\D/g, ''));
         });
 
     });
+
+    function tel_unmask(el) {
+        el.unmask();
+    }
+
+    function tel_mask(el) {
+        var ddi = el.attr("data-dial-code");
+        var val = el.val();
+        val = val.replace(/\D/g, "");
+        if (ddi == val.substring(0, ddi.length)) {
+            val = ddi + " " + val.substring(ddi.length, val.length);
+            val = val.replace("  ", " ");
+            el.val("+" + val);
+        } else if (val.substring(0, 1) != "0" && val.length > 0 && val.length <= 4) {
+            el.val("+" + val);
+        } else if (el.val().substring(0, 2) == "+0") {
+            el.val(val);
+        }
+    }
 
     function loading(show) {
         if (show == undefined) {

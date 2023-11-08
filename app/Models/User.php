@@ -113,6 +113,44 @@ class User extends Authenticatable implements CanResetPassword
     }
 
 
+    public function getDependentsCountAttribute()
+    {
+        if ($this->relationLoaded('users_dependents')) {
+            return $this->users_dependents->count();
+        }
+
+        return $this->users_dependents()->count();
+    }
+
+    public function getParentsCountAttribute()
+    {
+        if ($this->relationLoaded('users_parent')) {
+            return $this->users_parent->count();
+        }
+
+        return $this->users_parent()->count();
+    }
+
+    public function getChildsCountAttribute()
+    {
+        if ($this->relationLoaded('users_child')) {
+            return $this->users_child->count();
+        }
+
+        return $this->users_child()->count();
+    }
+
+    public function getPhonesCountAttribute()
+    {
+        if ($this->relationLoaded('users_phones')) {
+            return $this->users_phones->count();
+        }
+
+        return $this->users_phones()->count();
+    }
+
+
+
     public function systems()
     {
         return $this->belongsToMany(System::class, UserSystem::class, 'id_user', 'id_system');
@@ -148,30 +186,8 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasOne(UserTeam::class, 'id_user_parent', 'id_user');
     }
 
-    public function getDependentsCountAttribute()
+    public function users_phones()
     {
-        if ($this->relationLoaded('users_dependents')) {
-            return $this->users_dependents->count();
-        }
-
-        return $this->users_dependents()->count();
-    }
-
-    public function getParentsCountAttribute()
-    {
-        if ($this->relationLoaded('users_parent')) {
-            return $this->users_parent->count();
-        }
-
-        return $this->users_parent()->count();
-    }
-
-    public function getChildsCountAttribute()
-    {
-        if ($this->relationLoaded('users_child')) {
-            return $this->users_child->count();
-        }
-
-        return $this->users_child()->count();
+        return $this->hasMany(UserPhone::class, 'id_user', 'id_user');
     }
 }

@@ -16,6 +16,8 @@
 <link rel="stylesheet" type="text/css"
     href="{{ asset('vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') }}">
 
+<!-- Page Plugins -->
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/plugins/telinput/intlTelInput.css') }}">
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"

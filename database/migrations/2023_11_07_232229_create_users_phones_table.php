@@ -16,8 +16,8 @@ class CreateUsersPhonesTable extends Migration
         Schema::create('users_phones', function (Blueprint $table) {
             $table->increments('id_user_phone');
             $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_carrier');
-            $table->unsignedInteger('id_phone_type');
+            $table->unsignedInteger('id_carrier')->nullable();
+            $table->unsignedInteger('id_phone_type')->nullable();
             $table->string('phone');
             $table->string('contact_name')->nullable();
             $table->boolean('is_business')->nullable();

@@ -1,4 +1,5 @@
 @php
+    $phones_count = $user->phones_count ?? ($data->phones_count ?? 0);
     $dependents_count = $user->dependents_count ?? ($data->dependents_count ?? 0);
     $parents_count = $user->parents_count ?? ($data->parents_count ?? 0);
     $childs_count = $user->childs_count ?? ($data->childs_count ?? 0);
@@ -13,7 +14,7 @@
             'params' => isset($id) ? ['id' => $id] : null,
         ],
         [
-            'title' => 'Telefones [EM CONSTRUCAO]',
+            'title' => 'Telefones' . ($phones_count > 0 ? " <span class='badge badge-hero badge-info'>$phones_count</span>" : ''),
             'name' => 'users-phones',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,

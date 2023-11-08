@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
 
-class UserDependent extends Model
+class UserPhone extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
-    protected $table = 'users_dependents';
-    protected $primaryKey = 'id_user_dependent';
+    protected $table = 'users_phones';
+    protected $primaryKey = 'id_user_phone';
 
     protected $fillable = [
         'id_user',
@@ -24,4 +24,14 @@ class UserDependent extends Model
         'notes',
     ];
 
+
+    public function carrier()
+    {
+        return $this->hasOne(Carrier::class, 'id_carrier', 'id_carrier');
+    }
+
+    public function phone_type()
+    {
+        return $this->hasOne(PhoneType::class, 'id_phone_type', 'id_phone_type');
+    }
 }

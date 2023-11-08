@@ -4,8 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\RelationshipDegree;
 use App\Models\UserPhone;
+use App\Models\Carrier;
+use App\Models\PhoneType;
 use App\Http\Requests\UserPhoneRequest;
 use DataTables;
 
@@ -27,8 +28,9 @@ class UserPhoneController extends Controller
         try {
             $user = User::find($id);
             if ($user) {
-                $relationships_degrees = RelationshipDegree::all();
-                return view('users.phones.index', compact('pid', 'user', 'relationships_degrees'));
+                $carriers = Carrier::orderBy('name')->get();
+                $phones_types = PhoneType::orderBy('description')->get();
+                return view('users.phones.index', compact('pid', 'user', 'carriers', 'phones_types'));
             } else {
                 return redirect()->route('users-phones')->with('error', 'Registro não encontrado!');
             }
@@ -76,8 +78,9 @@ class UserPhoneController extends Controller
         if ($user) {
             $data = UserPhone::find($id);
             if ($data) {
-                $relationships_degrees = RelationshipDegree::all();
-                return view('users.phones.index', compact('pid', 'data', 'user', 'relationships_degrees'));
+                $carriers = Carrier::orderBy('name')->get();
+                $phones_types = PhoneType::orderBy('description')->get();
+                return view('users.phones.index', compact('pid', 'data', 'user', 'carriers', 'phones_types'));
             } else {
                 return redirect()->route('users')->with('error', 'Registro não encontrado!');
             }
@@ -161,7 +164,7 @@ class UserPhoneController extends Controller
 
     public function datatable()
     {
-        $data = UserPhone::latest()->where('id_user', request('pid'))->with('relationship_degree')->get();
+        $data = UserPhone::latest()->where('id_user', request('pid'))->with(['carrier', 'phone_type'])->get();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -170,10 +173,19 @@ class UserPhoneController extends Controller
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
-            ->addColumn('relationship_degree', function ($row) {
-                return $row->relationship_degree->name ?? '';
+            ->addColumn('carrier', function ($row) {
+                return $row->carrier->name ?? '';
             })
-            ->rawColumns(['actions'])
+            ->addColumn('phone_type', function ($row) {
+                return $row->phone_type->description ?? '';
+            })
+            ->addColumn('phone', function ($row) {
+                return $row->phone
+                    . ($row->has_whatsapp ? " <span class='fab fa-whatsapp text-success'></span>" : "")
+                    . ($row->is_business ? " <span class='fas fa-building text-info'></span>" : "")
+                    ?? '';
+            })
+            ->rawColumns(['actions', 'phone'])
             ->make(true);
     }
 }

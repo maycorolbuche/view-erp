@@ -1,7 +1,9 @@
 <div class="form-group field {{ $errors->has($field) ? 'has-error' : '' }}"
     style="flex-shrink: 1;flex-grow: 1;flex-basis: {{ $width }}px;padding: 0 5px 0 5px;display: flex; flex-direction: column;">
     <label for="{{ $id }}" class="col-lg-3 control-label" style="padding:0;width:100%;">
-        {{ $label ? $label . ':' : '' }}&nbsp;{!! $required ? '<span class="text-danger">*</span>' : '' !!}
+        {{ $label }}
+        {{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
+        {!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
     <div style="position: relative;">
         @if ($type == 'icon')

@@ -67,6 +67,9 @@ class Input extends Component
             if ($value <> "") {
                 $value = date("Y-m-d", strtotime($value));
             }
+        } elseif ($type == 'phone') {
+            $type = 'text';
+            $class .= ' phone ';
         }
 
         $this->id = $id;
