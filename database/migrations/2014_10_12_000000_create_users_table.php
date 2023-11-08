@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('cpf_or_cnpj', 20)->nullable()->unique();
             $table->string('id_card', 20)->nullable()->unique();
             $table->string('pis', 20)->nullable()->unique();
-            $table->date('birth_date', 20)->nullable();
+            $table->date('birth_date')->nullable();
             $table->string('zip_code', 10)->nullable();
             $table->string('address')->nullable();
             $table->string('number', 10)->nullable();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersDependentsTable extends Migration
+class CreateUsersRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateUsersDependentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_dependents', function (Blueprint $table) {
-            $table->increments('id_user_dependent');
+        Schema::create('users_roles', function (Blueprint $table) {
+            $table->increments('id_user_role');
             $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_relationship_degree')->nullable();
-            $table->string('name');
-            $table->date('birth_date')->nullable();
+            $table->unsignedInteger('id_role');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_relationship_degree')->references('id_relationship_degree')->on('relationships_degrees');
+            $table->foreign('id_role')->references('id_role')->on('roles');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
@@ -39,6 +39,6 @@ class CreateUsersDependentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_dependents');
+        Schema::dropIfExists('users_roles');
     }
 }

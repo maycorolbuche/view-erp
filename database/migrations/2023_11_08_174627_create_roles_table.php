@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersDependentsTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreateUsersDependentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_dependents', function (Blueprint $table) {
-            $table->increments('id_user_dependent');
-            $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_relationship_degree')->nullable();
+        Schema::create('roles', function (Blueprint $table) {
+            $table->increments('id_role');
             $table->string('name');
-            $table->date('birth_date')->nullable();
-
-            $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_relationship_degree')->references('id_relationship_degree')->on('relationships_degrees');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
@@ -39,6 +33,6 @@ class CreateUsersDependentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_dependents');
+        Schema::dropIfExists('roles');
     }
 }
