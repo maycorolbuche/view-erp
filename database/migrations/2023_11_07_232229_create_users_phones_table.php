@@ -22,6 +22,7 @@ class CreateUsersPhonesTable extends Migration
             $table->string('contact_name')->nullable();
             $table->boolean('is_business')->nullable();
             $table->boolean('has_whatsapp')->nullable();
+            $table->text('notes')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_carrier')->references('id_carrier')->on('carriers');

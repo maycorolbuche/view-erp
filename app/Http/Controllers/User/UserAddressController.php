@@ -8,6 +8,17 @@ use App\Http\Requests\UserAddressRequest;
 
 class UserAddressController extends Controller
 {
+
+    protected $fillable = [
+        'zip_code',
+        'address',
+        'number',
+        'complement',
+        'district',
+        'city',
+        'state',
+    ];
+
     public function parent()
     {
         return view('users.address.parent');
@@ -46,16 +57,10 @@ class UserAddressController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
         }
 
-        unset($request["root"]);
-
-        if (!$request->password) {
-            unset($request["password"]);
-        }
-
         try {
             $user = User::find($id);
             if ($user) {
-                $user->update($request->all());
+                $user->update($request->only($this->fillable));
                 return redirect()->route('users-address.index', ['pid' => $id, 'user' => $user])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('users-address')->with('error', 'Registro não encontrado!');

@@ -8,6 +8,14 @@ use App\Http\Requests\UserAccessRequest;
 
 class UserAccessController extends Controller
 {
+
+    protected $fillable = [
+        'email',
+        'username',
+        'password',
+        'active',
+    ];
+
     public function parent()
     {
         return view('users.access.parent');
@@ -46,12 +54,6 @@ class UserAccessController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
         }
 
-        unset($request["root"]);
-
-        if (!$request->password) {
-            unset($request["password"]);
-        }
-
         try {
             $user = User::find($id);
             if ($user) {
@@ -59,7 +61,7 @@ class UserAccessController extends Controller
                     unset($request["active"]);
                 }
 
-                $user->update($request->all());
+                $user->update($request->only($this->fillable));
                 return redirect()->route('users-access.index', ['pid' => $id, 'user' => $user])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('users-access')->with('error', 'Registro não encontrado!');

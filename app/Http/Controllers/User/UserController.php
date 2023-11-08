@@ -14,6 +14,20 @@ use DataTables;
 
 class UserController extends Controller
 {
+
+    protected $fillable = [
+        'name',
+        'email',
+        'cpf_or_cnpj',
+        'id_card',
+        'pis',
+        'birth_date',
+        'id_civil_status',
+        'id_employment_type',
+        'id_branch',
+        'username',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -39,8 +53,6 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
-        unset($request["root"]);
-
         if (!$request->username) {
             $username = explode("@", $request->email)[0];
             $user = User::where('username', $username)->get();
@@ -53,7 +65,7 @@ class UserController extends Controller
 
 
         try {
-            $user = User::create($request->all());
+            $user = User::create($request->only($this->fillable));
             return redirect()->route('users.show', ['id' => $user->id_user])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -93,8 +105,6 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
         }
 
-        unset($request["root"]);
-
         if ($request->_action == "store") {
             $id = null;
             $storeRequest = new UserRequest();
@@ -105,7 +115,7 @@ class UserController extends Controller
         try {
             $user = User::find($id);
             if ($user) {
-                $user->update($request->all());
+                $user->update($request->only($this->fillable));
                 return redirect()->route('users.show', ['id' => $user->id_user])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('users')->with('error', 'Registro não encontrado!');
