@@ -13,6 +13,12 @@
             'params' => isset($id) ? ['id' => $id] : null,
         ],
         [
+            'title' => 'Telefones [EM CONSTRUCAO]',
+            'name' => 'users-phones',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
             'title' => 'Endereço',
             'name' => 'users-address',
             'resource' => isset($id) ? '.index' : null,

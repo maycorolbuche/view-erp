@@ -143,6 +143,18 @@ class AddRoute extends Migration
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
+            'label' => 'Telefones',
+            'name' => 'users-phones',
+            'uri' => 'users/{pid}/phones',
+            'controller' => 'UserPhoneController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-phone',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
             'label' => 'Endereços',
             'name' => 'users-address',
             'uri' => 'users/{pid}/address',
@@ -198,6 +210,9 @@ class AddRoute extends Migration
      */
     public function down()
     {
-        Route::truncate();
+        try {
+            Route::truncate();
+        } catch (Exception $e) {
+        }
     }
 }
