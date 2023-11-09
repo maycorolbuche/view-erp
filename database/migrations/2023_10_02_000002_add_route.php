@@ -237,6 +237,18 @@ class AddRoute extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Previdência',
+            'name' => 'users-pension',
+            'uri' => 'users/{pid}/pension',
+            'controller' => 'User\UserPensionController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fa fa-dollar',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**
