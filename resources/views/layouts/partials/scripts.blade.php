@@ -25,7 +25,7 @@
 </script>
 -->
 <script type="text/javascript" src="{{ asset('vendor/plugins/colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendor/plugins/jquerymask/jquery.maskedinput.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/jquerymask/jquery.mask.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/telinput/intlTelInput.js') }}"></script>
 
@@ -157,77 +157,6 @@
 
         });
 
-        /* DEFAULTS MULTISELECT
-         buttonText: function(t, n) {
-            if (t.length === 0) {
-               return this.nonSelectedText + ' <b class="caret"></b>'
-            } else if (t.length == e("option", e(n)).length) {
-               return this.allSelectedText + ' <b class="caret"></b>'
-            } else if (t.length > this.numberDisplayed) {
-               return t.length + " " + this.nSelectedText + ' <b class="caret"></b>'
-            } else {
-               var r = "";
-               t.each(function() {
-                  var t = e(this).attr("label") !== undefined ? e(this).attr("label") : e(this).html();
-                  r += t + ", "
-               });
-               return r.substr(0, r.length - 2) + ' <b class="caret"></b>'
-            }
-         },
-         buttonTitle: function(t, n) {
-            if (t.length === 0) {
-               return this.nonSelectedText
-            } else {
-               var r = "";
-               t.each(function() {
-                  r += e(this).text() + ", "
-               });
-               return r.substr(0, r.length - 2)
-            }
-         },
-         label: function(t) {
-            return e(t).attr("label") || e(t).html()
-         },
-         onChange: function(e, t) {},
-         onDropdownShow: function(e) {},
-         onDropdownHide: function(e) {},
-         onDropdownShown: function(e) {},
-         onDropdownHidden: function(e) {},
-         buttonClass: "btn btn-default",
-         buttonWidth: "auto",
-         buttonContainer: '<div class="btn-group" />',
-         dropRight: false,
-         selectedClass: "active",
-         maxHeight: false,
-         checkboxName: false,
-         includeSelectAllOption: false,
-         includeSelectAllIfMoreThan: 0,
-         selectAllText: " Select all",
-         selectAllValue: "multiselect-all",
-         selectAllName: false,
-         enableFiltering: false,
-         enableCaseInsensitiveFiltering: false,
-         enableClickableOptGroups: false,
-         filterPlaceholder: "Search",
-         filterBehavior: "text",
-         includeFilterClearBtn: true,
-         preventInputChangeEvent: false,
-         nonSelectedText: "None selected",
-         nSelectedText: "selected",
-         allSelectedText: "All selected",
-         numberDisplayed: 3,
-         disableIfEmpty: false,
-         templates: {
-            button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
-            ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-            filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove"></i></button></span>',
-            li: '<li><a href="javascript:void(0);"><label></label></a></li>',
-            divider: '<li class="multiselect-item divider"></li>',
-            liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-         }
-         */
-
 
         $(".validate").validate({
 
@@ -290,40 +219,46 @@
         });
 
 
-        // Init jQuery masked inputs
-        $('.slug').mask('a?aaaaaaaaaaaaaaaa', {
-            placeholder: ' '
+        // Init jQuery masked inputs *********************************************************************
+
+        $(".slug").mask("AAAAAAAAAAAAAAAAAAAA");
+
+        $(".cpf").mask("000.000.000-00", {
+            reverse: false
         });
-        //$('.cpf_cnpj').mask('9?99.999.999-999');
-        $('.cpf_cnpj').keyup(function() {
-            $(this).val($(this).val().replace(/\D/g, ''));
-            let len = $(this).val().replace(/\D/g, '').length;
-            if (len >= 12) {
-                $(this).unmask();
-                $(this).mask('9?9.999.999/9999-99', {
-                    placeholder: ' '
-                });
-            } else if (len >= 3) {
-                $(this).unmask();
-                $(this).mask('9?99.999.999-999', {
-                    placeholder: ' '
-                });
-            } else {
-                $(this).unmask();
+        $(".cnpj").mask("00.000.000/0000-00", {
+            reverse: false
+        });
+        var cpfcnpj_mask = function(val) {
+                return val.replace(/\D/g, "").length <= 11 ? "000.000.000-009" : "00.000.000/0000-00";
+            },
+            opfcnpj_opt = {
+                onKeyPress: function(val, e, field, options) {
+                    field.mask(cpfcnpj_mask.apply({}, arguments), options);
+                }
+            };
+        $(".cpf_cnpj").mask(cpfcnpj_mask, opfcnpj_opt);
+
+        $(".rg").mask("#.##0.000-A", {
+            reverse: true
+        });
+        $(".rg").blur(function() {
+            var valor = this.value;
+            if (valor != "") {
+                valor = valor.replace(/[^\d]$/, "X");
+                this.value = valor;
             }
         });
-        $('.pis').mask('9?99.99999.99-9', {
-            placeholder: ' '
-        });
-        $('.zip_code').mask('99999-999', {
-            placeholder: ' '
-        });
 
-        $(".money").mask("999.999.999,99", {
+        $('.pis').mask('000.00000.00-0');
+        $('.zip_code').mask('00000-000');
+
+
+        $(".money").mask("#.##0,00", {
             reverse: true,
-            placeholder: ' '
+            placeholder: "0,00"
         });
-        /*$(".money").blur(function() {
+        $(".money").blur(function() {
             var valor = this.value;
             if (valor != "") {
                 if (valor.indexOf(",") < 0) {
@@ -335,22 +270,7 @@
         });
         $(".money").each(function() {
             $(this).blur();
-        });*/
-        /*
-        $('.date').mask('99/99/9999');
-        $('.time').mask('99:99:99');
-        $('.date_time').mask('99/99/9999 99:99:99');
-        $('.zip').mask('99999-999');
-        $('.phone').mask('(999) 999-9999');
-        $('.phoneext').mask("(999) 999-9999 x99999");
-        $(".money").mask("999,999,999.999");
-        $(".product").mask("999.999.999.999");
-        $(".tin").mask("99-9999999");
-        $(".ssn").mask("999-99-9999");
-        $(".ip").mask("9ZZ.9ZZ.9ZZ.9ZZ");
-        $(".eyescript").mask("~9.99 ~9.99 999");
-        $(".custom").mask("9.99.999.9999");
-        */
+        });
 
         $(".phone").intlTelInput({
             // whether or not to allow the dropdown
@@ -382,70 +302,74 @@
             // number type to use for placeholders
             placeholderNumberType: "MOBILE",
             // the countries at the top of the list. defaults to united states and united kingdom
-            preferredCountries: ["br", "pt", "us"],
+            preferredCountries: ["br", "us"],
             // display the country dial code next to the selected flag so it's not part of the typed number
             separateDialCode: false,
             // specify the path to the libphonenumber script to enable validation/formatting
             utilsScript: "",
         });
+        phone_mask_fn();
 
-        $('.phone').keyup(function() {
-            let val = $(this).val();
-            let p = (val.substring(0, 1) == "+");
-            let ddi = "";
-            let mask_ddi;
+        // End jQuery masked inputs *********************************************************************
 
-            if (p) {
-                val = val + " ";
-                ddi = $(this).attr("data-dial-code");
-                mask_ddi = ddi.replace(/[0-9]/g, "9");
-                if (mask_ddi == "") {
-                    mask_ddi = "0";
-                }
-            }
-            let tel = val.replace(/\D/g, "");
-            let mask = "";
 
-            if (p) {
-                if (ddi == "55") {
-                    mask = tel.length === 13 ? "(99) 99999-9999" : "(99) 9999-99999";
-                } else if (ddi == "1") {
-                    mask = "(999) 999-9999";
-                } else if (ddi == "351" || ddi == "244") {
-                    mask = "999 999 999";
-                } else {
-                    mask = "99999999999999999999";
-                }
-
-                mask = "+" + mask_ddi + " " + mask;
-
-            } else {
-
-                if (tel.substring(0, 4) == "0800") {
-                    mask = "9999 999 9999";
-                } else if (tel.substring(0, 1) != "0" && tel.length > 0) {
-                    mask = "+0 99999999999999999999";
-                } else {
-                    mask = "99999999999999999999";
-                }
-
-            }
-
-            mask = "?" + mask;
-
-            $(this).unmask();
-            $(this).mask(mask, {
-                placeholder: ' '
-            });
-        });
-
-        $('.phone').keyup();
 
         $('.numeric').on('input', function() {
             $(this).val($(this).val().replace(/\D/g, ''));
         });
 
     });
+
+
+    function phone_mask_fn() {
+        var phone_mask = function(val) {
+                var p = (val.substring(0, 1) == "+");
+                var ddi = "";
+                if (p) {
+                    val = val + " ";
+                    ddi = val.substring(1, val.indexOf(" ")).replace(/\D/g, "");
+                    mask_ddi = ddi.replace(/[0-9]/g, "0");
+                    if (mask_ddi == "") {
+                        mask_ddi = "0";
+                    }
+                }
+                var tel = val.replace(/\D/g, "");
+                var mask = "";
+                //console.log(val);
+
+                if (p) {
+                    if (ddi == "55") {
+                        mask = tel.length === 13 ? "(00) 00000-0000" : "(00) 0000-00009";
+                    } else if (ddi == "1") {
+                        mask = "(000) 000-0000";
+                    } else if (ddi == "351" || ddi == "244") {
+                        mask = "000 000 000";
+                    } else {
+                        mask = "00000000000000000000";
+                    }
+
+                    mask = "+" + mask_ddi + " " + mask;
+
+                } else {
+
+                    if (tel.substring(0, 4) == "0800") {
+                        mask = "0000 000 0000";
+                    } else if (tel.substring(0, 1) != "0" && tel.length > 0) {
+                        mask = "+0 00000000000000000000";
+                    } else {
+                        mask = "00000000000000000000";
+                    }
+
+                }
+                return mask;
+            },
+            phone_opt = {
+                onKeyPress: function(val, e, field, options) {
+                    field.mask(phone_mask.apply({}, arguments), options);
+                },
+            };
+        $(".phone").mask(phone_mask, phone_opt);
+    }
 
     function tel_unmask(el) {
         el.unmask();
@@ -464,6 +388,8 @@
         } else if (el.val().substring(0, 2) == "+0") {
             el.val(val);
         }
+
+        phone_mask_fn();
     }
 
     function loading(show) {

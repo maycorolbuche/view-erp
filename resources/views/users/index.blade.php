@@ -20,7 +20,7 @@
                         value="{{ $data->email ?? '' }}" />
                     <x-input type="cpf_cnpj" name="cpf_or_cnpj" width="200" label="CPF/CNPJ"
                         value="{{ $data->cpf_or_cnpj ?? '' }}" />
-                    <x-input type="text" name="id_card" width="200" label="RG"
+                    <x-input type="rg" name="id_card" width="200" label="RG"
                         value="{{ $data->id_card ?? '' }}" />
                     <x-input type="pis" name="pis" width="200" label="PIS/PASEB"
                         value="{{ $data->pis ?? '' }}" />

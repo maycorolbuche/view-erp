@@ -53,16 +53,19 @@ class Input extends Component
             $class .= ' slug ';
         } elseif ($type == 'cpf_cnpj') {
             $type = 'text';
-            $class .= ' cpf_cnpj numeric ';
+            $class .= ' cpf_cnpj ';
+        } elseif ($type == 'rg') {
+            $type = 'text';
+            $class .= ' rg ';
         } elseif ($type == 'numeric') {
             $type = 'text';
             $class .= ' numeric ';
         } elseif ($type == 'pis') {
             $type = 'text';
-            $class .= ' pis numeric ';
+            $class .= ' pis ';
         } elseif ($type == 'zip_code') {
             $type = 'text';
-            $class .= ' zip_code numeric ';
+            $class .= ' zip_code ';
         } elseif ($type == 'date') {
             if ($value <> "") {
                 $value = date("Y-m-d", strtotime($value));
