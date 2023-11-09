@@ -261,6 +261,18 @@ class AddRoute extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Atestados',
+            'name' => 'users-sick-leaves',
+            'uri' => 'users/{pid}/sick-leaves',
+            'controller' => 'User\UserSickLeaveController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-notes-medical',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**
