@@ -273,6 +273,18 @@ class AddRoute extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Advertências',
+            'name' => 'users-warnings',
+            'uri' => 'users/{pid}/warnings',
+            'controller' => 'User\UserWarningController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fa fa-warning',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**
