@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\ResetPassword;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\CreatedUpdatedBy;
 
 class User extends Authenticatable implements CanResetPassword
