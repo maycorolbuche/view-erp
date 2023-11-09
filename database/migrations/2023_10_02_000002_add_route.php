@@ -25,7 +25,7 @@ class AddRoute extends Migration
         $update_permissions = ["update"];
 
 
-        /* PARAMETRIZAÇÃO */
+        /* SISTEMAS */
         $id_route_group = 1;
         Route::create([
             'id_route_group' => $id_route_group,
@@ -52,8 +52,95 @@ class AddRoute extends Migration
             'root' => 1,
         ]);
 
-        /* USUÁRIOS E ACESSOS */
+        /* PARAMETRIZAÇÃO */
         $id_route_group = 2;
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Filiais',
+            'name' => 'branches',
+            'uri' => 'branches',
+            'controller' => 'Carrier\BranchController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-building',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Cargos',
+            'name' => 'roles',
+            'uri' => 'roles',
+            'controller' => 'Carrier\RolesController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-user-secret',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Estados Civis',
+            'name' => 'civil-statuses',
+            'uri' => 'civil-statuses',
+            'controller' => 'Carrier\CivilStatusController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-user-circle',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Vínculos Trabalho',
+            'name' => 'employment-types',
+            'uri' => 'employment-types',
+            'controller' => 'Carrier\EmploymentTypeController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'far fa-id-card',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Operadoras Telefonia',
+            'name' => 'carriers',
+            'uri' => 'carriers',
+            'controller' => 'Carrier\CarrierController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-sim-card',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Tipos de Telefones',
+            'name' => 'phones-types',
+            'uri' => 'phones-types',
+            'controller' => 'Carrier\PhonesTypeController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fa fa-phone-square',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Graus Relacionamento',
+            'name' => 'relationships-degrees',
+            'uri' => 'relationships-degrees',
+            'controller' => 'Carrier\RelationshipDegreeController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'glyphicons glyphicons-woman',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+
+        /* USUÁRIOS E ACESSOS */
+        $id_route_group = 3;
         Route::create([
             'id_route_group' => $id_route_group,
             'label' => 'Usuários',
@@ -128,7 +215,7 @@ class AddRoute extends Migration
         ]);
 
         /* PESSOAS */
-        $id_route_group = 3;
+        $id_route_group = 4;
         Route::create([
             'id_route_group' => $id_route_group,
             'label' => 'Pessoas',

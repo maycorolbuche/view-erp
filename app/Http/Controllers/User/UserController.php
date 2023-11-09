@@ -159,9 +159,9 @@ class UserController extends Controller
         $id_system = request('__id_system');
         $system = System::where('id_system', $id_system)->first();
         if ($system->root == true) {
-            $data = User::latest()->get();
+            $data = User::latest()->with('branch')->get();
         } else {
-            $data = User::where('root', false)->latest()->get();
+            $data = User::where('root', false)->with('branch')->latest()->get();
         }
         $id_field = request('id-field') ?: 'id';
 
@@ -171,6 +171,9 @@ class UserController extends Controller
                 $edit_route = route(request('route') ?: 'users.show', [$id_field => $row->id_user]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
+            })
+            ->addColumn('branch', function ($row) {
+                return $row->branch->name ?? '';
             })
             ->rawColumns(['actions'])
             ->make(true);
