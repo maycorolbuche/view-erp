@@ -318,6 +318,24 @@
         $('.zip_code').mask('99999-999', {
             placeholder: ' '
         });
+
+        $(".money").mask("999.999.999,99", {
+            reverse: true,
+            placeholder: ' '
+        });
+        /*$(".money").blur(function() {
+            var valor = this.value;
+            if (valor != "") {
+                if (valor.indexOf(",") < 0) {
+                    valor = valor + ",00";
+                }
+                valor = valor.replace(/^[0|\.]+(?!\,)+/, "");
+                this.value = valor;
+            }
+        });
+        $(".money").each(function() {
+            $(this).blur();
+        });*/
         /*
         $('.date').mask('99/99/9999');
         $('.time').mask('99:99:99');

@@ -70,6 +70,9 @@ class Input extends Component
         } elseif ($type == 'phone') {
             $type = 'text';
             $class .= ' phone ';
+        } elseif ($type == 'money') {
+            $type = 'text';
+            $class .= ' money ';
         }
 
         $this->id = $id;
