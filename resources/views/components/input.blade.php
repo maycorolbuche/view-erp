@@ -1,8 +1,7 @@
 <div class="form-group field {{ $errors->has($field) ? 'has-error' : '' }}"
     style="flex-shrink: 1;flex-grow: 1;flex-basis: {{ $width }}px;padding: 0 5px 0 5px;display: flex; flex-direction: column;">
     <label for="{{ $id }}" class="col-lg-3 control-label" style="padding:0;width:100%;">
-        {{ $label }}
-        {{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
+        {{ $label }}{{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
         {!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
     <div style="position: relative;">
@@ -146,10 +145,33 @@
             <span class="append-icon right success-icon">
                 <i class="fa fa-check"></i>
             </span>
-            <input type="{{ $type }}" id="{{ $id }}" name="{{ $name }}"
+            <input type="{{ $type }}" id="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}"
+                name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}"
                 value="{{ old($field) ?: $value }}" class="form-control {{ $class }}"
                 placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
                 {{ $readonly ? 'readonly' : '' }}>
+
+
+            @if ($pre_type == 'money')
+                <input type="hidden" id="{{ $id }}" name="{{ $name }}"
+                    value="{{ old($field) ?: $value }}">
+
+                @push('scripts')
+                    <script>
+                        $(document).ready(function() {
+                            $("#{{ $id }}_preview").change(function() {
+                                change_money_{{ $id }}();
+                            });
+                            change_money_{{ $id }}();
+                        });
+
+                        function change_money_{{ $id }}() {
+                            let val = $("#{{ $id }}_preview").val();
+                            $("#{{ $id }}").val(parseFloat(val ? val.replace(/\./g, '').replace(',', '.') : 0));
+                        }
+                    </script>
+                @endpush
+            @endif
             <!-- -->
         @endif
     </div>

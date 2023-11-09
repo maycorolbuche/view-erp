@@ -21,6 +21,7 @@ class Input extends Component
         public int $width = 400,
         public string $label = '',
         string $type = '',
+        public string $pre_type = '',
         string $required = 'false',
         string $disabled = 'false',
         string $readonly = 'false',
@@ -48,6 +49,7 @@ class Input extends Component
         }
 
         $type = $type ?: 'text';
+        $this->pre_type = $type;
         if ($type == 'slug') {
             $type = 'text';
             $class .= ' slug ';
@@ -75,7 +77,7 @@ class Input extends Component
             $class .= ' phone ';
         } elseif ($type == 'money') {
             $type = 'text';
-            $class .= ' money ';
+            $class .= ' money text-right ';
         }
 
         $this->id = $id;

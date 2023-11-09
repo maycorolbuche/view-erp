@@ -21,8 +21,6 @@
                         required />
                     <x-input type="money" name="amount" width="150" label="Valor" value="{{ $data->amount ?? '' }}"
                         required />
-                    <x-input type="money" name="amount2" width="150" label="Valor" value="{{ $data->amount ?? '' }}"
-                        required />
                     <x-input type="text" name="description" width="300" label="Descrição"
                         value="{{ $data->description ?? '' }}" />
                 </x-group>
@@ -49,7 +47,7 @@
 
             <x-panel title="Lista de Pagamentos" type="success">
                 <x-data-table data-origin="users-payments.datatable" pid={{ $pid }}
-                    query-string="pid={{ $pid }}" order="date" order="desc"
+                    query-string="pid={{ $pid }}" order="date" order_dir="desc"
                     columns="{{ json_encode([
                         [
                             'data' => 'actions',
@@ -64,10 +62,12 @@
                         [
                             'title' => 'Data',
                             'data' => 'date',
+                            'className' => 'text-center',
                         ],
                         [
                             'title' => 'Valor',
                             'data' => 'amount',
+                            'className' => 'text-right',
                         ],
                         [
                             'title' => 'Descrição',

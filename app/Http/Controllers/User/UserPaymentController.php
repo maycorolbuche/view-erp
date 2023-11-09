@@ -171,6 +171,9 @@ class UserPaymentController extends Controller
             ->addColumn('date', function ($row) {
                 return ($row->date ? '<span style="display:none">' . $row->date . '</span>' . Carbon::parse($row->date)->format('d/m/Y') : '');
             })
+            ->addColumn('amount', function ($row) {
+                return number_format($row->amount, 2, ',', '.');
+            })
             ->rawColumns(['actions', 'date'])
             ->make(true);
     }
