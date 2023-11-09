@@ -3,6 +3,7 @@
     $dependents_count = $user->dependents_count ?? ($data->dependents_count ?? 0);
     $parents_count = $user->parents_count ?? ($data->parents_count ?? 0);
     $childs_count = $user->childs_count ?? ($data->childs_count ?? 0);
+    $certifications_count = $user->certifications_count ?? ($data->certifications_count ?? 0);
     $active = $user->active ?? ($data->active ?? 0);
 
     $current_route = explode('.', Route::currentRouteName() ?? '')[0];
@@ -64,6 +65,12 @@
         [
             'title' => 'Previdência',
             'name' => 'users-pension',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
+        [
+            'title' => 'Certificações' . ($certifications_count > 0 ? " <span class='badge badge-hero badge-success'>$certifications_count</span>" : ''),
+            'name' => 'users-certifications',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
         ],

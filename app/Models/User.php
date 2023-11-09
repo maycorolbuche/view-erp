@@ -149,6 +149,15 @@ class User extends Authenticatable implements CanResetPassword
         return $this->users_phones()->count();
     }
 
+    public function getCertificationsCountAttribute()
+    {
+        if ($this->relationLoaded('users_certifications')) {
+            return $this->users_certifications->count();
+        }
+
+        return $this->users_certifications()->count();
+    }
+
 
 
     public function systems()
@@ -189,5 +198,10 @@ class User extends Authenticatable implements CanResetPassword
     public function users_phones()
     {
         return $this->hasMany(UserPhone::class, 'id_user', 'id_user');
+    }
+
+    public function users_certifications()
+    {
+        return $this->hasMany(UserCertification::class, 'id_user', 'id_user');
     }
 }

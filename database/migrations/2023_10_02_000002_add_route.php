@@ -249,6 +249,18 @@ class AddRoute extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Especializações',
+            'name' => 'users-certifications',
+            'uri' => 'users/{pid}/certifications',
+            'controller' => 'User\UserCertificationController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'glyphicons glyphicons-certificate',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**
