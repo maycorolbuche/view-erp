@@ -71,7 +71,7 @@ class AddRoute extends Migration
             'label' => 'Cargos',
             'name' => 'roles',
             'uri' => 'roles',
-            'controller' => 'Roles\RolesController',
+            'controller' => 'Role\RoleController',
             'resources' => $all_resources,
             'permissions' => $all_permissions,
             'icon' => 'fas fa-user-secret',

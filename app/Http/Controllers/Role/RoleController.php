@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Branch;
+namespace App\Http\Controllers\Role;
 
 use App\Http\Controllers\Controller;
-use App\Models\Branch;
-use App\Http\Requests\BranchRequest;
+use App\Models\Role;
+use App\Http\Requests\RoleRequest;
 use DataTables;
 
-class BranchController extends Controller
+class RoleController extends Controller
 {
 
     /**
@@ -17,7 +17,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return view('branches.index');
+        return view('roles.index');
     }
 
     /**
@@ -26,15 +26,15 @@ class BranchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BranchRequest $request)
+    public function store(RoleRequest $request)
     {
         if (!in_array('store', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
         try {
-            $branch = Branch::create($request->all());
-            return redirect()->route('branches.show', ['id' => $branch->id_branch])->with('success', 'Registro cadastrado com sucesso');
+            $role = Role::create($request->all());
+            return redirect()->route('roles.show', ['id' => $role->id_role])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
@@ -48,11 +48,11 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        $data = Branch::find($id);
+        $data = Role::find($id);
         if ($data) {
-            return view('branches.index', compact('data'));
+            return view('roles.index', compact('data'));
         } else {
-            return redirect()->route('branches')->with('error', 'Registro não encontrado!');
+            return redirect()->route('roles')->with('error', 'Registro não encontrado!');
         }
     }
 
@@ -63,7 +63,7 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BranchRequest $request, $id)
+    public function update(RoleRequest $request, $id)
     {
         if (!in_array('update', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
@@ -71,18 +71,18 @@ class BranchController extends Controller
 
         if ($request->_action == "store") {
             $id = null;
-            $storeRequest = new BranchRequest();
+            $storeRequest = new RoleRequest();
             $request->validate($storeRequest->rules());
             $storeRequest->merge($request->all());
             return $this->store($storeRequest);
         }
         try {
-            $branch = Branch::find($id);
-            if ($branch) {
-                $branch->update($request->all());
-                return redirect()->route('branches.show', ['id' => $branch->id_branch])->with('success', 'Registro salvo com sucesso');
+            $role = Role::find($id);
+            if ($role) {
+                $role->update($request->all());
+                return redirect()->route('roles.show', ['id' => $role->id_role])->with('success', 'Registro salvo com sucesso');
             } else {
-                return redirect()->route('branches')->with('error', 'Registro não encontrado!');
+                return redirect()->route('roles')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -102,12 +102,12 @@ class BranchController extends Controller
         }
 
         try {
-            $branch = Branch::find($id);
-            if ($branch) {
-                $branch->delete();
-                return redirect()->route('branches')->with('success', 'Registro apagado com sucesso');
+            $role = Role::find($id);
+            if ($role) {
+                $role->delete();
+                return redirect()->route('roles')->with('success', 'Registro apagado com sucesso');
             } else {
-                return redirect()->route('branches')->with('error', 'Registro não encontrado!');
+                return redirect()->route('roles')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -118,13 +118,13 @@ class BranchController extends Controller
     public function datatable()
     {
         $id_system = request('__id_system');
-        $data = Branch::latest()->get();
+        $data = Role::latest()->get();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'branches.show', [$id_field => $row->id_branch]);
+                $edit_route = route(request('route') ?: 'roles.show', [$id_field => $row->id_role]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
