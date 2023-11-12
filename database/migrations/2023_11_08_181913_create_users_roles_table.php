@@ -21,7 +21,7 @@ class CreateUsersRolesTable extends Migration
             $table->date('end_date')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_role')->references('id_role')->on('roles');
+            $table->foreign('id_role')->references('id_role')->on('roles')->onUpdate('cascade')->onDelete('cascade');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

@@ -25,8 +25,8 @@ class CreateUsersPhonesTable extends Migration
             $table->text('notes')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_carrier')->references('id_carrier')->on('carriers');
-            $table->foreign('id_phone_type')->references('id_phone_type')->on('phones_types');
+            $table->foreign('id_carrier')->references('id_carrier')->on('carriers')->onUpdate('set null')->onDelete('set null');
+            $table->foreign('id_phone_type')->references('id_phone_type')->on('phones_types')->onUpdate('set null')->onDelete('set null');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

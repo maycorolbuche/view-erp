@@ -21,7 +21,7 @@ class CreateUsersDependentsTable extends Migration
             $table->date('birth_date')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_relationship_degree')->references('id_relationship_degree')->on('relationships_degrees');
+            $table->foreign('id_relationship_degree')->references('id_relationship_degree')->on('relationships_degrees')->onUpdate('set null')->onDelete('set null');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
