@@ -156,7 +156,8 @@ class HolidayController extends Controller
                     'easter' => ['Dinâmico', 'warning']
                 ];
 
-                return "<span class='badge badge-" . $items[$type][1] . "'>" . $items[$type][0] . "<span>";
+                return "<span class='badge badge-" . $items[$type][1] . "'>" . $items[$type][0] . "</span>"
+                    . ($type == "easter" ? " <span class='badge badge-info'>🐇 " . ($row->easter > 0 ? "+" : "") . $row->easter . "</span>" : "");
             })
             ->addColumn('branches', function ($row) {
                 $branches = '';
