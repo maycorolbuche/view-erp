@@ -14,10 +14,14 @@
             <x-form action-name="holidays" action-id="{{ isset($data) ? $data->id_holiday : null }}">
                 <x-group>
                     <x-input name="name" width="400" label="Nome" required value="{{ $data->name ?? '' }}" />
+                    <x-input type="radio" name="type" width="400" label="Tipo"
+                        list="{{ json_encode([['key' => 'unique', 'value' => 'Único'], ['key' => 'repeat', 'value' => 'Recorrente'], ['key' => 'easter', 'value' => 'Dinâmico']]) }}"
+                        list-value="key" list-text="value" value="{{ $data->type ?? 'unique' }}"
+                        tip="Único = Somente 1 vez / Recorrente = Anualmente / Dinâmico = Relativo a Páscoa" />
                     <x-input type="date" name="date" width="150" label="Data" required
                         value="{{ $data->date ?? '' }}" />
-                    <x-input type="bool" name="repeat" width="200" label="Recorrente?"
-                        value="{{ $data->repeat ?? '' }}" tip="Marque se o feriado se repete todo ano na mesma data" />
+                    <x-input type="number" name="easter" width="150" label="Qtd. Dias ref. Páscoa" required
+                        value="{{ $data->easter ?? '' }}" tip="Qtd. de dias referente ao feriado de páscoa" />
                 </x-group>
                 <x-group>
                     @php
@@ -54,3 +58,30 @@
         </x-panel>
     </x-content>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $("[name=type]").change(function() {
+                change_type();
+            });
+            change_type();
+        });
+
+        function change_type() {
+            let val = $("[name=type]:checked").val();
+
+            $("#group-easter").hide();
+            $("#group-date").show();
+            $("#date").removeAttr("min").removeAttr("max");
+            if (val == "repeat") {
+                $("#date").attr("min", "{{ date('Y') }}-01-01").attr("max", "{{ date('Y') }}-12-31");
+            } else if (val == "easter") {
+                $("#group-date").hide();
+                $("#group-easter").show();
+            }
+            console.log("XXX", val);
+        }
+    </script>
+@endpush

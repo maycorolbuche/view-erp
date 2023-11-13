@@ -25,7 +25,6 @@ class HolidayRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'date' => 'required',
         ];
     }
 
@@ -33,22 +32,30 @@ class HolidayRequest extends FormRequest
     {
         return [
             'name' => 'nome',
-            'date' => 'data',
         ];
     }
 
     protected function prepareForValidation()
     {
-        $date = explode("-", $this->input('date'));
+        if ($this->input('type') == "easter") {
+            $day = null;
+            $month = null;
+            $year = null;
+            $easter = $this->input('easter');
+        } else {
+            $date = explode("-", $this->input('date'));
 
-        if ($this->input('repeat')) {
-            $date[0] = null;
+            $day = $date[2];
+            $month = $date[1];
+            $year = $this->input('type') == "repeat" ? null : $date[0];
+            $easter = null;
         }
 
         $this->merge([
-            'day' => $date[2],
-            'month' => $date[1],
-            'year' => $date[0],
+            'day' => $day,
+            'month' => $month,
+            'year' => $year,
+            'easter' => $easter,
         ]);
     }
 }

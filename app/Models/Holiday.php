@@ -17,17 +17,25 @@ class Holiday extends Model
         'year',
         'month',
         'day',
+        'easter',
         'name',
     ];
 
     public function getDateAttribute()
     {
-        return ($this->year ?? date("Y")) . "-" . $this->month . "-" . $this->day;
+
+        if ($this->easter !== null) {
+            $easterTimestamp = easter_date();
+            $date = $easterTimestamp + ($this->easter * 24 * 60 * 60);
+            return date("Y-m-d", $date);
+        } else {
+            return ($this->year ?? date("Y")) . "-" . $this->month . "-" . $this->day;
+        }
     }
 
-    public function getRepeatAttribute()
+    public function getTypeAttribute()
     {
-        return $this->year == null;
+        return $this->easter !== null ? "easter" : ($this->year == null ? "repeat" : "unique");
     }
 
     public function holidays_branches()
@@ -37,6 +45,6 @@ class Holiday extends Model
 
     public function branches()
     {
-        return $this->belongsToMany(Branch::class, HolidayBranch::class, 'id_holiday', 'id_holiday');
+        return $this->belongsToMany(Branch::class, HolidayBranch::class, 'id_holiday', 'id_branch');
     }
 }

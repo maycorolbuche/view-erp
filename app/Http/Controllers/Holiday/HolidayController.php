@@ -137,11 +137,26 @@ class HolidayController extends Controller
             })
             ->addColumn('date', function ($row) {
                 $date = strtotime(($row->year ?? date("Y")) . "-" . $row->month . "-" . $row->day);
-                return '<span style="display:none">' . $date . '</span>' . date("d/m/Y", $date);
+
+                if ($row->easter || $row->easter == "0") {
+                    $easterTimestamp = easter_date();
+                    $date = $easterTimestamp + ($row->easter * 24 * 60 * 60);
+                    return '<span style="display:none">' . $date . '</span>' . "<span class='text-warning'>" . date("d/m/Y", $date) . "</span>";
+                } elseif ($row->year) {
+                    return '<span style="display:none">' . $date . '</span>' . date("d/m/Y", $date);
+                } else {
+                    return '<span style="display:none">' . $date . '</span>' . date("d/m/", $date) .  "<span class='text-warning'>" . date("Y", $date) . "</span>";
+                }
             })
-            ->addColumn('repeat', function ($row) {
-                $repeat = ($row->year == null);
-                return $repeat ? "<span class='badge badge-warning'>Recorrente<span>" : "";
+            ->addColumn('type', function ($row) {
+                $type = $row->easter !== null ? "easter" : ($row->year == null ? "repeat" : "unique");
+                $items = [
+                    'unique' => ['Único', 'info'],
+                    'repeat' => ['Recorrente', 'success'],
+                    'easter' => ['Dinâmico', 'warning']
+                ];
+
+                return "<span class='badge badge-" . $items[$type][1] . "'>" . $items[$type][0] . "<span>";
             })
             ->addColumn('branches', function ($row) {
                 $branches = '';
@@ -150,7 +165,7 @@ class HolidayController extends Controller
                 }
                 return $branches;
             })
-            ->rawColumns(['actions', 'date', 'repeat', 'branches'])
+            ->rawColumns(['actions', 'date', 'type', 'branches'])
             ->make(true);
     }
 

@@ -18,6 +18,7 @@ class CreateHolidaysTable extends Migration
             $table->integer('year')->nullable();
             $table->integer('month')->nullable();
             $table->integer('day')->nullable();
+            $table->integer('easter')->nullable();
             $table->string('name');
 
             $table->unsignedInteger('created_by')->nullable();

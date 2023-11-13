@@ -21,8 +21,8 @@
             'data' => 'name',
         ],
         [
-            'title' => 'Recorrente?',
-            'data' => 'repeat',
+            'title' => 'Tipo',
+            'data' => 'type',
             'className' => 'text-center',
         ],
         [
