@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\Route;
 
-class AddRoute extends Migration
+class AddRoutes extends Migration
 {
     private static $sequenceValue = 0;
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\RelationshipDegree;
 
-class AddRelationshipDegree extends Migration
+class AddRelationshipsDegrees extends Migration
 {
     /**
      * Run the migrations.

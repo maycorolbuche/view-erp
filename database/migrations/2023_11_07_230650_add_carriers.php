@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\Carrier;
 
-class AddCarrier extends Migration
+class AddCarriers extends Migration
 {
     /**
      * Run the migrations.

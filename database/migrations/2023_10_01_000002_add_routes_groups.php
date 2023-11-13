@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\RouteGroup;
 
-class AddRouteGroup extends Migration
+class AddRoutesGroups extends Migration
 {
     /**
      * Run the migrations.

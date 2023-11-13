@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\EmploymentType;
 
-class AddEmploymentType extends Migration
+class AddEmploymentTypes extends Migration
 {
     /**
      * Run the migrations.

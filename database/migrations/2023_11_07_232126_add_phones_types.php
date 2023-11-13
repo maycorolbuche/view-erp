@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\PhoneType;
 
-class AddPhoneType extends Migration
+class AddPhonesTypes extends Migration
 {
     /**
      * Run the migrations.

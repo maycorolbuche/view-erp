@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\Holiday;
 
-class AddHoliday extends Migration
+class AddHolidays extends Migration
 {
     /**
      * Run the migrations.

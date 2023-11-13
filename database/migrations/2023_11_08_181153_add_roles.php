@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use App\Models\Role;
 
-class AddRole extends Migration
+class AddRoles extends Migration
 {
     /**
      * Run the migrations.
