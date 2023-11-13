@@ -80,6 +80,18 @@ class AddRoute extends Migration
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
+            'label' => 'Feriados',
+            'name' => 'holidays',
+            'uri' => 'holidays',
+            'controller' => 'Holiday\HolidayController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-calendar-day',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
             'label' => 'Cargos',
             'name' => 'roles',
             'uri' => 'roles',

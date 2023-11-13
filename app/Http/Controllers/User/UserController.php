@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         $employment_types = EmploymentType::all();
         $civil_statuses = CivilStatus::all();
-        $branches = Branch::all();
+        $branches = Branch::orderBy('name')->get();
         return view('users.index', compact('employment_types', 'civil_statuses', 'branches'));
     }
 
@@ -84,7 +84,7 @@ class UserController extends Controller
         if ($data) {
             $employment_types = EmploymentType::all();
             $civil_statuses = CivilStatus::all();
-            $branches = Branch::all();
+            $branches = Branch::orderBy('name')->get();
 
             return view('users.index', compact('data', 'employment_types', 'civil_statuses', 'branches'));
         } else {
