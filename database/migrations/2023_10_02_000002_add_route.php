@@ -56,6 +56,18 @@ class AddRoute extends Migration
         $id_route_group = 2;
         Route::create([
             'id_route_group' => $id_route_group,
+            'label' => 'Clientes',
+            'name' => 'clients',
+            'uri' => 'clients',
+            'controller' => 'Client\ClientController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'glyphicons glyphicons-building',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
             'label' => 'Filiais',
             'name' => 'branches',
             'uri' => 'branches',
