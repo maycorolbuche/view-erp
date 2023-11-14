@@ -162,6 +162,18 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 1,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Tipos de Autorização',
+            'name' => 'authorizations-types',
+            'uri' => 'authorizations-types',
+            'controller' => 'Authorization\AuthorizationTypeController',
+            'resources' => $all_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'fas fa-file-alt',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
 
         /* USUÁRIOS E ACESSOS */
         $id_route_group = 3;
