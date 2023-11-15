@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
 
-class UserTeam extends Model
+class UserAuthorizationType extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
-    protected $table = 'users_teams';
-    protected $primaryKey = 'id_user_team';
+    protected $table = 'users_authorizations_types';
+    protected $primaryKey = 'id_user_authorization_type';
 
     protected $fillable = [
         'id_user_parent',
         'id_user_child',
+        'id_authorization_type',
     ];
+
 
 
     public function parent()
@@ -29,9 +31,8 @@ class UserTeam extends Model
         return $this->hasOne(User::class, 'id_user', 'id_user_child');
     }
 
-    public function users_authorizations_types()
+    public function authorization_type()
     {
-        return $this->hasMany(UserAuthorizationType::class, 'id_user_parent', 'id_user_parent')
-            ->where('id_user_child', $this->id_user_child);
+        return $this->hasOne(AuthorizationType::class, 'id_authorization_type', 'id_authorization_type');
     }
 }

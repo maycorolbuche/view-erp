@@ -19,7 +19,6 @@ class UsersTeamsSeeder extends Seeder
                 UserTeam::create([
                     'id_user_parent' => User::all()->random()['id_user'],
                     'id_user_child' => User::all()->random()['id_user'],
-                    'authorizations' => [],
                 ]);
             } catch (QueryException $e) {
                 continue;

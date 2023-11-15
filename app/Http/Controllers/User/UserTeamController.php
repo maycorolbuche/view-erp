@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserTeam;
+use App\Models\AuthorizationType;
+use App\Models\UserAuthorizationType;
 use App\Http\Requests\UserTeamRequest;
 use DataTables;
 
@@ -27,7 +29,8 @@ class UserTeamController extends Controller
             $user = User::find($id);
             if ($user) {
                 $users = User::all();
-                return view('users.teams.index', compact('pid', 'user', 'users'));
+                $authorizations_types = AuthorizationType::orderBy('sequence')->get();
+                return view('users.teams.index', compact('pid', 'user', 'users', 'authorizations_types'));
             } else {
                 return redirect()->route('users-teams')->with('error', 'Registro não encontrado!');
             }
@@ -74,6 +77,7 @@ class UserTeamController extends Controller
             }
 
             $user_team = UserTeam::create($request->all());
+            $this->UsersAuthorizationsTypes($user_team->id_user_team, $request->id_authorization_type ?? []);
             return redirect()->route('users-teams.show', ['pid' => $pid, 'id' => $user_team->id_user_team])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -93,6 +97,8 @@ class UserTeamController extends Controller
             $data = UserTeam::find($id);
             if ($data) {
                 $users = User::all();
+                $authorizations_types = AuthorizationType::orderBy('sequence')->get();
+
                 if ($data->id_user_parent == $pid) {
                     $data->id_user_people = $data->id_user_child;
                     $data->relationship = "child";
@@ -101,7 +107,7 @@ class UserTeamController extends Controller
                     $data->relationship = "parent";
                 }
 
-                return view('users.teams.index', compact('pid', 'data', 'user', 'users'));
+                return view('users.teams.index', compact('pid', 'data', 'user', 'users', 'authorizations_types'));
             } else {
                 return redirect()->route('users')->with('error', 'Registro não encontrado!');
             }
@@ -143,6 +149,14 @@ class UserTeamController extends Controller
             $request->merge(['id_user_child' => $request->id_user_people]);
         }
 
+        if ($request->relationship_old == "parent") {
+            $request->merge(['id_user_child_old' => $pid]);
+            $request->merge(['id_user_parent_old' => $request->id_user_people_old]);
+        } else {
+            $request->merge(['id_user_parent_old' => $pid]);
+            $request->merge(['id_user_child_old' => $request->id_user_people_old]);
+        }
+
         $request->merge(['authorizations' => array_keys($request->authorizations ?? [])]);
 
         try {
@@ -156,6 +170,11 @@ class UserTeamController extends Controller
                 $user_team = UserTeam::find($id);
                 if ($user_team) {
                     $user_team->update($request->all());
+                    UserAuthorizationType::where('id_user_parent', $request->id_user_parent_old)
+                        ->where('id_user_child', $request->id_user_child_old)
+                        ->delete();
+
+                    $this->UsersAuthorizationsTypes($user_team->id_user_team, $request->id_authorization_type ?? []);
                     return redirect()->route('users-teams.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
                 } else {
                     return redirect()->route('users-teams')->with('error', 'Registro não encontrado!');
@@ -186,6 +205,10 @@ class UserTeamController extends Controller
             if ($user) {
                 $user_team = UserTeam::find($id);
                 if ($user_team) {
+                    UserAuthorizationType::where('id_user_parent', $user_team->id_user_parent)
+                        ->where('id_user_child', $user_team->id_user_child)
+                        ->delete();
+
                     $user_team->delete();
                     return redirect()->route('users-teams.index', compact('pid'))->with('success', 'Registro apagado com sucesso');
                 } else {
@@ -226,7 +249,7 @@ class UserTeamController extends Controller
                     return '<span class="badge badge-danger"><span class="fas fa-user-tie"></span> Superior</span>';
                 }
             })
-            ->addColumn('authorizations', function ($row) {
+            /* ->addColumn('authorizations', function ($row) {
                 $return = "";
                 foreach ($row->authorizations as $authorization) {
                     $name = "";
@@ -246,8 +269,26 @@ class UserTeamController extends Controller
                     $return .= " <span class='badge badge-info'>$name</span> ";
                 }
                 return $return;
-            })
+            })*/
             ->rawColumns(['actions', 'relationship', 'authorizations'])
             ->make(true);
+    }
+
+
+    public function UsersAuthorizationsTypes($id_user_team, $authorizations_types)
+    {
+        $data = UserTeam::find($id_user_team);
+        UserAuthorizationType::where('id_user_parent', $data->id_user_parent)
+            ->where('id_user_child', $data->id_user_child)
+            ->delete();
+        if ($authorizations_types && count($authorizations_types) > 0) {
+            foreach (array_keys($authorizations_types) as $id_authorization_type) {
+                UserAuthorizationType::create([
+                    'id_user_parent' =>  $data->id_user_parent,
+                    'id_user_child' =>  $data->id_user_child,
+                    'id_authorization_type' => $id_authorization_type
+                ]);
+            }
+        }
     }
 }

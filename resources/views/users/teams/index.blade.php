@@ -16,6 +16,10 @@
 
             <x-form action-name="users-teams" action-id="{{ isset($data) ? $data->id_user_team : null }}"
                 action-pid="{{ $pid }}">
+
+                <input type="hidden" name="id_user_people_old" value="{{ $data->id_user_people ?? '' }}" />
+                <input type="hidden" name="relationship_old" value="{{ $data->relationship ?? '' }}" />
+
                 <x-group>
                     <x-input type="select" name="id_user_people" required width="400" label="Pessoa"
                         list="{{ json_encode($users) }}" list-value="id_user" list-text="name"
@@ -23,13 +27,21 @@
                     <x-input type="radio" name="relationship" required width="400" label="Tipo de Relacionamento"
                         list="{{ json_encode([['type' => 'parent', 'name' => 'Superior'], ['type' => 'child', 'name' => 'Subordinado']]) }}"
                         list-value="type" list-text="name" value="{{ $data->relationship ?? 'parent' }}" />
-                    <x-input type="checkbox" name="authorizations" width="400" label="Autorizações"
-                        list="{{ json_encode([
-                            ['type' => 'expense', 'name' => 'Despesas'],
-                            ['type' => 'overtime', 'name' => 'Hora Extra'],
-                            ['type' => 'prepayment', 'name' => 'Adiantamento'],
-                        ]) }}"
-                        list-value="type" list-text="name" value="{{ json_encode($data->authorizations ?? []) ?? '' }}" />
+                </x-group>
+
+                <x-group>
+                    @php
+                        $idValues = [];
+                        if (isset($data) && isset($data->users_authorizations_types)) {
+                            foreach ($data->users_authorizations_types as $item) {
+                                $idValues[] = $item['id_authorization_type'];
+                            }
+                        }
+                    @endphp
+
+                    <x-input type="checkbox" name="id_authorization_type" width="200" label="Autorizações"
+                        list="{{ json_encode($authorizations_types) }}" list-value="id_authorization_type" list-text="name"
+                        value="{{ json_encode($idValues ?? '[]') }}" />
                 </x-group>
 
                 <x-group right>
@@ -75,14 +87,14 @@
                             'data' => 'relationship',
                             'className' => 'text-center',
                         ],
-                        [
-                            'title' => 'Autoriações',
-                            'data' => 'authorizations',
-                            'className' => 'text-center',
-                        ],
                     ]) }}" />
             </x-panel>
-
+            ,
+            [
+            'title' => 'Autoriações',
+            'data' => 'authorizations',
+            'className' => 'text-center',
+            ]
         </x-panel>
 
         <x-panel title="Dados" type="warning">
