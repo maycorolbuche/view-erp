@@ -18,6 +18,7 @@
 
 <!-- Page Plugins -->
 <link rel="stylesheet" type="text/css" href="{{ asset('vendor/plugins/telinput/intlTelInput.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendor/plugins/chosen/chosen.min.css') }}">
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -73,17 +74,6 @@
         font-size: 18px;
     }
 
-    select+.btn-group,
-    select+.btn-group button {
-        width: 100%;
-        background: #FFF;
-    }
-
-    select+.btn-group button.dropdown-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
 
     .topbar-right {
         display: flex;
@@ -199,9 +189,31 @@
         border-left: 3px solid #4a89dc !important;
     }
 
-    /**/
 
-    .multiselect-container li a:has(label input[value='']) {
-        display: none;
+
+
+
+    .chosen-single,
+    .chosen-choices {
+        display: block !important;
+        width: 100% !important;
+        font-size: 13px !important;
+        color: #555555 !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        border: 1px solid #dddddd !important;
+        border-radius: 0px !important;
+        box-shadow: initial !important;
+        min-height: 39px !important;
+        padding-top: 6px !important;
+        padding-left: 12px !important;
+    }
+
+    .chosen-single div {
+        padding-top: 7px !important;
+    }
+
+    .chosen-single abbr {
+        margin-top: 7px !important;
     }
 </style>

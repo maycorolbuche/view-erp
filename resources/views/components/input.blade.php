@@ -25,11 +25,11 @@
                 </script>
             @endpush
             <!-- -->
-        @elseif ($type == 'select')
+        @elseif ($type == 'select' || $type == 'multiple' || $type == 'select-multiple')
             <!-- -->
             <select id="{{ $id }}" name="{{ $name }}" {{ $required ? 'required' : '' }}
-                onchange="config_select_{{ $id }}()">
-                <option value="">&nbsp;</option>
+                class="chosen-select" {{ $type == 'multiple' || $type == 'select-multiple' ? 'multiple' : '' }}>
+                <option></option>
                 @foreach (json_decode(html_entity_decode($list), true) as $item)
                     <option value="{{ $item[$listValue] }}"
                         {{ (old($field) ?: $value) == $item[$listValue] ? 'selected' : '' }}>
@@ -37,36 +37,6 @@
                     </option>
                 @endforeach
             </select>
-
-            <span class="append-icon right btn-deselect" style="margin-right:6px;z-index: 10;cursor: pointer;"
-                onclick="deselect_{{ $id }}()">
-                <i class="fa fa-remove"></i>
-            </span>
-
-            @push('scripts')
-                <script>
-                    function deselect_{{ $id }}() {
-                        $('#{{ $id }} option:selected').each(function() {
-                            $(this).prop('selected', false);
-                        })
-
-                        $('#{{ $id }}').multiselect('refresh');
-                        config_select_{{ $id }}();
-                    }
-
-                    function config_select_{{ $id }}() {
-                        let val = $('#{{ $id }} option:selected').val();
-                        if (val != "") {
-                            $("#{{ $id }}").parent().find(".btn-deselect").show();
-                        } else {
-                            $("#{{ $id }}").parent().find(".btn-deselect").hide();
-                        }
-                    }
-                    $(document).ready(function() {
-                        config_select_{{ $id }}();
-                    });
-                </script>
-            @endpush
             <!-- -->
         @elseif ($type == 'radio')
             <!-- -->

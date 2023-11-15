@@ -28,6 +28,7 @@
 <script type="text/javascript" src="{{ asset('vendor/plugins/jquerymask/jquery.mask.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/telinput/intlTelInput.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/chosen/chosen.jquery.min.js') }}"></script>
 
 <!-- Confirm -->
 <!-- https://craftpip.github.io/jquery-confirm/ -->
@@ -145,19 +146,6 @@
 
 
 
-        $('select').multiselect({
-            includeSelectAllOption: true,
-            enableFiltering: true,
-            filterPlaceholder: "Localizar",
-            nonSelectedText: "Não selecionado",
-            nSelectedText: "selecionado",
-            allSelectedText: "Todos Selecionados",
-            selectAllText: "Selecionar Todos",
-            enableCaseInsensitiveFiltering: true,
-
-        });
-
-
         $(".validate").validate({
 
             /* @validation states + elements 
@@ -216,6 +204,19 @@
             range: jQuery.validator.format("Por favor, informe um valor entre {0} e {1}."),
             max: jQuery.validator.format("Por favor, informe um valor menor ou igual a {0}."),
             min: jQuery.validator.format("Por favor, informe um valor maior ou igual a {0}.")
+        });
+
+
+        $(".chosen-select").chosen({
+            no_results_text: "Sem resultados para",
+            placeholder_text_single: "Selecione uma opção",
+            placeholder_text_multiple: "Selecione as opções",
+
+            allow_single_deselect: true,
+            no_results_text: 'Nenhum resultado para ',
+            placeholder_text_multiple: ' ',
+            placeholder_text_single: ' ',
+            width: '100%'
         });
 
 

@@ -42,7 +42,8 @@
             @php
                 $current_route = explode('.', Route::currentRouteName() ?? '');
             @endphp
-            <select onchange="window.location.href = $(this).val()">
+
+            <select onchange="window.location.href = $(this).val()" class="chosen-select">
                 <option value="{{ route('dashboard') }}" {{ $current_route[0] == '' ? 'selected' : '' }}>
                     Buscar Menu...
                 </option>
