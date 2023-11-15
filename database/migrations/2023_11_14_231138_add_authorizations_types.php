@@ -21,21 +21,25 @@ class AddAuthorizationsTypes extends Migration
     {
         AuthorizationType::create([
             'name' => 'Despesas',
+            'slug' => 'expense',
             'approval' => 'one',
             'sequence' => self::sequence(),
         ]);
         AuthorizationType::create([
             'name' => 'Hora Extra',
+            'slug' => 'overtime',
             'approval' => 'one',
             'sequence' => self::sequence(),
         ]);
         AuthorizationType::create([
             'name' => 'Adiantamento',
+            'slug' => 'advance',
             'approval' => 'one',
             'sequence' => self::sequence(),
         ]);
         AuthorizationType::create([
             'name' => 'Devolução Adiantamento',
+            'slug' => 'repayment',
             'approval' => 'one',
             'sequence' => self::sequence(),
         ]);

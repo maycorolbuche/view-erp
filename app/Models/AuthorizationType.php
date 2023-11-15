@@ -15,6 +15,7 @@ class AuthorizationType extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'approval',
         'sequence',
     ];

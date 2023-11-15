@@ -16,6 +16,7 @@ class CreateAuthorizationsTypesTable extends Migration
         Schema::create('authorizations_types', function (Blueprint $table) {
             $table->increments('id_authorization_type');
             $table->string('name');
+            $table->string('slug')->unique();
             $table->enum('approval', ['one', 'all']);
             $table->integer('sequence');
 
