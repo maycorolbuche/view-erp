@@ -36,6 +36,12 @@ class AddRoutesGroups extends Migration
             'label' => 'Pessoas',
             'sequence' => 40,
         ]);
+        RouteGroup::create([
+            'id_route_group' => 5,
+            'icon' => 'fas fa-money-bill',
+            'label' => 'Despesas',
+            'sequence' => 50,
+        ]);
     }
 
     /**

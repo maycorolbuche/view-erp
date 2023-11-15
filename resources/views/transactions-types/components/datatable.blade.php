@@ -12,7 +12,7 @@
             'className' => 'text-right',
         ],
         [
-            'title' => 'Descrição',
-            'data' => 'name',
+            'title' => 'Nome',
+            'data' => 'name_short_name',
         ],
     ]) }}" />

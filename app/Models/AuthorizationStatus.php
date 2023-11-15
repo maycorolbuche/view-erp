@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
 
-class TransactionType extends Model
+class AuthorizationStatus extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
-    protected $table = 'transactions_types';
-    protected $primaryKey = 'id_transaction_type';
+    protected $table = 'authorizations_statuses';
+    protected $primaryKey = 'id_authorization_status';
 
     protected $fillable = [
-        'name',
-        'short_name',
+        'id_authorization',
+        'id_user',
+        'approved',
     ];
 }

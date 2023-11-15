@@ -16,6 +16,7 @@
             <x-form action-name="transactions-types" action-id="{{ isset($data) ? $data->id_transaction_type : null }}">
                 <x-group>
                     <x-input name="name" width="400" label="Nome" required value="{{ $data->name ?? '' }}" />
+                    <x-input name="short_name" width="200" label="Nome Resumido" value="{{ $data->short_name ?? '' }}" />
                 </x-group>
 
                 <x-group right>

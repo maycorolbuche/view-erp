@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
 
-class TransactionType extends Model
+class AuthorizationClient extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
-    protected $table = 'transactions_types';
-    protected $primaryKey = 'id_transaction_type';
+    protected $table = 'authorizations_clients';
+    protected $primaryKey = 'id_authorization_client';
 
     protected $fillable = [
-        'name',
-        'short_name',
+        'id_authorization',
+        'id_client',
     ];
 }

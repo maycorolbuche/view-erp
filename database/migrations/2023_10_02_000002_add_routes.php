@@ -420,6 +420,22 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+
+
+        /* DESPESAS */
+        $id_route_group = 5;
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Solicitação de Despesas',
+            'name' => 'authorizations-expenses',
+            'uri' => 'authorizations-expenses',
+            'controller' => 'Expense\AuthorizationExpenseController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-money-check-alt',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**

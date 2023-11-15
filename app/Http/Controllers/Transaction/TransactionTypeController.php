@@ -127,7 +127,10 @@ class TransactionTypeController extends Controller
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
-            ->rawColumns(['actions'])
+            ->addColumn('name_short_name', function ($row) {
+                return $row->name . ($row->short_name ? " <span class='badge badge-muted'>" . $row->short_name . "</span>" :  "");
+            })
+            ->rawColumns(['actions', 'name_short_name'])
             ->make(true);
     }
 }

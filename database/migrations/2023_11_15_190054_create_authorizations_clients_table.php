@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionsTypesTable extends Migration
+class CreateAuthorizationsClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,15 @@ class CreateTransactionsTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactions_types', function (Blueprint $table) {
-            $table->increments('id_transaction_type');
-            $table->string('name');
-            $table->string('short_name')->nullable();
+        Schema::create('authorizations_clients', function (Blueprint $table) {
+            $table->increments('id_authorization_client');
+            $table->unsignedInteger('id_authorization');
+            $table->unsignedInteger('id_client');
+
+            $table->unique(['id_authorization', 'id_client']);
+
+            $table->foreign('id_authorization')->references('id_authorization')->on('authorizations')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_client')->references('id_client')->on('clients')->onUpdate('cascade')->onDelete('cascade');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
@@ -34,6 +39,6 @@ class CreateTransactionsTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions_types');
+        Schema::dropIfExists('authorizations_clients');
     }
 }
