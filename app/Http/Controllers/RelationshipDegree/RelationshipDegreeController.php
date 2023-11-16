@@ -117,7 +117,6 @@ class RelationshipDegreeController extends Controller
 
     public function datatable()
     {
-        $id_system = request('__id_system');
         $data = RelationshipDegree::latest()->get();
         $id_field = request('id-field') ?: 'id';
 

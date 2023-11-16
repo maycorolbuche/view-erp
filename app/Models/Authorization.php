@@ -23,4 +23,25 @@ class Authorization extends Model
         'active',
         'approved',
     ];
+
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, AuthorizationClient::class, 'id_authorization', 'id_client');
+    }
+
+    public function statuses()
+    {
+        return $this->belongsToMany(User::class, AuthorizationStatus::class, 'id_authorization', 'id_user')->withPivot('approved');
+    }
+
+    public function authorization_type()
+    {
+        return $this->hasOne(AuthorizationType::class, 'id_authorization_type', 'id_authorization_type');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_user', 'id_user');
+    }
 }

@@ -117,7 +117,6 @@ class EmploymentTypeController extends Controller
 
     public function datatable()
     {
-        $id_system = request('__id_system');
         $data = EmploymentType::latest()->get();
         $id_field = request('id-field') ?: 'id';
 

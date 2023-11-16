@@ -27,12 +27,28 @@
             <!-- -->
         @elseif ($type == 'select' || $type == 'multiple' || $type == 'select-multiple')
             <!-- -->
-            <select id="{{ $id }}" name="{{ $name }}" {{ $required ? 'required' : '' }}
-                class="chosen-select" {{ $type == 'multiple' || $type == 'select-multiple' ? 'multiple' : '' }}>
+            @php
+                $v = [];
+                if ($type == 'select') {
+                    $v[] = $value;
+                } else {
+                    $jsonData = json_decode(html_entity_decode($value));
+                    if ($jsonData !== null) {
+                        $v = $jsonData;
+                    } else {
+                        $v[] = $value;
+                    }
+                }
+                $value = $v;
+            @endphp
+            <select id="{{ $id }}"
+                name="{{ $name }}{{ $type == 'multiple' || $type == 'select-multiple' ? '[]' : '' }}"
+                {{ $required ? 'required' : '' }} class="chosen-select"
+                {{ $type == 'multiple' || $type == 'select-multiple' ? 'multiple' : '' }}>
                 <option></option>
                 @foreach (json_decode(html_entity_decode($list), true) as $item)
                     <option value="{{ $item[$listValue] }}"
-                        {{ (old($field) ?: $value) == $item[$listValue] ? 'selected' : '' }}>
+                        {{ in_array($item[$listValue], is_array(old($field)) ? old($field) : $value) ? 'selected' : '' }}>
                         {{ $item[$listText] }}
                     </option>
                 @endforeach

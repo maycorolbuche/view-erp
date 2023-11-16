@@ -41,6 +41,11 @@ width: 100% !important;
 {{ Illuminate\Mail\Markdown::parse($slot) }}
 
 {{ $subcopy ?? '' }}
+
+<br>
+<br>
+<span style='font-size:10px;'>Não responda este e-mail. Esta é uma mensagem gerada automaticamente.</span>
+
 </td>
 </tr>
 </table>

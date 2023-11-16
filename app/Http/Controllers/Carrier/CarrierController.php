@@ -117,7 +117,6 @@ class CarrierController extends Controller
 
     public function datatable()
     {
-        $id_system = request('__id_system');
         $data = Carrier::latest()->get();
         $id_field = request('id-field') ?: 'id';
 
