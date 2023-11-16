@@ -216,4 +216,18 @@
     .chosen-single abbr {
         margin-top: 7px !important;
     }
+
+    /*
+    .chosen-container-multi .search-choice {
+        color: #FFF !important;
+        background: #6c9fe3 !important;
+        margin-right: 8px !important;
+        color: #FFF !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        border: 0 !important;
+        border-radius: 1px !important;
+        box-shadow: none !important;
+    }
+    */
 </style>

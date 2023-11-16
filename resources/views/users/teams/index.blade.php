@@ -87,14 +87,13 @@
                             'data' => 'relationship',
                             'className' => 'text-center',
                         ],
+                        [
+                            'title' => 'Autorizações',
+                            'data' => 'authorizations',
+                            'className' => 'text-center',
+                        ],
                     ]) }}" />
             </x-panel>
-            ,
-            [
-            'title' => 'Autoriações',
-            'data' => 'authorizations',
-            'className' => 'text-center',
-            ]
         </x-panel>
 
         <x-panel title="Dados" type="warning">

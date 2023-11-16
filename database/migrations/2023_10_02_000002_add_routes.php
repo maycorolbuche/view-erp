@@ -21,7 +21,11 @@ class AddRoutes extends Migration
         $all_resources = ["index",  "store", "show", "update", "destroy"];
         $all_permissions = ["store", "update", "destroy"];
 
-        $update_resources = ["index", "update-all"];
+        $store_resources = ["index",  "store"];
+        $store_permissions = ["store"];
+
+        $update_all_resources = ["index", "update-all"];
+        $update_resources = ["index", "show", "update"];
         $update_permissions = ["update"];
 
 
@@ -45,7 +49,7 @@ class AddRoutes extends Migration
             'name' => 'systems-permissions',
             'uri' => 'systems/{pid}/permissions',
             'controller' => 'System\SystemPermissionController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'glyphicon glyphicon-th-list',
             'sequence' => self::sequence(),
@@ -168,7 +172,7 @@ class AddRoutes extends Migration
             'name' => 'authorizations-types',
             'uri' => 'authorizations-types',
             'controller' => 'Authorization\AuthorizationTypeController',
-            'resources' => $all_resources,
+            'resources' => $update_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-file-alt',
             'sequence' => self::sequence(),
@@ -195,7 +199,7 @@ class AddRoutes extends Migration
             'name' => 'users-access',
             'uri' => 'users/{pid}/access',
             'controller' => 'User\UserAccessController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-users',
             'sequence' => self::sequence(),
@@ -207,7 +211,7 @@ class AddRoutes extends Migration
             'name' => 'users-systems',
             'uri' => 'users/{pid}/systems',
             'controller' => 'User\UserSystemController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-user-cog',
             'sequence' => self::sequence(),
@@ -219,7 +223,7 @@ class AddRoutes extends Migration
             'name' => 'users-profiles',
             'uri' => 'users/{pid}/profiles',
             'controller' => 'User\UserProfileController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-address-card',
             'sequence' => self::sequence(),
@@ -231,7 +235,7 @@ class AddRoutes extends Migration
             'name' => 'users-permissions',
             'uri' => 'users/{pid}/permissions',
             'controller' => 'User\UserPermissionController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-user-tag',
             'sequence' => self::sequence(),
@@ -255,7 +259,7 @@ class AddRoutes extends Migration
             'name' => 'profiles-permissions',
             'uri' => 'profiles/{pid}/permissions',
             'controller' => 'Profile\ProfilePermissionController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'glyphicons glyphicons-vcard',
             'sequence' => self::sequence(),
@@ -294,7 +298,7 @@ class AddRoutes extends Migration
             'name' => 'users-address',
             'uri' => 'users/{pid}/address',
             'controller' => 'User\UserAddressController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-address-book',
             'sequence' => self::sequence(),
@@ -330,7 +334,7 @@ class AddRoutes extends Migration
             'name' => 'users-admission',
             'uri' => 'users/{pid}/admission',
             'controller' => 'User\UserAdmissionController',
-            'resources' => $update_resources,
+            'resources' => $update_all_resources,
             'permissions' => $update_permissions,
             'icon' => 'fas fa-id-card-alt',
             'sequence' => self::sequence(),
@@ -430,8 +434,8 @@ class AddRoutes extends Migration
             'name' => 'authorizations-expenses',
             'uri' => 'authorizations-expenses',
             'controller' => 'Expense\AuthorizationExpenseController',
-            'resources' => $all_resources,
-            'permissions' => $all_permissions,
+            'resources' => $store_resources,
+            'permissions' => $store_permissions,
             'icon' => 'fas fa-money-check-alt',
             'sequence' => self::sequence(),
             'root' => 0,

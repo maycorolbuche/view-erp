@@ -21,26 +21,6 @@ class AuthorizationTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(AuthorizationTypeRequest $request)
-    {
-        if (!in_array('store', request('__permissions_page'))) {
-            return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
-        }
-
-        try {
-            $authorizations_type = AuthorizationType::create($request->all());
-            return redirect()->route('authorizations-types.show', ['id' => $authorizations_type->id_authorization_type])->with('success', 'Registro cadastrado com sucesso');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
-        }
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -88,32 +68,6 @@ class AuthorizationTypeController extends Controller
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        if (!in_array('destroy', request('__permissions_page'))) {
-            return redirect()->back()->with('error', 'Você não tem permissão para excluir nessa página!')->withInput();
-        }
-
-        try {
-            $authorizations_type = AuthorizationType::find($id);
-            if ($authorizations_type) {
-                $authorizations_type->delete();
-                return redirect()->route('authorizations-types')->with('success', 'Registro apagado com sucesso');
-            } else {
-                return redirect()->route('authorizations-types')->with('error', 'Registro não encontrado!');
-            }
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
-        }
-    }
-
 
     public function datatable()
     {

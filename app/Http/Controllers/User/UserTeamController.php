@@ -249,27 +249,14 @@ class UserTeamController extends Controller
                     return '<span class="badge badge-danger"><span class="fas fa-user-tie"></span> Superior</span>';
                 }
             })
-            /* ->addColumn('authorizations', function ($row) {
+            ->addColumn('authorizations', function ($row) {
                 $return = "";
-                foreach ($row->authorizations as $authorization) {
-                    $name = "";
-                    switch ($authorization) {
-                        case "prepayment":
-                            $name = "Adiantamento";
-                            break;
-                        case "overtime":
-                            $name = "Hora Extra";
-                            break;
-                        case "expense":
-                            $name =  "Despesas";
-                            break;
-                        default:
-                            $name =  $authorization;
-                    }
-                    $return .= " <span class='badge badge-info'>$name</span> ";
+                foreach ($row->users_authorizations_types as $authorization) {
+                    $authorizationtype = AuthorizationType::where('id_authorization_type', $authorization->id_authorization_type)->first();
+                    $return .= " <span class='badge badge-info'>" . $authorizationtype->name . "</span> ";
                 }
                 return $return;
-            })*/
+            })
             ->rawColumns(['actions', 'relationship', 'authorizations'])
             ->make(true);
     }
