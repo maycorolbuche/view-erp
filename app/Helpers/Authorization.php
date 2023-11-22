@@ -2,10 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Models\Authorization as AuthorizationModel;
 use App\Models\AuthorizationType;
 use App\Models\UserAuthorizationType;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class Authorization
 {
@@ -33,5 +35,84 @@ class Authorization
         } else {
             return [];
         }
+    }
+
+    public static function pending($id_user = null)
+    {
+        if ($id_user == null) {
+            $id_user = Auth::id();
+        }
+
+        $authorization = AuthorizationModel::with(['clients', 'statuses', 'user', 'authorization_type'])
+            ->whereHas('statuses', function ($query) use ($id_user) {
+                $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
+            })
+            ->where(['active' => 1, 'approved' => null])
+            ->latest()->get();
+
+        return $authorization;
+    }
+
+    public static function pendingAuthorization($id_authorization, $id_user = null)
+    {
+        if ($id_user == null) {
+            $id_user = Auth::id();
+        }
+
+        $count = AuthorizationModel::with(['clients', 'statuses', 'user', 'authorization_type'])
+            ->whereHas('statuses', function ($query) use ($id_user) {
+                $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
+            })
+            ->where(['active' => 1, 'approved' => null])
+            ->where(['id_authorization' => $id_authorization])
+            ->count();
+
+        return $count > 0;
+    }
+
+    public static function refresh($id)
+    {
+        $authorization = AuthorizationModel::with(['authorization_statuses', 'authorization_type'])->find($id);
+        $approval = $authorization->authorization_type->approval;
+
+        $approved = null;
+
+        $st_yes = 0;
+        $st_no = 0;
+        $st_pending = 0;
+        foreach ($authorization->authorization_statuses as $status) {
+            if ($status->approved === 1) {
+                $st_yes++;
+            } elseif ($status->approved === 0) {
+                $st_no++;
+            } else {
+                $st_pending++;
+            }
+        }
+
+        if ($approval == "all") {
+            if ($st_no <= 0 && $st_pending <= 0 && $st_yes > 0) {
+                $approved = 1;
+            } elseif ($st_no > 0) {
+                $approved = 0;
+            }
+        } else {
+            if ($st_no > 0) {
+                $approved = 0;
+            } elseif ($st_yes > 0) {
+                $approved = 1;
+            }
+        }
+
+        $end_datetime = Carbon::parse($authorization->end_datetime);
+        $today = Carbon::now();
+        $diff = $today->diffInDays($end_datetime);
+
+        $active = 1;
+        if ($diff > 32) {
+            $active = 0;
+        }
+
+        $authorization->update(compact('approved', 'active'));
     }
 }

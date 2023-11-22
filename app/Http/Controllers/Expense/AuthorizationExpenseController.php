@@ -8,7 +8,6 @@ use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
 use App\Models\Client;
-use App\Models\User;
 use App\Helpers\Authorization as AuthorizationHelper;
 use App\Http\Requests\AuthorizationExpenseRequest;
 use Illuminate\Support\Facades\Auth;
@@ -53,9 +52,13 @@ class AuthorizationExpenseController extends Controller
             $authorization_expense = Authorization::create($request->all());
             $this->authorizationsClients($authorization_expense->id_authorization, $request->id_client ?? []);
             $this->authorizationsUsers($authorization_expense->id_authorization, $parents ?? []);
-            $this->sendMail($authorization_expense->id_authorization);
 
-            return redirect()->route('authorizations-expenses')->with('success', 'Autorização solicitada com sucesso.');
+            try {
+                $this->sendMail($authorization_expense->id_authorization);
+                return redirect()->route('authorizations-expenses')->with('success', 'Autorização solicitada com sucesso.');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'A despesa foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
+            }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
@@ -73,10 +76,9 @@ class AuthorizationExpenseController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
-                /*$edit_route = route(request('route') ?: 'authorizations-expenses.show', [$id_field => $row->id_authorization_expense]);
+                $edit_route = route(request('route') ?: 'me-authorizations.show', [$id_field => $row->id_authorization]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;*/
-                return "";
+                return $actionBtn;
             })
             ->addColumn('start_date', function ($row) {
                 return ($row->start_datetime ? '<span style="display:none">' . $row->start_datetime . '</span>' . Carbon::parse($row->start_datetime)->format('d/m/Y') : '');

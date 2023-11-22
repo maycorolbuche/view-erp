@@ -56,7 +56,7 @@
 
         <x-panel title="Dados" type="warning">
             @include('authorizations-expenses.components.datatable', [
-                'route' => 'authorizations-expenses.show',
+                'route' => 'me-authorizations.show',
             ])
         </x-panel>
     </x-content>

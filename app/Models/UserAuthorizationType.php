@@ -14,6 +14,7 @@ class UserAuthorizationType extends Model
     protected $primaryKey = 'id_user_authorization_type';
 
     protected $fillable = [
+        'id_user_team',
         'id_user_parent',
         'id_user_child',
         'id_authorization_type',

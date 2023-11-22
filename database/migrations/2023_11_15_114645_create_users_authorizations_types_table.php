@@ -15,10 +15,12 @@ class CreateUsersAuthorizationsTypesTable extends Migration
     {
         Schema::create('users_authorizations_types', function (Blueprint $table) {
             $table->increments('id_user_authorization_type');
+            $table->unsignedInteger('id_user_team');
             $table->unsignedInteger('id_user_parent');
             $table->unsignedInteger('id_user_child');
             $table->unsignedInteger('id_authorization_type');
 
+            $table->foreign('id_user_team')->references('id_user_team')->on('users_teams')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_user_parent')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_user_child')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_authorization_type')->references('id_authorization_type')->on('authorizations_types')->onUpdate('cascade')->onDelete('cascade');

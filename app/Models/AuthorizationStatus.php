@@ -17,5 +17,6 @@ class AuthorizationStatus extends Model
         'id_authorization',
         'id_user',
         'approved',
+        'description',
     ];
 }

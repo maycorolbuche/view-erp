@@ -170,9 +170,6 @@ class UserTeamController extends Controller
                 $user_team = UserTeam::find($id);
                 if ($user_team) {
                     $user_team->update($request->all());
-                    UserAuthorizationType::where('id_user_parent', $request->id_user_parent_old)
-                        ->where('id_user_child', $request->id_user_child_old)
-                        ->delete();
 
                     $this->UsersAuthorizationsTypes($user_team->id_user_team, $request->id_authorization_type ?? []);
                     return redirect()->route('users-teams.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -205,10 +202,6 @@ class UserTeamController extends Controller
             if ($user) {
                 $user_team = UserTeam::find($id);
                 if ($user_team) {
-                    UserAuthorizationType::where('id_user_parent', $user_team->id_user_parent)
-                        ->where('id_user_child', $user_team->id_user_child)
-                        ->delete();
-
                     $user_team->delete();
                     return redirect()->route('users-teams.index', compact('pid'))->with('success', 'Registro apagado com sucesso');
                 } else {
@@ -265,12 +258,11 @@ class UserTeamController extends Controller
     public function UsersAuthorizationsTypes($id_user_team, $authorizations_types)
     {
         $data = UserTeam::find($id_user_team);
-        UserAuthorizationType::where('id_user_parent', $data->id_user_parent)
-            ->where('id_user_child', $data->id_user_child)
-            ->delete();
+        UserAuthorizationType::where('id_user_team', $id_user_team)->delete();
         if ($authorizations_types && count($authorizations_types) > 0) {
             foreach (array_keys($authorizations_types) as $id_authorization_type) {
                 UserAuthorizationType::create([
+                    'id_user_team' =>  $id_user_team,
                     'id_user_parent' =>  $data->id_user_parent,
                     'id_user_child' =>  $data->id_user_child,
                     'id_authorization_type' => $id_authorization_type

@@ -18,6 +18,7 @@ class CreateAuthorizationsStatusesTable extends Migration
             $table->unsignedInteger('id_authorization');
             $table->unsignedInteger('id_user');
             $table->boolean('approved')->nullable();
+            $table->text('description')->nullable();
 
             $table->unique(['id_authorization', 'id_user']);
 

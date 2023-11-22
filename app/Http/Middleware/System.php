@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Authorization as AuthorizationHelper;
 
 class System
 {
@@ -64,6 +65,8 @@ class System
 
         $request->merge(['__permissions' => $permissions_group]);
         $request->merge(['__permissions_list' => $permissions_list]);
+
+        $request->merge(['__count_authorization' => count(AuthorizationHelper::pending())]);
 
         return $next($request);
     }

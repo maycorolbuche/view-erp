@@ -73,7 +73,7 @@ class AuthorizationExpense extends Notification
             ->subject('Solicitação de Despesas - ' . $this->data->user->name)
             ->greeting('Olá, ' . $userName . '!')
             ->line($html)
-            ->action('ACESSAR SOLICITAÇÃO', route('authorizations-expenses'))
+            ->action('ACESSAR SOLICITAÇÃO', route('me-authorizations.show', ['id' => $this->data->id_authorization]))
             ->markdown('vendor.notifications.email');
     }
 

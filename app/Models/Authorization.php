@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
+use Carbon\Carbon;
 
 class Authorization extends Model
 {
@@ -24,6 +25,25 @@ class Authorization extends Model
         'approved',
     ];
 
+    public function getStartDatetimeBrAttribute()
+    {
+        return Carbon::parse($this->start_datetime)->format('d/m/Y H:i:s');
+    }
+
+    public function getEndDatetimeBrAttribute()
+    {
+        return Carbon::parse($this->end_datetime)->format('d/m/Y H:i:s');
+    }
+
+    public function getStartDateBrAttribute()
+    {
+        return Carbon::parse($this->start_datetime)->format('d/m/Y');
+    }
+
+    public function getEndDateBrAttribute()
+    {
+        return Carbon::parse($this->end_datetime)->format('d/m/Y');
+    }
 
     public function clients()
     {
@@ -32,7 +52,12 @@ class Authorization extends Model
 
     public function statuses()
     {
-        return $this->belongsToMany(User::class, AuthorizationStatus::class, 'id_authorization', 'id_user')->withPivot('approved');
+        return $this->belongsToMany(User::class, AuthorizationStatus::class, 'id_authorization', 'id_user')->withPivot(['approved', 'description']);
+    }
+
+    public function authorization_statuses()
+    {
+        return $this->hasMany(AuthorizationStatus::class, 'id_authorization', 'id_authorization');
     }
 
     public function authorization_type()

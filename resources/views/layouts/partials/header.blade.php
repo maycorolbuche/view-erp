@@ -105,8 +105,18 @@
                     </a>
                 </li>
                 <li class="br-t of-h">
-                    <a href="javascript:" class="fw600 p12 animated animated-short fadeInDown">
+                    <a href="javascript:" class="fw600 p12 animated animated-short fadeInUp">
                         <span class="fa fa-lock pr5"></span> Alterar Senha </a>
+                </li>
+                <li class="br-t of-h">
+                    <a href="{{ route('me-authorizations') }}" class="fw600 p12 animated animated-short fadeInUp">
+                        <span class="fas fa-check-double"></span> Autorizações
+                        @if (request('__count_authorization') > 0)
+                            <span class="pull-right lh20 h-20 label label-warning label-sm">
+                                {{ request('__count_authorization') }}
+                            </span>
+                        @endif
+                    </a>
                 </li>
                 <li class="br-t of-h">
                     <a href="{{ route('logout') }}" class="fw600 p12 animated animated-short fadeInDown">

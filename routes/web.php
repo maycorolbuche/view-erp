@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\System;
 use App\Models\Route as Routes;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,21 @@ use App\Models\Route as Routes;
 | contains the "web" middleware group. Now create something great!
 |
 */
+/*
+Route::get('/enviar-email-teste', function () {
+    try {
+        $to = 'mayco_rolbuche@hotmail.com';
 
+        Mail::raw('Teste de e-mail do Laravel', function ($message) use ($to) {
+            $message->to($to)
+                ->subject('Teste de e-mail do Laravel');
+        });
+
+        return 'E-mail de teste enviado para ' . $to;
+    } catch (\Exception $e) {
+        return 'Erro ao enviar o e-mail: ' . $e->getMessage();
+    }
+});*/
 
 Route::get('/home', function () {
     return redirect('/');
@@ -57,6 +72,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                     Route::get('/', 'HomeController@dashboard')->name('system.' . $system->slug);
 
                     if ($path[0] == $system->slug) {
+                        Route::group(['prefix' => 'me'], function () {
+                            Route::get('/authorizations', 'Me\AuthorizationController@index')->name('me-authorizations');
+                            Route::get('/authorizations/datatable', 'Me\AuthorizationController@datatable')->name('me-authorizations.datatable');
+                            Route::get('/authorizations/{id}', 'Me\AuthorizationController@show')->where('id', '[0-9]+')->name('me-authorizations.show');
+                            Route::put('/authorizations/{id}', 'Me\AuthorizationController@update')->where('id', '[0-9]+')->name('me-authorizations.update');
+                        });
+
                         Route::get('/', 'HomeController@dashboard')->name('dashboard');
 
                         Route::group(['middleware' => ['access']], function () use ($routes) {
