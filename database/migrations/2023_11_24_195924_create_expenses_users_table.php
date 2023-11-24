@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpensesTable extends Migration
+class CreateExpensesUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,15 @@ class CreateExpensesTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses', function (Blueprint $table) {
-            $table->increments('id_expense');
-            $table->unsignedInteger('id_authorization');
+        Schema::create('expenses_users', function (Blueprint $table) {
+            $table->increments('id_expense_user');
+            $table->unsignedInteger('id_expense');
             $table->unsignedInteger('id_user');
-            $table->unsignedInteger('id_batch')->nullable();
-            $table->date('date');
-            $table->unsignedInteger('id_category');
-            $table->unsignedInteger('id_payment_method');
             $table->decimal('amount', 8, 2);
+            $table->decimal('percentage', 8, 2);
 
-            $table->foreign('id_authorization')->references('id_authorization')->on('authorizations');
+            $table->foreign('id_expense')->references('id_expense')->on('expenses')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_user')->references('id_user')->on('users');
-            $table->foreign('id_batch')->references('id_batch')->on('batches');
-            $table->foreign('id_category')->references('id_category')->on('categories');
-            $table->foreign('id_payment_method')->references('id_payment_method')->on('payment_methods');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
@@ -45,6 +39,6 @@ class CreateExpensesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expenses');
+        Schema::dropIfExists('expenses_users');
     }
 }
