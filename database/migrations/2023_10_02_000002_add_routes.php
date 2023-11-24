@@ -190,6 +190,18 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Categorias',
+            'name' => 'categories',
+            'uri' => 'categories',
+            'controller' => 'Category\CategoryController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-ticket-alt',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
 
         /* USUÁRIOS E ACESSOS */
         $id_route_group = 3;
