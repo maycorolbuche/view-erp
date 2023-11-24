@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 
 class AddPermissionsRootUser extends Migration
 {

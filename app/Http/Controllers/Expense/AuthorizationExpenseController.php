@@ -8,7 +8,7 @@ use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
 use App\Models\Client;
-use App\Helpers\Authorization as AuthorizationHelper;
+use App\Helpers\AuthorizationHelper;
 use App\Http\Requests\AuthorizationExpenseRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;

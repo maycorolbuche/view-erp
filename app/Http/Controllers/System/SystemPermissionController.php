@@ -7,7 +7,7 @@ use App\Models\System;
 use App\Models\Permission;
 use App\Models\RouteGroup;
 use Illuminate\Http\Request;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 
 class SystemPermissionController extends Controller
 {

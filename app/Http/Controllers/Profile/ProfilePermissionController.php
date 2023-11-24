@@ -7,7 +7,7 @@ use App\Models\Profile;
 use App\Models\Permission;
 use App\Models\RouteGroup;
 use Illuminate\Http\Request;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 
 class ProfilePermissionController extends Controller
 {

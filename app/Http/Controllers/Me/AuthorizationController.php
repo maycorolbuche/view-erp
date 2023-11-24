@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Me;
 
 use App\Http\Controllers\Controller;
-use App\Helpers\Authorization as AuthorizationHelper;
+use App\Helpers\AuthorizationHelper;
 use App\Models\Authorization;
 use App\Models\AuthorizationStatus;
 use Illuminate\Http\Request;

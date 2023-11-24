@@ -10,7 +10,7 @@ use App\Models\Route;
 use App\Models\UserSystem;
 use Illuminate\Database\QueryException;
 
-class Root
+class RootHelper
 {
 
     public static function run()

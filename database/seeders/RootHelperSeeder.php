@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 
 class RootHelperSeeder extends Seeder
 {

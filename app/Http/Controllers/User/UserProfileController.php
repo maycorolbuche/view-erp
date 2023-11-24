@@ -8,7 +8,7 @@ use App\Models\Profile;
 use App\Models\UserProfile;
 use App\Models\UserSystem;
 use Illuminate\Http\Request;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 
 class UserProfileController extends Controller
 {

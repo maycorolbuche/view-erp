@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\System;
 use App\Models\UserSystem;
 use Illuminate\Http\Request;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 
 class UserSystemController extends Controller
 {

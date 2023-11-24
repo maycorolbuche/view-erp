@@ -68,7 +68,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'glyphicons glyphicons-building',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -80,7 +80,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fas fa-building',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -92,7 +92,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fas fa-calendar-day',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -104,7 +104,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fas fa-user-secret',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -116,7 +116,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fas fa-user-circle',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -128,7 +128,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'far fa-id-card',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -140,7 +140,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fas fa-sim-card',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -152,7 +152,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fa fa-phone-square',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -164,7 +164,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'glyphicons glyphicons-woman',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -176,7 +176,7 @@ class AddRoutes extends Migration
             'permissions' => $update_permissions,
             'icon' => 'fas fa-file-alt',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
@@ -188,7 +188,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fas fa-comment-dollar',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
 
         /* USUÁRIOS E ACESSOS */

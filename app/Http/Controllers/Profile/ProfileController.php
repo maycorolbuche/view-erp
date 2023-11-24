@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Http\Requests\ProfileRequest;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 use DataTables;
 
 class ProfileController extends Controller

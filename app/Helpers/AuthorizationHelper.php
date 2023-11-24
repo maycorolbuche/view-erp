@@ -2,14 +2,14 @@
 
 namespace App\Helpers;
 
-use App\Models\Authorization as AuthorizationModel;
+use App\Models\Authorization;
 use App\Models\AuthorizationType;
 use App\Models\UserAuthorizationType;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class Authorization
+class AuthorizationHelper
 {
 
     public static function users($type, $id_user = null)
@@ -43,7 +43,7 @@ class Authorization
             $id_user = Auth::id();
         }
 
-        $authorization = AuthorizationModel::with(['clients', 'statuses', 'user', 'authorization_type'])
+        $authorization = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
             ->whereHas('statuses', function ($query) use ($id_user) {
                 $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
             })
@@ -59,7 +59,7 @@ class Authorization
             $id_user = Auth::id();
         }
 
-        $count = AuthorizationModel::with(['clients', 'statuses', 'user', 'authorization_type'])
+        $count = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
             ->whereHas('statuses', function ($query) use ($id_user) {
                 $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
             })
@@ -72,7 +72,7 @@ class Authorization
 
     public static function refresh($id)
     {
-        $authorization = AuthorizationModel::with(['authorization_statuses', 'authorization_type'])->find($id);
+        $authorization = Authorization::with(['authorization_statuses', 'authorization_type'])->find($id);
         $approval = $authorization->authorization_type->approval;
 
         $approved = null;

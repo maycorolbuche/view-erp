@@ -5,7 +5,7 @@ namespace App\Http\Controllers\System;
 use App\Http\Controllers\Controller;
 use App\Models\System;
 use App\Http\Requests\SystemRequest;
-use App\Helpers\Root;
+use App\Helpers\RootHelper as Root;
 use DataTables;
 
 class SystemController extends Controller
