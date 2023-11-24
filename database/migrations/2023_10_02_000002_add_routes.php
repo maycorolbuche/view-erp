@@ -120,6 +120,18 @@ class AddRoutes extends Migration
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
+            'label' => 'Formas de Pagamento',
+            'name' => 'payment-methods',
+            'uri' => 'payment-methods',
+            'controller' => 'PaymentMethod\PaymentMethodController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fa fa-credit-card',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
             'label' => 'Vínculos Trabalho',
             'name' => 'employment-types',
             'uri' => 'employment-types',
@@ -437,6 +449,18 @@ class AddRoutes extends Migration
             'resources' => $store_resources,
             'permissions' => $store_permissions,
             'icon' => 'fas fa-money-check-alt',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Cadastro de Despesas',
+            'name' => 'expenses',
+            'uri' => 'expenses',
+            'controller' => 'Expense\ExpenseController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-hand-holding-usd',
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
