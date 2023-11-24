@@ -11,7 +11,7 @@ use App\Models\Client;
 use App\Helpers\Authorization as AuthorizationHelper;
 use App\Http\Requests\AuthorizationExpenseRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Notifications\AuthorizationExpense;
+use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use DataTables;
@@ -151,7 +151,8 @@ class AuthorizationExpenseController extends Controller
             ->first();
 
         foreach ($authorization->statuses as $user) {
-            Notification::send($user, new AuthorizationExpense($authorization));
+            Notification::send($user, new AuthorizationNotification($authorization));
         }
+        Notification::send($authorization->user, new AuthorizationNotification($authorization));
     }
 }

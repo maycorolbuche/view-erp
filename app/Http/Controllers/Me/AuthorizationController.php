@@ -8,6 +8,8 @@ use App\Models\Authorization;
 use App\Models\AuthorizationStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\AuthorizationNotification;
+use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use DataTables;
 
@@ -75,7 +77,13 @@ class AuthorizationController extends Controller
                 if ($authorization_status) {
                     $authorization_status->update(['id_authorization' => $id, 'id_user' => Auth::id(), 'approved' => $status == 'S', 'description' => $description]);
                     AuthorizationHelper::refresh($id);
-                    return redirect()->route('me-authorizations.show', ['id' => $authorization->id_authorization])->with('success', 'Registro salvo com sucesso');
+
+                    try {
+                        $this->sendMail($id);
+                        return redirect()->route('me-authorizations.show', ['id' => $authorization->id_authorization])->with('success', 'Status atualizado com sucesso');
+                    } catch (\Exception $e) {
+                        return redirect()->back()->with('error', 'O status foi salvo com sucesso, porém, houve um erro ao enviar e-mail aos envolvidos.')->withInput();
+                    }
                 }
             } else {
                 return redirect()->route('me-authorizations')->with('error', 'Registro não encontrado!');
@@ -146,5 +154,18 @@ class AuthorizationController extends Controller
             })
             ->rawColumns(['actions', 'start_date', 'end_date', 'clients', 'statuses', 'status'])
             ->make(true);
+    }
+
+    public function sendMail($id_authorization)
+    {
+
+        $authorization = Authorization::where('id_authorization', $id_authorization)
+            ->with(['clients', 'statuses', 'authorization_type', 'user'])
+            ->first();
+
+        foreach ($authorization->statuses as $user) {
+            Notification::send($user, new AuthorizationNotification($authorization, 'status'));
+        }
+        Notification::send($authorization->user, new AuthorizationNotification($authorization, 'status'));
     }
 }

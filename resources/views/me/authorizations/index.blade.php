@@ -18,7 +18,7 @@
                     $status = 'Negado';
                 } elseif ($data->active === 1) {
                     $type = 'warning';
-                    $status = 'Aguardando';
+                    $status = 'Pendente';
                 }
             @endphp
 
@@ -102,7 +102,7 @@
                                                 $user_status = 'Negado';
                                             } elseif ($data->approved === null && $data->active === 1) {
                                                 $user_type = 'warning';
-                                                $user_status = 'Aguardando';
+                                                $user_status = 'Pendente';
                                             }
                                         @endphp
                                         <tr class="{{ $user_type }}">
