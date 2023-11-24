@@ -190,18 +190,6 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
-        Route::create([
-            'id_route_group' => $id_route_group,
-            'label' => 'Tipos de Transação',
-            'name' => 'transactions-types',
-            'uri' => 'transactions-types',
-            'controller' => 'Transaction\TransactionTypeController',
-            'resources' => $all_resources,
-            'permissions' => $all_permissions,
-            'icon' => 'fas fa-comment-dollar',
-            'sequence' => self::sequence(),
-            'root' => 0,
-        ]);
 
         /* USUÁRIOS E ACESSOS */
         $id_route_group = 3;
