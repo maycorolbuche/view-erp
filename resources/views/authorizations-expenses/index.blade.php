@@ -36,9 +36,9 @@
                             </label>
                             <div>
                                 @foreach ($parents as $user)
-                                    <span class="tm-tag tm-tag-primary">
+                                    <div class="tm-tag tm-tag-primary" style="float:left;margin-bottom:5px;">
                                         <span>{{ $user['name'] }}</span>
-                                    </span>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
