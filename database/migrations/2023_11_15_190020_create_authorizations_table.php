@@ -20,7 +20,7 @@ class CreateAuthorizationsTable extends Migration
             $table->string('description');
             $table->datetime('start_datetime');
             $table->datetime('end_datetime');
-            $table->boolean('self');
+            $table->boolean('self')->default(true);
             $table->boolean('active')->default(true);
             $table->boolean('approved')->nullable();
 

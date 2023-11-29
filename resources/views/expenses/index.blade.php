@@ -29,13 +29,24 @@
                                 value="{{ $data->authorization->description_details }}" />
                             <input type="hidden" name="id_authorization" value="{{ $data->id_authorization }}">
                         @else
-                            @php
-                                if (old('id_authorization')) {
+                            @if (old('id_authorization'))
+                                @php
                                     $id_authorization = old('id_authorization');
-                                } elseif (count($authorizations) == 1) {
-                                    $id_authorization = $authorizations[0]->id_authorization;
-                                }
-                            @endphp
+                                @endphp
+                            @elseif (count($authorizations) == 1)
+                                @push('scripts')
+                                    <script>
+                                        $(document).ready(function() {
+                                            setTimeout(function() {
+                                                $("#id_authorization").val({{ $authorizations[0]->id_authorization }}).trigger(
+                                                        "chosen:updated")
+                                                    .change();
+                                            }, 100)
+                                        });
+                                    </script>
+                                @endpush
+                            @endif
+
                             <x-input type="select" name="id_authorization" width="200" label="Autorização" required
                                 list="{{ json_encode($authorizations) }}" list-value="id_authorization"
                                 list-text="description_details"
@@ -321,7 +332,6 @@
             $("#date").removeAttr("min");
             $("#date").removeAttr("max");
             if (id_authorization) {
-                console.log(id_authorization, date_range[id_authorization])
                 $("#date").attr("min", date_range[id_authorization][0]);
                 $("#date").attr("max", date_range[id_authorization][1]);
             }
