@@ -230,4 +230,9 @@
         box-shadow: none !important;
     }
     */
+
+    [type='number'],
+    input.money {
+        text-align: right;
+    }
 </style>

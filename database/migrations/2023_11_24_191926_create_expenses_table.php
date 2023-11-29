@@ -22,6 +22,7 @@ class CreateExpensesTable extends Migration
             $table->unsignedInteger('id_category');
             $table->unsignedInteger('id_payment_method');
             $table->decimal('amount', 8, 2);
+            $table->text('notes')->nullable();
 
             $table->foreign('id_authorization')->references('id_authorization')->on('authorizations');
             $table->foreign('id_user')->references('id_user')->on('users');

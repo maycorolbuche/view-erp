@@ -25,6 +25,8 @@ class Authorization extends Model
         'approved',
     ];
 
+    protected $appends = ['description_details'];
+
     public function getStartDatetimeBrAttribute()
     {
         return Carbon::parse($this->start_datetime)->format('d/m/Y H:i:s');
@@ -43,6 +45,22 @@ class Authorization extends Model
     public function getEndDateBrAttribute()
     {
         return Carbon::parse($this->end_datetime)->format('d/m/Y');
+    }
+
+    public function getDescriptionDetailsAttribute()
+    {
+        $description = "";
+        if ($this->authorization_type->type == "expense") {
+            $description .= $this->start_date_br . " - " . $this->end_date_br;
+        } else {
+            $description .= $this->start_datetime_br . " - " . $this->end_datetime_br;
+        }
+
+        foreach ($this->clients as $key => $client) {
+            $description .= ($key <= 0 ? ' | ' : ', ') . $client->name;
+        }
+
+        return $description;
     }
 
     public function clients()

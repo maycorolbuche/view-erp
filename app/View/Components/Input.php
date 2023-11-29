@@ -19,6 +19,8 @@ class Input extends Component
     public function __construct(
         $value = '',
         public int $width = 400,
+        public $min = '',
+        public $max = '',
         public string $label = '',
         string $type = '',
         public string $pre_type = '',
@@ -36,6 +38,7 @@ class Input extends Component
         public string $listValue = '',
         public string $listText = '',
         string $rows = '',
+        public string $onchange = '',
     ) {
         if ($name == '') {
             $name = $id;
@@ -47,6 +50,9 @@ class Input extends Component
             $id = Str::random(8);
             $name = $id;
         }
+
+        $id = str_replace('[', '_', $id);
+        $id = str_replace(']', '_', $id);
 
         $type = $type ?: 'text';
         $this->pre_type = $type;

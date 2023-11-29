@@ -1,3 +1,6 @@
+@php
+    $value = old(str_replace('[', '.', str_replace(']', '', $field))) ?: $value;
+@endphp
 <div id="group-{{ $id }}" class="form-group field {{ $errors->has($field) ? 'has-error' : '' }}"
     style="flex-shrink: 1;flex-grow: 1;flex-basis: {{ $width }}px;padding: 0 5px 0 5px;display: flex; flex-direction: column;">
     <label for="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}" class="col-lg-3 control-label"
@@ -8,19 +11,19 @@
     <div style="position: relative;">
         @if ($type == 'icon')
             <!-- -->
-            <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ old($field) ?: $value }}"
+            <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}"
                 {{ $required ? 'required' : '' }}>
 
             <button type="button" id="ibt_{{ $id }}" onclick="open_popup_{{ $id }}()"
                 class="btn btn-dark">
-                <i class="{{ old($field) ?: $value }}"></i>
+                <i class="{{ $value }}"></i>
                 <span>Selecionar</span>
             </button>
 
             @push('scripts')
                 <script>
                     $(document).ready(function() {
-                        sel_icon_{{ $id }}('{{ old($field) ?: $value }}');
+                        sel_icon_{{ $id }}('{{ $value }}');
                     });
                 </script>
             @endpush
@@ -40,6 +43,14 @@
                     }
                 }
                 $value = $v;
+                if (old($field)) {
+                    if (is_array(old($field))) {
+                        $value = old($field);
+                    } else {
+                        $value = [];
+                        $value[] = old($field);
+                    }
+                }
             @endphp
             <select id="{{ $id }}"
                 name="{{ $name }}{{ $type == 'multiple' || $type == 'select-multiple' ? '[]' : '' }}"
@@ -48,7 +59,7 @@
                 <option></option>
                 @foreach (json_decode(html_entity_decode($list), true) as $item)
                     <option value="{{ $item[$listValue] }}"
-                        {{ in_array($item[$listValue], is_array(old($field)) ? old($field) : $value) ? 'selected' : '' }}>
+                        {{ in_array($item[$listValue], $value) ? 'selected' : '' }}>
                         {{ $item[$listText] }}
                     </option>
                 @endforeach
@@ -61,7 +72,7 @@
                     <div class="radio-custom">
                         <input type="radio" id="{{ $id }}_{{ $item[$listValue] }}"
                             name="{{ $name }}" value="{{ $item[$listValue] }}"
-                            {{ (old($field) ?: $value) == $item[$listValue] ? 'checked' : '' }}>
+                            {{ $value == $item[$listValue] ? 'checked' : '' }}>
                         <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
                     </div>
                 @endforeach
@@ -79,12 +90,20 @@
                         $v[] = $value;
                     }
                     $value = $v;
+                    if (old($field)) {
+                        if (is_array(old($field))) {
+                            $value = old($field);
+                        } else {
+                            $value = [];
+                            $value[] = old($field);
+                        }
+                    }
                 @endphp
                 @foreach (json_decode(html_entity_decode($list), true) as $key => $item)
                     <div class="checkbox-custom">
                         <input type="checkbox" id="{{ $id }}_{{ $item[$listValue] }}"
                             name="{{ $name }}[{{ $item[$listValue] }}]" value="{{ $item[$listValue] }}"
-                            {{ in_array($item[$listValue], is_array(old($field)) ? old($field) : $value) ? 'checked' : '' }}>
+                            {{ in_array($item[$listValue], $value) ? 'checked' : '' }}>
                         <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
                     </div>
                 @endforeach
@@ -92,12 +111,11 @@
             <!-- -->
         @elseif ($type == 'bool' || $type == 'boolean')
             <!-- -->
-            <input type="hidden" id="{{ $id }}" name="{{ $name }}"
-                value="{{ old($field) ?: $value }}">
+            <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}">
 
             <div class="switch switch-info round switch-inline" style="margin-top: 8px;">
                 <input id="{{ $id }}_switch" name="{{ $name }}_switch" type="checkbox"
-                    value="1" {{ (old($field) ?: $value) == true ? 'checked' : '' }}>
+                    value="1" {{ $value == true ? 'checked' : '' }}>
                 <label for="{{ $id }}_switch"></label>
             </div>
 
@@ -122,9 +140,9 @@
             </span>
             <textarea id="{{ $id }}" name="{{ $name }}" class="form-control {{ $class }}"
                 rows="{{ $rows }}" placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }}
-                {{ $disabled ? 'disabled' : '' }} {{ $readonly ? 'readonly' : '' }}>{{ old($field) ?: $value }}</textarea>
+                {{ $disabled ? 'disabled' : '' }} {{ $readonly ? 'readonly' : '' }}>{{ $value }}</textarea>
             <!-- -->
-        @else
+        @elseif ($type != 'html')
             <!-- -->
             <span class="append-icon right error-icon">
                 <i class="fa fa-remove"></i>
@@ -133,21 +151,28 @@
                 <i class="fa fa-check"></i>
             </span>
             <input type="{{ $type }}" id="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}"
-                name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}"
-                value="{{ old($field) ?: $value }}" class="form-control {{ $class }}"
-                placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
-                {{ $readonly ? 'readonly' : '' }}>
-
+                name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}" value="{{ $value }}"
+                class="form-control {{ $class }}" placeholder="{{ $placeholder }}"
+                {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }} {{ $readonly ? 'readonly' : '' }}
+                {{ $min ? 'min=' . $min : '' }} {{ $max ? 'max=' . $max : '' }}
+                {{ $onchange ? 'onchange=' . $onchange : '' }}>
 
             @if ($pre_type == 'money')
                 <input type="hidden" id="{{ $id }}" name="{{ $name }}"
-                    value="{{ old($field) ?: $value }}">
+                    value="{{ $value }}">
 
                 @push('scripts')
                     <script>
                         $(document).ready(function() {
                             $("#{{ $id }}_preview").change(function() {
                                 change_money_{{ $id }}();
+                            });
+                            $("#{{ $id }}").change(function() {
+                                let val = +($("#{{ $id }}").val() ?? 0);
+
+                                $("#{{ $id }}_preview").val(val.toLocaleString('pt-BR', {
+                                    minimumFractionDigits: 2
+                                })).blur();
                             });
                             change_money_{{ $id }}();
                         });
@@ -161,6 +186,7 @@
             @endif
             <!-- -->
         @endif
+        {{ $slot }}
     </div>
 
     @if ($tip != '')

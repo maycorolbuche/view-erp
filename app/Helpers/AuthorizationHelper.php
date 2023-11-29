@@ -53,6 +53,22 @@ class AuthorizationHelper
         return $authorization;
     }
 
+    public static function active($type, $id_user = null)
+    {
+        if ($id_user == null) {
+            $id_user = Auth::id();
+        }
+
+        $authorization = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
+            ->whereHas('authorization_type', function ($query) use ($type) {
+                $query->where('authorizations_types.type', $type);
+            })
+            ->where(['id_user' => $id_user, 'active' => 1, 'approved' => 1])
+            ->latest()->get();
+
+        return $authorization;
+    }
+
     public static function pendingAuthorization($id_authorization, $id_user = null)
     {
         if ($id_user == null) {
