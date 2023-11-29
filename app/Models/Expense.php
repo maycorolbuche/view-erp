@@ -38,4 +38,14 @@ class Expense extends Model
     {
         return $this->hasOne(PaymentMethod::class, 'id_payment_method', 'id_payment_method');
     }
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, ExpenseClient::class, 'id_expense', 'id_client')->withPivot(['amount', 'percentage', 'id_expense_client']);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, ExpenseUser::class, 'id_expense', 'id_user')->withPivot(['amount', 'percentage', 'id_expense_user']);
+    }
 }

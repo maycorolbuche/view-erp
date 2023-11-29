@@ -57,12 +57,12 @@
 
                         @if (!isset($data))
                             <x-input type="html" label="Distribuir" width="80">
-                                <button type="submit" class="btn btn-info" id="bt_distribute" style="width: 100%"
+                                <a href="javascript:" class="btn btn-info" id="bt_distribute" style="width: 100%"
                                     onclick="open_popup_distribute()">
-                                </button>
+                                </a>
                             </x-input>
 
-                            <input type="hidden" name="distribute" id="distribute" value="1">
+                            <input type="hidden" name="distribute" id="distribute" value="{{ old('distribute') ?? 1 }}">
 
                             <div style="display:none;">
                                 <div id="modal-content_distribute" class="popup-basic bg-none mfp-with-anim">
@@ -81,8 +81,7 @@
                                                     informado;</li>
                                                 <li>A data informada será a base inicial para distribuição do valor;</li>
                                                 <li>Se a quantidade de dias ultrapassar a data final da autorização, no
-                                                    último dia,</li>
-                                                <li>será acumulado o restante do saldo do valor informado;</li>
+                                                    último dia, será acumulado o restante do saldo do valor informado;</li>
                                                 <li>Somente será distribuído para dias úteis;</li>
                                             </ul>
                                         </div>
@@ -148,18 +147,20 @@
                                 <tbody>
                                     @foreach ($clients as $client)
                                         <tr class="data"
-                                            style="{{ (old('client_percentage')[$client->id_client] ?? 0 > 0) || (old('client_amount')[$client->id_client] ?? 0) > 0 ? '' : 'display:none;' }}"
+                                            style="{{ isset($data->clients[$client->id_client]) || (old('client_amount')[$client->id_client] ?? 0) > 0 ? '' : 'display:none;' }}"
                                             data-id="{{ $client->id_client }}">
                                             <td>
                                                 {{ $client->name }}
                                             </td>
                                             <td class="client_percentage">
                                                 <x-input type="number" name="client_percentage[{{ $client->id_client }}]"
+                                                    value="{{ $data->clients[$client->id_client]['pivot']['percentage'] ?? '' }}"
                                                     min="0"
                                                     onchange="calc_amount('client_amount','client_percentage',{{ $client->id_client }})" />
                                             </td>
                                             <td class="client_amount">
                                                 <x-input type="money" name="client_amount[{{ $client->id_client }}]"
+                                                    value="{{ $data->clients[$client->id_client]['pivot']['amount'] ?? '' }}"
                                                     onchange="calc_percent('client_amount','client_percentage',{{ $client->id_client }})" />
                                             </td>
                                         </tr>
@@ -196,18 +197,20 @@
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr class="data"
-                                            style="{{ (old('user_percentage')[$user->id_user] ?? 0 > 0) || (old('user_amount')[$user->id_user] ?? 0) > 0 ? '' : 'display:none;' }}"
+                                            style="{{ isset($data->users[$user->id_user]) || (old('user_amount')[$user->id_user] ?? 0) > 0 ? '' : 'display:none;' }}"
                                             data-id="{{ $user->id_user }}">
                                             <td>
                                                 {{ $user->name }}
                                             </td>
                                             <td class="user_percentage">
                                                 <x-input type="number" name="user_percentage[{{ $user->id_user }}]"
+                                                    value="{{ $data->users[$user->id_user]['pivot']['percentage'] ?? '' }}"
                                                     min="0"
                                                     onchange="calc_amount('user_amount','user_percentage',{{ $user->id_user }})" />
                                             </td>
                                             <td class="user_amount">
                                                 <x-input type="money" name="user_amount[{{ $user->id_user }}]"
+                                                    value="{{ $data->users[$user->id_user]['pivot']['amount'] ?? '' }}"
                                                     onchange="calc_percent('user_amount','user_percentage',{{ $user->id_user }})" />
                                             </td>
                                             <td class="text-right" style="width: 50px;">
@@ -245,8 +248,6 @@
                     <x-group right>
                         <x-button type="store" hidden="{{ isset($data) }}"
                             permission="{{ in_array('store', request('__permissions_page')) }}" />
-                        <x-button type="store-new" hidden="{{ !isset($data) }}"
-                            permission="{{ in_array('store', request('__permissions_page')) }}" />
                         <x-button type="update" hidden="{{ !isset($data) }}"
                             permission="{{ in_array('update', request('__permissions_page')) }}" />
                         <x-button type="delete" hidden="{{ !isset($data) }}"
@@ -268,11 +269,15 @@
 @push('scripts')
     <script>
         var authorizations_clients = {};
+        var date_range = {};
         @foreach ($authorizations as $authorization)
             authorizations_clients[{{ $authorization->id_authorization }}] = [];
             @foreach ($authorization->clients as $client)
                 authorizations_clients[{{ $authorization->id_authorization }}].push({{ $client->id_client }});
             @endforeach
+            date_range[{{ $authorization->id_authorization }}] = [
+                '{{ $authorization->start_date }}', '{{ $authorization->end_date }}'
+            ];
         @endforeach
 
         $(document).ready(function() {
@@ -298,17 +303,29 @@
                         });
                     }
 
+                    dates_range();
                     calc_items_clients();
                     calc_total('client_amount', 'client_percentage');
                 });
             @endif
 
-
+            dates_range();
             del_user(0);
             calc_total('user_amount', 'user_percentage');
             calc_total('client_amount', 'client_percentage');
             enable_items_users();
         });
+
+        function dates_range() {
+            let id_authorization = $("#id_authorization").find(":selected").val();
+            $("#date").removeAttr("min");
+            $("#date").removeAttr("max");
+            if (id_authorization) {
+                console.log(id_authorization, date_range[id_authorization])
+                $("#date").attr("min", date_range[id_authorization][0]);
+                $("#date").attr("max", date_range[id_authorization][1]);
+            }
+        }
 
         function add_user(id_user) {
             if (id_user == undefined) {

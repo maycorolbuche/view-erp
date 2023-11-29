@@ -174,6 +174,12 @@
                                     minimumFractionDigits: 2
                                 })).blur();
                             });
+
+                            @if ($value != '')
+                                $("#{{ $id }}_preview").val(({{ $value }}).toLocaleString('pt-BR', {
+                                    minimumFractionDigits: 2
+                                }));
+                            @endif
                             change_money_{{ $id }}();
                         });
 

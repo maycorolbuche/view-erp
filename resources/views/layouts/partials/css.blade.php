@@ -96,7 +96,8 @@
         display: block;
     }
 
-    .has-error em {
+    .has-error em,
+    em.has-error {
         color: #e9573f;
         font-size: 11px;
         font-style: normal;

@@ -27,6 +27,17 @@ class Authorization extends Model
 
     protected $appends = ['description_details'];
 
+
+    public function getStartDateAttribute()
+    {
+        return Carbon::parse($this->start_datetime)->format('Y-m-d');
+    }
+
+    public function getEndDateAttribute()
+    {
+        return Carbon::parse($this->end_datetime)->format('Y-m-d');
+    }
+
     public function getStartDatetimeBrAttribute()
     {
         return Carbon::parse($this->start_datetime)->format('d/m/Y H:i:s');

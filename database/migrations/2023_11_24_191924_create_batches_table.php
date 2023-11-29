@@ -16,7 +16,7 @@ class CreateBatchesTable extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->increments('id_batch');
             $table->unsignedInteger('id_user');
-            $table->boolean('refundable')->default(false);
+            //$table->boolean('refundable')->default(false);
 
             $table->foreign('id_user')->references('id_user')->on('users');
 

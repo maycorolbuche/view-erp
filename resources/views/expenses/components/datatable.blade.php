@@ -1,5 +1,5 @@
 <x-data-table data-origin="expenses.datatable" query-string="route={{ $route }}" id-field="{{ $field ?? '' }}"
-    order="name"
+    order="date" order-dir="desc"
     columns="{{ json_encode([
         [
             'data' => 'actions',

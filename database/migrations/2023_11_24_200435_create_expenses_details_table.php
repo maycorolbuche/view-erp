@@ -29,6 +29,8 @@ class CreateExpensesDetailsTable extends Migration
             $table->foreign('id_expense_client')->references('id_expense_client')->on('expenses_clients')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_client')->references('id_client')->on('clients');
 
+            $table->unique(['id_expense', 'id_expense_user', 'id_expense_client']);
+
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
