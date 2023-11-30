@@ -37,7 +37,7 @@ class ExpenseRequest extends FormRequest
 
                 $request['client_amount'] = array_intersect_key($request->input('client_amount'), array_flip($clients));
 
-                $total_amount = array_sum(array_map('floatval', $request->client_amount));
+                $total_amount = round(array_sum(array_map('floatval', $request->client_amount)), 2);
 
                 return $request->amount == $total_amount;
             },
@@ -47,7 +47,7 @@ class ExpenseRequest extends FormRequest
         $validationFactory->extend(
             'sum_expenses_users',
             function ($attribute, $value, $parameters) use ($request) {
-                $total_amount = array_sum(array_map('floatval', $request->user_amount));
+                $total_amount = round(array_sum(array_map('floatval', $request->user_amount)), 2);
 
                 return $request->amount == $total_amount;
             },
