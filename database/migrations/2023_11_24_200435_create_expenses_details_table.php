@@ -21,7 +21,7 @@ class CreateExpensesDetailsTable extends Migration
             $table->unsignedInteger('id_expense_client');
             $table->unsignedInteger('id_client');
             $table->decimal('amount', 8, 2);
-            $table->decimal('percentage', 8, 2);
+            $table->double('percentage');
 
             $table->foreign('id_expense')->references('id_expense')->on('expenses')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_expense_user')->references('id_expense_user')->on('expenses_users')->onUpdate('cascade')->onDelete('cascade');
@@ -29,7 +29,7 @@ class CreateExpensesDetailsTable extends Migration
             $table->foreign('id_expense_client')->references('id_expense_client')->on('expenses_clients')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_client')->references('id_client')->on('clients');
 
-            $table->unique(['id_expense', 'id_expense_user', 'id_expense_client']);
+            $table->unique(['id_expense', 'id_expense_user', 'id_expense_client'], 'unique_expense_user_cient');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

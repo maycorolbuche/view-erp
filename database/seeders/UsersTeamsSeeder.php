@@ -26,7 +26,7 @@ class UsersTeamsSeeder extends Seeder
                 $id_user_team = $user_team['id_user_team'];
                 $count = mt_rand(0, AuthorizationType::count());
 
-                for ($i = 0; $i <= $count; $i++) {
+                for ($j = 0; $j <= $count; $j++) {
                     UserAuthorizationType::create([
                         'id_user_team' => $id_user_team,
                         'id_user_parent' => $id_user_parent,

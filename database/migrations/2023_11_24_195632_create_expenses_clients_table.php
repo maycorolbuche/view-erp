@@ -18,10 +18,12 @@ class CreateExpensesClientsTable extends Migration
             $table->unsignedInteger('id_expense');
             $table->unsignedInteger('id_client');
             $table->decimal('amount', 8, 2);
-            $table->decimal('percentage', 8, 2);
+            $table->double('percentage');
 
             $table->foreign('id_expense')->references('id_expense')->on('expenses')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_client')->references('id_client')->on('clients');
+
+            $table->unique(['id_expense', 'id_client']);
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
