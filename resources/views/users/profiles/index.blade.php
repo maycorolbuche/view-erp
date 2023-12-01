@@ -15,15 +15,15 @@
             @include('layouts.partials.messages')
 
             @if (!$has_access)
-                <blockquote class="blockquote-danger">
-                    <p>Este usuário não tem acesso ao sistema {{ request('__system')['name'] }}. Autorize o acesso a este
-                        sistema primeiro!</p>
-                </blockquote>
+                <x-note type="danger">
+                    Este usuário não tem acesso ao sistema {{ request('__system')['name'] }}. Autorize o acesso a este
+                    sistema primeiro!
+                </x-note>
             @else
                 @if ($user->root == true)
-                    <blockquote class="blockquote-warning">
-                        <p>Este é um usuário raiz. Não é possível alterar os perfis.</p>
-                    </blockquote>
+                    <x-note type="warning">
+                        Este é um usuário raiz. Não é possível alterar os perfis.
+                    </x-note>
                 @endif
 
                 <x-form action-name="users-profiles" action="{{ route('users-profiles.update', compact('pid')) }}">

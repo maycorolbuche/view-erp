@@ -15,9 +15,9 @@
             @include('layouts.partials.messages')
 
             @if ($user->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este é um usuário do sistema. Ele não pode ser desativado!</p>
-                </blockquote>
+                <x-note type="warning">
+                    Este é um usuário do sistema. Ele não pode ser desativado!
+                </x-note>
             @endif
 
             <x-form action-name="users-access" action="{{ route('users-access.update', compact('pid')) }}">

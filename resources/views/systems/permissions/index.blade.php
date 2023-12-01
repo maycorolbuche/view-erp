@@ -15,9 +15,9 @@
             @include('layouts.partials.messages')
 
             @if ($system->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este é o sistema principal. Algumas permissões serão sempre mantidas.</p>
-                </blockquote>
+                <x-note type="warning">
+                    Este é o sistema principal. Algumas permissões serão sempre mantidas.
+                </x-note>
             @endif
 
             <x-form action-name="systems-permissions" action="{{ route('systems-permissions.update', compact('pid')) }}">

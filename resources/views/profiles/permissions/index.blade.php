@@ -15,9 +15,9 @@
             @include('layouts.partials.messages')
 
             @if ($profile->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este é um perfil do sistema. Não é possível alterar as permissões.</p>
-                </blockquote>
+                <x-note type="warning">
+                    Este é um perfil do sistema. Não é possível alterar as permissões.
+                </x-note>
             @endif
 
             <x-form action-name="profiles-permissions" action="{{ route('profiles-permissions.update', compact('pid')) }}">

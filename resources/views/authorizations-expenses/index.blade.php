@@ -10,12 +10,12 @@
             @include('layouts.partials.messages')
 
             @if (count($parents) <= 0)
-                <blockquote class="blockquote-danger">
+                <x-note type="danger">
                     <p>
                         Não há nenhuma pessoa cadastrada para aprovar suas despesas!
                         <br>Entre em contato com o administrador do sistema.
                     </p>
-                </blockquote>
+                </x-note>
             @else
                 <x-form action-name="authorizations-expenses" action-id="{{ null }}">
                     <x-group>
@@ -43,6 +43,10 @@
                             </div>
                         </div>
                     </x-group>
+
+                    <x-note type="warning">
+                        Confira os dados antes enviar a solicitação! Os mesmos não poderão ser alterados após o envio.
+                    </x-note>
 
                     <x-group right>
                         <x-button type="store" permission="{{ in_array('store', request('__permissions_page')) }}" />

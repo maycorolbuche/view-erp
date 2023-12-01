@@ -10,17 +10,15 @@
             @include('layouts.partials.messages')
 
             @if (!isset($data) && count($authorizations) <= 0)
-                <blockquote class="blockquote-danger">
-                    <p>
-                        Você não possui autorizações de despesa em aberto! Não será possível cadastrar despesas.
-                    </p>
+                <x-note type="danger">
+                    Você não possui autorizações de despesa em aberto! Não será possível cadastrar despesas.
 
                     <x-group right>
                         <a type="button" class="btn btn-info" href="{{ route('authorizations-expenses') }}">
                             Solicitar Autorização
                         </a>
                     </x-group>
-                </blockquote>
+                </x-note>
             @else
                 <x-form action-name="expenses" action-id="{{ isset($data) ? $data->id_expense : null }}">
                     <x-group>

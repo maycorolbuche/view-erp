@@ -15,9 +15,9 @@
             @include('layouts.partials.messages')
 
             @if ($user->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este é um usuário raiz. Não é possível alterar os sistemas.</p>
-                </blockquote>
+                <x-note type="warning">
+                    Este é um usuário raiz. Não é possível alterar os sistemas.
+                </x-note>
             @endif
 
             <x-form action-name="users-systems" action="{{ route('users-systems.update', compact('pid')) }}">

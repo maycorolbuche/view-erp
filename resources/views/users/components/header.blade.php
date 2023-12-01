@@ -15,8 +15,8 @@
         @endif
     </h1>
     @if ($user->root == true)
-        <blockquote class="blockquote-warning">
-            <p>Este é um usuário do sistema.</p>
-        </blockquote>
+        <x-note type="warning">
+            Este é um usuário do sistema.
+        </x-note>
     @endif
 @endif

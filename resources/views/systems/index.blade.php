@@ -14,9 +14,9 @@
             @include('layouts.partials.messages')
 
             @if (isset($data) && $data->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este é o sistema principal. Não é possível excluí-lo.</p>
-                </blockquote>
+                <x-note type="warning">
+                    Este é o sistema principal. Não é possível excluí-lo.
+                </x-note>
             @endif
 
             <x-form action-name="systems" action-id="{{ isset($data) ? $data->id_system : null }}">

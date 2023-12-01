@@ -47,9 +47,9 @@
                     <br>
 
                     @if (trim($data->description) != '')
-                        <blockquote>
+                        <x-note>
                             {{ $data->description }}
-                        </blockquote>
+                        </x-note>
                     @endif
 
                     <div class="panel-heading">
@@ -146,7 +146,7 @@
             @if (count($pending) > 0)
                 <x-panel title="Autorizações Pendentes" type="warning">
                     @foreach ($pending as $authorization)
-                        <blockquote class="blockquote-warning">
+                        <x-note type="warning">
                             @if ($authorization->authorization_type->type == 'expense')
                                 <span class='badge badge-success'>{{ $authorization->authorization_type->name }}</span>
                                 <b>{{ $authorization->start_date_br }} a {{ $authorization->end_date_br }}</b>
@@ -160,7 +160,7 @@
                                 <a href="{{ route('me-authorizations.show', ['id' => $authorization->id_authorization]) }}"
                                     class="btn btn-warning">Visualizar</a>
                             </x-group>
-                        </blockquote>
+                        </x-note>
                         <hr style="margin: 0 0 10px 0;">
                     @endforeach
                 </x-panel>

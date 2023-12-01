@@ -14,9 +14,9 @@
             @include('layouts.partials.messages')
 
             @if (isset($data) && $data->root == true)
-                <blockquote class="blockquote-warning">
-                    <p>Este perfil não pode ser apagado, pois é um perfil do sistema.</p>
-                </blockquote>
+                <x-note type="warning">
+                    Este perfil não pode ser apagado, pois é um perfil do sistema.
+                </x-note>
             @endif
 
             <x-form action-name="profiles" action-id="{{ isset($data) ? $data->id_profile : null }}">
