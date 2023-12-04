@@ -33,13 +33,13 @@ class AddAuthorizationsTypes extends Migration
         ]);
         AuthorizationType::create([
             'name' => 'Adiantamento',
-            'type' => 'advance',
+            'type' => 'cash-advance',
             'approval' => 'one',
             'sequence' => self::sequence(),
         ]);
         AuthorizationType::create([
             'name' => 'Devolução Adiantamento',
-            'type' => 'repayment',
+            'type' => 'cash-advance-return',
             'approval' => 'one',
             'sequence' => self::sequence(),
         ]);

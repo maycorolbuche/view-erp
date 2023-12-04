@@ -1,4 +1,4 @@
-<x-data-table data-origin="me-authorizations.datatable" query-string="route={{ $route }}"
+<x-data-table data-origin="authorizations-cash-advances.datatable" query-string="route={{ $route }}"
     id-field="{{ $field ?? '' }}" order="start_date" order-dir="desc"
     columns="{{ json_encode([
         [
@@ -12,25 +12,18 @@
             'className' => 'text-right',
         ],
         [
-            'title' => 'Nome',
-            'data' => 'name',
-        ],
-        [
-            'title' => 'Tipo',
-            'data' => 'type',
-        ],
-        [
-            'title' => 'Período',
-            'data' => 'period',
+            'title' => 'Data',
+            'data' => 'start_date',
             'className' => 'text-center',
+        ],
+        [
+            'title' => 'Valor',
+            'data' => 'amount',
+            'className' => 'text-right',
         ],
         [
             'title' => 'Descrição',
             'data' => 'description',
-        ],
-        [
-            'title' => 'Clientes',
-            'data' => 'clients',
         ],
         [
             'title' => 'Autorizações',

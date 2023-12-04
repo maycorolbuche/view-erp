@@ -35,7 +35,7 @@ class AuthorizationController extends Controller
      */
     public function show($id)
     {
-        $data = Authorization::with('statuses')->find($id);
+        $data = Authorization::with(['statuses', 'authorization_parent'])->find($id);
         if ($data) {
             $pending = AuthorizationHelper::pending();
             $edit = AuthorizationHelper::pendingAuthorization($id);
@@ -95,7 +95,7 @@ class AuthorizationController extends Controller
 
     public function datatable()
     {
-        $data = Authorization::with(['clients', 'statuses', 'user'])
+        $data = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
             ->whereHas('statuses', function ($query) {
                 $query->where('authorizations_statuses.id_user', Auth::id());
             })
@@ -112,6 +112,22 @@ class AuthorizationController extends Controller
             })
             ->addColumn('name', function ($row) {
                 return $row->user->name;
+            })
+            ->addColumn('type', function ($row) {
+                return $row->authorization_type->name;
+            })
+            ->addColumn('period', function ($row) {
+                if ($row->authorization_type->type == 'expense') {
+                    return '<span style="display:none">' . $row->start_datetime . $row->end_datetime . '</span>'
+                        . Carbon::parse($row->start_datetime)->format('d/m/Y')
+                        . ' a '
+                        . Carbon::parse($row->end_datetime)->format('d/m/Y');
+                } elseif ($row->authorization_type->type == 'cash-advance') {
+                    return '<span style="display:none">' . $row->start_datetime . '</span>'
+                        . Carbon::parse($row->start_datetime)->format('d/m/Y');
+                } else {
+                    return '';
+                }
             })
             ->addColumn('start_date', function ($row) {
                 return ($row->start_datetime ? '<span style="display:none">' . $row->start_datetime . '</span>' . Carbon::parse($row->start_datetime)->format('d/m/Y') : '');
@@ -152,7 +168,26 @@ class AuthorizationController extends Controller
                     )
                 );
             })
-            ->rawColumns(['actions', 'start_date', 'end_date', 'clients', 'statuses', 'status'])
+            ->addColumn('description', function ($row) {
+                $html = '';
+                if ($row->authorization_type->type == 'cash-advance') {
+                    $html .= 'Valor: <b>R$ ' . number_format($row->amount, 2, ',', '.') . '</b> | ';
+                }
+                return $html . $row->description;
+            })
+            ->addColumn('status', function ($row) {
+                return ($row->approved === 1
+                    ? "<span class='badge badge-success'>Aprovado</span>"
+                    : ($row->approved === 0
+                        ? "<span class='badge badge-danger'>Negado</span>"
+                        : ($row->active === 1
+                            ? "<span class='badge badge-warning'>Aguardando</span>"
+                            : "<span class='badge badge-muted'>Expirado</span>"
+                        )
+                    )
+                );
+            })
+            ->rawColumns(['actions', 'start_date', 'end_date', 'clients', 'statuses', 'status', 'period', 'description'])
             ->make(true);
     }
 

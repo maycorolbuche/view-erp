@@ -448,7 +448,7 @@ class AddRoutes extends Migration
             'controller' => 'Expense\AuthorizationExpenseController',
             'resources' => $store_resources,
             'permissions' => $store_permissions,
-            'icon' => 'fas fa-money-check-alt',
+            'icon' => 'fas fa-money-check',
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
@@ -461,6 +461,30 @@ class AddRoutes extends Migration
             'resources' => $all_resources,
             'permissions' => $all_permissions,
             'icon' => 'fas fa-hand-holding-usd',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Solic. Adiantamento',
+            'name' => 'authorizations-cash-advances',
+            'uri' => 'authorizations-cash-advances',
+            'controller' => 'Expense\AuthorizationCashAdvanceController',
+            'resources' => $store_resources,
+            'permissions' => $store_permissions,
+            'icon' => 'fas fa-money-check-alt',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Dev. Adiantamento',
+            'name' => 'authorizations-cash-advance-returns',
+            'uri' => 'authorizations-cash-advance-returns',
+            'controller' => 'Expense\AuthorizationCashAdvanceReturnController',
+            'resources' => $store_resources,
+            'permissions' => $store_permissions,
+            'icon' => 'fas fa-money-check-alt',
             'sequence' => self::sequence(),
             'root' => 0,
         ]);

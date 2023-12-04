@@ -40,6 +40,10 @@
                         <small>
                             @if ($data->authorization_type->type == 'expense')
                                 {{ $data->start_date_br }} a {{ $data->end_date_br }}
+                            @elseif ($data->authorization_type->type == 'cash-advance')
+                                {{ $data->start_date_br }}
+                                <br>Valor: R$ {{ number_format($data->amount, 2, ',', '.') }}
+                                <br>Autorização vinculada: {{ $data->authorization_parent->description_details }}
                             @endif
                         </small>
                     </h2>
@@ -52,24 +56,27 @@
                         </x-note>
                     @endif
 
-                    <div class="panel-heading">
-                        <span class="panel-title">
-                            <span>Clientes</span>
-                        </span>
-                    </div>
-                    <div class="panel-body pn">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <tbody>
-                                    @foreach ($data->clients as $client)
-                                        <tr>
-                                            <td>{{ $client->name }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                    @if ($data->authorization_type->type == 'expense')
+                        <div class="panel-heading">
+                            <span class="panel-title">
+                                <span>Clientes</span>
+                            </span>
                         </div>
-                    </div>
+
+                        <div class="panel-body pn">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        @foreach ($data->clients as $client)
+                                            <tr>
+                                                <td>{{ $client->name }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endif
 
                     <br>
 
@@ -147,15 +154,21 @@
                 <x-panel title="Autorizações Pendentes" type="warning">
                     @foreach ($pending as $authorization)
                         <x-note type="warning">
+                            <span class='badge badge-success'>{{ $authorization->authorization_type->name }}</span>
+                            <b>{{ $authorization->user->name }}</b>
                             @if ($authorization->authorization_type->type == 'expense')
-                                <span class='badge badge-success'>{{ $authorization->authorization_type->name }}</span>
-                                <b>{{ $authorization->start_date_br }} a {{ $authorization->end_date_br }}</b>
+                                <br>{{ $authorization->start_date_br }} a {{ $authorization->end_date_br }}
+                            @elseif ($authorization->authorization_type->type == 'cash-advance')
+                                <br>{{ $authorization->start_date_br }}
+                                <br>Valor: <b>R$ {{ number_format($authorization->amount, 2, ',', '.') }}</b>
                             @endif
                             <br>{{ $authorization->description }}
-                            <br><b>Clientes:</b>
-                            @foreach ($authorization->clients as $client)
-                                <span class='badge badge-info'>{{ $client->name }}</span>
-                            @endforeach
+                            @if ($authorization->authorization_type->type == 'expense')
+                                <br><b>Clientes:</b>
+                                @foreach ($authorization->clients as $client)
+                                    <span class='badge badge-info'>{{ $client->name }}</span>
+                                @endforeach
+                            @endif
                             <x-group right>
                                 <a href="{{ route('me-authorizations.show', ['id' => $authorization->id_authorization]) }}"
                                     class="btn btn-warning">Visualizar</a>

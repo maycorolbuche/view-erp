@@ -87,15 +87,22 @@ class AuthorizationNotification extends Notification
 
         if ($this->data->authorization_type->type == 'expense') {
             $html .= "<p><b>Período: </b>" . Carbon::parse($this->data->start_datetime)->format('d/m/Y') . " a " . Carbon::parse($this->data->end_datetime)->format('d/m/Y');
+        } elseif ($this->data->authorization_type->type == 'cash-advance') {
+            $html .= "<p><b>Valor: </b>" . number_format($this->data->amount, 2, ',', '.');
         }
 
         $html .= "<p><b>Detalhes: </b>" . $this->data->description;
-        $html .= "<p><b>Clientes: </b>";
-        $html .= "<ul>";
-        foreach ($this->data->clients as $client) {
-            $html .= "<li>" . $client->name . "</li>";
+
+        if ($this->data->authorization_type->type == 'expense') {
+            $html .= "<p><b>Clientes: </b>";
+            $html .= "<ul>";
+            foreach ($this->data->clients as $client) {
+                $html .= "<li>" . $client->name . "</li>";
+            }
+            $html .= "</ul>";
         }
-        $html .= "</ul>";
+
+
         $html .= "<p><b>Autorizações Necessárias: </b>" . ($this->data->authorization_type->approval == "all"
             ? "Requer autorização de <u>todas</u> as pessoas da lista abaixo"
             : "Requer autorização de apenas <u>uma</u> pessoa da lista abaixo"

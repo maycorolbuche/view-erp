@@ -15,11 +15,13 @@ class Authorization extends Model
     protected $primaryKey = 'id_authorization';
 
     protected $fillable = [
+        'id_authorization_parent',
         'id_user',
         'id_authorization_type',
         'description',
         'start_datetime',
         'end_datetime',
+        'amount',
         'self',
         'active',
         'approved',
@@ -92,6 +94,11 @@ class Authorization extends Model
     public function authorization_type()
     {
         return $this->hasOne(AuthorizationType::class, 'id_authorization_type', 'id_authorization_type');
+    }
+
+    public function authorization_parent()
+    {
+        return $this->hasOne(Authorization::class, 'id_authorization', 'id_authorization_parent');
     }
 
     public function user()
