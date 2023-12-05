@@ -40,10 +40,13 @@
                         <small>
                             @if ($data->authorization_type->type == 'expense')
                                 {{ $data->start_date_br }} a {{ $data->end_date_br }}
-                            @elseif ($data->authorization_type->type == 'cash-advance')
+                            @elseif ($data->authorization_type->type == 'cash-advance' || $data->authorization_type->type == 'cash-advance-return')
                                 {{ $data->start_date_br }}
                                 <br>Valor: R$ {{ number_format($data->amount, 2, ',', '.') }}
-                                <br>Autorização vinculada: {{ $data->authorization_parent->description_details }}
+
+                                @if ($data->authorization_type->type == 'cash-advance')
+                                    <br>Autorização vinculada: {{ $data->authorization_parent->description_details }}
+                                @endif
                             @endif
                         </small>
                     </h2>
@@ -158,7 +161,9 @@
                             <b>{{ $authorization->user->name }}</b>
                             @if ($authorization->authorization_type->type == 'expense')
                                 <br>{{ $authorization->start_date_br }} a {{ $authorization->end_date_br }}
-                            @elseif ($authorization->authorization_type->type == 'cash-advance')
+                            @elseif (
+                                $authorization->authorization_type->type == 'cash-advance' ||
+                                    $authorization->authorization_type->type == 'cash-advance-return')
                                 <br>{{ $authorization->start_date_br }}
                                 <br>Valor: <b>R$ {{ number_format($authorization->amount, 2, ',', '.') }}</b>
                             @endif

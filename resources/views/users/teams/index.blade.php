@@ -64,7 +64,7 @@
 
             <br>
 
-            <x-panel title="Lista de Dependentes" type="success">
+            <x-panel title="Equipe" type="success">
                 <x-data-table data-origin="users-teams.datatable" pid={{ $pid }}
                     query-string="pid={{ $pid }}" order="name"
                     columns="{{ json_encode([
@@ -81,6 +81,10 @@
                         [
                             'title' => 'Nome',
                             'data' => 'name',
+                        ],
+                        [
+                            'title' => 'E-mail',
+                            'data' => 'email',
                         ],
                         [
                             'title' => 'Tipo de Relacionamento',

@@ -122,7 +122,7 @@ class AuthorizationController extends Controller
                         . Carbon::parse($row->start_datetime)->format('d/m/Y')
                         . ' a '
                         . Carbon::parse($row->end_datetime)->format('d/m/Y');
-                } elseif ($row->authorization_type->type == 'cash-advance') {
+                } elseif ($row->authorization_type->type == 'cash-advance' || $row->authorization_type->type == 'cash-advance-return') {
                     return '<span style="display:none">' . $row->start_datetime . '</span>'
                         . Carbon::parse($row->start_datetime)->format('d/m/Y');
                 } else {
@@ -170,7 +170,7 @@ class AuthorizationController extends Controller
             })
             ->addColumn('description', function ($row) {
                 $html = '';
-                if ($row->authorization_type->type == 'cash-advance') {
+                if ($row->authorization_type->type == 'cash-advance' || $row->authorization_type->type == 'cash-advance-return') {
                     $html .= 'Valor: <b>R$ ' . number_format($row->amount, 2, ',', '.') . '</b> | ';
                 }
                 return $html . $row->description;

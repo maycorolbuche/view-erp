@@ -130,14 +130,20 @@ class AuthorizationHelper
         $active = 1;
         if ($diff > 32) {
             $active = 0;
-        } elseif ($authorization->authorization_type->type == 'cash-advance' && $approved !== null) {
+        } elseif (
+            ($authorization->authorization_type->type == 'cash-advance' || $authorization->authorization_type->type == 'cash-advance-return')
+            && $approved !== null
+        ) {
             $active = 0;
         }
 
         $authorization->update(compact('approved', 'active'));
 
         //Atualiza os valores de adiantamento do usuário
-        if ($authorization->authorization_type->type == 'cash-advance' && $approved == true) {
+        if (
+            ($authorization->authorization_type->type == 'cash-advance' || $authorization->authorization_type->type == 'cash-advance-return')
+            && $approved == true
+        ) {
             $user_cash_history = UserCashHistory::where('id_authorization', $id)->first();
             if (!$user_cash_history) {
                 $previous_balance = UserCashHistory::where('id_user', $authorization->id_user)->sum('amount');
@@ -149,7 +155,10 @@ class AuthorizationHelper
                     'id_authorization' => $id,
                     'id_user' => $authorization->id_user,
                     'amount' => $authorization->amount,
-                    'description' => 'Pagamento de Adiantamento',
+                    'description' => ($authorization->authorization_type->type == 'cash-advance'
+                        ? 'Pagamento de Adiantamento'
+                        : 'Devolução de Adiantamento'
+                    ),
                 ]);
 
                 UserCashHistory::create([

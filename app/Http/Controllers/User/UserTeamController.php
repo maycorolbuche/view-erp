@@ -235,6 +235,13 @@ class UserTeamController extends Controller
                     return $row->parent->name ?? '';
                 }
             })
+            ->addColumn('email', function ($row) {
+                if ($row->id_user_parent == request('pid')) {
+                    return $row->child->email ?? '';
+                } else {
+                    return $row->parent->email ?? '';
+                }
+            })
             ->addColumn('relationship', function ($row) {
                 if ($row->id_user_parent == request('pid')) {
                     return '<span class="badge badge-warning"><span class="fas fa-user-friends"></span> Subordinado</span>';

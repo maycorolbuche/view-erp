@@ -5,8 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AuthorizationType;
+use App\Models\UserCash;
 
-class AuthorizationCashAdvanceRequest extends FormRequest
+class AuthorizationCashAdvanceReturnRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +26,15 @@ class AuthorizationCashAdvanceRequest extends FormRequest
      */
     public function rules()
     {
+        $max_amount = UserCash::where('id_user', Auth::id())->sum('amount');
+
         return [
-            'id_authorization_parent' => 'required',
-            'amount' => 'required|numeric|min:0.01',
+            'amount' => [
+                'required',
+                'numeric',
+                'min:0.01',
+                'max:' . $max_amount,
+            ],
             'description' => 'required',
         ];
     }
@@ -35,9 +42,8 @@ class AuthorizationCashAdvanceRequest extends FormRequest
     public function attributes()
     {
         return [
-            'id_authorization_parent' => 'autorização da despesa',
             'amount' => 'valor',
-            'description' => 'motivo da solicitação',
+            'description' => 'motivo da devolução',
         ];
     }
 
@@ -47,10 +53,10 @@ class AuthorizationCashAdvanceRequest extends FormRequest
             'id_user' => Auth::id(),
             'self' => true,
             'start_datetime' => date('Y-m-d') . ' 00:00:00',
-            'end_datetime' => date('Y-m-d') . ' 23:59:59'
+            'end_datetime' => date('Y-m-d') . ' 23:59:59',
         ]);
 
-        $authorization_type = AuthorizationType::where('type', 'cash-advance')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
+        $authorization_type = AuthorizationType::where('type', 'cash-advance-return')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
         if (count($authorization_type) > 0) {
             $this->merge(['id_authorization_type' => $authorization_type[0]]);
         }

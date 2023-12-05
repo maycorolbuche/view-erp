@@ -9,14 +9,14 @@ use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
 use App\Models\UserCash;
 use App\Helpers\AuthorizationHelper;
-use App\Http\Requests\AuthorizationCashAdvanceRequest;
+use App\Http\Requests\AuthorizationCashAdvanceReturnRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use DataTables;
 
-class AuthorizationCashAdvanceController extends Controller
+class AuthorizationCashAdvanceReturnController extends Controller
 {
 
     /**
@@ -26,10 +26,9 @@ class AuthorizationCashAdvanceController extends Controller
      */
     public function index()
     {
-        $authorizations = AuthorizationHelper::active('expense');
-        $parents = AuthorizationHelper::users('cash-advance');
+        $parents = AuthorizationHelper::users('cash-advance-return');
         $user_cash = UserCash::where('id_user', Auth::id())->first();
-        return view('authorizations-cash-advances.index', compact('authorizations', 'parents', 'user_cash'));
+        return view('authorizations-cash-advance-returns.index', compact('parents', 'user_cash'));
     }
 
     /**
@@ -38,24 +37,34 @@ class AuthorizationCashAdvanceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AuthorizationCashAdvanceRequest $request)
+    public function store(AuthorizationCashAdvanceReturnRequest $request)
     {
         if (!in_array('store', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
-        $parents = AuthorizationHelper::users('cash-advance');
+        $parents = AuthorizationHelper::users('cash-advance-return');
         if (count($parents) <= 0) {
             return redirect()->back()->with('error', 'Não há nenhuma pessoa cadastrada para aprovar suas despesas! Entre em contato com o administrador do sistema.')->withInput();
         }
+
+        $authorization_type = AuthorizationType::where('type', 'cash-advance-return')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
+        $authorization_count = Authorization::where(['id_user' => Auth::id(), 'id_authorization_type' => $authorization_type[0], 'active' => true])->count();
+        if ($authorization_count > 0) {
+            return redirect()->back()->with('error', 'Já existe uma solicição de devolução em andamento. Aguarde a conclusão desta solicitação antes de solicitar novamente!')->withInput();
+        }
+
+        $request->merge([
+            'amount' => $request->amount * -1
+        ]);
 
         try {
             $authorization_expense = Authorization::create($request->all());
             $this->authorizationsUsers($authorization_expense->id_authorization, $parents ?? []);
 
             try {
-                $this->sendMail($authorization_expense->id_authorization);
-                return redirect()->route('authorizations-cash-advances')->with('success', 'Autorização solicitada com sucesso.');
+                //$this->sendMail($authorization_expense->id_authorization);
+                return redirect()->route('authorizations-cash-advance-returns')->with('success', 'Autorização solicitada com sucesso.');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'A despesa foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
             }
@@ -66,7 +75,7 @@ class AuthorizationCashAdvanceController extends Controller
 
     public function datatable()
     {
-        $authorization_type = AuthorizationType::where('type', 'cash-advance')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
+        $authorization_type = AuthorizationType::where('type', 'cash-advance-return')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
 
 
         $data = Authorization::where(['id_user' => Auth::id(), 'id_authorization_type' => $authorization_type[0]])

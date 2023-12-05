@@ -87,7 +87,7 @@ class AuthorizationNotification extends Notification
 
         if ($this->data->authorization_type->type == 'expense') {
             $html .= "<p><b>Período: </b>" . Carbon::parse($this->data->start_datetime)->format('d/m/Y') . " a " . Carbon::parse($this->data->end_datetime)->format('d/m/Y');
-        } elseif ($this->data->authorization_type->type == 'cash-advance') {
+        } elseif ($this->data->authorization_type->type == 'cash-advance' || $this->data->authorization_type->type == 'cash-advance-return') {
             $html .= "<p><b>Valor: </b>" . number_format($this->data->amount, 2, ',', '.');
         }
 
