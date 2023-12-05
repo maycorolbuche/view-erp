@@ -8,6 +8,7 @@ use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
 use App\Models\Client;
+use App\Models\UserCash;
 use App\Helpers\AuthorizationHelper;
 use App\Http\Requests\AuthorizationCashAdvanceRequest;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,8 @@ class AuthorizationCashAdvanceController extends Controller
     {
         $authorizations = AuthorizationHelper::active('expense');
         $parents = AuthorizationHelper::users('cash-advance');
-        return view('authorizations-cash-advances.index', compact('authorizations', 'parents'));
+        $user_cash = UserCash::where('id_user', Auth::id())->first();
+        return view('authorizations-cash-advances.index', compact('authorizations', 'parents', 'user_cash'));
     }
 
     /**

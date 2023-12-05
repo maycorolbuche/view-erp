@@ -34,6 +34,11 @@
                             required list="{{ json_encode($authorizations) }}" list-value="id_authorization"
                             list-text="description_details" />
                         <x-input type="money" name="amount" width="150" label="Valor" required />
+                        <x-input type="html" width="150" label="Saldo de Adiantamento">
+                            <h2 style="margin: 0;margin-top: 7px;padding: 0;float: right;">
+                                R$ {{ number_format($user_cash->amount ?? 0, 2, ',', '.') }}
+                            </h2>
+                        </x-input>
                     </x-group>
                     <x-group>
                         <x-input name="description" width="600" label="Motivo da Solicitação" required />

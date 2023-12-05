@@ -6,6 +6,9 @@ use App\Models\Authorization;
 use App\Models\AuthorizationType;
 use App\Models\UserAuthorizationType;
 use App\Models\User;
+use App\Models\UserCash;
+use App\Models\UserCashHistory;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -127,8 +130,45 @@ class AuthorizationHelper
         $active = 1;
         if ($diff > 32) {
             $active = 0;
+        } elseif ($authorization->authorization_type->type == 'cash-advance' && $approved !== null) {
+            $active = 0;
         }
 
         $authorization->update(compact('approved', 'active'));
+
+        //Atualiza os valores de adiantamento do usuário
+        if ($authorization->authorization_type->type == 'cash-advance' && $approved == true) {
+            $user_cash_history = UserCashHistory::where('id_authorization', $id)->first();
+            if (!$user_cash_history) {
+                $previous_balance = UserCashHistory::where('id_user', $authorization->id_user)->sum('amount');
+                $current_balance = $authorization->amount + $previous_balance;
+
+                Transaction::where(['id_authorization' => $id, 'type' => $authorization->authorization_type->type])->delete();
+                $transaction = Transaction::create([
+                    'type' => $authorization->authorization_type->type,
+                    'id_authorization' => $id,
+                    'id_user' => $authorization->id_user,
+                    'amount' => $authorization->amount,
+                    'description' => 'Pagamento de Adiantamento',
+                ]);
+
+                UserCashHistory::create([
+                    'id_transaction' => $transaction->id_transaction,
+                    'id_authorization' => $id,
+                    'id_user' => $authorization->id_user,
+                    'amount' => $authorization->amount,
+                    'previous_balance' => $previous_balance,
+                    'current_balance' => $current_balance,
+                ]);
+
+                UserCash::where('id_user', $authorization->id_user)->delete();
+                if ($current_balance > 0) {
+                    UserCash::create([
+                        'id_user' => $authorization->id_user,
+                        'amount' => $current_balance,
+                    ]);
+                }
+            }
+        }
     }
 }
