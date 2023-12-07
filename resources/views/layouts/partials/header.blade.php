@@ -119,6 +119,11 @@
                     </a>
                 </li>
                 <li class="br-t of-h">
+                    <a href="{{ route('me-batches') }}" class="fw600 p12 animated animated-short fadeInUp">
+                        <span class="fas fa-database"></span> Lotes
+                    </a>
+                </li>
+                <li class="br-t of-h">
                     <a href="{{ route('logout') }}" class="fw600 p12 animated animated-short fadeInDown">
                         <span class="fa fa-power-off pr5"></span> Logout </a>
                 </li>

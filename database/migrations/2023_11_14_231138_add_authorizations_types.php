@@ -25,12 +25,12 @@ class AddAuthorizationsTypes extends Migration
             'approval' => 'one',
             'sequence' => self::sequence(),
         ]);
-        AuthorizationType::create([
+        /*AuthorizationType::create([
             'name' => 'Hora Extra',
             'type' => 'overtime',
             'approval' => 'one',
             'sequence' => self::sequence(),
-        ]);
+        ]);*/
         AuthorizationType::create([
             'name' => 'Adiantamento',
             'type' => 'cash-advance',

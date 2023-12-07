@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Expense;
+namespace App\Http\Controllers\Authorization;
 
 use App\Http\Controllers\Controller;
 use App\Models\Authorization;
 use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
-use App\Models\UserCash;
+use App\Models\Client;
 use App\Helpers\AuthorizationHelper;
-use App\Http\Requests\AuthorizationCashAdvanceRequest;
+use App\Http\Requests\AuthorizationExpenseRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use DataTables;
 
-class AuthorizationCashAdvanceController extends Controller
+class AuthorizationExpenseController extends Controller
 {
 
     /**
@@ -26,10 +26,9 @@ class AuthorizationCashAdvanceController extends Controller
      */
     public function index()
     {
-        $authorizations = AuthorizationHelper::active('expense');
-        $parents = AuthorizationHelper::users('cash-advance');
-        $user_cash = UserCash::where('id_user', Auth::id())->first();
-        return view('authorizations-cash-advances.index', compact('authorizations', 'parents', 'user_cash'));
+        $clients = Client::orderBy('name')->get();
+        $parents = AuthorizationHelper::users('expense');
+        return view('authorizations-expenses.index', compact('clients', 'parents'));
     }
 
     /**
@@ -38,24 +37,25 @@ class AuthorizationCashAdvanceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AuthorizationCashAdvanceRequest $request)
+    public function store(AuthorizationExpenseRequest $request)
     {
         if (!in_array('store', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
-        $parents = AuthorizationHelper::users('cash-advance');
+        $parents = AuthorizationHelper::users('expense');
         if (count($parents) <= 0) {
             return redirect()->back()->with('error', 'Não há nenhuma pessoa cadastrada para aprovar suas despesas! Entre em contato com o administrador do sistema.')->withInput();
         }
 
         try {
             $authorization_expense = Authorization::create($request->all());
+            $this->authorizationsClients($authorization_expense->id_authorization, $request->id_client ?? []);
             $this->authorizationsUsers($authorization_expense->id_authorization, $parents ?? []);
 
             try {
                 $this->sendMail($authorization_expense->id_authorization);
-                return redirect()->route('authorizations-cash-advances')->with('success', 'Autorização solicitada com sucesso.');
+                return redirect()->route('authorizations-expenses')->with('success', 'Autorização solicitada com sucesso.');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'A despesa foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
             }
@@ -66,7 +66,7 @@ class AuthorizationCashAdvanceController extends Controller
 
     public function datatable()
     {
-        $authorization_type = AuthorizationType::where('type', 'cash-advance')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
+        $authorization_type = AuthorizationType::where('type', 'expense')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
 
 
         $data = Authorization::where(['id_user' => Auth::id(), 'id_authorization_type' => $authorization_type[0]])
@@ -86,8 +86,12 @@ class AuthorizationCashAdvanceController extends Controller
             ->addColumn('end_date', function ($row) {
                 return ($row->end_datetime ? '<span style="display:none">' . $row->end_datetime . '</span>' . Carbon::parse($row->end_datetime)->format('d/m/Y') : '');
             })
-            ->addColumn('amount', function ($row) {
-                return number_format($row->amount, 2, ',', '.');
+            ->addColumn('clients', function ($row) {
+                $clients = '';
+                foreach ($row->clients as $client) {
+                    $clients .= "<span class='badge badge-info'>" . $client->short_name . "</span> ";
+                }
+                return $clients;
             })
             ->addColumn('statuses', function ($row) {
                 $users = '';

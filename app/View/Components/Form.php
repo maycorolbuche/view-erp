@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Route;
 
 class Form extends Component
 {
@@ -29,7 +30,17 @@ class Form extends Component
                 if ($actionPid) {
                     $params['pid'] = $actionPid;
                 }
-                $this->action = route($actionName . '.update', $params);
+
+                $update_route = $actionName . '.update';
+                $delete_route = $actionName . '.delete';
+
+                if (Route::has($update_route)) {
+                    $this->action = route($update_route, $params);
+                } elseif (Route::has($delete_route)) {
+                    $this->action = route($delete_route, $params);
+                } else {
+                    $this->action = '';
+                }
             } else {
                 $params = [];
                 if ($actionPid) {

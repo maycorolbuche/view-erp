@@ -239,9 +239,14 @@ class ExpenseController extends Controller
                 return $row->payment_method->name;
             })
             ->addColumn('amount', function ($row) {
-                return number_format($row->amount, 2, ',', '.');
+                return '<span style="display:none">' . $row->amount . '</span>' . number_format($row->amount, 2, ',', '.');
             })
-            ->rawColumns(['actions', 'date'])
+            ->addColumn('refundable', function ($row) {
+                return $row->payment_method->refundable
+                    ? "<span class='badge badge-info'>Reembolsável</span>"
+                    : "<span class='badge badge-danger'>Não Reembolsável</span>";
+            })
+            ->rawColumns(['actions', 'date', 'refundable', 'amount'])
             ->make(true);
     }
 

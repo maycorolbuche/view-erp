@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Expense;
+namespace App\Http\Controllers\Authorization;
 
 use App\Http\Controllers\Controller;
 use App\Models\Authorization;
 use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
-use App\Models\Client;
+use App\Models\UserCash;
 use App\Helpers\AuthorizationHelper;
-use App\Http\Requests\AuthorizationExpenseRequest;
+use App\Http\Requests\AuthorizationCashAdvanceReturnRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use DataTables;
 
-class AuthorizationExpenseController extends Controller
+class AuthorizationCashAdvanceReturnController extends Controller
 {
 
     /**
@@ -26,9 +26,9 @@ class AuthorizationExpenseController extends Controller
      */
     public function index()
     {
-        $clients = Client::orderBy('name')->get();
-        $parents = AuthorizationHelper::users('expense');
-        return view('authorizations-expenses.index', compact('clients', 'parents'));
+        $parents = AuthorizationHelper::users('cash-advance-return');
+        $user_cash = UserCash::where('id_user', Auth::id())->first();
+        return view('authorizations-cash-advance-returns.index', compact('parents', 'user_cash'));
     }
 
     /**
@@ -37,25 +37,34 @@ class AuthorizationExpenseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AuthorizationExpenseRequest $request)
+    public function store(AuthorizationCashAdvanceReturnRequest $request)
     {
         if (!in_array('store', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
-        $parents = AuthorizationHelper::users('expense');
+        $parents = AuthorizationHelper::users('cash-advance-return');
         if (count($parents) <= 0) {
             return redirect()->back()->with('error', 'Não há nenhuma pessoa cadastrada para aprovar suas despesas! Entre em contato com o administrador do sistema.')->withInput();
         }
 
+        $authorization_type = AuthorizationType::where('type', 'cash-advance-return')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
+        $authorization_count = Authorization::where(['id_user' => Auth::id(), 'id_authorization_type' => $authorization_type[0], 'active' => true])->count();
+        if ($authorization_count > 0) {
+            return redirect()->back()->with('error', 'Já existe uma solicição de devolução em andamento. Aguarde a conclusão desta solicitação antes de solicitar novamente!')->withInput();
+        }
+
+        $request->merge([
+            'amount' => $request->amount * -1
+        ]);
+
         try {
             $authorization_expense = Authorization::create($request->all());
-            $this->authorizationsClients($authorization_expense->id_authorization, $request->id_client ?? []);
             $this->authorizationsUsers($authorization_expense->id_authorization, $parents ?? []);
 
             try {
-                $this->sendMail($authorization_expense->id_authorization);
-                return redirect()->route('authorizations-expenses')->with('success', 'Autorização solicitada com sucesso.');
+                //$this->sendMail($authorization_expense->id_authorization);
+                return redirect()->route('authorizations-cash-advance-returns')->with('success', 'Autorização solicitada com sucesso.');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'A despesa foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
             }
@@ -66,7 +75,7 @@ class AuthorizationExpenseController extends Controller
 
     public function datatable()
     {
-        $authorization_type = AuthorizationType::where('type', 'expense')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
+        $authorization_type = AuthorizationType::where('type', 'cash-advance-return')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
 
 
         $data = Authorization::where(['id_user' => Auth::id(), 'id_authorization_type' => $authorization_type[0]])
@@ -86,12 +95,8 @@ class AuthorizationExpenseController extends Controller
             ->addColumn('end_date', function ($row) {
                 return ($row->end_datetime ? '<span style="display:none">' . $row->end_datetime . '</span>' . Carbon::parse($row->end_datetime)->format('d/m/Y') : '');
             })
-            ->addColumn('clients', function ($row) {
-                $clients = '';
-                foreach ($row->clients as $client) {
-                    $clients .= "<span class='badge badge-info'>" . $client->short_name . "</span> ";
-                }
-                return $clients;
+            ->addColumn('amount', function ($row) {
+                return number_format($row->amount, 2, ',', '.');
             })
             ->addColumn('statuses', function ($row) {
                 $users = '';

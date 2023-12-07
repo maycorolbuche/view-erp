@@ -236,4 +236,8 @@
     input.money {
         text-align: right;
     }
+
+    div.form-control {
+        background: #fafafa;
+    }
 </style>

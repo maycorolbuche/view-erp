@@ -404,5 +404,43 @@
             $('#loading-overlay').fadeOut();
         }
     }
+
+    function check(name, action) {
+
+        if (action == 'reverse') {
+            $(`input[name^="${name}["]`).each(function() {
+                $(this).prop('checked', !$(this).prop('checked'));
+            });
+        } else {
+            $(`input[name^="${name}["]`).prop('checked', (action == 'all'));
+        }
+    }
+
+    function sum_checkbox_value(name, action, formatted) {
+        if (formatted == undefined) {
+            formatted = false;
+        }
+
+        let select = '';
+        if (action == 'checked') {
+            select = ':checked';
+        } else if (action == 'not-checked') {
+            select = ':not(:checked)';
+        }
+
+        let sum = 0;
+        $(`input[name^="${name}["]${select}`).each(function() {
+            sum += parseFloat($(this).data('value') || 0);
+        });
+
+        if (formatted) {
+            return sum.toLocaleString('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        } else {
+            return sum.toFixed(2);
+        }
+    }
 </script>
 <!-- END: PAGE SCRIPTS -->

@@ -77,6 +77,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                             Route::get('/authorizations/datatable', 'Me\AuthorizationController@datatable')->name('me-authorizations.datatable');
                             Route::get('/authorizations/{id}', 'Me\AuthorizationController@show')->where('id', '[0-9]+')->name('me-authorizations.show');
                             Route::put('/authorizations/{id}', 'Me\AuthorizationController@update')->where('id', '[0-9]+')->name('me-authorizations.update');
+
+                            Route::get('/batches', 'Me\BatchController@index')->name('me-batches');
+                            Route::get('/batches/datatable', 'Me\BatchController@datatable')->name('me-batches.datatable');
+                            Route::get('/batches/{id}', 'Me\BatchController@show')->where('id', '[0-9]+')->name('me-batches.show');
+                            Route::delete('/batches/{id}', 'Me\BatchController@delete')->where('id', '[0-9]+')->name('me-batches.delete');
                         });
 
                         Route::get('/', 'HomeController@dashboard')->name('dashboard');

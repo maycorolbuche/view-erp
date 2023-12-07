@@ -33,4 +33,10 @@
             'title' => 'Anotações',
             'data' => 'notes',
         ],
-    ]) }}" />
+        [
+            'title' => 'Reembolsável?',
+            'data' => 'refundable',
+            'className' => 'text-center',
+        ],
+    ]) }}"
+    created-row="if (data['refundable'].indexOf('danger') !== -1) { $('td', row).addClass('danger'); }"  />

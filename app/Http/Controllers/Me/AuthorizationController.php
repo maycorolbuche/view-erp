@@ -37,6 +37,11 @@ class AuthorizationController extends Controller
     {
         $data = Authorization::with(['statuses', 'authorization_parent'])->find($id);
         if ($data) {
+            if ($data->id_user != Auth::id()) {
+                if (!in_array(Auth::id(), $data->statuses->pluck('id_user')->toArray())) {
+                    return redirect()->route('me-authorizations')->with('error', 'Registro não encontrado!');
+                }
+            }
             $pending = AuthorizationHelper::pending();
             $edit = AuthorizationHelper::pendingAuthorization($id);
 

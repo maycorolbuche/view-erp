@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Expense;
 use App\Models\ExpenseDetail;
+use App\Models\Batch;
 
 class ExpenseHelper
 {
@@ -37,5 +38,31 @@ class ExpenseHelper
                 $accumulated_amount += $amount;
             }
         }
+    }
+
+    public static function batch($data)
+    {
+        $batch = Batch::create($data);
+        $expenses = Expense::with('payment_method')
+            ->where(['id_user' => $batch->id_user])
+            ->whereNull('id_batch')
+            ->whereIn('id_expense', $data['expense'])
+            ->get();
+
+        Expense::whereIn('id_expense', $expenses->pluck('id_expense')->toArray())
+            ->update(['id_batch' => $batch->id_batch]);
+
+        $batch->update([
+            'expenses_count' => $expenses->count(),
+            'amount' => $expenses->sum('amount'),
+            'refundable_amount' => $expenses->filter(function ($expense) {
+                return $expense->payment_method->refundable == 1;
+            })->sum('amount'),
+            'non_refundable_amount' => $expenses->filter(function ($expense) {
+                return $expense->payment_method->refundable == 0;
+            })->sum('amount'),
+        ]);
+
+        return $batch->id_batch;
     }
 }

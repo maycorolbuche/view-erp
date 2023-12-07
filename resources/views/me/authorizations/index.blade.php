@@ -45,7 +45,7 @@
                                 <br>Valor: R$ {{ number_format($data->amount, 2, ',', '.') }}
 
                                 @if ($data->authorization_type->type == 'cash-advance')
-                                    <br>Autorização vinculada: {{ $data->authorization_parent->description_details }}
+                                    <br>Autorização vinculada: {{ $data->authorization_parent->description_details ?? '' }}
                                 @endif
                             @endif
                         </small>
