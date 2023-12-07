@@ -17,4 +17,14 @@ class UserDiscount extends Model
         'id_user',
         'id_discount',
     ];
+
+    public function discount()
+    {
+        return $this->hasOne(Discount::class, 'id_discount', 'id_discount');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_user', 'id_user');
+    }
 }

@@ -21,6 +21,7 @@ class Batch extends Model
         'amount',
         'refundable_amount',
         'non_refundable_amount',
+        'discount',
     ];
 
 

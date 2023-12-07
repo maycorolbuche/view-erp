@@ -48,4 +48,9 @@ class Expense extends Model
     {
         return $this->belongsToMany(User::class, ExpenseUser::class, 'id_expense', 'id_user')->withPivot(['amount', 'percentage', 'id_expense_user']);
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_user', 'id_user');
+    }
 }

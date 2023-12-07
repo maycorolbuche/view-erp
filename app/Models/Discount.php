@@ -26,4 +26,9 @@ class Discount extends Model
     {
         return $this->belongsToMany(Category::class, DiscountCategory::class, 'id_discount', 'id_category');
     }
+
+    public function discounts_amounts()
+    {
+        return $this->hasMany(DiscountAmount::class, 'id_discount', 'id_discount');
+    }
 }

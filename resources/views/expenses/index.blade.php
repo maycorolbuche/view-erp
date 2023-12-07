@@ -294,10 +294,12 @@
                 add_user();
             });
 
-            $("#amount_preview").change(function() {
-                calc_items_users();
-                calc_items_clients();
-            });
+            setTimeout(function() {
+                $("#amount_preview").change(function() {
+                    calc_items_users();
+                    calc_items_clients();
+                });
+            }, 100)
 
             @if (!isset($data))
                 $("#id_authorization").change(function() {
