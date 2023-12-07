@@ -21,49 +21,11 @@
                 <x-form action-name="me-batches" action-id="{{ isset($data) ? $data->id_batch : null }}">
 
                     <x-group>
-                        <x-card>
-                            <div class="pn pl20 p5">
-                                <div class="icon-bg"> <i class="fa fa-comments-o"></i> </div>
-                                <h2 class="mt15 lh15"> <b>523</b> </h2>
-                                <h5 class="text-muted">Comments</h5>
-                            </div>
-                        </x-card>
-                        <div class="col-md-3">
-                            <div class="panel bg-alert light of-h mb10">
-                                <div class="pn pl20 p5">
-                                    <div class="icon-bg"> <i class="fa fa-comments-o"></i> </div>
-                                    <h2 class="mt15 lh15"> <b>523</b> </h2>
-                                    <h5 class="text-muted">Comments</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="panel bg-info light of-h mb10">
-                                <div class="pn pl20 p5">
-                                    <div class="icon-bg"> <i class="fa fa-twitter"></i> </div>
-                                    <h2 class="mt15 lh15"> <b>348</b> </h2>
-                                    <h5 class="text-muted">Tweets</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="panel bg-danger light of-h mb10">
-                                <div class="pn pl20 p5">
-                                    <div class="icon-bg"> <i class="fa fa-bar-chart-o"></i> </div>
-                                    <h2 class="mt15 lh15"> <b>267</b> </h2>
-                                    <h5 class="text-muted">Reach</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="panel bg-warning light of-h mb10">
-                                <div class="pn pl20 p5">
-                                    <div class="icon-bg"> <i class="fa fa-envelope"></i> </div>
-                                    <h2 class="mt15 lh15"> <b>714</b> </h2>
-                                    <h5 class="text-muted">Comments</h5>
-                                </div>
-                            </div>
-                        </div>
+                        <x-card width="150" type="alert" value="{{ $data->id_batch }}" label="Código do Lote" />
+                        <x-card width="150" type="info" value="{{ $data->expenses_count }}" label="Qtd. Despesas" />
+                        <x-card type="warning" value="R$ {{ number_format($data->amount, 2, ',', '.') }}"
+                            label="Valor do Lote" />
+                        <x-card type="warning" icon="fa fa-envelope" value="714" label="Comments" />
                     </x-group>
 
                     <x-group>
