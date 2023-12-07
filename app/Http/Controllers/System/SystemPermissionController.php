@@ -24,7 +24,7 @@ class SystemPermissionController extends Controller
     {
         $system = System::find($id);
         if (!$system) {
-            return redirect()->route('profiles-permissions')->with('error', 'Registro não encontrado!');
+            return redirect()->route('systems-permissions')->with('error', 'Registro não encontrado!');
         }
 
         $routes = RouteGroup::orderBy('sequence')->with(['routes' => function ($query) {

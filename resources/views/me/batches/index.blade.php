@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Consulta de Lotes')
-@section('breadcrumb', json_encode([['label' => 'Autorização de Despesas', 'icon' => 'fas fa-check-double']]))
+@section('breadcrumb', json_encode([['label' => 'Consulta de Lotes', 'icon' => 'fas fa-database']]))
 
 @section('content')
     <x-content>
@@ -25,7 +25,8 @@
                         <x-card width="150" type="info" value="{{ $data->expenses_count }}" label="Qtd. Despesas" />
                         <x-card type="warning" value="R$ {{ number_format($data->amount, 2, ',', '.') }}"
                             label="Valor do Lote" />
-                        <x-card type="warning" icon="fa fa-envelope" value="714" label="Comments" />
+                        <x-card type="danger" value="R$ {{ number_format($data->non_refundable_amount, 2, ',', '.') }}"
+                            label="(-) Vl. não Reembolsável" />
                     </x-group>
 
                     <x-group>

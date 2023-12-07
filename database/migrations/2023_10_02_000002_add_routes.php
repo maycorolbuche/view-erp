@@ -202,6 +202,30 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Descontos',
+            'name' => 'discounts',
+            'uri' => 'discounts',
+            'controller' => 'Discount\DiscountController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-comment-dollar',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Valores Descontos',
+            'name' => 'discounts-amounts',
+            'uri' => 'discounts/{pid}/amounts',
+            'controller' => 'Discount\DiscountAmountController',
+            'resources' => $all_resources,
+            'permissions' => $all_permissions,
+            'icon' => 'fas fa-funnel-dollar',
+            'sequence' => self::sequence(),
+            'root' => 1,
+        ]);
 
         /* USUÁRIOS E ACESSOS */
         $id_route_group = 3;
