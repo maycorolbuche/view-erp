@@ -110,6 +110,12 @@
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
+        [
+            'title' => 'Descontos Lote',
+            'name' => 'users-discounts',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
     ];
 @endphp
 

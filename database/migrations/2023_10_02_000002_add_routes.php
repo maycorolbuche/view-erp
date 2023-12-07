@@ -460,6 +460,18 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Descontos Lote',
+            'name' => 'users-discounts',
+            'uri' => 'users/{pid}/discounts',
+            'controller' => 'User\UserDiscountController',
+            'resources' => $update_all_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'glyphicons glyphicons-database_minus',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
 
 
         /* DESPESAS */

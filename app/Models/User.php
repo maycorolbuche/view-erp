@@ -208,4 +208,9 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasOne(Branch::class, 'id_branch', 'id_branch');
     }
+
+    public function users_discounts()
+    {
+        return $this->hasMany(UserDiscount::class, 'id_user', 'id_user');
+    }
 }
