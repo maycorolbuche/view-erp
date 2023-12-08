@@ -22,35 +22,19 @@
 
                     <x-group>
                         <x-card width="150" type="alert" value="{{ $data->id_batch }}" label="Código do Lote" />
-                        <x-card width="150" type="info" value="{{ $data->expenses_count }}" label="Qtd. Despesas" />
-                        <x-card type="warning" value="R$ {{ number_format($data->amount, 2, ',', '.') }}"
+                        <x-card width="150" type="warning" value="{{ $data->expenses_count }}" label="Qtd. Despesas" />
+                    </x-group>
+                    <x-group>
+                        <x-card type="info" value="R$ {{ number_format($data->amount, 2, ',', '.') }}"
                             label="Valor do Lote" />
                         <x-card type="danger" value="R$ {{ number_format($data->non_refundable_amount, 2, ',', '.') }}"
                             label="(-) Vl. não Reembolsável" />
+                        <x-card type="danger" value="R$ {{ number_format($data->discount, 2, ',', '.') }}"
+                            label="(-) Vl. Desconto" />
+                        <x-card type="success" value="R$ {{ number_format($data->refund_amount, 2, ',', '.') }}"
+                            label="(=) Valor do Reembolso" />
                     </x-group>
 
-                    <x-group>
-                        <x-input type="html" width="100" label="Código do Lote">
-                            <div class="text-right form-control">{{ $data->id_batch }}</div>
-                        </x-input>
-                        <x-input type="html" width="100" label="Qtd. Despesas">
-                            <div class="text-right form-control">{{ $data->expenses_count }}</div>
-                        </x-input>
-                        <x-input type="html" width="140" label="Valor do Lote">
-                            <div class="text-right form-control">{{ number_format($data->amount, 2, ',', '.') }}</div>
-                        </x-input>
-                        <x-input type="html" width="160" label="(-) Vl. não Reembolsável">
-                            <div class="text-right form-control">
-                                {{ number_format($data->non_refundable_amount, 2, ',', '.') }}
-                            </div>
-                        </x-input>
-                        <x-input type="html" width="140" label="(-) Vl. Desconto">
-                            <div class="text-right form-control">.....</div>
-                        </x-input>
-                        <x-input type="html" width="140" label="(=) Vl. Reembolso">
-                            <div class="text-right form-control">.....</div>
-                        </x-input>
-                    </x-group>
 
                     <x-group right>
                         @if ($edit)

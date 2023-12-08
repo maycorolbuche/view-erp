@@ -162,16 +162,24 @@ class ExpenseHelper
 
 
         //Altera o lote com as informações das despesas
+        $amount = $expenses->sum('amount');
+        $refundable_amount = $expenses->filter(function ($expense) {
+            return $expense->payment_method->refundable == 1;
+        })->sum('amount');
+        $non_refundable_amount = $expenses->filter(function ($expense) {
+            return $expense->payment_method->refundable == 0;
+        })->sum('amount');
+        $discount = BatchDiscount::where('id_batch', $batch->id_batch)->sum('amount');
+
+        $refund_amount = $refundable_amount - $discount;
+
         $batch->update([
             'expenses_count' => $expenses->count(),
-            'amount' => $expenses->sum('amount'),
-            'refundable_amount' => $expenses->filter(function ($expense) {
-                return $expense->payment_method->refundable == 1;
-            })->sum('amount'),
-            'non_refundable_amount' => $expenses->filter(function ($expense) {
-                return $expense->payment_method->refundable == 0;
-            })->sum('amount'),
-            'discount' => BatchDiscount::where('id_batch', $batch->id_batch)->sum('amount'),
+            'amount' => $amount,
+            'refundable_amount' => $refundable_amount,
+            'non_refundable_amount' => $non_refundable_amount,
+            'discount' => $discount,
+            'refund_amount' => $refund_amount,
         ]);
 
         return $batch->id_batch;
