@@ -121,67 +121,33 @@
                     <br>
 
                     <x-title>Descontos do Lote</x-title>
-<!--
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <th class='text-right'>Código</th>
-                                <th>Data</th>
-                                <th>Tipo de Despesa</th>
-                                <th>Clientes</th>
-                                <th>Tipo de Pagamento</th>
-                                <th class='text-right'>Valor</th>
-                                <th class='text-center'>Reembolsável?</th>
-                                <th></th>
-                                <th></th>
+                                <th class='text-right'>Valor do Desconto</th>
+                                <th class='text-right'>Cód. Despesa</th>
+                                <th>Motivo</th>
                             </thead>
                             <tbody>
-                                @foreach ($data->expenses as $expense)
-                                    <tr class="{{ !$expense->payment_method->refundable ? 'danger' : '' }}">
-                                        <td class='text-right'>{{ $expense->id_expense }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($expense->date)->format('d/m/Y') }}</td>
-                                        <td>{{ $expense->category->name }}</td>
-                                        <td>
-                                            @foreach ($expense->clients as $client)
-                                                <span class='label label-info' data-toggle="tooltip" data-placement="right"
-                                                    title="{{ number_format($client->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($client->pivot->amount, 2, ',', '.') }}">
-                                                    {{ $client->short_name }}
-                                                </span>&nbsp;
-                                            @endforeach
-                                        </td>
-                                        <td>{{ $expense->payment_method->name }}</td>
-                                        <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
-                                        <td class='text-center'>
-                                            {!! $expense->payment_method->refundable
-                                                ? "<span class='badge badge-info'>Reembolsável</span>"
-                                                : "<span class='badge badge-danger'>Não Reembolsável</span>" !!}
-                                        </td>
-                                        <td class="text-right">
-                                            @foreach ($expense->users as $user)
-                                                @if ($user->id_user != $expense->id_user)
-                                                    <span class='label label-warning' data-toggle="tooltip"
-                                                        data-placement="left"
-                                                        title="{{ number_format($user->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($user->pivot->amount, 2, ',', '.') }}">
-                                                        {{ $user->short_name }}
-                                                    </span>&nbsp;
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        <td class="text-right">
-                                            @if (trim($expense->notes) != '')
-                                                <button type="button" class="btn btn-info btn-sm fs12"
-                                                    data-container="body" data-toggle="popover" data-placement="left"
-                                                    data-content="{{ $expense->notes }}">
-                                                    <i class="glyphicons glyphicons-notes"></i>
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                @foreach ($data->discounts as $discount)
+                                    @if ($discount->pivot->amount > 0)
+                                        <tr>
+                                            <td class='text-right'>{{ $discount->pivot->id_batch_discount }}</td>
+                                            <td class='text-right'>
+                                                {{ number_format($discount->pivot->amount, 2, ',', '.') }}
+                                            </td>
+                                            <td class='text-right'>{{ $discount->pivot->id_expense }}</td>
+                                            <td>{{ $discount->name }}</td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
--->
+
+                    <br>
+
                     <x-group right>
                         @if ($edit)
                             <x-button type="delete" label="Desfazer Lote" confirm="Deseja realmente desfazer este lote?" />

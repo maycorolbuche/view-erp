@@ -45,4 +45,9 @@ class Batch extends Model
     {
         return $this->hasMany(Expense::class, 'id_batch', 'id_batch');
     }
+
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, BatchDiscount::class, 'id_batch', 'id_discount')->withPivot(['id_batch_discount', 'id_expense', 'amount']);
+    }
 }

@@ -39,7 +39,8 @@ class BatchController extends Controller
             },
             'expenses' => function ($query) {
                 $query->orderBy('date');
-            }
+            },
+            'discounts'
         ])->find($id);
         if ($data) {
             $chart_categories = $data->categories->map(function ($category) {
