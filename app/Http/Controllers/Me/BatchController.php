@@ -108,6 +108,8 @@ class BatchController extends Controller
         if ($data) {
             //return view('pdf.batch', $data);
             $pdf = Pdf::loadView('pdf.batch', $data);
+            $pdf->setPaper('a4');
+
             return $pdf->stream('batch_' . $id . '.pdf');
         } else {
             return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
@@ -117,7 +119,7 @@ class BatchController extends Controller
     function data($id)
     {
         $data = Batch::where('id_user', Auth::id())->with([
-            'user',
+            'user.users_cash',
             'categories' => function ($query) {
                 $query->orderBy('short_name');
             },

@@ -23,6 +23,10 @@ class Batch extends Model
         'non_refundable_amount',
         'discount',
         'refund_amount',
+        'user_cash',
+        'extra_amount',
+        'reason_extra_amount',
+        'amount_paid',
     ];
 
 
@@ -48,6 +52,6 @@ class Batch extends Model
 
     public function discounts()
     {
-        return $this->belongsToMany(Discount::class, BatchDiscount::class, 'id_batch', 'id_discount')->withPivot(['id_batch_discount', 'id_expense', 'amount']);
+        return $this->belongsToMany(Discount::class, BatchDiscount::class, 'id_batch', 'id_discount')->withPivot(['id_batch_discount', 'id_expense', 'amount', 'expense_amount']);
     }
 }

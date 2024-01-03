@@ -95,7 +95,7 @@
                                                     <span class='label label-warning' data-toggle="tooltip"
                                                         data-placement="left"
                                                         title="{{ number_format($user->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($user->pivot->amount, 2, ',', '.') }}">
-                                                        {{ $user->short_name }}
+                                                        {{ $user->name }}
                                                     </span>&nbsp;
                                                 @endif
                                             @endforeach

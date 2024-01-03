@@ -24,6 +24,10 @@ class CreateBatchesTable extends Migration
             $table->decimal('non_refundable_amount', 8, 2)->default(0);
             $table->decimal('discount', 8, 2)->default(0);
             $table->decimal('refund_amount', 8, 2)->default(0);
+            $table->decimal('user_cash', 8, 2)->default(0);
+            $table->decimal('extra_amount', 8, 2)->default(0);
+            $table->string('reason_extra_amount')->nullable();
+            $table->decimal('amount_paid', 8, 2)->default(0);
 
             $table->foreign('id_user')->references('id_user')->on('users');
 

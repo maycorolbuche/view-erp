@@ -98,7 +98,7 @@
                                                     <span class='label label-warning' data-toggle="tooltip"
                                                         data-placement="left"
                                                         title="{{ number_format($user->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($user->pivot->amount, 2, ',', '.') }}">
-                                                        {{ $user->short_name }}
+                                                        {{ $user->name }}
                                                     </span>&nbsp;
                                                 @endif
                                             @endforeach
@@ -125,6 +125,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <th class='text-right'>Código</th>
+                                <th class='text-right'>Valor da Despesa</th>
                                 <th class='text-right'>Valor do Desconto</th>
                                 <th class='text-right'>Cód. Despesa</th>
                                 <th>Motivo</th>
@@ -134,6 +135,9 @@
                                     @if ($discount->pivot->amount > 0)
                                         <tr>
                                             <td class='text-right'>{{ $discount->pivot->id_batch_discount }}</td>
+                                            <td class='text-right'>
+                                                {{ number_format($discount->pivot->expense_amount, 2, ',', '.') }}
+                                            </td>
                                             <td class='text-right'>
                                                 {{ number_format($discount->pivot->amount, 2, ',', '.') }}
                                             </td>
