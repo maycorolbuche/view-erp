@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Me;
 
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
-use Illuminate\Http\Request;
+use App\Models\Expense;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DataTables;
@@ -30,9 +30,33 @@ class BatchController extends Controller
      */
     public function show($id)
     {
-        $data = Batch::where('id_user', Auth::id())->find($id);
+        $data = Batch::where('id_user', Auth::id())->with([
+            'categories' => function ($query) {
+                $query->orderBy('short_name');
+            },
+            'clients' => function ($query) {
+                $query->orderBy('short_name');
+            },
+            'expenses' => function ($query) {
+                $query->orderBy('date');
+            }
+        ])->find($id);
         if ($data) {
-            return view('me.batches.index', compact('data'));
+            $chart_categories = $data->categories->map(function ($category) {
+                return [
+                    'name' => $category['short_name'],
+                    'y' => floatval($category['pivot']['amount']),
+                ];
+            })->toArray();
+
+            $chart_clients = $data->clients->map(function ($category) {
+                return [
+                    'name' => $category['short_name'],
+                    'y' => floatval($category['pivot']['amount']),
+                ];
+            })->toArray();
+
+            return view('me.batches.index', compact('data', 'chart_categories', 'chart_clients'));
         } else {
             return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
         }
@@ -45,44 +69,23 @@ class BatchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function destroy($id)
     {
-        /* $edit = BatchHelper::pendingBatch($id);
-        if (!$edit) {
-            return redirect()->back()->with('error', 'Você não tem permissão autorizar/negar este item!')->withInput();
-        }
-
         try {
             $batch = Batch::find($id);
             if ($batch) {
-                $status = $request->status;
-                if ($status == "") {
-                    return redirect()->back()->with('error', 'Uma resposta deve ser escolhida!')->withInput();
+                if (!$batch->active) {
+                    return redirect()->back()->with('error', 'Este lote não pode ser desfeito, pois já foi processado!')->withInput();
                 }
-
-                $description = $request->description;
-                if ($status == "N" && trim($description) == "") {
-                    return redirect()->back()->with('error', 'O motivo da recusa deve ser informado!')->withInput();
-                }
-
-                $batch_status = BatchStatus::where(['id_batch' => $id, 'id_user' => Auth::id()]);
-                if ($batch_status) {
-                    $batch_status->update(['id_batch' => $id, 'id_user' => Auth::id(), 'approved' => $status == 'S', 'description' => $description]);
-                    BatchHelper::refresh($id);
-
-                    try {
-                        $this->sendMail($id);
-                        return redirect()->route('me-batches.show', ['id' => $batch->id_batch])->with('success', 'Status atualizado com sucesso');
-                    } catch (\Exception $e) {
-                        return redirect()->back()->with('error', 'O status foi salvo com sucesso, porém, houve um erro ao enviar e-mail aos envolvidos.')->withInput();
-                    }
-                }
+                Expense::where('id_batch', $id)->update(['id_batch' => null]);
+                $batch->delete();
+                return redirect()->route('me-batches')->with('success', 'Registro apagado com sucesso');
             } else {
                 return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
-        }*/
+        }
     }
 
     public function datatable()

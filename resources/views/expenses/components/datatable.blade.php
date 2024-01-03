@@ -21,6 +21,10 @@
             'data' => 'category',
         ],
         [
+            'title' => 'Clientes',
+            'data' => 'clients',
+        ],
+        [
             'title' => 'Tipo de Pagamento',
             'data' => 'payment_method',
         ],
@@ -30,13 +34,9 @@
             'className' => 'text-right',
         ],
         [
-            'title' => 'Anotações',
-            'data' => 'notes',
-        ],
-        [
             'title' => 'Reembolsável?',
             'data' => 'refundable',
             'className' => 'text-center',
         ],
     ]) }}"
-    created-row="if (data['refundable'].indexOf('danger') !== -1) { $('td', row).addClass('danger'); }"  />
+    created-row="if (data['refundable'].indexOf('danger') !== -1) { $('td', row).addClass('danger'); }" />

@@ -30,4 +30,19 @@ class Batch extends Model
     {
         return $this->hasOne(User::class, 'id_user', 'id_user');
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, BatchCategory::class, 'id_batch', 'id_category')->withPivot(['amount', 'expenses_count']);
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, BatchClient::class, 'id_batch', 'id_client')->withPivot(['amount', 'expenses_count']);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'id_batch', 'id_batch');
+    }
 }

@@ -4,9 +4,12 @@ namespace App\Helpers;
 
 use App\Models\Expense;
 use App\Models\ExpenseDetail;
+use App\Models\ExpenseClient;
 use App\Models\Batch;
 use App\Models\UserDiscount;
 use App\Models\BatchDiscount;
+use App\Models\BatchCategory;
+use App\Models\BatchClient;
 use App\Helpers\HolidayHelper;
 use App\Helpers\DiscountHelper;
 
@@ -66,8 +69,38 @@ class ExpenseHelper
             'discount.discounts_categories'
         ])->where('id_user', $batch->id_user)->get();
 
-        BatchDiscount::where('id_batch', $batch->id_batch)->delete();
+        //Grava as categorias do lote
+        BatchCategory::where('id_batch', $batch->id_batch)->delete();
+        foreach ($expenses->groupBy('id_category')->toArray() as $id_category => $category) {
+            $amount = array_reduce($category, function ($carry, $expense) {
+                return $carry + $expense['amount'];
+            }, 0);
 
+            BatchCategory::create([
+                'id_batch' => $batch->id_batch,
+                'id_category' => $id_category,
+                'amount' => $amount,
+                'expenses_count' => count($category),
+            ]);
+        }
+
+        //Grava os clientes do lote
+        BatchClient::where('id_batch', $batch->id_batch)->delete();
+        $expense_client = ExpenseClient::whereIn('id_expense', $expenses->pluck('id_expense')->toArray())->get();
+        foreach ($expense_client->groupBy('id_client')->toArray() as $id_client => $client) {
+            $amount = array_reduce($client, function ($carry, $expense) {
+                return $carry + $expense['amount'];
+            }, 0);
+
+            BatchClient::create([
+                'id_batch' => $batch->id_batch,
+                'id_client' => $id_client,
+                'amount' => $amount,
+                'expenses_count' => count($client),
+            ]);
+        }
+
+        BatchDiscount::where('id_batch', $batch->id_batch)->delete();
         if ($discounts->count() > 0) {
 
             $batches_discounts = [];

@@ -77,7 +77,7 @@ class Button extends Component
                 $layout = $layout ?: 'danger';
                 $type = "submit";
                 $novalidate = 1;
-                $confirm = "Deseja realmente excluir este registro?";
+                $confirm = $confirm ?: "Deseja realmente excluir este registro?";
                 $method = 'delete';
                 break;
             case 'cancel':

@@ -246,7 +246,17 @@ class ExpenseController extends Controller
                     ? "<span class='badge badge-info'>Reembolsável</span>"
                     : "<span class='badge badge-danger'>Não Reembolsável</span>";
             })
-            ->rawColumns(['actions', 'date', 'refundable', 'amount'])
+            ->addColumn('clients', function ($row) {
+                $html = '';
+                foreach ($row->clients as $client) {
+                    $html .= "<span class='label label-info' data-toggle='tooltip' data-placement='right' "
+                        . "title='" . number_format($client->pivot->percentage, 2, ',', '.') . "% | R$ " . number_format($client->pivot->amount, 2, ',', '.') . "'>"
+                        . $client->short_name
+                        . "</span>&nbsp;";
+                }
+                return $html;
+            })
+            ->rawColumns(['actions', 'date', 'refundable', 'amount', 'clients'])
             ->make(true);
     }
 

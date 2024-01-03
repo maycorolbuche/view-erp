@@ -50,11 +50,13 @@
                                 </th>
                                 <th class='text-right'>Código</th>
                                 <th>Data</th>
-                                <th>Tipo</th>
+                                <th>Tipo de Despesa</th>
                                 <th>Clientes</th>
-                                <th>Forma Pgto.</th>
+                                <th>Tipo de Pagamento</th>
                                 <th class='text-right'>Valor</th>
                                 <th class='text-center'>Reembolsável?</th>
+                                <th></th>
+                                <th></th>
                             </thead>
                             <tbody>
                                 @foreach ($expenses as $expense)
@@ -74,7 +76,10 @@
                                         <td>{{ $expense->category->name }}</td>
                                         <td>
                                             @foreach ($expense->clients as $client)
-                                                <span class='badge badge-info'>{{ $client->short_name }}</span>
+                                                <span class='label label-info' data-toggle="tooltip" data-placement="right"
+                                                    title="{{ number_format($client->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($client->pivot->amount, 2, ',', '.') }}">
+                                                    {{ $client->short_name }}
+                                                </span>&nbsp;
                                             @endforeach
                                         </td>
                                         <td>{{ $expense->payment_method->name }}</td>
@@ -83,6 +88,26 @@
                                             {!! $expense->payment_method->refundable
                                                 ? "<span class='badge badge-info'>Reembolsável</span>"
                                                 : "<span class='badge badge-danger'>Não Reembolsável</span>" !!}
+                                        </td>
+                                        <td class="text-right">
+                                            @foreach ($expense->users as $user)
+                                                @if ($user->id_user != $expense->id_user)
+                                                    <span class='label label-warning' data-toggle="tooltip"
+                                                        data-placement="left"
+                                                        title="{{ number_format($user->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($user->pivot->amount, 2, ',', '.') }}">
+                                                        {{ $user->short_name }}
+                                                    </span>&nbsp;
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td class="text-right">
+                                            @if (trim($expense->notes) != '')
+                                                <button type="button" class="btn btn-info btn-sm fs12"
+                                                    data-container="body" data-toggle="popover" data-placement="left"
+                                                    data-content="{{ $expense->notes }}">
+                                                    <i class="glyphicons glyphicons-notes"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -95,11 +120,15 @@
                                     <th colspan=5 class='text-right text-info'>Valor selecionado</th>
                                     <th class='text-right text-info expenses-checked'>0,00</th>
                                     <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 <tr id="expenses-not-checked">
                                     <th></th>
                                     <th colspan=5 class='text-right text-danger'>Valor não selecionado</th>
                                     <th class='text-right text-danger expenses-not-checked'>0,00</th>
+                                    <th></th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 <tr id="expenses-all">
@@ -108,6 +137,8 @@
                                     </th>
                                     <th colspan=5 class='text-right'>Valor total</th>
                                     <th class='text-right expenses-all'>0,00</th>
+                                    <th></th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </tfoot>

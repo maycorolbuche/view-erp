@@ -89,7 +89,7 @@ class AuthorizationExpenseController extends Controller
             ->addColumn('clients', function ($row) {
                 $clients = '';
                 foreach ($row->clients as $client) {
-                    $clients .= "<span class='badge badge-info'>" . $client->short_name . "</span> ";
+                    $clients .= "<span class='label label-info'>" . $client->short_name . "</span> ";
                 }
                 return $clients;
             })

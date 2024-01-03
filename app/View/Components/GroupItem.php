@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Panel extends Component
+class GroupItem extends Component
 {
     /**
      * Create a new component instance.
@@ -12,12 +12,9 @@ class Panel extends Component
      * @return void
      */
     public function __construct(
-        public string $title = '',
-        public string $type = '',
-        public string $height = '',
-        public string $bodyHeight = '',
+        public int $width = 400,
+        public string $padding = '0',
     ) {
-        //
     }
 
     /**
@@ -27,6 +24,6 @@ class Panel extends Component
      */
     public function render()
     {
-        return view('components.panel');
+        return view('components.group-item');
     }
 }

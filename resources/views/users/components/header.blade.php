@@ -1,19 +1,17 @@
 @if ($user)
-    <h1 class="mtn">
-        <small style="padding-left:10px;">
-            {{ $user->name ?? '' }}
-        </small>
+    <x-title>
+        {{ $user->name ?? '' }}
         @if ($user->id_branch)
-            <small class="badge badge-success" style="padding-left:10px;">
+            <span class="badge badge-success" style="padding-left:10px;">
                 {{ $user->branch->name ?? '' }}
-            </small>
+            </span>
         @endif
         @if ($user->id_employment_type)
-            <small class="badge badge-primary" style="padding-left:10px;">
+            <span class="badge badge-primary" style="padding-left:10px;">
                 {{ $user->employment_type->description ?? '' }}
-            </small>
+            </span>
         @endif
-    </h1>
+    </x-title>
     @if ($user->root == true)
         <x-note type="warning">
             Este é um usuário do sistema.

@@ -1,7 +1,5 @@
 @if ($phone_type)
-    <h1 class="mtn">
-        <small style="padding-left:10px;">
-            {{ $phone_type->description ?? '' }}
-        </small>
-    </h1>
+    <x-title>
+        {{ $phone_type->description ?? '' }}
+    </x-title>
 @endif

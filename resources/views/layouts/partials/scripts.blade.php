@@ -17,6 +17,11 @@
 <!-- Datatables Bootstrap Modifications  -->
 <script type="text/javascript" src="{{ asset('vendor/plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
 
+<!-- Chart Plugins -->
+<script type="text/javascript" src="{{ asset('vendor/plugins/highcharts/highcharts.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/circles/circles.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/raphael/raphael.js') }}"></script>
+
 <!-- Page Plugins -->
 <script type="text/javascript" src="{{ asset('assets/admin-tools/admin-forms/js/jquery.validate.min.js') }}"></script>
 <!--
@@ -24,7 +29,8 @@
 <script type="text/javascript" src="{{ asset('vendor/plugins/datepicker/js/bootstrap-datetimepicker.min.js') }}">
 </script>
 -->
-<script type="text/javascript" src="{{ asset('vendor/plugins/colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/plugins/colorpicker/js/bootstrap-colorpicker.min.js') }}">
+</script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/jquerymask/jquery.mask.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/magnific/jquery.magnific-popup.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/plugins/telinput/intlTelInput.js') }}"></script>

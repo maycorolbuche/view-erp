@@ -1,7 +1,5 @@
 @if ($branch)
-    <h1 class="mtn">
-        <small style="padding-left:10px;">
-            {{ $branch->name ?? '' }}
-        </small>
-    </h1>
+    <x-title>
+        {{ $branch->name ?? '' }}
+    </x-title>
 @endif
