@@ -149,6 +149,7 @@
                     <br>
 
                     <x-group right>
+                        <x-button route="{{ route('me-batches') }}" label="Imprimir" />
                         @if ($edit)
                             <x-button type="delete" label="Desfazer Lote" confirm="Deseja realmente desfazer este lote?" />
                         @endif
