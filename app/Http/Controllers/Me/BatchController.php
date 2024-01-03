@@ -7,6 +7,7 @@ use App\Models\Batch;
 use App\Models\Expense;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DataTables;
 
 class BatchController extends Controller
@@ -30,34 +31,9 @@ class BatchController extends Controller
      */
     public function show($id)
     {
-        $data = Batch::where('id_user', Auth::id())->with([
-            'categories' => function ($query) {
-                $query->orderBy('short_name');
-            },
-            'clients' => function ($query) {
-                $query->orderBy('short_name');
-            },
-            'expenses' => function ($query) {
-                $query->orderBy('date');
-            },
-            'discounts'
-        ])->find($id);
+        $data = $this->data($id);
         if ($data) {
-            $chart_categories = $data->categories->map(function ($category) {
-                return [
-                    'name' => $category['short_name'],
-                    'y' => floatval($category['pivot']['amount']),
-                ];
-            })->toArray();
-
-            $chart_clients = $data->clients->map(function ($category) {
-                return [
-                    'name' => $category['short_name'],
-                    'y' => floatval($category['pivot']['amount']),
-                ];
-            })->toArray();
-
-            return view('me.batches.index', compact('data', 'chart_categories', 'chart_clients'));
+            return view('me.batches.index', $data);
         } else {
             return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
         }
@@ -123,5 +99,54 @@ class BatchController extends Controller
             })
             ->rawColumns(['actions', 'created_at', 'refundable_amount', 'non_refundable_amount', 'amount', 'active'])
             ->make(true);
+    }
+
+
+    public function pdf($id)
+    {
+        $data = $this->data($id);
+        if ($data) {
+            //return view('pdf.batch', $data);
+            $pdf = Pdf::loadView('pdf.batch', $data);
+            return $pdf->stream('batch_' . $id . '.pdf');
+        } else {
+            return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
+        }
+    }
+
+    function data($id)
+    {
+        $data = Batch::where('id_user', Auth::id())->with([
+            'user',
+            'categories' => function ($query) {
+                $query->orderBy('short_name');
+            },
+            'clients' => function ($query) {
+                $query->orderBy('short_name');
+            },
+            'expenses' => function ($query) {
+                $query->orderBy('date');
+            },
+            'discounts'
+        ])->find($id);
+        if ($data) {
+            $chart_categories = $data->categories->map(function ($category) {
+                return [
+                    'name' => $category['short_name'],
+                    'y' => floatval($category['pivot']['amount']),
+                ];
+            })->toArray();
+
+            $chart_clients = $data->clients->map(function ($category) {
+                return [
+                    'name' => $category['short_name'],
+                    'y' => floatval($category['pivot']['amount']),
+                ];
+            })->toArray();
+
+            return compact('data', 'chart_categories', 'chart_clients');
+        } else {
+            return null;
+        }
     }
 }

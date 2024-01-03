@@ -149,7 +149,12 @@
                     <br>
 
                     <x-group right>
-                        <x-button route="{{ route('me-batches') }}" label="Imprimir" />
+                        <div style="padding: 0 5px 0 5px;">
+                            <a class="btn btn-primary" href="{{ route('me-batches.pdf', ['id' => $data->id_batch]) }}"
+                                target="_blank">
+                                Imprimir
+                            </a>
+                        </div>
                         @if ($edit)
                             <x-button type="delete" label="Desfazer Lote" confirm="Deseja realmente desfazer este lote?" />
                         @endif
