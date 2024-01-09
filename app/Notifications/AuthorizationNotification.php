@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class AuthorizationNotification extends Notification
 {
     use Queueable;
-    public $data;
+    public $data, $type;
 
     /**
      * Create a new notification instance.

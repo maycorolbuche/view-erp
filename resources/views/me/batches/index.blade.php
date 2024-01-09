@@ -154,8 +154,8 @@
 
                     <x-group right>
                         <div style="padding: 0 5px 0 5px;">
-                            <a class="btn btn-primary" href="{{ route('me-batches.pdf', ['id' => $data->id_batch]) }}"
-                                target="_blank">
+                            <a class="btn btn-primary"
+                                href="{{ route('pdf.batch', ['id' => Crypt::encrypt($data->id_batch)]) }}" target="_blank">
                                 Imprimir
                             </a>
                         </div>

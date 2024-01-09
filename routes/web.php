@@ -80,10 +80,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
                             Route::get('/batches', 'Me\BatchController@index')->name('me-batches');
                             Route::get('/batches/datatable', 'Me\BatchController@datatable')->name('me-batches.datatable');
-                            Route::get('/batches/{id}/pdf', 'Me\BatchController@pdf')->where('id', '[0-9]+')->name('me-batches.pdf');
                             Route::get('/batches/{id}', 'Me\BatchController@show')->where('id', '[0-9]+')->name('me-batches.show');
                             Route::delete('/batches/{id}', 'Me\BatchController@destroy')->where('id', '[0-9]+')->name('me-batches.destroy');
                         });
+
+                        Route::get('/pdf/batch/{id}', 'PdfController@batch')->name('pdf.batch');
 
                         Route::get('/', 'HomeController@dashboard')->name('dashboard');
 

@@ -14,16 +14,20 @@
 
             @include('layouts.partials.messages')
 
-            <x-form action-name="users-discounts" action="{{ route('users-discounts.update', compact('pid')) }}">
+            <x-form action-name="users-notifications" action="{{ route('users-notifications.update', compact('pid')) }}">
                 <x-group>
-                    <x-input type="multiple" name="id_discount" width="250" label="Tipos de Despesa"
-                        list="{{ json_encode($discounts) }}" list-value="id_discount" list-text="name"
-                        value="{{ json_encode($user->id_discount ?? []) }}" />
+                    <x-input type="multiple" name="id_notification" width="250" label="Notificações"
+                        list="{{ json_encode($notifications) }}" list-value="id_notification" list-text="name"
+                        value="{{ json_encode($user->id_notification ?? []) }}" />
                 </x-group>
+
+                <div>
+                    <b>Nota:</b> Recomenda-se atribuir as notificações a usuários administradores do sistema.
+                </div>
 
                 <x-group right>
                     <x-button type="update" permission="{{ in_array('update', request('__permissions_page')) }}" />
-                    <x-button type="cancel" route-name="users-discounts" />
+                    <x-button type="cancel" route-name="users-notifications" />
                 </x-group>
             </x-form>
 
@@ -31,7 +35,7 @@
 
         <x-panel title="Dados" type="warning">
             @include('users.components.datatable', [
-                'route' => 'users-discounts.index',
+                'route' => 'users-notifications.index',
                 'field' => 'pid',
             ])
         </x-panel>

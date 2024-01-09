@@ -116,6 +116,12 @@
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
+        [
+            'title' => 'Notificações',
+            'name' => 'users-notifications',
+            'resource' => isset($id) ? '.index' : null,
+            'params' => isset($id) ? ['pid' => $id] : null,
+        ],
     ];
 @endphp
 

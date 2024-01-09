@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Me;
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Expense;
+use App\Models\Notification as NotificationModel;
+use App\Helpers\BatchHelper;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BatchNotification;
 use Carbon\Carbon;
-use Barryvdh\DomPDF\Facade\Pdf;
 use DataTables;
 
 class BatchController extends Controller
@@ -31,7 +34,7 @@ class BatchController extends Controller
      */
     public function show($id)
     {
-        $data = $this->data($id);
+        $data = BatchHelper::data($id);
         if ($data) {
             return view('me.batches.index', $data);
         } else {
@@ -56,6 +59,7 @@ class BatchController extends Controller
                 }
                 Expense::where('id_batch', $id)->update(['id_batch' => null]);
                 $batch->delete();
+                $this->sendMail($id);
                 return redirect()->route('me-batches')->with('success', 'Registro apagado com sucesso');
             } else {
                 return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
@@ -102,53 +106,11 @@ class BatchController extends Controller
     }
 
 
-    public function pdf($id)
+    public function sendMail($id_batch)
     {
-        $data = $this->data($id);
-        if ($data) {
-            //return view('pdf.batch', $data);
-            $pdf = Pdf::loadView('pdf.batch', $data);
-            $pdf->setPaper('a4');
-
-            return $pdf->stream('batch_' . $id . '.pdf');
-        } else {
-            return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
-        }
-    }
-
-    function data($id)
-    {
-        $data = Batch::where('id_user', Auth::id())->with([
-            'user.users_cash',
-            'categories' => function ($query) {
-                $query->orderBy('short_name');
-            },
-            'clients' => function ($query) {
-                $query->orderBy('short_name');
-            },
-            'expenses' => function ($query) {
-                $query->orderBy('date');
-            },
-            'discounts'
-        ])->find($id);
-        if ($data) {
-            $chart_categories = $data->categories->map(function ($category) {
-                return [
-                    'name' => $category['short_name'],
-                    'y' => floatval($category['pivot']['amount']),
-                ];
-            })->toArray();
-
-            $chart_clients = $data->clients->map(function ($category) {
-                return [
-                    'name' => $category['short_name'],
-                    'y' => floatval($category['pivot']['amount']),
-                ];
-            })->toArray();
-
-            return compact('data', 'chart_categories', 'chart_clients');
-        } else {
-            return null;
+        $notifications = NotificationModel::where('slug', 'batch')->with(['users_notifications.user'])->first();
+        foreach ($notifications->users_notifications as $notification) {
+            Notification::send($notification->user, new BatchNotification($id_batch, 'delete'));
         }
     }
 }

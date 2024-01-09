@@ -472,6 +472,18 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Notificações',
+            'name' => 'users-notifications',
+            'uri' => 'users/{pid}/notifications',
+            'controller' => 'User\UserNotificationController',
+            'resources' => $update_all_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'glyphicons glyphicons-message_new',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
 
 
         /* DESPESAS */

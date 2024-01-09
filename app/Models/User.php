@@ -214,6 +214,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(UserDiscount::class, 'id_user', 'id_user');
     }
 
+    public function users_notifications()
+    {
+        return $this->hasMany(UserNotification::class, 'id_user', 'id_user');
+    }
+
     public function users_cash()
     {
         return $this->hasOne(UserCash::class, 'id_user', 'id_user');

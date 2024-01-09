@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Batch;
 
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
 use App\Models\Expense;
+use App\Models\Notification as NotificationModel;
 use App\Helpers\ExpenseHelper;
 use App\Http\Requests\BatchRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BatchNotification;
 
 class BatchController extends Controller
 {
@@ -41,9 +45,19 @@ class BatchController extends Controller
 
         try {
             $id_batch = ExpenseHelper::batch($request->all());
+            $this->sendMail($id_batch);
             return redirect()->route('me-batches.show', ['id' => $id_batch])->with('success', 'Lote gerado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
+        }
+    }
+
+    public function sendMail($id_batch)
+    {
+        $batch = Batch::find($id_batch);
+        $notifications = NotificationModel::where('slug', 'batch')->with(['users_notifications.user'])->first();
+        foreach ($notifications->users_notifications as $notification) {
+            Notification::send($notification->user, new BatchNotification($batch));
         }
     }
 }
