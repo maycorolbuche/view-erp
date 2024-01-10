@@ -28,6 +28,11 @@
                                 <i class="{{ $group->icon }}"></i>
                                 {{ $group->label }}
                             </span>
+                            @if ($group->note != '')
+                                <div class="widget-menu pull-right">
+                                    <code class="mr10  p3 ph5"><b>Nota:</b> {{ $group->note }}</code>
+                                </div>
+                            @endif
                         </div>
                         <div class="panel-body pn">
                             <div class="table-responsive">

@@ -42,6 +42,13 @@ class AddRoutesGroups extends Migration
             'label' => 'Despesas',
             'sequence' => 50,
         ]);
+        RouteGroup::create([
+            'id_route_group' => 6,
+            'icon' => 'fas fa-search',
+            'label' => 'Consultas',
+            'sequence' => 60,
+            'note' => 'As consultas mostram dados de todos os usuários',
+        ]);
     }
 
     /**

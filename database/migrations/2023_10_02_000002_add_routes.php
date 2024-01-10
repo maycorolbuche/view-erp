@@ -28,6 +28,9 @@ class AddRoutes extends Migration
         $update_resources = ["index", "show", "update"];
         $update_permissions = ["update"];
 
+        $query_resources = ["index",  "show"];
+        $query_permissions = [];
+
 
         /* SISTEMAS */
         $id_route_group = 1;
@@ -545,6 +548,22 @@ class AddRoutes extends Migration
             'resources' => $store_resources,
             'permissions' => $store_permissions,
             'icon' => 'fas fa-database',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+
+
+        /* CONSULTAS */
+        $id_route_group = 6;
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Autorizações',
+            'name' => 'authorizations',
+            'uri' => 'queries/authorizations',
+            'controller' => 'Query\AuthorizationController',
+            'resources' => $query_resources,
+            'permissions' => $query_permissions,
+            'icon' => 'fab fa-searchengin',
             'sequence' => self::sequence(),
             'root' => 0,
         ]);

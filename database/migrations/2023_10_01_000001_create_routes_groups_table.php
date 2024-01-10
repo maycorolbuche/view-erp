@@ -18,6 +18,7 @@ class CreateRoutesGroupsTable extends Migration
             $table->string('label');
             $table->string('icon')->nullable();
             $table->integer('sequence');
+            $table->string('note')->nullable();
 
             $table->timestamps();
         });

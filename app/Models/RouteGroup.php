@@ -17,6 +17,7 @@ class RouteGroup extends Model
         'label',
         'icon',
         'sequence',
+        'note',
     ];
 
     public function routes()
