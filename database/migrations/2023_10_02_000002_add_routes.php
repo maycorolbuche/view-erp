@@ -558,7 +558,7 @@ class AddRoutes extends Migration
         Route::create([
             'id_route_group' => $id_route_group,
             'label' => 'Autorizações',
-            'name' => 'authorizations',
+            'name' => 'queries-authorizations',
             'uri' => 'queries/authorizations',
             'controller' => 'Query\AuthorizationController',
             'resources' => $query_resources,

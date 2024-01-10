@@ -1,5 +1,5 @@
 <x-data-table data-origin="me-authorizations.datatable" query-string="route={{ $route }}"
-    id-field="{{ $field ?? '' }}" order="start_date" order-dir="desc"
+    id-field="{{ $field ?? '' }}" order="id_authorization" order-dir="desc"
     columns="{{ json_encode([
         [
             'data' => 'actions',
