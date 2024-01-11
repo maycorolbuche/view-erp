@@ -11,6 +11,7 @@ class AddRoutes extends Migration
     {
         return ++self::$sequenceValue;
     }
+
     /**
      * Run the migrations.
      *
@@ -548,6 +549,22 @@ class AddRoutes extends Migration
             'resources' => $store_resources,
             'permissions' => $store_permissions,
             'icon' => 'fas fa-database',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+
+
+        /* FINANCEIRO */
+        $id_route_group = 7;
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Pagamentos de Lotes',
+            'name' => 'batch-payments',
+            'uri' => 'batch-payments',
+            'controller' => 'Finance\BatchPaymentController',
+            'resources' => $update_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'fa fa-dollar',
             'sequence' => self::sequence(),
             'root' => 0,
         ]);

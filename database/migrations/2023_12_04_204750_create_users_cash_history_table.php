@@ -15,8 +15,9 @@ class CreateUsersCashHistoryTable extends Migration
     {
         Schema::create('users_cash_history', function (Blueprint $table) {
             $table->increments('id_user_cash_history');
-            $table->unsignedInteger('id_transaction');
-            $table->unsignedInteger('id_authorization');
+            $table->unsignedInteger('id_transaction')->nullable();
+            $table->unsignedInteger('id_authorization')->nullable();
+            $table->unsignedInteger('id_batch')->nullable();
             $table->unsignedInteger('id_user');
             $table->decimal('amount', 8, 2);
             $table->decimal('previous_balance', 8, 2);
@@ -24,9 +25,11 @@ class CreateUsersCashHistoryTable extends Migration
 
             $table->foreign('id_transaction')->references('id_transaction')->on('transactions');
             $table->foreign('id_authorization')->references('id_authorization')->on('authorizations');
+            $table->foreign('id_batch')->references('id_batch')->on('batches');
             $table->foreign('id_user')->references('id_user')->on('users');
 
             $table->unique(['id_authorization', 'id_user']);
+            $table->unique(['id_batch', 'id_user']);
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

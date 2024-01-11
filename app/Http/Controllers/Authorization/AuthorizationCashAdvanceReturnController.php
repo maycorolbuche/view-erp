@@ -28,6 +28,10 @@ class AuthorizationCashAdvanceReturnController extends Controller
     {
         $parents = AuthorizationHelper::users('cash-advance-return');
         $user_cash = UserCash::where('id_user', Auth::id())->first();
+        if (!$user_cash) {
+            $user_cash = new \stdClass();
+            $user_cash->amount = 0;
+        }
         return view('authorizations-cash-advance-returns.index', compact('parents', 'user_cash'));
     }
 

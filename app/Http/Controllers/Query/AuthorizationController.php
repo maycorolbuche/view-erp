@@ -4,15 +4,6 @@ namespace App\Http\Controllers\Query;
 
 use App\Http\Controllers\Controller;
 use App\Models\Authorization;
-use App\Models\AuthorizationClient;
-use App\Models\AuthorizationStatus;
-use App\Models\AuthorizationType;
-use App\Models\UserCash;
-use App\Helpers\AuthorizationHelper;
-use App\Http\Requests\AuthorizationCashAdvanceRequest;
-use Illuminate\Support\Facades\Auth;
-use App\Notifications\AuthorizationNotification;
-use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use DataTables;
 

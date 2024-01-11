@@ -16,6 +16,7 @@ class UserCashHistory extends Model
     protected $fillable = [
         'id_transaction',
         'id_authorization',
+        'id_batch',
         'id_user',
         'amount',
         'previous_balance',

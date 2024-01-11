@@ -154,7 +154,7 @@ class AuthorizationHelper
                     'type' => $authorization->authorization_type->type,
                     'id_authorization' => $id,
                     'id_user' => $authorization->id_user,
-                    'amount' => $authorization->amount,
+                    'amount' => ($authorization->amount * -1),
                     'description' => ($authorization->authorization_type->type == 'cash-advance'
                         ? 'Pagamento de Adiantamento'
                         : 'Devolução de Adiantamento'
