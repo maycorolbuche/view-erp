@@ -40,17 +40,9 @@ class AuthorizationController extends Controller
     {
         $data = Authorization::with(['statuses', 'authorization_parent'])->find($id);
         if ($data) {
-            if ($data->id_user != Auth::id()) {
-                if (!in_array(Auth::id(), $data->statuses->pluck('id_user')->toArray())) {
-                    return redirect()->route('me-authorizations')->with('error', 'Registro não encontrado!');
-                }
-            }
-            $pending = AuthorizationHelper::pending();
-            $edit = AuthorizationHelper::pendingAuthorization($id);
-
-            return view('me.authorizations.index', compact('data', 'pending', 'edit'));
+            return view('queries.authorizations', compact('data'));
         } else {
-            return redirect()->route('me-authorizations')->with('error', 'Registro não encontrado!');
+            return redirect()->route('queries-authorizations')->with('error', 'Registro não encontrado!');
         }
     }
 
@@ -128,7 +120,7 @@ class AuthorizationController extends Controller
             ->addColumn('description', function ($row) {
                 $html = '';
                 if ($row->authorization_type->type == 'cash-advance' || $row->authorization_type->type == 'cash-advance-return') {
-                    $html .= 'Valor: <b>R$ ' . number_format($row->amount, 2, ',', '.') . '</b> | ';
+                    $html .= 'Valor: <b>R$ ' . number_format(abs($row->amount), 2, ',', '.') . '</b> | ';
                 }
                 return $html . $row->description;
             })

@@ -66,7 +66,7 @@ class AuthorizationCashAdvanceReturnController extends Controller
                 //$this->sendMail($authorization_expense->id_authorization);
                 return redirect()->route('authorizations-cash-advance-returns')->with('success', 'Autorização solicitada com sucesso.');
             } catch (\Exception $e) {
-                return redirect()->back()->with('error', 'A despesa foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
+                return redirect()->back()->with('error', 'A solicitação de devolução foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();

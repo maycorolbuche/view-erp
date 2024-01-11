@@ -27,6 +27,7 @@ class Batch extends Model
         'extra_amount',
         'reason_extra_amount',
         'amount_paid',
+        'payment_date',
     ];
 
 

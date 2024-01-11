@@ -176,7 +176,7 @@ class AuthorizationController extends Controller
             ->addColumn('description', function ($row) {
                 $html = '';
                 if ($row->authorization_type->type == 'cash-advance' || $row->authorization_type->type == 'cash-advance-return') {
-                    $html .= 'Valor: <b>R$ ' . number_format($row->amount, 2, ',', '.') . '</b> | ';
+                    $html .= 'Valor: <b>R$ ' . number_format(abs($row->amount), 2, ',', '.') . '</b> | ';
                 }
                 return $html . $row->description;
             })

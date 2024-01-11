@@ -28,6 +28,7 @@ class CreateBatchesTable extends Migration
             $table->decimal('extra_amount', 8, 2)->default(0);
             $table->string('reason_extra_amount')->nullable();
             $table->decimal('amount_paid', 8, 2)->default(0);
+            $table->date('payment_date')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users');
 

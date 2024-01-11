@@ -42,7 +42,7 @@
                                 {{ $data->start_date_br }} a {{ $data->end_date_br }}
                             @elseif ($data->authorization_type->type == 'cash-advance' || $data->authorization_type->type == 'cash-advance-return')
                                 {{ $data->start_date_br }}
-                                <br>Valor: R$ {{ number_format($data->amount, 2, ',', '.') }}
+                                <br>Valor: R$ {{ number_format(abs($data->amount), 2, ',', '.') }}
 
                                 @if ($data->authorization_type->type == 'cash-advance')
                                     <br>Autorização vinculada: {{ $data->authorization_parent->description_details ?? '' }}
