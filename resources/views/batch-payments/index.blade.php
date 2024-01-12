@@ -25,19 +25,19 @@
                             label="(-) Vl. não Reembolsável" />
                         <x-card type="danger" value="R$ {{ number_format($data->discount, 2, ',', '.') }}"
                             label="(-) Vl. Desconto" />
-                        <x-card type="danger" value="R$ {{ number_format($user_cash->amount ?? 0, 2, ',', '.') }}"
+                        <x-card type="danger" value="R$ {{ number_format($user_cash ?? 0, 2, ',', '.') }}"
                             label="(-) Saldo de Adiantamento" />
                     </x-group>
                     <x-group>
                         <x-card type="success"
-                            value="R$ {{ number_format(max(0, $data->refund_amount - $user_cash->amount ?? 0), 2, ',', '.') }}"
+                            value="R$ {{ number_format(max(0, $data->refund_amount - $user_cash ?? 0), 2, ',', '.') }}"
                             label="(=) Valor a Pagar" />
                     </x-group>
 
                     <x-group right>
                         <x-button type="update" hidden="{{ !isset($data) }}"
-                            confirm="Conforma pagamento de lote, no valor de R$ {{ number_format(max(0, $data->refund_amount - $user_cash->amount ?? 0), 2, ',', '.') }}?"
-                            label="{{ max(0, $data->refund_amount - $user_cash->amount ?? 0) <= 0 ? 'Fechar Lote' : 'Efetuar pagamento' }}"
+                            confirm="Conforma pagamento de lote, no valor de R$ {{ number_format(max(0, $data->refund_amount - $user_cash ?? 0), 2, ',', '.') }}?"
+                            label="{{ max(0, $data->refund_amount - $user_cash ?? 0) <= 0 ? 'Fechar Lote' : 'Efetuar pagamento' }}"
                             permission="{{ in_array('update', request('__permissions_page')) }}" />
                         <x-button type="cancel" route-name="batch-payments" />
                     </x-group>

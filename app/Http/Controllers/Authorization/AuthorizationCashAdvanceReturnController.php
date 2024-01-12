@@ -7,7 +7,7 @@ use App\Models\Authorization;
 use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
-use App\Models\UserCash;
+use App\Helpers\UserHelper;
 use App\Helpers\AuthorizationHelper;
 use App\Http\Requests\AuthorizationCashAdvanceReturnRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,11 +27,7 @@ class AuthorizationCashAdvanceReturnController extends Controller
     public function index()
     {
         $parents = AuthorizationHelper::users('cash-advance-return');
-        $user_cash = UserCash::where('id_user', Auth::id())->first();
-        if (!$user_cash) {
-            $user_cash = new \stdClass();
-            $user_cash->amount = 0;
-        }
+        $user_cash = UserHelper::getCash(Auth::id());
         return view('authorizations-cash-advance-returns.index', compact('parents', 'user_cash'));
     }
 

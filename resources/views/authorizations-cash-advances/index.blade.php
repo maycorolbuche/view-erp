@@ -36,7 +36,7 @@
                         <x-input type="money" name="amount" width="150" label="Valor" required />
                         <x-input type="html" width="150" label="Saldo de Adiantamento">
                             <h2 style="margin: 0;margin-top: 7px;padding: 0;float: right;">
-                                R$ {{ number_format($user_cash->amount ?? 0, 2, ',', '.') }}
+                                R$ {{ number_format($user_cash ?? 0, 2, ',', '.') }}
                             </h2>
                         </x-input>
                     </x-group>

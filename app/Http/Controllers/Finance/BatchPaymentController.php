@@ -7,6 +7,7 @@ use App\Models\Batch;
 use App\Models\UserCash;
 use App\Models\UserCashHistory;
 use App\Models\Transaction;
+use App\Helpers\UserHelper;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DataTables;
@@ -34,12 +35,7 @@ class BatchPaymentController extends Controller
     {
         $data = Batch::where(['id_batch' => $id, 'active' => true])->first();
         if ($data) {
-            $user_cash = UserCash::where('id_user', $data->id_user)->first();
-            if (!$user_cash) {
-                $user_cash = new \stdClass();
-                $user_cash->amount = 0;
-            }
-
+            $user_cash = UserHelper::getCash($data->id_user);
             return view('batch-payments.index', compact('data', 'user_cash'));
         } else {
             return redirect()->route('batch-payments')->with('error', 'Registro não encontrado!');
@@ -62,49 +58,16 @@ class BatchPaymentController extends Controller
         try {
             $batch = Batch::where(['id_batch' => $id, 'active' => true])->first();
             if ($batch) {
-                $user_cash = UserCash::where('id_user', $batch->id_user)->first();
-                if (!$user_cash) {
-                    $user_cash = new \stdClass();
-                    $user_cash->amount = 0;
-                }
-
-                $user_cash_amount = $user_cash->amount ?? 0;
+                $user_cash = UserHelper::getCash($batch->id_user);
                 $amount_paid = $batch->refund_amount;
                 $discount = 0;
-                if ($user_cash_amount > 0) {
-                    $discount = min($user_cash_amount, $amount_paid);
+                if ($user_cash > 0) {
+                    $discount = min($user_cash, $amount_paid);
                     $amount_paid = $amount_paid - $discount;
 
-                    $user_cash_history = UserCashHistory::where('id_batch', $id)->first();
-                    if (!$user_cash_history) {
-                        $previous_balance = UserCashHistory::where('id_user', $batch->id_user)->sum('amount');
-                        $current_balance = $user_cash_amount;
-                        /*
-                        Transaction::where(['id_batch' => $id, 'type' => 'cash-advance-batch'])->delete();
-                        $transaction = Transaction::create([
-                            'type' => 'cash-advance-return',
-                            'id_batch' => $id,
-                            'id_user' => $batch->id_user,
-                            'amount' => $discount,
-                            'description' => 'Adiantamento Utilizado',
-                        ]);
-                        */
-                        UserCashHistory::create([
-                            'id_batch' => $id,
-                            'id_user' => $batch->id_user,
-                            'amount' => $discount * -1,
-                            'previous_balance' => $previous_balance,
-                            'current_balance' => $current_balance - $discount,
-                        ]);
-
-                        UserCash::where('id_user', $batch->id_user)->delete();
-                        if ($current_balance - $discount > 0) {
-                            UserCash::create([
-                                'id_user' => $batch->id_user,
-                                'amount' => $current_balance - $discount,
-                            ]);
-                        }
-                    }
+                    UserHelper::removeCash($batch->id_user, $discount, [
+                        'id_batch' => $id,
+                    ], false);
                 }
 
                 $batch->update([

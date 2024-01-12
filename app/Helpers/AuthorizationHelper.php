@@ -144,39 +144,25 @@ class AuthorizationHelper
             ($authorization->authorization_type->type == 'cash-advance' || $authorization->authorization_type->type == 'cash-advance-return')
             && $approved == true
         ) {
-            $user_cash_history = UserCashHistory::where('id_authorization', $id)->first();
-            if (!$user_cash_history) {
-                $previous_balance = UserCashHistory::where('id_user', $authorization->id_user)->sum('amount');
-                $current_balance = $authorization->amount + $previous_balance;
 
-                Transaction::where(['id_authorization' => $id, 'type' => $authorization->authorization_type->type])->delete();
-                $transaction = Transaction::create([
+            if ($authorization->authorization_type->type == 'cash-advance') {
+                UserHelper::addCash($authorization->id_user, $authorization->amount, [
                     'type' => $authorization->authorization_type->type,
-                    'id_authorization' => $id,
-                    'id_user' => $authorization->id_user,
-                    'amount' => ($authorization->amount * -1),
                     'description' => ($authorization->authorization_type->type == 'cash-advance'
                         ? 'Pagamento de Adiantamento'
                         : 'Devolução de Adiantamento'
                     ),
-                ]);
-
-                UserCashHistory::create([
-                    'id_transaction' => $transaction->id_transaction,
                     'id_authorization' => $id,
-                    'id_user' => $authorization->id_user,
-                    'amount' => $authorization->amount,
-                    'previous_balance' => $previous_balance,
-                    'current_balance' => $current_balance,
                 ]);
-
-                UserCash::where('id_user', $authorization->id_user)->delete();
-                if ($current_balance > 0) {
-                    UserCash::create([
-                        'id_user' => $authorization->id_user,
-                        'amount' => $current_balance,
-                    ]);
-                }
+            } else {
+                UserHelper::removeCash($authorization->id_user, $authorization->amount, [
+                    'type' => $authorization->authorization_type->type,
+                    'description' => ($authorization->authorization_type->type == 'cash-advance'
+                        ? 'Pagamento de Adiantamento'
+                        : 'Devolução de Adiantamento'
+                    ),
+                    'id_authorization' => $id,
+                ]);
             }
         }
     }
