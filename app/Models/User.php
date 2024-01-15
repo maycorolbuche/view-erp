@@ -223,4 +223,9 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasOne(UserCash::class, 'id_user', 'id_user');
     }
+
+    public function user_cash()
+    {
+        return $this->hasOne(UserCash::class, 'id_user', 'id_user');
+    }
 }

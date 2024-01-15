@@ -22,4 +22,9 @@ class UserCashHistory extends Model
         'previous_balance',
         'current_balance',
     ];
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'id_transaction', 'id_transaction');
+    }
 }

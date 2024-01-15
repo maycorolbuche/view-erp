@@ -568,6 +568,18 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Adiantamentos',
+            'name' => 'cash-advances',
+            'uri' => 'cash-advances',
+            'controller' => 'Finance\CashAdvanceController',
+            'resources' => $update_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'fas fa-comment-dollar',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
 
 
         /* CONSULTAS */

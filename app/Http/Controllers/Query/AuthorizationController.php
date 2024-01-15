@@ -47,7 +47,7 @@ class AuthorizationController extends Controller
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'me-authorizations.show', [$id_field => $row->id_authorization]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('name', function ($row) {

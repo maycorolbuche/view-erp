@@ -14,7 +14,7 @@
             $('#{{ $id }}').DataTable({
                 serverSide: true,
                 processing: true,
-                ajax: '{{ $dataOrigin }}?id-field={{ $idField ?: '' }}&{{ $queryString ?: '' }}',
+                ajax: '{{ $dataOrigin }}?id-field={{ $idField ?: '' }}&{!! $queryString ?: '' !!}',
                 columns: {!! html_entity_decode($columns) !!},
                 //pagingType: 'full_numbers',
                 // ordering: true,

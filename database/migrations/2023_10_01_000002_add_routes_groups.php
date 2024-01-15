@@ -54,7 +54,7 @@ class AddRoutesGroups extends Migration
             'icon' => 'fas fa-money',
             'label' => 'Financeiro',
             'sequence' => self::sequence(),
-            'note' => 'As telas do financeiro mostram todos os usuários',
+            'note' => 'As telas do financeiro mostram dados de todos os usuários',
         ]);
         RouteGroup::create([
             'id_route_group' => 6,

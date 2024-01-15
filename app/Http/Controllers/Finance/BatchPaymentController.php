@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
-use App\Models\UserCash;
-use App\Models\UserCashHistory;
 use App\Models\Transaction;
 use App\Helpers\UserHelper;
 use Illuminate\Http\Request;
