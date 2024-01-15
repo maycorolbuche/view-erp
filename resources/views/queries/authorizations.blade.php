@@ -130,7 +130,7 @@
                     <br>
 
                     <x-group right>
-                        <x-button type="cancel" route-name="me-authorizations" />
+                        <x-button type="cancel" route-name="queries-authorizations" />
                     </x-group>
 
                 </x-form>

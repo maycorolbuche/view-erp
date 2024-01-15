@@ -192,6 +192,10 @@
             @endif
             <!-- -->
         @endif
+
+        @if ($type == 'html')
+            {{ $value }}
+        @endif
         {{ $slot }}
     </div>
 

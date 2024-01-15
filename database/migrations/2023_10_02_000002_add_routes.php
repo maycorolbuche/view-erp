@@ -596,6 +596,19 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        $id_route_group = 6;
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Despesas',
+            'name' => 'queries-expenses',
+            'uri' => 'queries/expenses',
+            'controller' => 'Query\ExpenseController',
+            'resources' => $query_resources,
+            'permissions' => $query_permissions,
+            'icon' => 'fas fa-search-dollar',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**
