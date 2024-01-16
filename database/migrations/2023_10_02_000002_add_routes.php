@@ -580,6 +580,18 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Fluxo de Caixa',
+            'name' => 'cash-flow',
+            'uri' => 'cash-flow',
+            'controller' => 'Finance\CashFlowController',
+            'resources' => $query_resources,
+            'permissions' => $query_permissions,
+            'icon' => 'fas fa-file-invoice-dollar',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
 
 
         /* CONSULTAS */

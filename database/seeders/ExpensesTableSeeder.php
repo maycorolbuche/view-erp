@@ -22,7 +22,7 @@ class ExpensesTableSeeder extends Seeder
         $faker = FakerFactory::create();
 
         for ($i = 1; $i <= 100; $i++) {
-           // try {
+            try {
                 $user = User::all()->random();
                 $authorization = Authorization::where('id_user', $user['id_user'])->inRandomOrder()->first();
 
@@ -56,9 +56,9 @@ class ExpensesTableSeeder extends Seeder
 
                     ExpenseHelper::refresh($expense['id_expense']);
                 }
-           // } catch (QueryException $e) {
-            //    continue;
-           // }
+            } catch (QueryException $e) {
+                continue;
+            }
         }
     }
 }
