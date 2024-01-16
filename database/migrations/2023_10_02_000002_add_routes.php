@@ -596,7 +596,6 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
-        $id_route_group = 6;
         Route::create([
             'id_route_group' => $id_route_group,
             'label' => 'Despesas',
@@ -606,6 +605,18 @@ class AddRoutes extends Migration
             'resources' => $query_resources,
             'permissions' => $query_permissions,
             'icon' => 'fas fa-search-dollar',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Lotes',
+            'name' => 'queries-batches',
+            'uri' => 'queries/batches',
+            'controller' => 'Query\BatchController',
+            'resources' => $query_resources,
+            'permissions' => $query_permissions,
+            'icon' => 'fas fa-database',
             'sequence' => self::sequence(),
             'root' => 0,
         ]);

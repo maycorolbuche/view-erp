@@ -21,107 +21,104 @@
 
                 <br>
 
-                <x-form action-name="expenses" action-id="{{ isset($data) ? $data->id_expense : null }}">
-                    <x-group>
-                        <x-input type="html" width="200" label="Autorização"
-                            value="{{ $data->authorization->description_details }}" />
-                    </x-group>
+                <x-group>
+                    <x-input type="html" width="200" label="Autorização"
+                        value="{{ $data->authorization->description_details }}" />
+                </x-group>
 
-                    <x-group>
-                        <x-input type="html" width="100" label="Data"
-                            value="{{ \Carbon\Carbon::parse($data->date)->format('d/m/Y') }}" />
-                        <x-input type="html" width="200" label="Tipo de Despesa"
-                            value="{{ $data->category->name ?? '' }}" />
-                        <x-input type="html" width="100" label="Valor"
-                            value="R$ {{ number_format($data->amount ?? 0, 2, ',', '.') }}" />
-                        <x-input type="html" width="200" label="Tipo de Pagamento"
-                            value="{{ $data->payment_method->name ?? '' }}" />
-                        <x-input type="html" width="50" label="Lote" value="{{ $data->id_batch ?? '' }}" />
-                    </x-group>
+                <x-group>
+                    <x-input type="html" width="100" label="Data"
+                        value="{{ \Carbon\Carbon::parse($data->date)->format('d/m/Y') }}" />
+                    <x-input type="html" width="200" label="Tipo de Despesa"
+                        value="{{ $data->category->name ?? '' }}" />
+                    <x-input type="html" width="100" label="Valor"
+                        value="R$ {{ number_format($data->amount ?? 0, 2, ',', '.') }}" />
+                    <x-input type="html" width="200" label="Tipo de Pagamento"
+                        value="{{ $data->payment_method->name ?? '' }}" />
+                    <x-input type="html" width="50" label="Lote" value="{{ $data->id_batch ?? '' }}" />
+                </x-group>
 
-                    <div class="panel-heading">
-                        <span class="panel-title">
-                            <span>Distribuição do valor da despesa por cliente:</span>
-                        </span>
-                    </div>
-                    <div class="panel-body pn">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-clients">
-                                <thead>
+                <div class="panel-heading">
+                    <span class="panel-title">
+                        <span>Distribuição do valor da despesa por cliente:</span>
+                    </span>
+                </div>
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-clients">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th class="text-right">%</th>
+                                    <th class="text-right">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data->clients as $client)
                                     <tr>
-                                        <th>Nome</th>
-                                        <th class="text-right">%</th>
-                                        <th class="text-right">Valor</th>
+                                        <td>
+                                            {{ $client['name'] }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($client['pivot']['percentage'] ?? 0, 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($client['pivot']['amount'] ?? 0, 2, ',', '.') }}
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data->clients as $client)
-                                        <tr>
-                                            <td>
-                                                {{ $client['name'] }}
-                                            </td>
-                                            <td class="text-right">
-                                                {{ number_format($client['pivot']['percentage'] ?? 0, 2, ',', '.') }}
-                                            </td>
-                                            <td class="text-right">
-                                                {{ number_format($client['pivot']['amount'] ?? 0, 2, ',', '.') }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <br>
+                </div>
+                <br>
 
 
-                    <div class="panel-heading">
-                        <span class="panel-title">
-                            <span>Recursos da despesa:</span>
-                        </span>
-                    </div>
-                    <div class="panel-body pn">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-users">
-                                <thead>
+                <div class="panel-heading">
+                    <span class="panel-title">
+                        <span>Recursos da despesa:</span>
+                    </span>
+                </div>
+                <div class="panel-body pn">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-users">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th class="text-right">%</th>
+                                    <th class="text-right">Valor</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data->users as $user)
                                     <tr>
-                                        <th>Nome</th>
-                                        <th class="text-right">%</th>
-                                        <th class="text-right">Valor</th>
-                                        <th></th>
+                                        <td>
+                                            {{ $user['name'] }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($user['pivot']['percentage'] ?? 0, 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($user['pivot']['amount'] ?? 0, 2, ',', '.') }}
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data->users as $user)
-                                        <tr>
-                                            <td>
-                                                {{ $user['name'] }}
-                                            </td>
-                                            <td class="text-right">
-                                                {{ number_format($user['pivot']['percentage'] ?? 0, 2, ',', '.') }}
-                                            </td>
-                                            <td class="text-right">
-                                                {{ number_format($user['pivot']['amount'] ?? 0, 2, ',', '.') }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <br>
+                </div>
+                <br>
 
-                    <x-group>
-                        <x-input type="html" width="500" label="Anotações / Observações"
-                            value="{{ $data->notes ?? '' }}" />
-                    </x-group>
+                <x-group>
+                    <x-input type="html" width="500" label="Anotações / Observações"
+                        value="{{ $data->notes ?? '' }}" />
+                </x-group>
 
 
-                    <x-group right>
-                        <x-button type="cancel" route-name="queries-expenses" />
-                    </x-group>
-
-                </x-form>
+                <x-group right>
+                    <x-button type="cancel" route-name="queries-expenses" />
+                </x-group>
 
             </x-panel>
         @endif

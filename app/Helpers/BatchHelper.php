@@ -9,7 +9,7 @@ class BatchHelper
 {
     public static function data($id)
     {
-        $data = Batch::where('id_user', Auth::id())->with([
+        $data = Batch::with([
             'user.users_cash',
             'categories' => function ($query) {
                 $query->orderBy('short_name');

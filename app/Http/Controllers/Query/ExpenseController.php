@@ -4,11 +4,6 @@ namespace App\Http\Controllers\Query;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
-use App\Models\User;
-use App\Models\Category;
-use App\Models\Client;
-use App\Models\PaymentMethod;
-use App\Helpers\AuthorizationHelper;
 use Carbon\Carbon;
 use DataTables;
 

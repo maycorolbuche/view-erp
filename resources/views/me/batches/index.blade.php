@@ -34,6 +34,19 @@
                         <x-card type="success" value="R$ {{ number_format($data->refund_amount, 2, ',', '.') }}"
                             label="(=) Valor do Reembolso" />
                     </x-group>
+                    @if (!$data->active)
+                        <x-panel title="Dados do Pagamento" type="warning">
+                            <x-group>
+                                <x-card type="danger" value="R$ {{ number_format($data->user_cash, 2, ',', '.') }}"
+                                    label="(-) Adiantamento Utilizado" />
+                                <x-card type="success" value="R$ {{ number_format($data->amount_paid, 2, ',', '.') }}"
+                                    label="(=) Valor Pago" />
+                                <x-card type="info"
+                                    value="{{ \Carbon\Carbon::parse($data->payment_date)->format('d/m/Y') }}"
+                                    label="Dt. Pagamento" />
+                            </x-group>
+                        </x-panel>
+                    @endif
 
                     <x-title>Resumo das Despesas</x-title>
 

@@ -34,9 +34,14 @@ class BatchController extends Controller
      */
     public function show($id)
     {
-        $data = BatchHelper::data($id);
-        if ($data) {
-            return view('me.batches.index', $data);
+        $batch = Batch::where('id_user', Auth::id())->find($id);
+        if ($batch) {
+            $data = BatchHelper::data($id);
+            if ($data) {
+                return view('me.batches.index', $data);
+            } else {
+                return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
+            }
         } else {
             return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
         }
