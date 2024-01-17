@@ -47,7 +47,7 @@ class ClientController extends Controller
         $expenses = ExpenseClient::with('client', 'category')
             ->join('expenses', 'expenses_clients.id_expense', '=', 'expenses.id_expense')
             ->whereHas('expense', function ($query) use ($start_date, $end_date) {
-                // $query->whereBetween('date', [$start_date, $end_date]);
+                $query->whereBetween('date', [$start_date, $end_date]);
             })
             ->select('expenses.id_category', 'expenses_clients.id_client', \DB::raw('SUM(expenses_clients.amount) as amount'))
             ->groupBy('expenses.id_category', 'expenses_clients.id_client')
