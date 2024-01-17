@@ -632,6 +632,46 @@ class AddRoutes extends Migration
             'sequence' => self::sequence(),
             'root' => 0,
         ]);
+
+
+        /* RELATÓRIOS */
+        $id_route_group = 8;
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Por Usuários',
+            'name' => 'reports-users',
+            'uri' => 'reports/users',
+            'controller' => 'Report\ReportController',
+            'resources' => $query_resources,
+            'permissions' => $query_permissions,
+            'icon' => 'fas fa-users',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Por Clientes',
+            'name' => 'reports-clients',
+            'uri' => 'reports/clients',
+            'controller' => 'Report\ClientController',
+            'resources' => $query_resources,
+            'permissions' => $query_permissions,
+            'icon' => 'glyphicons glyphicons-building',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
+            'label' => 'Por Despesas',
+            'name' => 'reports-expenses',
+            'uri' => 'reports/expenses',
+            'controller' => 'Report\ExpenseController',
+            'resources' => $query_resources,
+            'permissions' => $query_permissions,
+            'icon' => 'fas fa-hand-holding-usd',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
     }
 
     /**

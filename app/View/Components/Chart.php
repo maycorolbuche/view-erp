@@ -15,7 +15,9 @@ class Chart extends Component
      */
     public function __construct(
         public string $series = '[]',
+        public string $categories = '[]',
         public string $type = 'pie',
+        public string $height = '200px',
         string $id = '',
         string $seriesName = '',
         string $pointFormat = '',

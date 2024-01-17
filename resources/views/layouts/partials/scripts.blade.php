@@ -448,5 +448,16 @@
             return sum.toFixed(2);
         }
     }
+
+    function open_url(url, params) {
+        query = "";
+        if (params != undefined) {
+            params.map((item, indx) => {
+                console.log(indx);
+                query += (indx == 0 ? "?" : "&") + item + "=" + $("#" + item).val();
+            });
+        }
+        location.href = url + query;
+    }
 </script>
 <!-- END: PAGE SCRIPTS -->

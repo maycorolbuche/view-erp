@@ -63,6 +63,13 @@ class AddRoutesGroups extends Migration
             'sequence' => self::sequence(),
             'note' => 'As consultas mostram dados de todos os usuários',
         ]);
+        RouteGroup::create([
+            'id_route_group' => 8,
+            'icon' => 'fas fa-file-contract',
+            'label' => 'Relatórios',
+            'sequence' => self::sequence(),
+            'note' => 'Os relatórios mostram dados de todos os usuários',
+        ]);
     }
 
     /**

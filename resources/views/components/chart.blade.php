@@ -1,4 +1,4 @@
-<div id="{{ $id }}" style="width: 100%; height: 200px; margin: 0 auto"></div>
+<div id="{{ $id }}" style="width: 100%; height: {{ $height }}; margin: 0 auto"></div>
 
 @push('scripts')
     <script>
@@ -29,21 +29,44 @@
                         enabled: false
                     },
                     showInLegend: true
+                },
+                column: {
+                    stacking: 'normal'
                 }
             },
             colors: highColors,
             legend: {
-                x: 90,
-                floating: true,
-                verticalAlign: "middle",
-                layout: "vertical",
-                itemMarginTop: 10
+                @if ($type == 'pie')
+                    x: 90,
+                    floating: true,
+                    verticalAlign: "middle",
+                    layout: "vertical",
+                    itemMarginTop: 10
+                @endif
             },
-            series: [{
-                type: '{{ $type }}',
-                name: '{{ $seriesName }}',
-                data: {!! html_entity_decode($series) !!}
-            }]
+
+            @if ($type == 'column')
+                xAxis: {
+                    categories: {!! html_entity_decode($categories) !!},
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    min: 0,
+                    title: {
+                        text: '{{ $seriesName }}'
+                    }
+                },
+            @endif
+
+            @if ($type == 'column')
+                series: {!! html_entity_decode($series) !!},
+            @else
+                series: [{
+                    type: '{{ $type }}',
+                    name: '{{ $seriesName }}',
+                    data: {!! html_entity_decode($series) !!}
+                }],
+            @endif
         });
     </script>
 @endpush
