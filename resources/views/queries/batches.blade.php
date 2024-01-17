@@ -159,6 +159,12 @@
                 <br>
 
                 <x-group right>
+                    <div style="padding: 0 5px 0 5px;">
+                        <a class="btn btn-primary"
+                            href="{{ route('pdf.batch', ['id' => Crypt::encrypt($data->id_batch)]) }}" target="_blank">
+                            Imprimir
+                        </a>
+                    </div>
                     <x-button type="cancel" route-name="queries-batches" />
                 </x-group>
 
