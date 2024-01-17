@@ -66,19 +66,16 @@
                             </span>
                         </div>
 
-                        <div class="panel-body pn">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <tbody>
-                                        @foreach ($data->clients as $client)
-                                            <tr>
-                                                <td>{{ $client->name }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <table class="table table-hover">
+                            <tbody>
+                                @foreach ($data->clients as $client)
+                                    <tr>
+                                        <td>{{ $client->name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
                     @endif
 
                     <br>

@@ -4,7 +4,7 @@
 
 @section('content')
     <x-content>
-        <x-panel title="Relatório por Clientes" type="primary">
+        <x-panel title="Relatório por Tipo de Despesas" type="primary">
 
             @include('layouts.partials.messages')
 
@@ -17,7 +17,7 @@
 
             <x-group right>
                 <a type="button" class="btn btn-info" id="bt_filter"
-                    onclick="open_url('{{ route('reports-clients') }}',['start_date','end_date']);">
+                    onclick="open_url('{{ route('reports-expenses') }}',['start_date','end_date']);">
                     Exibir
                 </a>
             </x-group>
@@ -33,7 +33,7 @@
             <x-table order=1 limit=10>
                 <thead>
                     <th type='number' class='text-right'>Código</th>
-                    <th>Cliente</th>
+                    <th>Tipo de Despesa</th>
                     <th type='currency' class='text-right'>Valor</th>
                 </thead>
                 <tbody>
@@ -42,8 +42,8 @@
                     @endphp
                     @foreach ($data['general'] as $expense)
                         <tr>
-                            <td class='text-right'>{{ $expense->id_client }}</td>
-                            <td>{{ $expense->client->name }}</td>
+                            <td class='text-right'>{{ $expense->id_category }}</td>
+                            <td>{{ $expense->category->name }}</td>
                             <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
                         </tr>
                         @php
@@ -61,13 +61,40 @@
 
             <hr>
 
-            <x-title>Despesas por Clientes</x-title>
+            <x-title>Clientes por Despesas</x-title>
 
             <x-chart type="column" height="300px" seriesName="Valor"
                 pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})"
                 categories="{{ json_encode($data['clients_chart_categories']) }}"
                 series="{{ json_encode($data['clients_chart']) }}" />
 
+            <hr>
+
+            <x-title>Usuários por Despesas</x-title>
+
+            <x-chart type="column" height="300px" seriesName="Valor"
+                pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})"
+                categories="{{ json_encode($data['users_chart_categories']) }}"
+                series="{{ json_encode($data['users_chart']) }}" />
+
         </x-panel>
     </x-content>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#datatable').dataTable({
+                order: [
+                    [1, 'asc']
+                ],
+                searching: false,
+                lengthChange: false,
+                language: {
+                    url: '{{ asset('vendor/plugins/datatables/media/js/pt-BR.json') }}',
+                },
+                pageLength: 5,
+            });
+        });
+    </script>
+@endpush

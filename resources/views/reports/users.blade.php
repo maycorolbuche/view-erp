@@ -4,7 +4,7 @@
 
 @section('content')
     <x-content>
-        <x-panel title="Relatório por Clientes" type="primary">
+        <x-panel title="Relatório por Usuários" type="primary">
 
             @include('layouts.partials.messages')
 
@@ -30,36 +30,35 @@
                 pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})"
                 series="{{ json_encode($data['general_chart']) }}" />
 
-            <div class="table-responsive">
-                <table class="table table-hover" id="datatable">
-                    <thead>
-                        <th class='text-right'>Código</th>
-                        <th>Cliente</th>
-                        <th>Valor</th>
-                    </thead>
-                    <tbody>
-                        @php
-                            $total = 0;
-                        @endphp
-                        @foreach ($data['general'] as $expense)
-                            <tr>
-                                <td class='text-right'>{{ $expense->id_user }}</td>
-                                <td>{{ $expense->user->name }}</td>
-                                <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
-                            </tr>
-                            @php
-                                $total += $expense->amount;
-                            @endphp
-                        @endforeach
-                    </tbody>
-                    <tfoot style="background:#f9f9f9">
+
+            <x-table order=1 limit=10>
+                <thead>
+                    <th type='number' class='text-right'>Código</th>
+                    <th>Usuário</th>
+                    <th type='currency' class='text-right'>Valor</th>
+                </thead>
+                <tbody>
+                    @php
+                        $total = 0;
+                    @endphp
+                    @foreach ($data['general'] as $expense)
                         <tr>
-                            <th colspan=2 class='text-right text-info'>Total</th>
-                            <th class='text-right'>{{ number_format($total, 2, ',', '.') }}</th>
+                            <td class='text-right'>{{ $expense->id_user }}</td>
+                            <td>{{ $expense->user->name }}</td>
+                            <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
                         </tr>
-                    </tfoot>
-                </table>
-            </div>
+                        @php
+                            $total += $expense->amount;
+                        @endphp
+                    @endforeach
+                </tbody>
+                <tfoot style="background:#f9f9f9">
+                    <tr>
+                        <th colspan=2 class='text-right text-info'>Total</th>
+                        <th class='text-right'>{{ number_format($total, 2, ',', '.') }}</th>
+                    </tr>
+                </tfoot>
+            </x-table>
 
             <hr>
 
@@ -73,21 +72,3 @@
         </x-panel>
     </x-content>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#datatable').dataTable({
-                order: [
-                    [1, 'asc']
-                ],
-                searching: false,
-                lengthChange: false,
-                language: {
-                    url: '{{ asset('vendor/plugins/datatables/media/js/pt-BR.json') }}',
-                },
-                pageLength: 5,
-            });
-        });
-    </script>
-@endpush

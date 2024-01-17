@@ -662,7 +662,7 @@ class AddRoutes extends Migration
         ]);
         Route::create([
             'id_route_group' => $id_route_group,
-            'label' => 'Por Despesas',
+            'label' => 'Por Tipo de Despesas',
             'name' => 'reports-expenses',
             'uri' => 'reports/expenses',
             'controller' => 'Report\ExpenseController',

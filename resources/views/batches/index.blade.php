@@ -41,110 +41,105 @@
 
                 <x-note>Selecione as despesas para a geração do lote.</x-note>
 
-                <div class="panel-body pn">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <th style="padding-left: 12px;">
-                                    {!! $action_checkbox !!}
-                                </th>
-                                <th class='text-right'>Código</th>
-                                <th>Data</th>
-                                <th>Tipo de Despesa</th>
-                                <th>Clientes</th>
-                                <th>Tipo de Pagamento</th>
-                                <th class='text-right'>Valor</th>
-                                <th class='text-center'>Reembolsável?</th>
-                                <th></th>
-                                <th></th>
-                            </thead>
-                            <tbody>
-                                @foreach ($expenses as $expense)
-                                    <tr class="{{ !$expense->payment_method->refundable ? 'danger' : '' }}">
-                                        <td>
-                                            <div class="checkbox-custom checkbox-info">
-                                                <input type="checkbox" id="expense_{{ $expense->id_expense }}"
-                                                    name="expense[{{ $expense->id_expense }}]"
-                                                    data-value="{{ $expense->amount }}" onchange="sum_expenses()">
-                                                <label for="expense_{{ $expense->id_expense }}">
-                                                    &nbsp;
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td class='text-right'>{{ $expense->id_expense }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($expense->date)->format('d/m/Y') }}</td>
-                                        <td>{{ $expense->category->name }}</td>
-                                        <td>
-                                            @foreach ($expense->clients as $client)
-                                                <span class='label label-info' data-toggle="tooltip" data-placement="right"
-                                                    title="{{ number_format($client->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($client->pivot->amount, 2, ',', '.') }}">
-                                                    {{ $client->short_name }}
-                                                </span>&nbsp;
-                                            @endforeach
-                                        </td>
-                                        <td>{{ $expense->payment_method->name }}</td>
-                                        <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
-                                        <td class='text-center'>
-                                            {!! $expense->payment_method->refundable
-                                                ? "<span class='badge badge-info'>Reembolsável</span>"
-                                                : "<span class='badge badge-danger'>Não Reembolsável</span>" !!}
-                                        </td>
-                                        <td class="text-right">
-                                            @foreach ($expense->users as $user)
-                                                @if ($user->id_user != $expense->id_user)
-                                                    <span class='label label-warning' data-toggle="tooltip"
-                                                        data-placement="left"
-                                                        title="{{ number_format($user->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($user->pivot->amount, 2, ',', '.') }}">
-                                                        {{ $user->name }}
-                                                    </span>&nbsp;
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        <td class="text-right">
-                                            @if (trim($expense->notes) != '')
-                                                <button type="button" class="btn btn-info btn-sm fs12"
-                                                    data-container="body" data-toggle="popover" data-placement="left"
-                                                    data-content="{{ $expense->notes }}">
-                                                    <i class="glyphicons glyphicons-notes"></i>
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot style="background:#f9f9f9">
-                                <tr id="expenses-checked">
-                                    <th style="padding-left: 12px;">
-                                        {!! $action_checkbox !!}
-                                    </th>
-                                    <th colspan=5 class='text-right text-info'>Valor selecionado</th>
-                                    <th class='text-right text-info expenses-checked'>0,00</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                <tr id="expenses-not-checked">
-                                    <th></th>
-                                    <th colspan=5 class='text-right text-danger'>Valor não selecionado</th>
-                                    <th class='text-right text-danger expenses-not-checked'>0,00</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                <tr id="expenses-all">
-                                    <th style="padding-left: 12px;">
-                                        {!! $action_checkbox !!}
-                                    </th>
-                                    <th colspan=5 class='text-right'>Valor total</th>
-                                    <th class='text-right expenses-all'>0,00</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
+                <x-table order=1 limit=0>
+                    <thead>
+                        <th orderable="false" style="padding-left: 12px;">
+                            {!! $action_checkbox !!}
+                        </th>
+                        <th type="number" class='text-right'>Código</th>
+                        <th type="date">Data</th>
+                        <th>Tipo de Despesa</th>
+                        <th>Clientes</th>
+                        <th>Tipo de Pagamento</th>
+                        <th type="currency" class='text-right'>Valor</th>
+                        <th type="currency" class='text-center'>Reembolsável?</th>
+                        <th orderable="false"></th>
+                        <th orderable="false"></th>
+                    </thead>
+                    <tbody>
+                        @foreach ($expenses as $expense)
+                            <tr class="{{ !$expense->payment_method->refundable ? 'danger' : '' }}">
+                                <td>
+                                    <div class="checkbox-custom checkbox-info">
+                                        <input type="checkbox" id="expense_{{ $expense->id_expense }}"
+                                            name="expense[{{ $expense->id_expense }}]" data-value="{{ $expense->amount }}"
+                                            onchange="sum_expenses()">
+                                        <label for="expense_{{ $expense->id_expense }}">
+                                            &nbsp;
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class='text-right'>{{ $expense->id_expense }}</td>
+                                <td>{{ \Carbon\Carbon::parse($expense->date)->format('d/m/Y') }}</td>
+                                <td>{{ $expense->category->name }}</td>
+                                <td>
+                                    @foreach ($expense->clients as $client)
+                                        <span class='label label-info' data-toggle="tooltip" data-placement="right"
+                                            title="{{ number_format($client->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($client->pivot->amount, 2, ',', '.') }}">
+                                            {{ $client->short_name }}
+                                        </span>&nbsp;
+                                    @endforeach
+                                </td>
+                                <td>{{ $expense->payment_method->name }}</td>
+                                <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
+                                <td class='text-center'>
+                                    {!! $expense->payment_method->refundable
+                                        ? "<span class='badge badge-info'>Reembolsável</span>"
+                                        : "<span class='badge badge-danger'>Não Reembolsável</span>" !!}
+                                </td>
+                                <td class="text-right">
+                                    @foreach ($expense->users as $user)
+                                        @if ($user->id_user != $expense->id_user)
+                                            <span class='label label-warning' data-toggle="tooltip" data-placement="left"
+                                                title="{{ number_format($user->pivot->percentage, 2, ',', '.') }}% | R$ {{ number_format($user->pivot->amount, 2, ',', '.') }}">
+                                                {{ $user->name }}
+                                            </span>&nbsp;
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td class="text-right">
+                                    @if (trim($expense->notes) != '')
+                                        <button type="button" class="btn btn-info btn-sm fs12" data-container="body"
+                                            data-toggle="popover" data-placement="left"
+                                            data-content="{{ $expense->notes }}">
+                                            <i class="glyphicons glyphicons-notes"></i>
+                                        </button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot style="background:#f9f9f9">
+                        <tr id="expenses-checked">
+                            <th style="padding-left: 12px;">
+                                {!! $action_checkbox !!}
+                            </th>
+                            <th colspan=5 class='text-right text-info'>Valor selecionado</th>
+                            <th class='text-right text-info expenses-checked'>0,00</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr id="expenses-not-checked">
+                            <th></th>
+                            <th colspan=5 class='text-right text-danger'>Valor não selecionado</th>
+                            <th class='text-right text-danger expenses-not-checked'>0,00</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr id="expenses-all">
+                            <th style="padding-left: 12px;">
+                                {!! $action_checkbox !!}
+                            </th>
+                            <th colspan=5 class='text-right'>Valor total</th>
+                            <th class='text-right expenses-all'>0,00</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </x-table>
 
                 <br>
 
