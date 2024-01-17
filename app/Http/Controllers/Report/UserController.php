@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Models\ExpenseClient;
+use App\Models\ExpenseUser;
 
-class ClientController extends Controller
+class UserController extends Controller
 {
 
     /**
@@ -22,19 +22,19 @@ class ClientController extends Controller
 
         /* ************************************************** */
 
-        $expenses = ExpenseClient::with('client')
+        $expenses = ExpenseUser::with('user')
             ->whereHas('expense', function ($query) use ($start_date, $end_date) {
                 $query->whereBetween('date', [$start_date, $end_date]);
             })
-            ->select('id_client', \DB::raw('SUM(amount) as amount'))
-            ->groupBy('id_client')
+            ->select('id_user', \DB::raw('SUM(amount) as amount'))
+            ->groupBy('id_user')
             ->get();
 
         $data['general'] = $expenses;
 
         $chart = $expenses->map(function ($expense) {
             return [
-                'name' => $expense['client']['short_name'],
+                'name' => $expense['user']['short_name'],
                 'y' => floatval($expense['amount']),
             ];
         })->toArray();
@@ -43,30 +43,30 @@ class ClientController extends Controller
 
         /* ************************************************** */
 
-        $expenses = ExpenseClient::with('client', 'category')
-            ->join('expenses', 'expenses_clients.id_expense', '=', 'expenses.id_expense')
+        $expenses = ExpenseUser::with('user', 'category')
+            ->join('expenses', 'expenses_users.id_expense', '=', 'expenses.id_expense')
             ->whereHas('expense', function ($query) use ($start_date, $end_date) {
                 $query->whereBetween('date', [$start_date, $end_date]);
             })
-            ->select('expenses.id_category', 'expenses_clients.id_client', \DB::raw('SUM(expenses_clients.amount) as amount'))
-            ->groupBy('expenses.id_category', 'expenses_clients.id_client')
+            ->select('expenses.id_category', 'expenses_users.id_user', \DB::raw('SUM(expenses_users.amount) as amount'))
+            ->groupBy('expenses.id_category', 'expenses_users.id_user')
             ->get();
 
-        $data['clients'] = $expenses;
+        $data['users'] = $expenses;
 
-        $clients = $expenses->groupBy('id_client')->map(function ($group) {
-            return $group->first()['client']['short_name'];
+        $users = $expenses->groupBy('id_user')->map(function ($group) {
+            return $group->first()['user']['short_name'];
         })->toArray();
-        asort($clients);
+        asort($users);
 
-        $data['clients_chart_categories'] = array_values($clients);
+        $data['users_chart_categories'] = array_values($users);
 
-        $chart = $expenses->groupBy('id_category')->map(function ($group) use ($clients) {
-            $group_clients = collect($group)->keyBy('id_client');
+        $chart = $expenses->groupBy('id_category')->map(function ($group) use ($users) {
+            $group_users = collect($group)->keyBy('id_user');
             $group_data = [];
-            foreach (array_keys($clients) as $id_client) {
-                if (isset($group_clients[$id_client])) {
-                    $group_data[] =  +$group_clients[$id_client]['amount'];
+            foreach (array_keys($users) as $id_user) {
+                if (isset($group_users[$id_user])) {
+                    $group_data[] =  +$group_users[$id_user]['amount'];
                 } else {
                     $group_data[] =  0;
                 }
@@ -80,10 +80,10 @@ class ClientController extends Controller
             ];
         })->values()->toArray();
 
-        $data['clients_chart'] = $chart;
+        $data['users_chart'] = $chart;
 
         /* ************************************************** */
 
-        return view('reports.clients', compact('data', 'start_date', 'end_date'));
+        return view('reports.users', compact('data', 'start_date', 'end_date'));
     }
 }

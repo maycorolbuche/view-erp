@@ -19,4 +19,20 @@ class ExpenseUser extends Model
         'amount',
         'percentage',
     ];
+
+
+    public function expense()
+    {
+        return $this->hasOne(Expense::class, 'id_expense', 'id_expense');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_user', 'id_user');
+    }
+
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id_category', 'id_category');
+    }
 }

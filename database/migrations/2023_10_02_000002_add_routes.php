@@ -641,7 +641,7 @@ class AddRoutes extends Migration
             'label' => 'Por Usuários',
             'name' => 'reports-users',
             'uri' => 'reports/users',
-            'controller' => 'Report\ReportController',
+            'controller' => 'Report\UserController',
             'resources' => $query_resources,
             'permissions' => $query_permissions,
             'icon' => 'fas fa-users',
