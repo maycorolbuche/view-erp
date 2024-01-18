@@ -77,6 +77,15 @@ class User extends Authenticatable implements CanResetPassword
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function updateLastAccess()
+    {
+        $this->update([
+            'last_access' => now(),
+            'count_access' => ($this->count_access ?? 0) + 1,
+        ]);
+    }
+
     /**
      * Always encrypt password when it is updated.
      *
