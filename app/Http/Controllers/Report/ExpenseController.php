@@ -29,12 +29,12 @@ class ExpenseController extends Controller
             ->select('id_category', \DB::raw('SUM(amount) as amount'))
             ->groupBy('id_category')
             ->get();
-        
+
         $data['general'] = $expenses;
 
         $chart = $expenses->map(function ($expense) {
             return [
-                'name' => $expense['category']['short_name'],
+                'name' => $expense['category']['short_name'] ?? $expense['category']['name'],
                 'y' => floatval($expense['amount']),
             ];
         })->toArray();
@@ -42,7 +42,7 @@ class ExpenseController extends Controller
         $data['general_chart'] = $chart;
 
         /* ************************************************** */
-        
+
         $expenses = ExpenseClient::with('client', 'category')
             ->join('expenses', 'expenses_clients.id_expense', '=', 'expenses.id_expense')
             ->whereHas('expense', function ($query) use ($start_date, $end_date) {
@@ -55,7 +55,7 @@ class ExpenseController extends Controller
         $data['clients'] = $expenses;
 
         $categories = $expenses->groupBy('id_category')->map(function ($group) {
-            return $group->first()['category']['short_name'];
+            return $group->first()['category']['short_name'] ?? $group->first()['category']['name'];
         })->toArray();
         asort($categories);
 
@@ -73,7 +73,7 @@ class ExpenseController extends Controller
             }
 
             return [
-                'name' => $group->first()['client']['short_name'],
+                'name' => $group->first()['client']['short_name'] ?? $group->first()['client']['name'],
                 'data' => array_values($group_data),
             ];
         })->values()->toArray();
@@ -81,7 +81,7 @@ class ExpenseController extends Controller
         $data['clients_chart'] = $chart;
 
         /* ************************************************** */
-        
+
         $expenses = ExpenseUser::with('user', 'category')
             ->join('expenses', 'expenses_users.id_expense', '=', 'expenses.id_expense')
             ->whereHas('expense', function ($query) use ($start_date, $end_date) {
@@ -94,7 +94,7 @@ class ExpenseController extends Controller
         $data['users'] = $expenses;
 
         $categories = $expenses->groupBy('id_category')->map(function ($group) {
-            return $group->first()['category']['short_name'];
+            return $group->first()['category']['short_name'] ?? $group->first()['category']['name'];
         })->toArray();
         asort($categories);
 
@@ -112,7 +112,7 @@ class ExpenseController extends Controller
             }
 
             return [
-                'name' => $group->first()['user']['short_name'],
+                'name' => $group->first()['user']['short_name'] ?? $group->first()['user']['name'],
                 'data' => array_values($group_data),
             ];
         })->values()->toArray();

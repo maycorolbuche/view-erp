@@ -34,7 +34,7 @@ class ClientController extends Controller
 
         $chart = $expenses->map(function ($expense) {
             return [
-                'name' => $expense['client']['short_name'],
+                'name' => $expense['client']['short_name'] ?? $expense['client']['name'],
                 'y' => floatval($expense['amount']),
             ];
         })->toArray();
@@ -55,7 +55,7 @@ class ClientController extends Controller
         $data['clients'] = $expenses;
 
         $clients = $expenses->groupBy('id_client')->map(function ($group) {
-            return $group->first()['client']['short_name'];
+            return $group->first()['client']['short_name'] ?? $group->first()['client']['name'];
         })->toArray();
         asort($clients);
 
@@ -74,7 +74,7 @@ class ClientController extends Controller
 
             return [
                 //'id_category' => $group->first()['id_category'],
-                'name' => $group->first()['category']['short_name'],
+                'name' => $group->first()['category']['short_name'] ?? $group->first()['category']['name'],
                 //'amount' => $group->sum('amount'),
                 'data' => array_values($group_data),
             ];

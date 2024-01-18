@@ -34,7 +34,7 @@ class UserController extends Controller
 
         $chart = $expenses->map(function ($expense) {
             return [
-                'name' => $expense['user']['short_name'],
+                'name' => $expense['user']['short_name'] ?? $expense['user']['name'],
                 'y' => floatval($expense['amount']),
             ];
         })->toArray();
@@ -55,7 +55,7 @@ class UserController extends Controller
         $data['users'] = $expenses;
 
         $users = $expenses->groupBy('id_user')->map(function ($group) {
-            return $group->first()['user']['short_name'];
+            return $group->first()['user']['short_name'] ?? $group->first()['user']['name'];
         })->toArray();
         asort($users);
 
@@ -74,7 +74,7 @@ class UserController extends Controller
 
             return [
                 //'id_category' => $group->first()['id_category'],
-                'name' => $group->first()['category']['short_name'],
+                'name' => $group->first()['category']['short_name'] ?? $group->first()['category']['name'],
                 //'amount' => $group->sum('amount'),
                 'data' => array_values($group_data),
             ];

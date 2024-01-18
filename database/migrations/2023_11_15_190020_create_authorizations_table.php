@@ -18,7 +18,7 @@ class CreateAuthorizationsTable extends Migration
             $table->unsignedInteger('id_authorization_parent')->nullable();
             $table->unsignedInteger('id_user');
             $table->unsignedInteger('id_authorization_type');
-            $table->string('description');
+            $table->text('description');
             $table->datetime('start_datetime');
             $table->datetime('end_datetime');
             $table->decimal('amount', 8, 2)->nullable();
