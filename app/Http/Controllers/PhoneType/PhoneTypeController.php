@@ -5,7 +5,7 @@ namespace App\Http\Controllers\PhoneType;
 use App\Http\Controllers\Controller;
 use App\Models\PhoneType;
 use App\Http\Requests\PhoneTypeRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class PhoneTypeController extends Controller
 {
@@ -117,17 +117,6 @@ class PhoneTypeController extends Controller
 
     public function datatable()
     {
-        $data = PhoneType::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'phones-types.show', [$id_field => $row->id_phone_type]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::phones_types();
     }
 }

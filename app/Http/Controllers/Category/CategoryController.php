@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\CategoryType;
 use App\Http\Requests\CategoryRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class CategoryController extends Controller
 {
@@ -120,20 +120,6 @@ class CategoryController extends Controller
 
     public function datatable()
     {
-        $data = Category::latest()->with('category_type')->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'categories.show', [$id_field => $row->id_category]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('category_type', function ($row) {
-                return $row->category_type->name;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::categories();
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Http\Requests\ClientRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class ClientController extends Controller
 {
@@ -117,17 +117,6 @@ class ClientController extends Controller
 
     public function datatable()
     {
-        $data = Client::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'clients.show', [$id_field => $row->id_client]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::clients();
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Role;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Http\Requests\RoleRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class RoleController extends Controller
 {
@@ -117,17 +117,6 @@ class RoleController extends Controller
 
     public function datatable()
     {
-        $data = Role::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'roles.show', [$id_field => $row->id_role]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::roles();
     }
 }

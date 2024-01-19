@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Carrier;
 use App\Http\Controllers\Controller;
 use App\Models\Carrier;
 use App\Http\Requests\CarrierRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class CarrierController extends Controller
 {
@@ -117,17 +117,6 @@ class CarrierController extends Controller
 
     public function datatable()
     {
-        $data = Carrier::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'carriers.show', [$id_field => $row->id_carrier]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::carriers();
     }
 }

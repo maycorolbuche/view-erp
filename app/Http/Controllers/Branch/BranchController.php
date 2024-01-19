@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Branch;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Http\Requests\BranchRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class BranchController extends Controller
 {
@@ -117,20 +117,6 @@ class BranchController extends Controller
 
     public function datatable()
     {
-        $data = Branch::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'branches.show', [$id_field => $row->id_branch]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('name', function ($row) {
-                return $row->name . " <span class='label label-info'>" . $row->short_name . "</span>";
-            })
-            ->rawColumns(['actions', 'name'])
-            ->make(true);
+        return DataTableHelper::branches();
     }
 }

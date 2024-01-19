@@ -7,7 +7,7 @@ use App\Models\Holiday;
 use App\Models\HolidayBranch;
 use App\Models\Branch;
 use App\Http\Requests\HolidayRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class HolidayController extends Controller
 {
@@ -125,49 +125,7 @@ class HolidayController extends Controller
 
     public function datatable()
     {
-        $data = Holiday::latest()->with('branches')->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'holidays.show', [$id_field => $row->id_holiday]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('date', function ($row) {
-                $date = strtotime(($row->year ?? date("Y")) . "-" . $row->month . "-" . $row->day);
-
-                if ($row->easter || $row->easter == "0") {
-                    $easterTimestamp = easter_date();
-                    $date = $easterTimestamp + ($row->easter * 24 * 60 * 60);
-                    return '<span style="display:none">' . $date . '</span>' . "<span class='text-warning'>" . date("d/m/Y", $date) . "</span>";
-                } elseif ($row->year) {
-                    return '<span style="display:none">' . $date . '</span>' . date("d/m/Y", $date);
-                } else {
-                    return '<span style="display:none">' . $date . '</span>' . date("d/m/", $date) .  "<span class='text-warning'>" . date("Y", $date) . "</span>";
-                }
-            })
-            ->addColumn('type', function ($row) {
-                $type = $row->easter !== null ? "easter" : ($row->year == null ? "repeat" : "unique");
-                $items = [
-                    'unique' => ['Único', 'info'],
-                    'repeat' => ['Recorrente', 'success'],
-                    'easter' => ['Dinâmico', 'warning']
-                ];
-
-                return "<span class='badge badge-" . $items[$type][1] . "'>" . $items[$type][0] . "</span>"
-                    . ($type == "easter" ? " <span class='badge badge-info'>🐇 " . ($row->easter > 0 ? "+" : "") . $row->easter . "</span>" : "");
-            })
-            ->addColumn('branches', function ($row) {
-                $branches = '';
-                foreach ($row->branches as $branch) {
-                    $branches .= "<span class='badge badge-info'>" . $branch->short_name . "</span> ";
-                }
-                return $branches;
-            })
-            ->rawColumns(['actions', 'date', 'type', 'branches'])
-            ->make(true);
+        return DataTableHelper::holidays();
     }
 
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\RelationshipDegree;
 use App\Http\Controllers\Controller;
 use App\Models\RelationshipDegree;
 use App\Http\Requests\RelationshipDegreeRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class RelationshipDegreeController extends Controller
 {
@@ -117,17 +117,6 @@ class RelationshipDegreeController extends Controller
 
     public function datatable()
     {
-        $data = RelationshipDegree::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'relationships-degrees.show', [$id_field => $row->id_relationship_degree]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::relationships_degrees();
     }
 }

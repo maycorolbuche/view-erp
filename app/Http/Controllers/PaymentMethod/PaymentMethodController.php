@@ -5,7 +5,7 @@ namespace App\Http\Controllers\PaymentMethod;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
 use App\Http\Requests\PaymentMethodRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class PaymentMethodController extends Controller
 {
@@ -117,20 +117,6 @@ class PaymentMethodController extends Controller
 
     public function datatable()
     {
-        $data = PaymentMethod::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'payment-methods.show', [$id_field => $row->id_payment_method]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('refundable', function ($row) {
-                return ($row->refundable ? "Sim" : "Não");
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::payment_methods();
     }
 }

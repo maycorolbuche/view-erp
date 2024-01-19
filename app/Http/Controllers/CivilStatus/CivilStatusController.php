@@ -5,7 +5,7 @@ namespace App\Http\Controllers\CivilStatus;
 use App\Http\Controllers\Controller;
 use App\Models\CivilStatus;
 use App\Http\Requests\CivilStatusRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class CivilStatusController extends Controller
 {
@@ -117,17 +117,6 @@ class CivilStatusController extends Controller
 
     public function datatable()
     {
-        $data = CivilStatus::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'civil-statuses.show', [$id_field => $row->id_civil_status]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+       return DataTableHelper::civil_statuses();
     }
 }

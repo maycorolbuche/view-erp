@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\System;
 use App\Http\Requests\SystemRequest;
 use App\Helpers\RootHelper as Root;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class SystemController extends Controller
 {
@@ -126,20 +126,6 @@ class SystemController extends Controller
 
     public function datatable()
     {
-        $data = System::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'systems.show', [$id_field => $row->id_system]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('icon', function ($row) {
-                return "<i style='font-size:20px' class='" . $row->icon . "'></i>";
-            })
-            ->rawColumns(['actions', 'icon'])
-            ->make(true);
+        return DataTableHelper::systems();
     }
 }

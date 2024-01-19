@@ -66,7 +66,7 @@ class AddHolidays extends Migration
         ]);
         Holiday::create([
             'easter' => 60,
-            'name' => 'Corpus Christ'
+            'name' => 'Corpus Christi'
         ]);
     }
 

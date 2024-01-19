@@ -18,5 +18,6 @@
         [
             'title' => 'Tipos de Despesa',
             'data' => 'categories',
+            'orderable' => false,
         ],
     ]) }}" />

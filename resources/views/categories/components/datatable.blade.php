@@ -21,6 +21,6 @@
         ],
         [
             'title' => 'Tipo',
-            'data' => 'category_type',
+            'data' => 'category_type.name',
         ],
     ]) }}" />

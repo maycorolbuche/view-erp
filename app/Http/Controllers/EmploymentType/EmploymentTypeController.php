@@ -5,7 +5,7 @@ namespace App\Http\Controllers\EmploymentType;
 use App\Http\Controllers\Controller;
 use App\Models\EmploymentType;
 use App\Http\Requests\EmploymentTypeRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class EmploymentTypeController extends Controller
 {
@@ -117,17 +117,6 @@ class EmploymentTypeController extends Controller
 
     public function datatable()
     {
-        $data = EmploymentType::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'employment-types.show', [$id_field => $row->id_employment_type]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::employment_types();
     }
 }

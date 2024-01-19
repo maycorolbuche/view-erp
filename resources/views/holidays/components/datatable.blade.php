@@ -1,5 +1,5 @@
 <x-data-table data-origin="holidays.datatable" query-string="route={{ $route }}" id-field="{{ $field ?? '' }}"
-    order="date" order-dir="desc"
+    order="name" order-dir="asc"
     columns="{{ json_encode([
         [
             'data' => 'actions',
@@ -15,6 +15,7 @@
             'title' => 'Data',
             'data' => 'date',
             'className' => 'text-center',
+            'orderable' => false,
         ],
         [
             'title' => 'Nome',
@@ -24,6 +25,7 @@
             'title' => 'Tipo',
             'data' => 'type',
             'className' => 'text-center',
+            'orderable' => false,
         ],
         [
             'title' => 'Filiais',

@@ -19,6 +19,7 @@
             'title' => 'Ícone',
             'data' => 'icon',
             'className' => 'text-center',
+            'orderable' => false,
         ],
         [
             'title' => 'Nome URL',

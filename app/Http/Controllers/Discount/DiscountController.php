@@ -7,7 +7,7 @@ use App\Models\Discount;
 use App\Models\DiscountCategory;
 use App\Models\Category;
 use App\Http\Requests\DiscountRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class DiscountController extends Controller
 {
@@ -133,25 +133,7 @@ class DiscountController extends Controller
 
     public function datatable()
     {
-        $data = Discount::with('categories')->latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'discounts.show', [$id_field => $row->id_discount]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('categories', function ($row) {
-                $html = "";
-                foreach ($row->categories as $category) {
-                    $html .= "<span class='badge badge-info'>" . $category->short_name . "</span> ";
-                }
-                return $html;
-            })
-            ->rawColumns(['actions', 'categories'])
-            ->make(true);
+        return DataTableHelper::discounts();
     }
 
     public function discountCategory($id_discount, $categories)

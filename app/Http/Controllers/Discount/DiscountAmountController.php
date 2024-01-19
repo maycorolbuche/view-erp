@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Discount;
 use App\Models\DiscountAmount;
 use App\Http\Requests\DiscountAmountRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class DiscountAmountController extends Controller
 {
@@ -156,29 +155,8 @@ class DiscountAmountController extends Controller
         }
     }
 
-
     public function datatable()
     {
-        $data = DiscountAmount::latest()->where('id_discount', request('pid'))->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('discounts-amounts.show', ['pid' => request('pid'), 'id' => $row->id_discount_amount]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('date', function ($row) {
-                return ($row->date ? '<span style="display:none">' . $row->date . '</span>' . Carbon::parse($row->date)->format('d/m/Y') : '');
-            })
-            ->addColumn('amount', function ($row) {
-                return '<span style="display:none">' . $row->amount . '</span>' . number_format($row->amount, 2, ',', '.');
-            })
-            ->rawColumns([
-                'actions',
-                'date',
-                'amount',
-            ])
-            ->make(true);
+        return DataTableHelper::discounts_amounts();
     }
 }

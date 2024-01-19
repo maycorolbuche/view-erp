@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Authorization;
 use App\Http\Controllers\Controller;
 use App\Models\AuthorizationType;
 use App\Http\Requests\AuthorizationTypeRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class AuthorizationTypeController extends Controller
 {
@@ -71,24 +71,6 @@ class AuthorizationTypeController extends Controller
 
     public function datatable()
     {
-        $data = AuthorizationType::latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'authorizations-types.show', [$id_field => $row->id_authorization_type]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('approval', function ($row) {
-                $items = [
-                    'one' => '<span class="badge badge-info"><i class="fas fa-user"></i> Um Responsável</span>',
-                    'all' => '<span class="badge badge-success"><i class="fas fa-users"></i> Todos os Responsáveis</span>',
-                ];
-                return $items[$row->approval];
-            })
-            ->rawColumns(['actions', 'approval'])
-            ->make(true);
+        return DataTableHelper::authorizations_types();
     }
 }
