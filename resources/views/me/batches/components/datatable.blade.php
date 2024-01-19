@@ -17,10 +17,6 @@
             'className' => 'text-center',
         ],
         [
-            'title' => 'Nome',
-            'data' => 'name',
-        ],
-        [
             'title' => 'Qtd. Despesas',
             'data' => 'expenses_count',
             'className' => 'text-right',

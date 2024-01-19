@@ -144,19 +144,20 @@
                     ],
                     [
                         'title' => 'Nome',
-                        'data' => 'name',
+                        'data' => 'user.name',
                     ],
                     [
                         'title' => 'Tipo de Despesa',
-                        'data' => 'category',
+                        'data' => 'category.short_name',
                     ],
                     [
                         'title' => 'Clientes',
                         'data' => 'clients',
+                        'orderable' => false,
                     ],
                     [
                         'title' => 'Tipo de Pagamento',
-                        'data' => 'payment_method',
+                        'data' => 'payment_method.name',
                     ],
                     [
                         'title' => 'Valor',
@@ -165,7 +166,7 @@
                     ],
                     [
                         'title' => 'Reembolsável?',
-                        'data' => 'refundable',
+                        'data' => 'payment_method.refundable',
                         'className' => 'text-center',
                     ],
                     [
@@ -174,7 +175,7 @@
                         'className' => 'text-right',
                     ],
                 ]) }}"
-                created-row="if (data['refundable'].indexOf('danger') !== -1) { $('td', row).addClass('danger'); }" />
+                created-row="if (data['refundable'] !== 1) { $('td', row).addClass('danger'); }" />
         </x-panel>
     </x-content>
 @endsection

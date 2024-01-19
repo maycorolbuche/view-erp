@@ -192,7 +192,7 @@
                     ],
                     [
                         'title' => 'Nome',
-                        'data' => 'name',
+                        'data' => 'user.name',
                     ],
                     [
                         'title' => 'Qtd. Despesas',

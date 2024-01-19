@@ -7,11 +7,10 @@ use App\Models\Batch;
 use App\Models\Expense;
 use App\Models\Notification as NotificationModel;
 use App\Helpers\BatchHelper;
+use App\Helpers\DataTableHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\BatchNotification;
-use Carbon\Carbon;
-use DataTables;
 
 class BatchController extends Controller
 {
@@ -76,38 +75,7 @@ class BatchController extends Controller
 
     public function datatable()
     {
-        $data = Batch::with(['user'])
-            ->where('id_user', Auth::id())
-            ->latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'me-batches.show', [$id_field => $row->id_batch]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('name', function ($row) {
-                return $row->user->name;
-            })
-            ->addColumn('created_at', function ($row) {
-                return ($row->created_at ? '<span style="display:none">' . $row->created_at . '</span>' . Carbon::parse($row->created_at)->format('d/m/Y H:i:s') : '');
-            })
-            ->addColumn('refundable_amount', function ($row) {
-                return '<span style="display:none">' . $row->refundable_amount . '</span>' . number_format($row->refundable_amount, 2, ',', '.');
-            })
-            ->addColumn('non_refundable_amount', function ($row) {
-                return '<span style="display:none">' . $row->non_refundable_amount . '</span>' . number_format($row->non_refundable_amount, 2, ',', '.');
-            })
-            ->addColumn('amount', function ($row) {
-                return '<span style="display:none">' . $row->amount . '</span>' . number_format($row->amount, 2, ',', '.');
-            })
-            ->addColumn('active', function ($row) {
-                return $row->active ? "<span class='badge badge-success'>Ativo</span>" : "<span class='badge badge-danger'>Fechado</span>";
-            })
-            ->rawColumns(['actions', 'created_at', 'refundable_amount', 'non_refundable_amount', 'amount', 'active'])
-            ->make(true);
+        return DataTableHelper::batches(['id_user' => Auth::id()]);
     }
 
 

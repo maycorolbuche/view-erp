@@ -150,16 +150,17 @@
                     ],
                     [
                         'title' => 'Nome',
-                        'data' => 'name',
+                        'data' => 'user.name',
                     ],
                     [
                         'title' => 'Tipo',
-                        'data' => 'type',
+                        'data' => 'authorization_type.name',
                     ],
                     [
                         'title' => 'Período',
                         'data' => 'period',
                         'className' => 'text-center',
+                        'orderable' => false,
                     ],
                     [
                         'title' => 'Descrição',
@@ -168,14 +169,16 @@
                     [
                         'title' => 'Clientes',
                         'data' => 'clients',
+                        'orderable' => false,
                     ],
                     [
                         'title' => 'Autorizações',
                         'data' => 'statuses',
+                        'orderable' => false,
                     ],
                     [
                         'title' => 'Status',
-                        'data' => 'status',
+                        'data' => 'approved',
                     ],
                 ]) }}" />
         </x-panel>
