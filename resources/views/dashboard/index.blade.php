@@ -1,11 +1,72 @@
 @extends('layouts.app')
-@section('title', 'ASFSS')
+@section('title', $system->name)
 
 @section('content')
 
     <!-- begin: .tray-center -->
     <div class="tray tray-center pv40 ph30 va-t posr animated-delay animated-long" data-animate='["800","fadeIn"]'>
         <div class="mw1100 center-block">
+
+            @if (isset($permissions['batch-payments']) && $batch_payments_count > 0)
+                <div style="display: flex;flex-wrap: wrap;align-items: stretch;justify-content: space-between;">
+                    <div style="flex-grow: 1;margin-right: 15px;" class="alert alert-warning alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h3 class="mt5">Pagamentos Pendentes!</h3>
+
+                        <p>Você tem pagamentos de lotes pendentes.</p>
+                        <p>É necessário registrar o pagamento nos lotes, para que a baixa seja efetuada corretamente.</p>
+                        <br>
+                        <p>
+                            <a class="btn btn-warning" href="{{ route('batch-payments') }}">Registrar Pagamentos</a>
+                        </p>
+                    </div>
+
+                    <div class="panel panel-tile text-center">
+                        <div class="panel-heading hidden">
+                            <span class="panel-title"><i class="fa fa-pencil"></i> Title</span>
+                        </div>
+                        <div class="panel-body bg-warning">
+                            <h1 class="fs35 mbn">{{ number_format($batch_payments_count, 0, ',', '.') }}</h1>
+                            <h6 class="text-white">LOTES</h6>
+                        </div>
+                        <div class="panel-footer br-n p12">
+                            <span class="fs11">
+                                <b>PAGAMENTOS PENDENTES</b>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if ($authorizations_pending_count > 0)
+                <div style="display: flex;flex-wrap: wrap;align-items: stretch;justify-content: space-between;">
+                    <div style="flex-grow: 1;margin-right: 15px;" class="alert alert-warning alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h3 class="mt5">Autorizações Pendentes!</h3>
+
+                        <p>Você tem autorizações pendentes de aprovação.</p>
+                        <br>
+                        <p>
+                            <a class="btn btn-warning" href="{{ route('me-authorizations') }}">Ver Autorizações</a>
+                        </p>
+                    </div>
+
+                    <div class="panel panel-tile text-center">
+                        <div class="panel-heading hidden">
+                            <span class="panel-title"><i class="fa fa-pencil"></i> Title</span>
+                        </div>
+                        <div class="panel-body bg-warning">
+                            <h1 class="fs35 mbn">{{ number_format($authorizations_pending_count, 0, ',', '.') }}</h1>
+                        </div>
+                        <div class="panel-footer br-n p12">
+                            <span class="fs11">
+                                <b>AUTORIZAÇÕES PENDENTES</b>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
 
             <h2 class="lh30 mt10 text-center">With <b class="text-primary">Admin Forms</b> you have
                 everything you need.</h2>
@@ -943,6 +1004,7 @@
     </div>
     <!-- end: .tray-center -->
 
+    <?php /*
     <!-- begin: .tray-right -->
     <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
         <div class="animated-delay p20 pb15" data-animate='["300","fadeIn"]'>
@@ -1032,6 +1094,8 @@
         </div>
     </aside>
     <!-- end: .tray-right -->
+    */
+    ?>
 
 
 

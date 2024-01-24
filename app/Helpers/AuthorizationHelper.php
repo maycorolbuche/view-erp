@@ -6,9 +6,6 @@ use App\Models\Authorization;
 use App\Models\AuthorizationType;
 use App\Models\UserAuthorizationType;
 use App\Models\User;
-use App\Models\UserCash;
-use App\Models\UserCashHistory;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -52,6 +49,22 @@ class AuthorizationHelper
             })
             ->where(['active' => 1, 'approved' => null])
             ->latest()->get();
+
+        return $authorization;
+    }
+
+    public static function pending_count($id_user = null)
+    {
+        if ($id_user == null) {
+            $id_user = Auth::id();
+        }
+
+        $authorization = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
+            ->whereHas('statuses', function ($query) use ($id_user) {
+                $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
+            })
+            ->where(['active' => 1, 'approved' => null])
+            ->count();
 
         return $authorization;
     }
