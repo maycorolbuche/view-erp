@@ -72,6 +72,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
                     if ($path[0] == $system->slug) {
                         Route::group(['prefix' => 'me'], function () {
+                            Route::get('/password-change', 'Auth\PasswordChangeController@index')->name('me-password-change');
+                            Route::put('/password-change', 'Auth\PasswordChangeController@update')->name('me-password-change.update');
+
                             Route::get('/authorizations', 'Me\AuthorizationController@index')->name('me-authorizations');
                             Route::get('/authorizations/datatable', 'Me\AuthorizationController@datatable')->name('me-authorizations.datatable');
                             Route::get('/authorizations/{id}', 'Me\AuthorizationController@show')->where('id', '[0-9]+')->name('me-authorizations.show');

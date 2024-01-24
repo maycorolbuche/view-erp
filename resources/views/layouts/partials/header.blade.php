@@ -24,6 +24,7 @@
                 </a>
             </li>
         @endif
+        <?php /*
         <li class="dropdown dropdown-item-slide">
             <a class="dropdown-toggle pl10 pr10" data-toggle="dropdown" href="javascript:">
                 <span class="octicon octicon-radio-tower fs18"></span>
@@ -80,6 +81,8 @@
                 </li>
             </ul>
         </li>
+        */
+        ?>
         <li class="ph10 pv20 hidden-xs"> <i class="fa fa-circle text-tp fs8"></i>
         </li>
         <li class="dropdown">
@@ -92,20 +95,16 @@
                 <span class="caret caret-tp hidden-xs"></span>
             </a>
             <ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
-                <li class="of-h">
-                    <a href="javascript:" class="fw600 p12 animated animated-short fadeInUp">
-                        <span class="fa fa-envelope pr5"></span> Mensagens
-                        <span class="pull-right lh20 h-20 label label-warning label-sm">2</span>
-                    </a>
-                </li>
+                <!--
                 <li class="br-t of-h">
                     <a href="javascript:" class="fw600 p12 animated animated-short fadeInUp">
                         <span class="fa fa-user pr5"></span> Perfil
                         <span class="pull-right lh20 h-20 label label-warning label-sm">6</span>
                     </a>
                 </li>
+                -->
                 <li class="br-t of-h">
-                    <a href="javascript:" class="fw600 p12 animated animated-short fadeInUp">
+                    <a href="{{ route('me-password-change') }}" class="fw600 p12 animated animated-short fadeInUp">
                         <span class="fa fa-lock pr5"></span> Alterar Senha </a>
                 </li>
                 <li class="br-t of-h">
