@@ -61,7 +61,7 @@
                         ],
                         [
                             'title' => 'Cargo',
-                            'data' => 'role',
+                            'data' => 'role.name',
                         ],
                         [
                             'title' => 'Dt. Início',

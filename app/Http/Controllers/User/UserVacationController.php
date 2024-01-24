@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserVacation;
 use App\Http\Requests\UserVacationRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserVacationController extends Controller
 {
@@ -159,96 +158,6 @@ class UserVacationController extends Controller
 
     public function datatable()
     {
-        $data = UserVacation::latest()->where('id_user', request('pid'))->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-vacations.show', ['pid' => request('pid'), 'id' => $row->id_user_vacation]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('start_date', function ($row) {
-                return ($row->start_date ? '<span style="display:none">' . $row->start_date . '</span>' . Carbon::parse($row->start_date)->format('d/m/Y') : '');
-            })
-            ->addColumn('end_date', function ($row) {
-                return ($row->end_date ? '<span style="display:none">' . $row->end_date . '</span>' . Carbon::parse($row->end_date)->format('d/m/Y') : '');
-            })
-            ->addColumn('acquisition_period', function ($row) {
-                $start = "";
-                if ($row->start_date_acquisition_period) {
-                    $start = Carbon::parse($row->start_date_acquisition_period)->format('d/m/Y');
-                }
-                $end = "";
-                if ($row->end_date_acquisition_period) {
-                    $end = Carbon::parse($row->end_date_acquisition_period)->format('d/m/Y');
-                }
-
-                return '<span style="display:none">' . ($row->start_date_acquisition_period ?? '') . ($row->end_date_acquisition_period ?? '') . '</span>'
-                    . $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
-            })
-            ->addColumn('requested_period', function ($row) {
-                $start = "";
-                if ($row->start_date_requested_period) {
-                    $start = Carbon::parse($row->start_date_requested_period)->format('d/m/Y');
-                }
-                $end = "";
-                if ($row->end_date_requested_period) {
-                    $end = Carbon::parse($row->end_date_requested_period)->format('d/m/Y');
-                }
-
-                return '<span style="display:none">' . ($row->start_date_requested_period ?? '') . ($row->end_date_requested_period ?? '') . '</span>'
-                    . $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
-            })
-            ->addColumn('approval_period', function ($row) {
-                $start = "";
-                if ($row->start_date_approval_period) {
-                    $start = Carbon::parse($row->start_date_approval_period)->format('d/m/Y');
-                }
-                $end = "";
-                if ($row->end_date_approval_period) {
-                    $end = Carbon::parse($row->end_date_approval_period)->format('d/m/Y');
-                }
-
-                return '<span style="display:none">' . ($row->start_date_approval_period ?? '') . ($row->end_date_approval_period ?? '') . '</span>'
-                    . $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
-            })
-            ->addColumn('approved_period', function ($row) {
-                $start = "";
-                if ($row->start_date_approved_period) {
-                    $start = Carbon::parse($row->start_date_approved_period)->format('d/m/Y');
-                }
-                $end = "";
-                if ($row->end_date_approved_period) {
-                    $end = Carbon::parse($row->end_date_approved_period)->format('d/m/Y');
-                }
-
-                return '<span style="display:none">' . ($row->start_date_approved_period ?? '') . ($row->end_date_approved_period ?? '') . '</span>'
-                    . $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
-            })
-            ->addColumn('period', function ($row) {
-                $start = "";
-                if ($row->start_date) {
-                    $start = Carbon::parse($row->start_date)->format('d/m/Y');
-                }
-                $end = "";
-                if ($row->end_date) {
-                    $end = Carbon::parse($row->end_date)->format('d/m/Y');
-                }
-
-                return '<span style="display:none">' . ($row->start_date ?? '') . ($row->end_date ?? '') . '</span>'
-                    . $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
-            })
-            ->rawColumns([
-                'actions',
-                'start_date',
-                'end_date',
-                'acquisition_period',
-                'requested_period',
-                'approval_period',
-                'approved_period',
-                'period'
-            ])
-            ->make(true);
+        return DataTableHelper::users_vacations(['id_user' => request('pid')]);
     }
 }

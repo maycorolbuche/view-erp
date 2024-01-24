@@ -8,7 +8,7 @@ use App\Models\UserPhone;
 use App\Models\Carrier;
 use App\Models\PhoneType;
 use App\Http\Requests\UserPhoneRequest;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserPhoneController extends Controller
 {
@@ -164,28 +164,6 @@ class UserPhoneController extends Controller
 
     public function datatable()
     {
-        $data = UserPhone::latest()->where('id_user', request('pid'))->with(['carrier', 'phone_type'])->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-phones.show', ['pid' => request('pid'), 'id' => $row->id_user_phone]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('carrier', function ($row) {
-                return $row->carrier->name ?? '';
-            })
-            ->addColumn('phone_type', function ($row) {
-                return $row->phone_type->description ?? '';
-            })
-            ->addColumn('phone', function ($row) {
-                return $row->phone
-                    . ($row->has_whatsapp ? " <span class='fab fa-whatsapp text-success'></span>" : "")
-                    . ($row->is_business ? " <span class='fas fa-building text-info'></span>" : "")
-                    ?? '';
-            })
-            ->rawColumns(['actions', 'phone'])
-            ->make(true);
+        return DataTableHelper::users_phones(['id_user' => request('pid')]);
     }
 }

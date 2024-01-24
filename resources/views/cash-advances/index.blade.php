@@ -53,6 +53,7 @@
                             [
                                 'title' => 'Descrição',
                                 'data' => 'description',
+                                'orderable' => false,
                             ],
                             [
                                 'title' => 'Saldo Anterior',

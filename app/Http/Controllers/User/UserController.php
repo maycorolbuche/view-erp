@@ -4,13 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\System;
 use App\Models\EmploymentType;
 use App\Models\CivilStatus;
 use App\Models\Branch;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Str;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserController extends Controller
 {
@@ -156,26 +155,6 @@ class UserController extends Controller
 
     public function datatable()
     {
-        $id_system = request('__id_system');
-        $system = System::where('id_system', $id_system)->first();
-        if ($system->root == true) {
-            $data = User::latest()->with('branch')->get();
-        } else {
-            $data = User::where('root', false)->with('branch')->latest()->get();
-        }
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'users.show', [$id_field => $row->id_user]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('branch', function ($row) {
-                return $row->branch->name ?? '';
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::users();
     }
 }

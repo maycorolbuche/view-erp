@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserWarning;
 use App\Http\Requests\UserWarningRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserWarningController extends Controller
 {
@@ -159,19 +158,6 @@ class UserWarningController extends Controller
 
     public function datatable()
     {
-        $data = UserWarning::latest()->where('id_user', request('pid'))->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-warnings.show', ['pid' => request('pid'), 'id' => $row->id_user_warning]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('date', function ($row) {
-                return ($row->date ? '<span style="display:none">' . $row->date . '</span>' . Carbon::parse($row->date)->format('d/m/Y') : '');
-            })
-            ->rawColumns(['actions', 'date'])
-            ->make(true);
+        return DataTableHelper::users_warnings(['id_user' => request('pid')]);
     }
 }

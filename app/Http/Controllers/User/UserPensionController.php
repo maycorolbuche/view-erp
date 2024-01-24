@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserPension;
 use App\Http\Requests\UserPensionRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserPensionController extends Controller
 {
@@ -159,19 +158,6 @@ class UserPensionController extends Controller
 
     public function datatable()
     {
-        $data = UserPension::latest()->where('id_user', request('pid'))->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-pension.show', ['pid' => request('pid'), 'id' => $row->id_user_pension]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('date', function ($row) {
-                return ($row->date ? '<span style="display:none">' . $row->date . '</span>' . Carbon::parse($row->date)->format('d/m/Y') : '');
-            })
-            ->rawColumns(['actions', 'date'])
-            ->make(true);
+        return DataTableHelper::users_pensions(['id_user' => request('pid')]);
     }
 }

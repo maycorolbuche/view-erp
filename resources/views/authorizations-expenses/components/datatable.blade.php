@@ -28,13 +28,15 @@
         [
             'title' => 'Clientes',
             'data' => 'clients',
+            'orderable' => false,
         ],
         [
             'title' => 'Autorizações',
             'data' => 'statuses',
+            'orderable' => false,
         ],
         [
             'title' => 'Status',
-            'data' => 'status',
+            'data' => 'approved',
         ],
     ]) }}" />

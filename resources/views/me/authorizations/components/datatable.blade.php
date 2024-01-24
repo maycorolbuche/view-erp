@@ -23,7 +23,6 @@
             'title' => 'Período',
             'data' => 'period',
             'className' => 'text-center',
-            'orderable' => false,
         ],
         [
             'title' => 'Descrição',

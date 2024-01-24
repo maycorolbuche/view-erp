@@ -20,6 +20,20 @@ use App\Models\AuthorizationType;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\DiscountAmount;
+use App\Models\User;
+use App\Models\UserPhone;
+use App\Models\UserTeam;
+use App\Models\UserDependent;
+use App\Models\UserRole;
+use App\Models\UserVacation;
+use App\Models\UserPayment;
+use App\Models\UserPension;
+use App\Models\UserCertification;
+use App\Models\UserSickLeave;
+use App\Models\UserWarning;
+use App\Models\UserCashHistory;
+use App\Models\Transaction;
+use App\Models\Profile;
 
 use Carbon\Carbon;
 use DataTables;
@@ -35,6 +49,11 @@ class DataTableHelper
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
+                $edit_route = route(request('route') ?: 'expenses.show', [$id_field => $row->id_expense]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->addColumn('actions_search', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'expenses.show', [$id_field => $row->id_expense]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
                 return $actionBtn;
@@ -64,7 +83,7 @@ class DataTableHelper
                 }
                 return $html;
             })
-            ->rawColumns(['actions',  'payment_method.refundable', 'clients'])
+            ->rawColumns(['actions', 'actions_search',  'payment_method.refundable', 'clients'])
             ->make(true);
     }
 
@@ -76,6 +95,11 @@ class DataTableHelper
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
+                $edit_route = route(request('route') ?: 'queries-batches.show', [$id_field => $row->id_batch]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->addColumn('actions_search', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'queries-batches.show', [$id_field => $row->id_batch]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
                 return $actionBtn;
@@ -95,37 +119,64 @@ class DataTableHelper
             ->editColumn('active', function ($row) {
                 return $row->active ? "<span class='badge badge-success'>Ativo</span>" : "<span class='badge badge-danger'>Fechado</span>";
             })
-            ->rawColumns(['actions', 'created_at', 'active'])
+            ->rawColumns(['actions', 'actions_search', 'created_at', 'active'])
             ->make(true);
     }
 
-    public static function authorizations($id_user = 0)
+    public static function authorizations($where = [])
     {
-        $data = Authorization::with(['clients', 'statuses', 'user', 'authorization_type']);
+        $id_user = 0;
+        if (gettype($where) == "integer") {
+            $id_user = $where;
+            $where = [];
+        }
+
+        $data = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
+            ->select([
+                'id_authorization',
+                'id_authorization_parent',
+                'id_user',
+                'id_authorization_type',
+                'description',
+                'start_datetime',
+                'end_datetime',
+                'amount',
+                'self',
+                'active',
+                'approved',
+                \DB::raw('CONCAT(start_datetime, " ", end_datetime) as period'),
+                \DB::raw('DATE(start_datetime) as start_date'),
+                \DB::raw('DATE(end_datetime) as end_date'),
+            ])
+            ->where($where);
         if ($id_user > 0) {
             $data->whereHas('statuses', function ($query) use ($id_user) {
                 $query->where('authorizations_statuses.id_user', $id_user);
             })
                 ->orWhere(['authorizations.id_user' => $id_user]);
         }
+
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'me-authorizations.show', [$id_field => $row->id_authorization]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->addColumn('actions_search', function ($row) use ($id_field) {
+                $edit_route = route(request('route') ?: 'me-authorizations.show', [$id_field => $row->id_authorization]);
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
                 return $actionBtn;
             })
-            ->addColumn('period', function ($row) {
+            ->editColumn('period', function ($row) {
                 if ($row->authorization_type->type == 'expense') {
-                    return '<span style="display:none">' . $row->start_datetime . $row->end_datetime . '</span>'
-                        . Carbon::parse($row->start_datetime)->format('d/m/Y')
+                    return Carbon::parse($row->start_datetime)->format('d/m/Y')
                         . ' a '
                         . Carbon::parse($row->end_datetime)->format('d/m/Y');
                 } elseif ($row->authorization_type->type == 'cash-advance' || $row->authorization_type->type == 'cash-advance-return') {
-                    return '<span style="display:none">' . $row->start_datetime . '</span>'
-                        . Carbon::parse($row->start_datetime)->format('d/m/Y');
+                    return Carbon::parse($row->start_datetime)->format('d/m/Y');
                 } else {
                     return '';
                 }
@@ -176,7 +227,10 @@ class DataTableHelper
                 }
                 return $html . $row->description;
             })
-            ->rawColumns(['actions', 'period', 'clients', 'statuses', 'approved', 'description'])
+            ->editColumn('amount', function ($row) {
+                return number_format($row->amount, 2, ',', '.');
+            })
+            ->rawColumns(['actions', 'actions_search', 'clients', 'statuses', 'approved', 'description'])
             ->make(true);
     }
 
@@ -458,9 +512,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function discounts_amounts()
+    public static function discounts_amounts($where = [])
     {
-        $data = DiscountAmount::latest()->where('id_discount', request('pid'))->get();
+        $data = DiscountAmount::where($where)->select();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -474,6 +528,434 @@ class DataTableHelper
             })
             ->editColumn('amount', function ($row) {
                 return number_format($row->amount, 2, ',', '.');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users()
+    {
+        $id_system = request('__id_system');
+        $system = System::where('id_system', $id_system)->first();
+
+        $data = User::with('branch');
+        if ($system->root != true) {
+            $data->where('root', false);
+        }
+        $id_field = request('id-field') ?: 'id';
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) use ($id_field) {
+                $edit_route = route(request('route') ?: 'users.show', [$id_field => $row->id_user]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('branch.name', function ($row) {
+                return $row->branch->name ?? '';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_phones($where = [])
+    {
+        $data = UserPhone::where($where)->with(['carrier', 'phone_type']);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-phones.show', ['pid' => request('pid'), 'id' => $row->id_user_phone]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('carrier.name', function ($row) {
+                return $row->carrier->name ?? '';
+            })
+            ->editColumn('phone_type.description', function ($row) {
+                return $row->phone_type->description ?? '';
+            })
+            ->editColumn('phone', function ($row) {
+                return $row->phone
+                    . ($row->has_whatsapp ? " <span class='fab fa-whatsapp text-success'></span>" : "")
+                    . ($row->is_business ? " <span class='fas fa-building text-info'></span>" : "")
+                    ?? '';
+            })
+            ->rawColumns(['actions', 'phone'])
+            ->make(true);
+    }
+
+    public static function users_teams($user_id)
+    {
+        $data = UserTeam::where('id_user_parent', $user_id)->orWhere('id_user_child', $user_id)
+            ->with(['parent', 'child']);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-teams.show', ['pid' => request('pid'), 'id' => $row->id_user_team]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->addColumn('name', function ($row) {
+                if ($row->id_user_parent == request('pid')) {
+                    return $row->child->name ?? '';
+                } else {
+                    return $row->parent->name ?? '';
+                }
+            })
+            ->addColumn('email', function ($row) {
+                if ($row->id_user_parent == request('pid')) {
+                    return $row->child->email ?? '';
+                } else {
+                    return $row->parent->email ?? '';
+                }
+            })
+            ->addColumn('relationship', function ($row) {
+                if ($row->id_user_parent == request('pid')) {
+                    return '<span class="badge badge-warning"><span class="fas fa-user-friends"></span> Subordinado</span>';
+                } else {
+                    return '<span class="badge badge-danger"><span class="fas fa-user-tie"></span> Superior</span>';
+                }
+            })
+            ->addColumn('authorizations', function ($row) {
+                $return = "";
+                foreach ($row->users_authorizations_types as $authorization) {
+                    $authorizationtype = AuthorizationType::where('id_authorization_type', $authorization->id_authorization_type)->first();
+                    $return .= " <span class='badge badge-info'>" . $authorizationtype->name . "</span> ";
+                }
+                return $return;
+            })
+            ->rawColumns(['actions', 'relationship', 'authorizations'])
+            ->make(true);
+    }
+
+    public static function users_dependents($where = [])
+    {
+        $data = UserDependent::where($where)->with('relationship_degree');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-dependents.show', ['pid' => request('pid'), 'id' => $row->id_user_dependent]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('birth_date', function ($row) {
+                return Carbon::parse($row->birth_date)->format('d/m/Y');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_roles($where = [])
+    {
+        $data = UserRole::where($where)->with(['role']);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-roles.show', ['pid' => request('pid'), 'id' => $row->id_user_role]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('start_date', function ($row) {
+                return Carbon::parse($row->start_date)->format('d/m/Y');
+            })
+            ->editColumn('end_date', function ($row) {
+                return Carbon::parse($row->end_date)->format('d/m/Y');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_vacations($where = [])
+    {
+        $data = UserVacation::select([
+            'id_user_vacation',
+            'id_user',
+            'start_date_acquisition_period',
+            'end_date_acquisition_period',
+            'start_date_requested_period',
+            'end_date_requested_period',
+            'start_date_approval_period',
+            'end_date_approval_period',
+            'start_date_approved_period',
+            'end_date_approved_period',
+            'start_date',
+            'end_date',
+            \DB::raw('CONCAT(start_date, " ", end_date) as period'),
+            \DB::raw('CONCAT(start_date_acquisition_period, " ", end_date_acquisition_period) as acquisition_period'),
+            \DB::raw('CONCAT(start_date_requested_period, " ", end_date_requested_period) as requested_period'),
+            \DB::raw('CONCAT(start_date_approval_period, " ", end_date_approval_period) as approval_period'),
+            \DB::raw('CONCAT(start_date_approved_period, " ", end_date_approved_period) as approved_period'),
+        ])->where($where);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-vacations.show', ['pid' => request('pid'), 'id' => $row->id_user_vacation]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('start_date', function ($row) {
+                return  Carbon::parse($row->start_date)->format('d/m/Y');
+            })
+            ->editColumn('end_date', function ($row) {
+                return  Carbon::parse($row->end_date)->format('d/m/Y');
+            })
+            ->editColumn('acquisition_period', function ($row) {
+                $start = "";
+                if ($row->start_date_acquisition_period) {
+                    $start = Carbon::parse($row->start_date_acquisition_period)->format('d/m/Y');
+                }
+                $end = "";
+                if ($row->end_date_acquisition_period) {
+                    $end = Carbon::parse($row->end_date_acquisition_period)->format('d/m/Y');
+                }
+
+                return $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
+            })
+            ->editColumn('requested_period', function ($row) {
+                $start = "";
+                if ($row->start_date_requested_period) {
+                    $start = Carbon::parse($row->start_date_requested_period)->format('d/m/Y');
+                }
+                $end = "";
+                if ($row->end_date_requested_period) {
+                    $end = Carbon::parse($row->end_date_requested_period)->format('d/m/Y');
+                }
+
+                return $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
+            })
+            ->editColumn('approval_period', function ($row) {
+                $start = "";
+                if ($row->start_date_approval_period) {
+                    $start = Carbon::parse($row->start_date_approval_period)->format('d/m/Y');
+                }
+                $end = "";
+                if ($row->end_date_approval_period) {
+                    $end = Carbon::parse($row->end_date_approval_period)->format('d/m/Y');
+                }
+
+                return $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
+            })
+            ->editColumn('approved_period', function ($row) {
+                $start = "";
+                if ($row->start_date_approved_period) {
+                    $start = Carbon::parse($row->start_date_approved_period)->format('d/m/Y');
+                }
+                $end = "";
+                if ($row->end_date_approved_period) {
+                    $end = Carbon::parse($row->end_date_approved_period)->format('d/m/Y');
+                }
+
+                return $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
+            })
+            ->editColumn('period', function ($row) {
+                $start = "";
+                if ($row->start_date) {
+                    $start = Carbon::parse($row->start_date)->format('d/m/Y');
+                }
+                $end = "";
+                if ($row->end_date) {
+                    $end = Carbon::parse($row->end_date)->format('d/m/Y');
+                }
+
+                return $start . ($start <> "" && $end <> "" ? " - " : "") . $end;
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_payments($where = [])
+    {
+        $data = UserPayment::where($where);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-payments.show', ['pid' => request('pid'), 'id' => $row->id_user_payment]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('date', function ($row) {
+                return Carbon::parse($row->date)->format('d/m/Y');
+            })
+            ->editColumn('amount', function ($row) {
+                return number_format($row->amount, 2, ',', '.');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_pensions($where = [])
+    {
+        $data = UserPension::where($where);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-pension.show', ['pid' => request('pid'), 'id' => $row->id_user_pension]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('date', function ($row) {
+                return Carbon::parse($row->date)->format('d/m/Y');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_certifications($where = [])
+    {
+        $data = UserCertification::where($where);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-certifications.show', ['pid' => request('pid'), 'id' => $row->id_user_certification]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('start_date', function ($row) {
+                return  Carbon::parse($row->start_date)->format('d/m/Y');
+            })
+            ->editColumn('end_date', function ($row) {
+                return Carbon::parse($row->end_date)->format('d/m/Y');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_sick_leaves($where = [])
+    {
+        $data = UserSickLeave::where($where);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-sick-leaves.show', ['pid' => request('pid'), 'id' => $row->id_user_sick_leave]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('start_date', function ($row) {
+                return  Carbon::parse($row->start_date)->format('d/m/Y');
+            })
+            ->editColumn('end_date', function ($row) {
+                return  Carbon::parse($row->end_date)->format('d/m/Y');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_warnings($where = [])
+    {
+        $data = UserWarning::where('id_user', request('pid'));
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) {
+                $edit_route = route('users-warnings.show', ['pid' => request('pid'), 'id' => $row->id_user_warning]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('date', function ($row) {
+                return Carbon::parse($row->date)->format('d/m/Y');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_cash($where = [])
+    {
+        $data = User::where($where)->select([
+            \DB::raw('users.*'),
+        ])->with('user_cash');
+        $id_field = request('id-field') ?: 'id';
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) use ($id_field) {
+                $edit_route = route(request('route') ?: 'users.show', [$id_field => $row->id_user ?? 0]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('user_cash.amount', function ($row) {
+                $amount = 0;
+                if ($row->user_cash) {
+                    $amount = $row->user_cash->amount;
+                }
+                return number_format($amount, 2, ',', '.');
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function users_cash_history($where = [])
+    {
+        $data = UserCashHistory::where($where)->with('transaction');
+
+        return DataTables::of($data)
+            ->editColumn('created_at', function ($row) {
+                return  Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
+            })
+            ->editColumn('amount', function ($row) {
+                $amount = $row->amount;
+                return '<span class="' . ($amount < 0 ? 'text-danger' : ($amount > 0 ? 'text-info' : '')) . '">' . number_format($amount, 2, ',', '.') . '</span>';
+            })
+            ->editColumn('previous_balance', function ($row) {
+                $amount = $row->previous_balance;
+                return '<span class="' . ($amount < 0 ? 'text-danger' : ($amount > 0 ? 'text-info' : '')) . '">' . number_format($amount, 2, ',', '.') . '</span>';
+            })
+            ->editColumn('current_balance', function ($row) {
+                $amount = $row->current_balance;
+                return '<span class="' . ($amount < 0 ? 'text-danger' : ($amount > 0 ? 'text-info' : '')) . '">' . number_format($amount, 2, ',', '.') . '</span>';
+            })
+            ->addColumn('description', function ($row) {
+                return ($row->transaction ? $row->transaction->description : ($row->id_batch ? '<span class="text-info">Lote ' . $row->id_batch . "</span>" : ''));
+            })
+            ->addIndexColumn()
+            ->rawColumns(['amount', 'previous_balance', 'current_balance', 'description'])
+            ->make(true);
+    }
+
+    public static function transactions($where = [])
+    {
+        $data = Transaction::where($where);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->editColumn('amount', function ($row) {
+                return "<span class='" . ($row->amount < 0 ? "text-danger" : ($row->amount > 0 ? "text-info" : "")) . "'>"
+                    . number_format($row->amount, 2, ',', '.')
+                    . "</span>";
+            })
+            ->editColumn('created_at', function ($row) {
+                return Carbon::parse($row->created_at)->format('d/m/Y');
+            })
+            ->editColumn('description', function ($row) {
+                $details = "";
+                if ($row->id_batch) {
+                    $details .= " <span class='label label-dark'>#Lote " . $row->id_batch . "</span>";
+                }
+                return $row->description . $details;
+            })
+            ->rawColumns(['amount', 'description'])
+            ->make(true);
+    }
+
+    public static function profiles($where = [])
+    {
+        $data = Profile::where($where);
+        $id_field = request('id-field') ?: 'id';
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) use ($id_field) {
+                $edit_route = route(request('route') ?: 'profiles.show', [$id_field => $row->id_profile]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                return $actionBtn;
             })
             ->rawColumns(['actions'])
             ->make(true);

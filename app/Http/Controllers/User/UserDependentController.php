@@ -7,8 +7,7 @@ use App\Models\User;
 use App\Models\RelationshipDegree;
 use App\Models\UserDependent;
 use App\Http\Requests\UserDependentRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserDependentController extends Controller
 {
@@ -162,22 +161,6 @@ class UserDependentController extends Controller
 
     public function datatable()
     {
-        $data = UserDependent::latest()->where('id_user', request('pid'))->with('relationship_degree')->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-dependents.show', ['pid' => request('pid'), 'id' => $row->id_user_dependent]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('birth_date', function ($row) {
-                return ($row->birth_date ? '<span style="display:none">' . $row->birth_date . '</span>' . Carbon::parse($row->birth_date)->format('d/m/Y') : '');
-            })
-            ->addColumn('relationship_degree', function ($row) {
-                return $row->relationship_degree->name ?? '';
-            })
-            ->rawColumns(['actions', 'birth_date'])
-            ->make(true);
+        return DataTableHelper::users_dependents(['id_user' => request('pid')]);
     }
 }

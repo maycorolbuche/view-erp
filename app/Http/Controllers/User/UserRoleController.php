@@ -7,8 +7,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Role;
 use App\Http\Requests\UserRoleRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserRoleController extends Controller
 {
@@ -162,25 +161,6 @@ class UserRoleController extends Controller
 
     public function datatable()
     {
-        $data = UserRole::latest()->where('id_user', request('pid'))->with(['role'])->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-roles.show', ['pid' => request('pid'), 'id' => $row->id_user_role]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('role', function ($row) {
-                return $row->role->name ?? '';
-            })
-            ->addColumn('start_date', function ($row) {
-                return ($row->start_date ? '<span style="display:none">' . $row->start_date . '</span>' . Carbon::parse($row->start_date)->format('d/m/Y') : '');
-            })
-            ->addColumn('end_date', function ($row) {
-                return ($row->end_date ? '<span style="display:none">' . $row->end_date . '</span>' . Carbon::parse($row->end_date)->format('d/m/Y') : '');
-            })
-            ->rawColumns(['actions', 'start_date', 'end_date'])
-            ->make(true);
+        return DataTableHelper::users_roles(['id_user' => request('pid')]);
     }
 }

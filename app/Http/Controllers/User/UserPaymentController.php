@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserPayment;
 use App\Http\Requests\UserPaymentRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserPaymentController extends Controller
 {
@@ -159,22 +158,6 @@ class UserPaymentController extends Controller
 
     public function datatable()
     {
-        $data = UserPayment::latest()->where('id_user', request('pid'))->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-payments.show', ['pid' => request('pid'), 'id' => $row->id_user_payment]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('date', function ($row) {
-                return ($row->date ? '<span style="display:none">' . $row->date . '</span>' . Carbon::parse($row->date)->format('d/m/Y') : '');
-            })
-            ->addColumn('amount', function ($row) {
-                return number_format($row->amount, 2, ',', '.');
-            })
-            ->rawColumns(['actions', 'date'])
-            ->make(true);
+        return DataTableHelper::users_payments(['id_user' => request('pid')]);
     }
 }

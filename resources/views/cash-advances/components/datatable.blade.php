@@ -1,5 +1,5 @@
 <x-data-table data-origin="cash-advances.datatable" query-string="route={{ $route }}" id-field="{{ $field ?? '' }}"
-    order="name"
+    order="user_cash.amount" order_dir="desc"
     columns="{{ json_encode([
         [
             'data' => 'actions',
@@ -17,7 +17,7 @@
         ],
         [
             'title' => 'Saldo de Adiantamento',
-            'data' => 'amount',
+            'data' => 'user_cash.amount',
             'className' => 'text-right',
         ],
     ]) }}" />

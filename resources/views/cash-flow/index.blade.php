@@ -9,7 +9,7 @@
 
         <x-panel title="Registro de Transações" type="warning">
 
-            <x-data-table data-origin="cash-flow.datatable" order="date" order_dir="desc"
+            <x-data-table data-origin="cash-flow.datatable" order="created_at" order_dir="desc"
                 columns="{{ json_encode([
                     [
                         'title' => 'Código',
@@ -18,7 +18,7 @@
                     ],
                     [
                         'title' => 'Data',
-                        'data' => 'date',
+                        'data' => 'created_at',
                         'className' => 'text-center',
                     ],
                     [

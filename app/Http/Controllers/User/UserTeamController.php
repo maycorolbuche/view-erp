@@ -7,8 +7,8 @@ use App\Models\User;
 use App\Models\UserTeam;
 use App\Models\AuthorizationType;
 use App\Models\UserAuthorizationType;
+use App\Helpers\DataTableHelper;
 use App\Http\Requests\UserTeamRequest;
-use DataTables;
 
 class UserTeamController extends Controller
 {
@@ -218,47 +218,7 @@ class UserTeamController extends Controller
 
     public function datatable()
     {
-        $data = UserTeam::latest()->where('id_user_parent', request('pid'))->orWhere('id_user_child', request('pid'))
-            ->with(['parent', 'child'])->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-teams.show', ['pid' => request('pid'), 'id' => $row->id_user_team]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('name', function ($row) {
-                if ($row->id_user_parent == request('pid')) {
-                    return $row->child->name ?? '';
-                } else {
-                    return $row->parent->name ?? '';
-                }
-            })
-            ->addColumn('email', function ($row) {
-                if ($row->id_user_parent == request('pid')) {
-                    return $row->child->email ?? '';
-                } else {
-                    return $row->parent->email ?? '';
-                }
-            })
-            ->addColumn('relationship', function ($row) {
-                if ($row->id_user_parent == request('pid')) {
-                    return '<span class="badge badge-warning"><span class="fas fa-user-friends"></span> Subordinado</span>';
-                } else {
-                    return '<span class="badge badge-danger"><span class="fas fa-user-tie"></span> Superior</span>';
-                }
-            })
-            ->addColumn('authorizations', function ($row) {
-                $return = "";
-                foreach ($row->users_authorizations_types as $authorization) {
-                    $authorizationtype = AuthorizationType::where('id_authorization_type', $authorization->id_authorization_type)->first();
-                    $return .= " <span class='badge badge-info'>" . $authorizationtype->name . "</span> ";
-                }
-                return $return;
-            })
-            ->rawColumns(['actions', 'relationship', 'authorizations'])
-            ->make(true);
+        return DataTableHelper::users_teams(request('pid'));
     }
 
 

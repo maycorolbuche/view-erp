@@ -139,7 +139,7 @@
                 order="id_authorization" order-dir="desc"
                 columns="{{ json_encode([
                     [
-                        'data' => 'actions',
+                        'data' => 'actions_search',
                         'width' => '20px',
                         'orderable' => false,
                     ],

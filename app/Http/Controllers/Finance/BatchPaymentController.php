@@ -7,8 +7,7 @@ use App\Models\Batch;
 use App\Models\Transaction;
 use App\Helpers\UserHelper;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class BatchPaymentController extends Controller
 {
@@ -95,34 +94,6 @@ class BatchPaymentController extends Controller
 
     public function datatable()
     {
-        $data = Batch::with(['user'])
-            ->where('active', true)
-            ->latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'me-batches.show', [$id_field => $row->id_batch]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-success btn-sm"><i class="fas fa-hand-holding-usd"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('name', function ($row) {
-                return $row->user->name;
-            })
-            ->addColumn('created_at', function ($row) {
-                return ($row->created_at ? '<span style="display:none">' . $row->created_at . '</span>' . Carbon::parse($row->created_at)->format('d/m/Y H:i:s') : '');
-            })
-            ->addColumn('refundable_amount', function ($row) {
-                return '<span style="display:none">' . $row->refundable_amount . '</span>' . number_format($row->refundable_amount, 2, ',', '.');
-            })
-            ->addColumn('non_refundable_amount', function ($row) {
-                return '<span style="display:none">' . $row->non_refundable_amount . '</span>' . number_format($row->non_refundable_amount, 2, ',', '.');
-            })
-            ->addColumn('amount', function ($row) {
-                return '<span style="display:none">' . $row->amount . '</span>' . number_format($row->amount, 2, ',', '.');
-            })
-            ->rawColumns(['actions', 'created_at', 'refundable_amount', 'non_refundable_amount', 'amount', 'active'])
-            ->make(true);
+        return DataTableHelper::batches(['active' => true]);
     }
 }

@@ -65,7 +65,7 @@
                         ],
                         [
                             'title' => 'Grau de Relacionamento',
-                            'data' => 'relationship_degree',
+                            'data' => 'relationship_degree.name',
                         ],
                         [
                             'title' => 'Dt. Nascimento',

@@ -21,7 +21,7 @@
         ],
         [
             'title' => 'Filial',
-            'data' => 'branch',
+            'data' => 'branch.name',
         ],
     ]) }}"
     created-row="if (data['root'] == 1) { $('td', row).addClass('warning'); }" />

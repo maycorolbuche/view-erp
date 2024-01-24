@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Http\Requests\ProfileRequest;
 use App\Helpers\RootHelper as Root;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class ProfileController extends Controller
 {
@@ -128,17 +128,6 @@ class ProfileController extends Controller
     public function datatable()
     {
         $id_system = request('__id_system');
-        $data = Profile::where('id_system', $id_system)->latest()->get();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'profiles.show', [$id_field => $row->id_profile]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->rawColumns(['actions'])
-            ->make(true);
+        return DataTableHelper::profiles(['id_system' => $id_system]);
     }
 }

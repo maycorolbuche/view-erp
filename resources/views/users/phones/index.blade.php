@@ -71,11 +71,11 @@
                         ],
                         [
                             'title' => 'Operadora',
-                            'data' => 'carrier',
+                            'data' => 'carrier.name',
                         ],
                         [
                             'title' => 'Tipo',
-                            'data' => 'phone_type',
+                            'data' => 'phone_type.description',
                         ],
                         [
                             'title' => 'Contato',

@@ -157,6 +157,6 @@ class DiscountAmountController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::discounts_amounts();
+        return DataTableHelper::discounts_amounts(['id_discount' => request('pid')]);
     }
 }

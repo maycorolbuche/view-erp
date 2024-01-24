@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserCertification;
 use App\Http\Requests\UserCertificationRequest;
-use Carbon\Carbon;
-use DataTables;
+use App\Helpers\DataTableHelper;
 
 class UserCertificationController extends Controller
 {
@@ -159,26 +158,6 @@ class UserCertificationController extends Controller
 
     public function datatable()
     {
-        $data = UserCertification::latest()->where('id_user', request('pid'))->get();
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) {
-                $edit_route = route('users-certifications.show', ['pid' => request('pid'), 'id' => $row->id_user_certification]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('start_date', function ($row) {
-                return ($row->start_date ? '<span style="display:none">' . $row->start_date . '</span>' . Carbon::parse($row->start_date)->format('d/m/Y') : '');
-            })
-            ->addColumn('end_date', function ($row) {
-                return ($row->end_date ? '<span style="display:none">' . $row->end_date . '</span>' . Carbon::parse($row->end_date)->format('d/m/Y') : '');
-            })
-            ->rawColumns([
-                'actions',
-                'start_date',
-                'end_date',
-            ])
-            ->make(true);
+        return DataTableHelper::users_certifications(['id_user' => request('pid')]);
     }
 }
