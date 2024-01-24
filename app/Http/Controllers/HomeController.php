@@ -25,11 +25,13 @@ class HomeController extends Controller
         $id_system = request('__id_system');
         $system = System::find($id_system);
         $permissions = request('__permissions_list');
+        $pages = request('__permissions');
+        $user = Auth::user();
 
         $authorizations_pending_count = AuthorizationHelper::pending_count();
 
         $batch_payments_count = Batch::where(['active' => true])->count();
 
-        return view('dashboard.index', compact('system', 'permissions', 'batch_payments_count', 'authorizations_pending_count'));
+        return view('dashboard.index', compact('system', 'permissions', 'batch_payments_count', 'authorizations_pending_count', 'pages', 'user'));
     }
 }
