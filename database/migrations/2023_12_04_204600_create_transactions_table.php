@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedInteger('id_authorization')->nullable();
             $table->unsignedInteger('id_user')->nullable();
             $table->unsignedInteger('id_batch')->nullable();
+            $table->date('date');
             $table->decimal('amount', 8, 2);
             $table->string('description');
             $table->string('type');

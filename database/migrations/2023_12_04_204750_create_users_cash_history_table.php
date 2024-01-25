@@ -19,6 +19,7 @@ class CreateUsersCashHistoryTable extends Migration
             $table->unsignedInteger('id_authorization')->nullable();
             $table->unsignedInteger('id_batch')->nullable();
             $table->unsignedInteger('id_user');
+            $table->date('date');
             $table->decimal('amount', 8, 2);
             $table->decimal('previous_balance', 8, 2);
             $table->decimal('current_balance', 8, 2);

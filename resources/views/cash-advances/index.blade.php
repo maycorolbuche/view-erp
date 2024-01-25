@@ -43,11 +43,11 @@
 
                 <x-panel title="Histórico" type="success">
                     <x-data-table data-origin="cash-advances.datatable"
-                        query-string="type=user-history&id_user={{ $data->id_user }}" order="created_at" order_dir="desc"
+                        query-string="type=user-history&id_user={{ $data->id_user }}" order="date" order_dir="desc"
                         columns="{{ json_encode([
                             [
                                 'title' => 'Data/Hora',
-                                'data' => 'created_at',
+                                'data' => 'date',
                                 'className' => 'text-center',
                             ],
                             [

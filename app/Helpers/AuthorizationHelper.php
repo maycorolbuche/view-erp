@@ -161,19 +161,13 @@ class AuthorizationHelper
             if ($authorization->authorization_type->type == 'cash-advance') {
                 UserHelper::addCash($authorization->id_user, $authorization->amount, [
                     'type' => $authorization->authorization_type->type,
-                    'description' => ($authorization->authorization_type->type == 'cash-advance'
-                        ? 'Pagamento de Adiantamento'
-                        : 'Devolução de Adiantamento'
-                    ),
+                    'description' => 'Pagamento de Adiantamento',
                     'id_authorization' => $id,
                 ]);
             } else {
                 UserHelper::removeCash($authorization->id_user, $authorization->amount, [
                     'type' => $authorization->authorization_type->type,
-                    'description' => ($authorization->authorization_type->type == 'cash-advance'
-                        ? 'Pagamento de Adiantamento'
-                        : 'Devolução de Adiantamento'
-                    ),
+                    'description' => 'Devolução de Adiantamento',
                     'id_authorization' => $id,
                 ]);
             }

@@ -79,6 +79,7 @@ class BatchPaymentController extends Controller
                     'type' => 'batch-payment',
                     'id_batch' => $id,
                     'id_user' => $batch->id_user,
+                    'date' => date("Y-m-d"),
                     'amount' => $amount_paid * -1,
                     'description' => 'Pagamento de Lote',
                 ]);

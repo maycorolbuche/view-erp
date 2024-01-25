@@ -897,8 +897,8 @@ class DataTableHelper
         $data = UserCashHistory::where($where)->with('transaction');
 
         return DataTables::of($data)
-            ->editColumn('created_at', function ($row) {
-                return  Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
+            ->editColumn('date', function ($row) {
+                return  Carbon::parse($row->date)->format('d/m/Y');
             })
             ->editColumn('amount', function ($row) {
                 $amount = $row->amount;

@@ -18,6 +18,7 @@ class Transaction extends Model
         'id_authorization',
         'id_user',
         'id_batch',
+        'date',
         'amount',
         'description',
     ];

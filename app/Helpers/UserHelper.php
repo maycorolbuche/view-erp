@@ -41,6 +41,7 @@ class UserHelper
 
         $data['id_user'] = $id_user;
         $data['amount'] = $amount;
+        $data['date'] = date("Y-m-d");
         $data['previous_balance'] = $previous_balance;
         $data['current_balance'] = $current_balance;
 
@@ -49,6 +50,7 @@ class UserHelper
                 'type' => $data['type'] ?? 'user-cash',
                 'id_authorization' => $data['id_authorization'] ?? null,
                 'id_user' => $id_user,
+                'date' => date("Y-m-d"),
                 'amount' => $amount * -1,
                 'description' => $data['description'] ?? 'Ajuste de Saldo',
             ]);
@@ -69,6 +71,7 @@ class UserHelper
 
         $data['id_user'] = $id_user;
         $data['amount'] = $amount * -1;
+        $data['date'] = date("Y-m-d");
         $data['previous_balance'] = $previous_balance;
         $data['current_balance'] = $current_balance;
 
@@ -77,6 +80,7 @@ class UserHelper
                 'type' => $data['type'] ?? 'user-cash',
                 'id_authorization' => $data['id_authorization'] ?? null,
                 'id_user' => $id_user,
+                'date' => date("Y-m-d"),
                 'amount' => $amount,
                 'description' => $data['description'] ?? 'Ajuste de Saldo',
             ]);

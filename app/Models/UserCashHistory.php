@@ -18,6 +18,7 @@ class UserCashHistory extends Model
         'id_authorization',
         'id_batch',
         'id_user',
+        'date',
         'amount',
         'previous_balance',
         'current_balance',
