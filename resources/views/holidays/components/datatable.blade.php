@@ -15,7 +15,6 @@
             'title' => 'Data',
             'data' => 'date',
             'className' => 'text-center',
-            'orderable' => false,
         ],
         [
             'title' => 'Nome',

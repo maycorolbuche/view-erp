@@ -290,7 +290,7 @@ class DataTableHelper
 
     public static function holidays()
     {
-        $data = Holiday::with('branches');
+        $data = Holiday::with('branches')->get();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
