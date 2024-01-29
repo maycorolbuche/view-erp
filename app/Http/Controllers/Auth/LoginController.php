@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -30,6 +31,16 @@ class LoginController extends Controller
     {
         $credentials = $request->getCredentials();
         $remember = $request->has('remember');
+
+        $user = User::where('username', $credentials['username'] ?? null)->orWhere('email', $credentials['email'] ?? null)->first();
+        if ($user) {
+            if (empty($user->password)) {
+                return redirect()
+                    ->route('password.request')
+                    ->with('email', $user->email)
+                    ->withErrors('Você precisa cadastrar uma nova senha de acesso! Siga as instruções abaixo para criar sua senha.');
+            }
+        }
 
         if (!Auth::attempt($credentials, $remember)) {
             return redirect()

@@ -6,7 +6,7 @@
     <div class="topbar-left">
         <ol class="breadcrumb">
             <li class="crumb-icon">
-                <a href="{{ route('dashboard', ['system' => request('__system')['slug']]) }}">
+                <a href="{{ route('dashboard') }}">
                     <span class="glyphicon glyphicon-home"></span>
                 </a>
             </li>

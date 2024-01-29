@@ -25,7 +25,7 @@
                         <div class="smart-widget sm-right smr-80">
                             <label for="email" class="field prepend-icon">
                                 <input type="email" name="email" class="gui-input" placeholder="Seu endereço de e-mail"
-                                    value="{{ old('email') }}">
+                                    value="{{ old('email') ?? (session('email') ?? '') }}">
                                 <label for="email" class="field-icon">
                                     <i class="fa fa-envelope-o"></i>
                                 </label>
