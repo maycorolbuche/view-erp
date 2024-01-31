@@ -228,7 +228,7 @@ class AddRoutes extends Migration
             'permissions' => $all_permissions,
             'icon' => 'fas fa-funnel-dollar',
             'sequence' => self::sequence(),
-            'root' => 1,
+            'root' => 0,
         ]);
 
         /* USUÁRIOS E ACESSOS */
