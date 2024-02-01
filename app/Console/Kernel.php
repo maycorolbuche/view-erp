@@ -18,6 +18,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('task:close_authorizations')->daily();
         $schedule->command('task:close_batches_without_refund')->daily();
 
+        $schedule->command('task:migrate')->daily();
+
         //No servidor - CRONTAB:
         //* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
     }
