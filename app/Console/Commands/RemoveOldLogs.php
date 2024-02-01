@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Models\TaskLog;
+use Illuminate\Console\Command;
+
+class RemoveOldLogs extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'task:remove_old_logs';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Remove logs antigos';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        $this->warn('Tarefa: ' . $this->signature);
+        $this->warn($this->description);
+
+        $log = new TaskLog();
+        $log->signature = $this->signature;
+        $log->description = $this->description;
+        $log->start_time = now();
+        $log->save();
+
+        $return = TaskLog::where('created_at', '<', now()->subDays(60))->delete();
+
+        $log->end_time = now();
+        $log->details = $return;
+        $log->save();
+
+        $this->warn($return);
+        $this->info('Tarefa ' . $this->signature . ' executada com sucesso!');
+    }
+}
