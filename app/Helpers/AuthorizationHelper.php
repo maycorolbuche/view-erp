@@ -173,4 +173,21 @@ class AuthorizationHelper
             }
         }
     }
+
+    public static function close_expired()
+    {
+        $ids = [];
+
+        $authorizations = Authorization::where('end_datetime', '<', now()->subDays(30))
+            ->where('active', true)
+            ->get();
+        foreach ($authorizations as $authorization) {
+            $authorization->active = false;
+            $authorization->save();
+
+            $ids[] = $authorization->id_authorization;
+        }
+
+        return  'Autorizações encerradas: ' . json_encode($ids);
+    }
 }

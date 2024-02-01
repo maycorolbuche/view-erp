@@ -42,4 +42,21 @@ class BatchHelper
             return null;
         }
     }
+
+    public static function close_without_refund()
+    {
+        $ids = [];
+
+        $batches = Batch::where('created_at', '<', now()->subDays(30))
+            ->where('refundable_amount', 0)
+            ->where('active', true)->get();
+        foreach ($batches as $batch) {
+            $batch->active = false;
+            $batch->save();
+
+            $ids[] = $batch->id_batch;
+        }
+
+        return  'Lotes encerrados: ' . json_encode($ids);
+    }
 }
