@@ -35,11 +35,15 @@
                 if ($type == 'select') {
                     $v[] = $value;
                 } else {
-                    $jsonData = json_decode(html_entity_decode($value));
-                    if ($jsonData !== null) {
-                        $v = $jsonData;
+                    if (is_array($value)) {
+                        $v = $value;
                     } else {
-                        $v[] = $value;
+                        $jsonData = json_decode(html_entity_decode($value));
+                        if ($jsonData !== null) {
+                            $v = $jsonData;
+                        } else {
+                            $v[] = $value;
+                        }
                     }
                 }
                 $value = $v;
