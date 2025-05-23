@@ -9,10 +9,43 @@ class InstallController extends Controller
 {
     public function install()
     {
-        Artisan::call('migrate');
+        $output = '';
 
-        $output = Artisan::output();
 
-        return response($output)->header('Content-Type', 'text/plain');
+
+        /* **************************** GIT **************************** */
+        $gitRepo = env('GIT_REPO');
+        $gitToken = env('GIT_TOKEN');
+
+        if($gitRepo <> "" && $gitToken <> ""){
+            $gitUrl = 'https://' . $gitToken . '@github.com/' . $gitRepo;
+
+            // Configurar remote com token (apenas se necessário)
+            exec('git remote set-url origin ' . escapeshellarg($gitUrl), $gitSetUrlOutput, $gitSetUrlStatus);
+            $output .= "\nGit remote set-url: " . implode("\n", $gitSetUrlOutput);
+
+            // Puxar alterações
+            exec('git pull origin main 2>&1', $gitPullOutput, $gitPullStatus);
+            $output .= "\nGit pull: " . implode("\n", $gitPullOutput);
+        }
+
+
+        /* **************************** ARTISAN **************************** */
+        $commands = [
+            'migrate',
+            'cache:clear',
+            'view:clear',
+            'config:clear',
+            'route:clear',
+        ];
+
+
+        foreach ($commands as $command) {
+            Artisan::call($command);
+            $output .= "\n" . Artisan::output();
+        }
+
+
+        return response(trim($output))->header('Content-Type', 'text/plain');
     }
 }
