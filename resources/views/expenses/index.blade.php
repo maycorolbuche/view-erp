@@ -49,8 +49,19 @@
                                 list="{{ json_encode($authorizations) }}" list-value="id_authorization"
                                 list-text="description_details"
                                 value="{{ $data->id_authorization ?? ($id_authorization ?? '') }}" />
+
+                            @push('scripts')
+                                <script>
+                                    $(document).ready(function() {
+                                        setTimeout(function() {
+                                            $("#id_authorization").trigger("chosen:updated").change();
+                                        }, 100)
+                                    });
+                                </script>
+                            @endpush
                         @endif
                     </x-group>
+
 
                     <x-group>
                         <x-input type="date" name="date" width="150" label="Data" required

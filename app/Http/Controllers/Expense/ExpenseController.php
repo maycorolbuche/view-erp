@@ -37,7 +37,15 @@ class ExpenseController extends Controller
         $users = User::orderBy('name')->get();
         $clients = Client::orderBy('name')->get();
 
-        return view('expenses.index', compact('authorizations', 'categories', 'payment_methods', 'users', 'clients'));
+        $id_authorization = session('id_authorization', null);
+        if ($id_authorization) {
+            $ids_authorization = collect($authorizations)->pluck('id_authorization')->all();
+            if (!in_array($id_authorization, $ids_authorization)) {
+                $id_authorization = null;
+            }
+        }
+
+        return view('expenses.index', compact('authorizations', 'categories', 'payment_methods', 'users', 'clients', 'id_authorization'));
     }
 
     /**
@@ -115,7 +123,8 @@ class ExpenseController extends Controller
                 }
             }
 
-            return redirect()->route('expenses.show', ['id' => $expense->id_expense])->with('success', 'Registro cadastrado com sucesso');
+            session(['id_authorization' => $request->input('id_authorization')]);
+            return redirect()->route('expenses')->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
@@ -177,7 +186,8 @@ class ExpenseController extends Controller
                 $this->expensesUsers($expense->id_expense, $request->user_amount);
                 ExpenseHelper::refresh($expense->id_expense);
 
-                return redirect()->route('expenses.show', ['id' => $expense->id_expense])->with('success', 'Registro salvo com sucesso');
+                //return redirect()->route('expenses.show', ['id' => $expense->id_expense])->with('success', 'Registro salvo com sucesso');
+                return redirect()->route('expenses')->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('expenses')->with('error', 'Registro não encontrado!');
             }
