@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class InstallController extends Controller
 {
-    public function install()
+    public function run()
     {
         $output = '';
 
@@ -17,7 +17,7 @@ class InstallController extends Controller
         $gitRepo = env('GIT_REPO');
         $gitToken = env('GIT_TOKEN');
 
-        if($gitRepo <> "" && $gitToken <> ""){
+        if ($gitRepo <> "" && $gitToken <> "") {
             $gitUrl = 'https://' . $gitToken . '@github.com/' . $gitRepo;
 
             // Configurar remote com token (apenas se necessário)

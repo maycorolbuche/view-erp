@@ -36,7 +36,9 @@ Route::get('/home', function () {
 
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    Route::get('/install', 'Data\InstallController@install')->name('install');
+    Route::get('/install', 'Data\InstallController@run')->name('install');
+    Route::get('/schedule', 'Data\ScheduleController@run')->name('schedule');
+
 
     Route::group(['middleware' => ['guest']], function () {
 

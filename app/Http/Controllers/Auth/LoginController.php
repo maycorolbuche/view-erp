@@ -40,16 +40,26 @@ class LoginController extends Controller
                     ->with('email', $user->email)
                     ->withErrors('Você precisa cadastrar uma nova senha de acesso! Siga as instruções abaixo para criar sua senha.');
             }
-        }
-
-        if (!Auth::attempt($credentials, $remember)) {
+        } else {
             return redirect()
                 ->route('login')
                 ->withInput()
                 ->withErrors(trans('auth.failed'));
         }
 
-        $user = Auth::user();
+        if (!app()->environment('local')) {
+            if (!Auth::attempt($credentials, $remember)) {
+                return redirect()
+                    ->route('login')
+                    ->withInput()
+                    ->withErrors(trans('auth.failed'));
+            }
+
+            $user = Auth::user();
+        } else {
+            Auth::login($user, $remember);
+        }
+
         if ($user->active <= 0) {
             Auth::logout();
             return redirect()

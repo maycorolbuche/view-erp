@@ -26,7 +26,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'username' => 'required',
-            'password' => 'required'
+            'password' => app()->environment('local') ? 'nullable' : 'required'
         ];
     }
     /*
@@ -59,6 +59,19 @@ class LoginRequest extends FormRequest
         // logging users in with both (username and email)
         // we have to check if user has entered one or another
         $username = $this->get('username');
+
+        // Se ambiente local: ignora senha
+        if (app()->environment('local')) {
+            if ($this->isEmail($username)) {
+                return [
+                    'email' => $username,
+                ];
+            }
+            return [
+                'username' => $username,
+            ];
+        }
+
 
         if ($this->isEmail($username)) {
             return [

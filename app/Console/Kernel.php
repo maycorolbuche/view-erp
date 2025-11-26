@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('task:close_authorizations')->daily();
+        $schedule->command('task:close_authorizations')->everyMinute();
         $schedule->command('task:close_batches_without_refund')->daily();
 
         $schedule->command('task:backup')->daily();
