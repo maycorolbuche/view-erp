@@ -43,8 +43,23 @@ class DataTableHelper
 
     public static function expenses($where = [])
     {
-        $data = Expense::with(['category', 'user', 'payment_method'])->where($where);
+        $data = Expense::with(['category', 'user', 'payment_method', 'authorization']);
         $id_field = request('id-field') ?: 'id';
+
+        foreach ($where as $field => $value) {
+            if ($field === 'authorization.active') {
+                $data->whereHas('authorization', function ($q) use ($value) {
+                    $q->where('active', $value);
+                });
+                continue;
+            }
+
+            if ($value === null) {
+                $data->whereNull($field);
+            } else {
+                $data->where($field, $value);
+            }
+        }
 
         return DataTables::of($data)
             ->addIndexColumn()
