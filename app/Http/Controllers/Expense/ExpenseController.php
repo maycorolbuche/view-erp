@@ -139,7 +139,13 @@ class ExpenseController extends Controller
     public function show($id)
     {
         $data = Expense::with(['authorization', 'clients', 'users'])
-            ->where(['id_expense' => $id, 'id_user' => Auth::id()])->whereNull('id_batch')->first();
+            ->where(['id_expense' => $id, 'id_user' => Auth::id()])
+            ->whereNull('id_batch')
+            ->whereHas('authorization', function ($q) {
+                $q->where('active', true);
+            })
+            ->first();
+
         if ($data) {
             $clientsById = array_column($data->clients->toArray(), null, 'id_client');
             $data->clients = $clientsById;
