@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use App\Models\Batch;
-use Illuminate\Support\Facades\Auth;
 
 class BatchHelper
 {

@@ -64,6 +64,18 @@ class AddRoutes extends Migration
         $id_route_group = 2;
         Route::create([
             'id_route_group' => $id_route_group,
+            'label' => 'Configurações Gerais',
+            'name' => 'configs',
+            'uri' => 'configs',
+            'controller' => 'Config\ConfigController',
+            'resources' => $update_all_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'fa fa-cogs',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
             'label' => 'Clientes',
             'name' => 'clients',
             'uri' => 'clients',
