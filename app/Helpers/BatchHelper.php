@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Batch;
+use App\Helpers\ConfigHelper as Configs;
 
 class BatchHelper
 {
@@ -44,9 +45,11 @@ class BatchHelper
 
     public static function close_without_refund()
     {
+        $days_to_close = +Configs::get('batches.active.days_to_close_without_refund', 30);
+
         $ids = [];
 
-        $batches = Batch::where('created_at', '<', now()->subDays(30))
+        $batches = Batch::where('created_at', '<', now()->subDays($days_to_close))
             ->where('refundable_amount', 0)
             ->where('active', true)->get();
         foreach ($batches as $batch) {

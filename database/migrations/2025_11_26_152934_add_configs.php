@@ -16,6 +16,10 @@ class AddConfigs extends Migration
             'key' => 'authorizations.active.days_to_close',
             'value' => '30',
         ]);
+        Config::create([
+            'key' => 'batches.active.days_to_close_without_refund',
+            'value' => '30',
+        ]);
     }
 
     /**

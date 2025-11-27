@@ -20,6 +20,14 @@
                         tip="Quantos dias após o vencimento de uma autorização, a mesma deve ser encerrada?" />
                 </x-group>
 
+                <x-title>Lotes</x-title>
+                <x-group>
+                    <x-input type="numeric" name="batchesActiveDays_to_close_without_refund" width="100"
+                        label="Qtd. dias para gerar lote automático sem reembolso"
+                        value="{{ $configs['batches.active.days_to_close_without_refund'] ?? '' }}"
+                        tip="Quantos dias após o vencimento de uma autorização, o lote sem reembolso deve ser fechado automaticamente?" />
+                </x-group>
+
                 <x-group right>
                     <x-button type="update" permission="{{ in_array('update', request('__permissions_page')) }}" />
                     <x-button type="cancel" route-name="configs" />

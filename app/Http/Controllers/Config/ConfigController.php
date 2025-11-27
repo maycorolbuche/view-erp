@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Config;
 
 use App\Http\Controllers\Controller;
-use App\Models\System;
 use App\Http\Requests\ConfigRequest;
 use App\Helpers\ConfigHelper as Configs;
-use App\Helpers\RootHelper as Root;
 
 class ConfigController extends Controller
 {
@@ -36,6 +34,7 @@ class ConfigController extends Controller
 
         $inputs = $request->only(
             'authorizationsActiveDays_to_close',
+            'batchesActiveDays_to_close_without_refund',
         );
 
         try {

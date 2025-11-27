@@ -6,6 +6,7 @@ use App\Models\Authorization;
 use App\Models\AuthorizationType;
 use App\Models\UserAuthorizationType;
 use App\Models\User;
+use App\Helpers\ConfigHelper as Configs;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -176,9 +177,11 @@ class AuthorizationHelper
 
     public static function close_expired()
     {
+        $days_to_close = +Configs::get('authorizations.active.days_to_close', 30);
+
         $ids = [];
 
-        $authorizations = Authorization::where('end_datetime', '<', now()->subDays(30))
+        $authorizations = Authorization::where('end_datetime', '<', now()->subDays($days_to_close))
             ->where('active', true)
             ->get();
         foreach ($authorizations as $authorization) {
