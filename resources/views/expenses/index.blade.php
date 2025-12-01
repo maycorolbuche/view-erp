@@ -405,7 +405,6 @@
             if (!ids.includes({{ auth()->user()->id_user }})) {
                 ids.push({{ auth()->user()->id_user }});
             }
-            console.log("CALC", ids);
             calc_items(ids, 'user_amount', 'user_percentage');
         }
 
