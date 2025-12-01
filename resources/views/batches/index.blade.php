@@ -30,7 +30,7 @@
                             <li class="divider"></li>
                             <li>
                                 <a href="javascript:" onclick="check(\'expense\', \'reverse\');sum_expenses();">
-                                    <i class="far fa-minus-square"></i> Inverter Seleção
+                                    <i class="glyphicon glyphicon-refresh"></i> Inverter Seleção
                                 </a>
                             </li>
                         </ul>
