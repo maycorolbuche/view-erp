@@ -12,10 +12,10 @@ class BatchHelper
         $data = Batch::with([
             'user.users_cash',
             'categories' => function ($query) {
-                $query->orderBy('short_name');
+                $query->orderBy('short_name')->orderBy('name');
             },
             'clients' => function ($query) {
-                $query->orderBy('short_name');
+                $query->orderBy('short_name')->orderBy('name');
             },
             'expenses' => function ($query) {
                 $query->orderBy('date');
@@ -25,14 +25,14 @@ class BatchHelper
         if ($data) {
             $chart_categories = $data->categories->map(function ($category) {
                 return [
-                    'name' => $category['short_name'],
+                    'name' => $category['short_name'] ?? $category['name'],
                     'y' => floatval($category['pivot']['amount']),
                 ];
             })->toArray();
 
             $chart_clients = $data->clients->map(function ($category) {
                 return [
-                    'name' => $category['short_name'],
+                    'name' => $category['short_name'] ?? $category['name'],
                     'y' => floatval($category['pivot']['amount']),
                 ];
             })->toArray();

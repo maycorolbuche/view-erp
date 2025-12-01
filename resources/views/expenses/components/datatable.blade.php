@@ -18,7 +18,7 @@
         ],
         [
             'title' => 'Tipo de Despesa',
-            'data' => 'category.short_name',
+            'data' => 'category.name',
         ],
         [
             'title' => 'Clientes',
