@@ -73,6 +73,13 @@ class DataTableHelper
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
                 return $actionBtn;
             })
+            ->addColumn('file_preview', function ($row) use ($id_field) {
+                $actionBtn = "";
+                if ($row->file) {
+                    $actionBtn = '<a href="' . $row->file->url . '" target="_blank" class="edit btn btn-danger btn-sm"><i class="fas fa-file"></i></a>';
+                }
+                return $actionBtn;
+            })
             ->editColumn('date', function ($row) {
                 return Carbon::parse($row->date)->format('d/m/Y');
             }, true, false, 'date')
@@ -98,7 +105,7 @@ class DataTableHelper
                 }
                 return $html;
             })
-            ->rawColumns(['actions', 'actions_search',  'payment_method.refundable', 'clients'])
+            ->rawColumns(['actions', 'actions_search', 'file_preview', 'payment_method.refundable', 'clients'])
             ->make(true);
     }
 

@@ -7,6 +7,11 @@
             'orderable' => false,
         ],
         [
+            'data' => 'file_preview',
+            'width' => '20px',
+            'orderable' => false,
+        ],
+        [
             'title' => 'Código',
             'data' => 'id_expense',
             'className' => 'text-right',

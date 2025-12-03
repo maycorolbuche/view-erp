@@ -82,6 +82,7 @@
                             <th type='currency' class='text-center'>Reembolsável?</th>
                             <th orderable="false"></th>
                             <th orderable="false"></th>
+                            <th orderable="false"></th>
                         </thead>
                         <tbody>
                             @foreach ($data->expenses as $expense)
@@ -122,6 +123,14 @@
                                                 data-content="{{ $expense->notes }}">
                                                 <i class="glyphicons glyphicons-notes"></i>
                                             </button>
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if ($expense->file)
+                                            <a class="btn btn-danger btn-sm fs12" href="{{ $expense->file->url }}"
+                                                target="_blank">
+                                                <i class="fas fa-file"></i>
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>
@@ -166,12 +175,14 @@
                     <x-group right>
                         <div style="padding: 0 5px 0 5px;">
                             <a class="btn btn-primary"
-                                href="{{ route('pdf.batch', ['id' => Crypt::encrypt($data->id_batch)]) }}" target="_blank">
+                                href="{{ route('pdf.batch', ['id' => Crypt::encrypt($data->id_batch)]) }}"
+                                target="_blank">
                                 Imprimir
                             </a>
                         </div>
                         @if ($edit)
-                            <x-button type="delete" label="Desfazer Lote" confirm="Deseja realmente desfazer este lote?" />
+                            <x-button type="delete" label="Desfazer Lote"
+                                confirm="Deseja realmente desfazer este lote?" />
                         @endif
                         <x-button type="cancel" route-name="me-batches" />
                     </x-group>
