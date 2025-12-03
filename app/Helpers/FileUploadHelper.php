@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\File;
+use Illuminate\Support\Facades\Storage;
 
 class FileUploadHelper
 {
@@ -30,5 +31,13 @@ class FileUploadHelper
         $file = File::create($data);
 
         return  $file;
+    }
+
+    public static function delete($id)
+    {
+        $file = File::findOrFail($id);
+        Storage::disk($file->disk)->delete($file->path);
+        $file->delete();
+        return $file;
     }
 }

@@ -18,10 +18,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('task:close_authorizations')->daily()->between('00:00', '04:00');
         $schedule->command('task:close_batches_without_refund')->daily()->between('00:00', '04:00');
 
-        $schedule->command('task:backup')->daily()->between('00:00', '04:00');
         $schedule->command('task:migrate')->daily()->between('00:00', '04:00');
-
         $schedule->command('task:remove_old_logs')->daily()->between('00:00', '04:00');
+
+        $schedule->command('task:delete_excess_files')->daily()->between('00:00', '04:00');
+
+        $schedule->command('task:backup')->daily()->between('00:00', '04:00');
 
         //$schedule->command('task:close_authorizations')->everyMinute();
         //->everyMinute()
