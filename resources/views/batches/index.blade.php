@@ -9,34 +9,6 @@
 
             @include('layouts.partials.messages')
 
-            @php
-                $action_checkbox = '
-                    <div class="btn-group">
-                        <a style="color: #666; cursor: pointer; text-decoration: none;" data-toggle="dropdown" aria-expanded="true">
-                            <i class="far fa-square"></i>
-                            <span class="caret ml5"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="javascript:" onclick="check(\'expense\', \'all\');sum_expenses();">
-                                    <i class="far fa-check-square"></i> Marcar Todos
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:" onclick="check(\'expense\', \'none\');sum_expenses();">
-                                    <i class="far fa-square"></i> Desmarcar Todos
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="javascript:" onclick="check(\'expense\', \'reverse\');sum_expenses();">
-                                    <i class="glyphicon glyphicon-refresh"></i> Inverter Seleção
-                                </a>
-                            </li>
-                        </ul>
-                    </div>';
-            @endphp
-
             <x-form action-name="batches" action-id="{{ null }}">
 
                 <x-note>Selecione as despesas para a geração do lote.</x-note>
@@ -44,7 +16,7 @@
                 <x-table order=1 limit=0>
                     <thead>
                         <th orderable="false" style="padding-left: 12px;">
-                            {!! $action_checkbox !!}
+                            <x-action-checkbox element="expense" callback="sum_expenses()" />
                         </th>
                         <th type="number" class='text-right'>Código</th>
                         <th type="date">Data</th>
@@ -112,7 +84,7 @@
                     <tfoot style="background:#f9f9f9">
                         <tr id="expenses-checked">
                             <th style="padding-left: 12px;">
-                                {!! $action_checkbox !!}
+                                <x-action-checkbox element="expense" callback="sum_expenses()" />
                             </th>
                             <th colspan=5 class='text-right text-info'>Valor selecionado</th>
                             <th class='text-right text-info expenses-checked'>0,00</th>
@@ -130,7 +102,7 @@
                         </tr>
                         <tr id="expenses-all">
                             <th style="padding-left: 12px;">
-                                {!! $action_checkbox !!}
+                                <x-action-checkbox element="expense" callback="sum_expenses()" />
                             </th>
                             <th colspan=5 class='text-right'>Valor total</th>
                             <th class='text-right expenses-all'>0,00</th>
