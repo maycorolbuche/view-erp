@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 class Form extends Component
 {
     public $action, $actionName, $actionId, $actionPid, $method;
+    public bool $files;
 
     /**
      * Create a new component instance.
@@ -20,6 +21,7 @@ class Form extends Component
         string $actionName = '',
         string $actionId = '',
         string $actionPid = '',
+        string $files = 'false',
     ) {
         if ($action) {
             $this->action = $action ?: url()->full();
@@ -54,6 +56,7 @@ class Form extends Component
 
         $this->method = $method;
         $this->actionId = $actionId;
+        $this->files = $files && $files != "false";
     }
 
     /**

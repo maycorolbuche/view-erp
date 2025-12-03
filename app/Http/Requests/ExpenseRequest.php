@@ -78,6 +78,7 @@ class ExpenseRequest extends FormRequest
             'id_payment_method' => 'required',
             'date' => ['required', 'date_authorization'],
             'amount' => ['required', 'sum_expenses_clients', 'sum_expenses_users'],
+            'file' => 'file|max:2048|mimes:jpg,jpeg,png,pdf'
         ];
     }
 
@@ -89,6 +90,7 @@ class ExpenseRequest extends FormRequest
             'id_payment_method' => 'tipo de pagamento',
             'date' => 'data|date_within_authorization',
             'amount' => 'valor',
+            'file' => 'arquivo'
         ];
     }
 

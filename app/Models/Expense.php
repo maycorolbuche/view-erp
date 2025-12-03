@@ -22,6 +22,7 @@ class Expense extends Model
         'id_payment_method',
         'amount',
         'notes',
+        'id_file',
     ];
 
     public function authorization()
@@ -52,5 +53,10 @@ class Expense extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'id_user', 'id_user');
+    }
+
+    public function file()
+    {
+        return $this->hasOne(File::class, 'id_file', 'id_file');
     }
 }

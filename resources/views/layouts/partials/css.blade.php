@@ -210,6 +210,17 @@
         padding-left: 12px !important;
     }
 
+    .has-error .chosen-single,
+    .has-error .chosen-choices {
+        border-color: #ee7f6d !important;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important;
+    }
+
+    .help-block {
+        margin: 0 !important;
+    }
+
     .chosen-single div {
         padding-top: 7px !important;
     }

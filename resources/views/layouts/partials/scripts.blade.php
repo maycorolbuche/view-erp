@@ -153,6 +153,22 @@
 
 
         $(".validate").validate({
+            ignore: function(index, element) {
+                const $el = $(element);
+
+                // Se é SELECT → nunca ignora, mesmo se invisível
+                if ($el.is("select")) {
+                    return false;
+                }
+
+                // Se está invisível → ignora
+                if (!$el.is(":visible")) {
+                    return true;
+                }
+
+                // Caso contrário → valida normalmente
+                return false;
+            },
 
             /* @validation states + elements 
             ------------------------------------------- */

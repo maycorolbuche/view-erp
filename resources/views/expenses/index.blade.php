@@ -20,7 +20,7 @@
                     </x-group>
                 </x-note>
             @else
-                <x-form action-name="expenses" action-id="{{ isset($data) ? $data->id_expense : null }}">
+                <x-form action-name="expenses" action-id="{{ isset($data) ? $data->id_expense : null }}" files>
                     <x-group>
                         @if (isset($data))
                             <x-input width="200" label="Autorização" readonly
@@ -147,6 +147,9 @@
                                 </script>
                             @endpush
                         @endif
+
+                        <x-input type="file" name="file" width="350" label="Comprovante da Despesa"
+                            value="{{ $data->file ?? '' }}" accept=".jpg,.jpeg,.png,.pdf" />
                     </x-group>
 
                     <div class="panel-heading">

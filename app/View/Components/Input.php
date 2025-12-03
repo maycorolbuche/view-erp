@@ -9,7 +9,7 @@ class Input extends Component
 {
     public $value;
     public string $name, $id, $field, $type, $class, $rows;
-    public bool $required, $disabled, $readonly, $hidden;
+    public bool $required, $disabled, $readonly, $hidden, $multiple;
 
     /**
      * Create a new component instance.
@@ -28,6 +28,7 @@ class Input extends Component
         string $disabled = 'false',
         string $readonly = 'false',
         string $hidden = 'false',
+        string $multiple = 'false',
         public string $placeholder = '',
         string $name = '',
         string $id = '',
@@ -38,6 +39,7 @@ class Input extends Component
         public string $listValue = '',
         public string $listText = '',
         string $rows = '',
+        public string $accept = '',
         public string $onchange = '',
     ) {
         if ($name == '') {
@@ -98,6 +100,7 @@ class Input extends Component
         $this->disabled = $disabled && $disabled != "false";
         $this->readonly = $readonly && $readonly != "false";
         $this->hidden = $hidden && $hidden != "false";
+        $this->multiple = $multiple && $multiple != "false";
     }
 
     /**

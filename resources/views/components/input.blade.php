@@ -154,12 +154,47 @@
             <span class="append-icon right success-icon">
                 <i class="fa fa-check"></i>
             </span>
+
+            @if ($type == 'file' && $value)
+                @php
+                    $file = json_decode(htmlspecialchars_decode($value));
+                    $value = null;
+                @endphp
+
+                <div id="filepreview_{{ $id }}" class="form-control">
+                    <a href="{{ $file->url }}" target="_blank">
+                        <i class="fa fa-file"></i>
+                        {{ $file->original_name }}
+                    </a>
+                    <a href="javascript:" onclick="removeFile_{{ $id }}()" class="text-danger"
+                        style="float:right">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+                <input id="id_{{ $id }}" name="id_{{ $id }}" value="{{ $file->id_file }}" style="display:none">
+
+                @push('scripts')
+                    <script>
+                        $(document).ready(function() {
+                            $("#{{ $id }}").hide();
+                        });
+
+                        function removeFile_{{ $id }}() {
+                            $("#{{ $id }}").show();
+                            $("#id_{{ $id }}").val("");
+                            $("#filepreview_{{ $id }}").hide();
+                        }
+                    </script>
+                @endpush
+            @endif
+
             <input type="{{ $type }}" id="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}"
-                name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}" value="{{ $value }}"
-                class="form-control {{ $class }}" placeholder="{{ $placeholder }}"
-                {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }} {{ $readonly ? 'readonly' : '' }}
-                {{ $min ? 'min=' . $min : '' }} {{ $max ? 'max=' . $max : '' }}
-                {{ $onchange ? 'onchange=' . $onchange : '' }}>
+                name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}{{ $multiple ? '[ ]' : '' }}"
+                value="{{ $value }}" class="form-control {{ $class }}"
+                placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
+                {{ $readonly ? 'readonly' : '' }} {{ $multiple ? 'multiple' : '' }}
+                {{ $accept ? 'accept=' . $accept : '' }} {{ $min ? 'min=' . $min : '' }}
+                {{ $max ? 'max=' . $max : '' }} {{ $onchange ? 'onchange=' . $onchange : '' }}>
 
             @if ($pre_type == 'money')
                 <input type="hidden" id="{{ $id }}" name="{{ $name }}"
@@ -203,8 +238,11 @@
         {{ $slot }}
     </div>
 
+    @if ($accept != '')
+        <span class="help-block">Formatos permitidos: {{ str_replace(',', ', ', $accept) }}</span>
+    @endif
     @if ($tip != '')
-        <span class="help-block mt5">{{ $tip }}</span>
+        <span class="help-block">{{ $tip }}</span>
     @endif
 
     @if ($errors->has($field))

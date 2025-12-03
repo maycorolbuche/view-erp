@@ -16,6 +16,7 @@ use App\Helpers\AuthorizationHelper;
 use App\Helpers\ExpenseHelper;
 use App\Helpers\DateTimeHelper;
 use App\Helpers\DataTableHelper;
+use App\Helpers\FileUploadHelper;
 use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
@@ -69,12 +70,15 @@ class ExpenseController extends Controller
         }
 
         $authorization = Authorization::where('id_authorization', $request->input('id_authorization'))->first();
+        $file = FileUploadHelper::upload($request->file('file'), "expenses");
+
+        $data = [...$request->all(), 'id_file' => ($file ? $file->id_file : null)];
 
         try {
             $dates = DateTimeHelper::distribute($request->amount, $request->date, $request->distribute, $authorization->end_date, Auth::user()->id_branch);
 
             if ($request->distribute <= 1 || count($dates) <= 0) {
-                $expense = Expense::create($request->all());
+                $expense = Expense::create($data);
                 $this->expensesClients($expense->id_expense, $request->client_amount);
                 $this->expensesUsers($expense->id_expense, $request->user_amount);
                 ExpenseHelper::refresh($expense->id_expense);
@@ -83,7 +87,7 @@ class ExpenseController extends Controller
                 foreach ($dates as $date => $amount) {
                     $request['date'] = $date;
                     $request['amount'] = $amount;
-                    $expense = Expense::create($request->all());
+                    $expense = Expense::create($data);
 
                     $accumulated_amount = 0;
                     $client_amount = $request->client_amount;
@@ -138,7 +142,7 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        $data = Expense::with(['authorization', 'clients', 'users'])
+        $data = Expense::with(['authorization', 'clients', 'users', 'file'])
             ->where(['id_expense' => $id, 'id_user' => Auth::id()])
             ->whereNull('id_batch')
             ->whereHas('authorization', function ($q) {
@@ -183,11 +187,18 @@ class ExpenseController extends Controller
 
         unset($request['id_authorization']);
 
+        $file = FileUploadHelper::upload($request->file('file'), "expenses");
+        if ($file || $request->input("id_file", "") == "") {
+            $data = [...$request->all(), 'id_file' => ($file ? $file->id_file : null)];
+        } else {
+            $data = $request->all();
+        }
+
         try {
             $expense = Expense::where(['id_expense' => $id, 'id_user' => Auth::id()])->whereNull('id_batch')->first();
             if ($expense) {
 
-                $expense->update($request->all());
+                $expense->update($data);
                 $this->expensesClients($expense->id_expense, $request->client_amount);
                 $this->expensesUsers($expense->id_expense, $request->user_amount);
                 ExpenseHelper::refresh($expense->id_expense);
