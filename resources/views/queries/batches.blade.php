@@ -8,7 +8,9 @@
         @if (isset($data))
 
             @php
-                $status_label = $data->active ? "<code class='mr10 bg-success dark p3 ph5'>Ativo</code>" : "<code class='mr10 bg-danger dark p3 ph5'>Fechado</code>";
+                $status_label = $data->active
+                    ? "<code class='mr10 bg-success dark p3 ph5'>Ativo</code>"
+                    : "<code class='mr10 bg-danger dark p3 ph5'>Fechado</code>";
             @endphp
 
 
@@ -216,7 +218,7 @@
                     ],
                     [
                         'title' => 'Status',
-                        'data' => 'active',
+                        'data' => 'status',
                         'className' => 'text-center',
                     ],
                 ]) }}" />

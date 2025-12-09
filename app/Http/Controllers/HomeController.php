@@ -30,8 +30,9 @@ class HomeController extends Controller
 
         $authorizations_pending_count = AuthorizationHelper::pending_count();
 
-        $batch_payments_count = Batch::where(['active' => true])->count();
+        $batch_review_count = Batch::where('active', true)->whereIn('revised_status',  ['pending', 'analyzing'])->count();
+        $batch_payments_count = Batch::where(['active' => true, 'revised_status' => 'approved'])->count();
 
-        return view('dashboard.index', compact('system', 'permissions', 'batch_payments_count', 'authorizations_pending_count', 'pages', 'user'));
+        return view('dashboard.index', compact('system', 'permissions', 'batch_review_count', 'batch_payments_count', 'authorizations_pending_count', 'pages', 'user'));
     }
 }

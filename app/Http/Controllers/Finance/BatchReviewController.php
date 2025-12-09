@@ -9,7 +9,7 @@ use App\Helpers\UserHelper;
 use Illuminate\Http\Request;
 use App\Helpers\DataTableHelper;
 
-class BatchPaymentController extends Controller
+class BatchReviewController extends Controller
 {
 
     /**
@@ -19,7 +19,7 @@ class BatchPaymentController extends Controller
      */
     public function index()
     {
-        return view('batch-payments.index');
+        return view('batch-review.index');
     }
 
     /**
@@ -30,12 +30,14 @@ class BatchPaymentController extends Controller
      */
     public function show($id)
     {
-        $data = Batch::where(['id_batch' => $id, 'active' => true, 'revised_status' => 'approved'])->first();
+        $data = Batch::where(['id_batch' => $id, 'active' => true])
+            ->whereIn('revised_status', ['pending', 'analyzing'])
+            ->first();
         if ($data) {
             $user_cash = UserHelper::getCash($data->id_user);
-            return view('batch-payments.index', compact('data', 'user_cash'));
+            return view('batch-review.index', compact('data', 'user_cash'));
         } else {
-            return redirect()->route('batch-payments')->with('error', 'Registro não encontrado!');
+            return redirect()->route('batch-review')->with('error', 'Registro não encontrado!');
         }
     }
 
@@ -53,8 +55,24 @@ class BatchPaymentController extends Controller
         }
 
         try {
-            $batch = Batch::where(['id_batch' => $id, 'active' => true, 'revised_status' => 'approved'])->first();
+            $batch = Batch::where(['id_batch' => $id, 'active' => true])
+                ->whereIn('revised_status', ['pending', 'analyzing'])
+                ->first();
             if ($batch) {
+                if ($batch->revised_status == 'pending') {
+                    $data = [
+                        'revised_by' => auth()->user()->id_user,
+                        'revised_at' => now(),
+                        'revised_status' => 'analyzing'
+                    ];
+
+                    $batch->update($data);
+
+                    return redirect()->route('batch-review.show', ['id' => $id]);
+                }
+
+                dd($request->all(), $id);
+                /*
                 $user_cash = UserHelper::getCash($batch->id_user);
                 $amount_paid = $batch->refund_amount;
                 $discount = 0;
@@ -82,11 +100,11 @@ class BatchPaymentController extends Controller
                     'date' => date("Y-m-d"),
                     'amount' => $amount_paid * -1,
                     'description' => 'Pagamento de Lote',
-                ]);
+                ]);*/
 
-                return redirect()->route('batch-payments')->with('success', 'Pagamento registrado com sucesso');
+                return redirect()->route('batch-review')->with('success', 'Pagamento registrado com sucesso');
             } else {
-                return redirect()->route('batch-payments')->with('error', 'Registro não encontrado!');
+                return redirect()->route('batch-review')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -95,6 +113,6 @@ class BatchPaymentController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::batches(['active' => true, 'revised_status' => 'approved']);
+        return DataTableHelper::batches(['active' => true, 'revised_status' => ['pending', 'analyzing']]);
     }
 }

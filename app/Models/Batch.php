@@ -28,6 +28,11 @@ class Batch extends Model
         'reason_extra_amount',
         'amount_paid',
         'payment_date',
+        'revised_by',
+        'revised_at',
+        'revised_status',
+        'estimated_payment_date',
+
     ];
 
 

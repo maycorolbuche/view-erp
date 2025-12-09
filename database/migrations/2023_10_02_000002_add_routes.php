@@ -570,6 +570,18 @@ class AddRoutes extends Migration
         $id_route_group = 7;
         Route::create([
             'id_route_group' => $id_route_group,
+            'label' => 'Conferência de Lotes',
+            'name' => 'batch-review',
+            'uri' => 'batch-review',
+            'controller' => 'Finance\BatchReviewController',
+            'resources' => $update_resources,
+            'permissions' => $update_permissions,
+            'icon' => 'fas fa-search-dollar',
+            'sequence' => self::sequence(),
+            'root' => 0,
+        ]);
+        Route::create([
+            'id_route_group' => $id_route_group,
             'label' => 'Pagamentos de Lotes',
             'name' => 'batch-payments',
             'uri' => 'batch-payments',

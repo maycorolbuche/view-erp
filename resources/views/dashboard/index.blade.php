@@ -22,6 +22,36 @@
                 </div>
             @endif
 
+            @if (isset($permissions['batch-review']) && $batch_review_count > 0)
+                <div style="display: flex;flex-wrap: wrap;align-items: stretch;justify-content: space-between;">
+                    <div style="flex-grow: 1;margin-right: 15px;" class="alert alert-warning alert-dismissable">
+                        <h3 class="mt5">Revisões Pendentes!</h3>
+
+                        <p>Você tem revisões de lotes pendentes.</p>
+                        <p>É necessário revisar os lotes, para que o pagamento seja efetuado corretamente.</p>
+                        <br>
+                        <p>
+                            <a class="btn btn-warning" href="{{ route('batch-review') }}">Revisar Lotes</a>
+                        </p>
+                    </div>
+
+                    <div class="panel panel-tile text-center">
+                        <div class="panel-heading hidden">
+                            <span class="panel-title"><i class="fa fa-pencil"></i> Title</span>
+                        </div>
+                        <div class="panel-body bg-warning">
+                            <h1 class="fs35 mbn">{{ number_format($batch_review_count, 0, ',', '.') }}</h1>
+                            <h6 class="text-white">{{ $batch_review_count == 1 ? 'LOTE' : 'LOTES' }}</h6>
+                        </div>
+                        <div class="panel-footer br-n p12">
+                            <span class="fs11">
+                                <b>REVISÕES PENDENTES</b>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             @if (isset($permissions['batch-payments']) && $batch_payments_count > 0)
                 <div style="display: flex;flex-wrap: wrap;align-items: stretch;justify-content: space-between;">
                     <div style="flex-grow: 1;margin-right: 15px;" class="alert alert-warning alert-dismissable">
@@ -41,7 +71,7 @@
                         </div>
                         <div class="panel-body bg-warning">
                             <h1 class="fs35 mbn">{{ number_format($batch_payments_count, 0, ',', '.') }}</h1>
-                            <h6 class="text-white">LOTES</h6>
+                            <h6 class="text-white">{{ $batch_payments_count == 1 ? 'LOTE' : 'LOTES' }}</h6>
                         </div>
                         <div class="panel-footer br-n p12">
                             <span class="fs11">

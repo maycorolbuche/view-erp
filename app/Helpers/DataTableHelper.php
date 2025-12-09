@@ -111,7 +111,16 @@ class DataTableHelper
 
     public static function batches($where = [])
     {
-        $data = Batch::with(['user'])->where($where);
+        $data = Batch::with(['user']);
+        foreach ($where as $field => $value) {
+            if (is_array($value)) {
+                $data->whereIn($field, $value);
+            } elseif ($value === null) {
+                $data->whereNull($field);
+            } else {
+                $data->where($field, $value);
+            }
+        }
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -141,7 +150,23 @@ class DataTableHelper
             ->editColumn('active', function ($row) {
                 return $row->active ? "<span class='badge badge-success'>Ativo</span>" : "<span class='badge badge-danger'>Fechado</span>";
             })
-            ->rawColumns(['actions', 'actions_search', 'created_at', 'active'])
+            ->editColumn('status', function ($row) {
+                return (
+                    $row->revised_status === 'pending'
+                    ? "<span class='badge badge-warning'>Revisão Pendente</span>"
+                    : (
+                        $row->revised_status === 'analyzing'
+                        ? "<span class='badge badge-info'>Em Revisão</span>"
+                        : (
+                            $row->active
+                            ? "<span class='badge badge-info'>Revisado</span>"
+                            : "<span class='badge badge-danger'>Fechado</span>"
+                        )
+
+                    )
+                );
+            })
+            ->rawColumns(['actions', 'actions_search', 'created_at', 'active', 'status'])
             ->make(true);
     }
 

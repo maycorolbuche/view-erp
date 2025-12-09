@@ -1,8 +1,8 @@
-<x-data-table data-origin="me-batches.datatable" query-string="route={{ $route }}" id-field="{{ $field ?? '' }}"
+<x-data-table data-origin="batch-review.datatable" query-string="route={{ $route }}" id-field="{{ $field ?? '' }}"
     order="id_batch" order-dir="desc"
     columns="{{ json_encode([
         [
-            'data' => 'actions',
+            'data' => 'actions_search',
             'width' => '20px',
             'orderable' => false,
         ],
@@ -15,6 +15,10 @@
             'title' => 'Data/Hora',
             'data' => 'created_at',
             'className' => 'text-center',
+        ],
+        [
+            'title' => 'Nome',
+            'data' => 'user.name',
         ],
         [
             'title' => 'Qtd. Despesas',
