@@ -61,6 +61,12 @@ class BatchController extends Controller
                 if (!$batch->active) {
                     return redirect()->back()->with('error', 'Este lote não pode ser desfeito, pois já foi processado!')->withInput();
                 }
+                if ($batch->revised_status == 'analyzing') {
+                    return redirect()->back()->with('error', 'Este lote não pode ser desfeito, pois está em processo de revisão!')->withInput();
+                }
+                if ($batch->revised_status !== 'pending') {
+                    return redirect()->back()->with('error', 'Este lote não pode ser desfeito, pois já foi revisado!')->withInput();
+                }
                 Expense::where('id_batch', $id)->update(['id_batch' => null]);
                 $batch->delete();
                 $this->sendMail($id);

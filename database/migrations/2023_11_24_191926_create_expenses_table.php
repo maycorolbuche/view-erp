@@ -23,12 +23,14 @@ class CreateExpensesTable extends Migration
             $table->unsignedInteger('id_payment_method');
             $table->decimal('amount', 8, 2);
             $table->text('notes')->nullable();
+            $table->unsignedInteger('id_file')->nullable();
 
             $table->foreign('id_authorization')->references('id_authorization')->on('authorizations');
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->foreign('id_batch')->references('id_batch')->on('batches');
             $table->foreign('id_category')->references('id_category')->on('categories');
             $table->foreign('id_payment_method')->references('id_payment_method')->on('payment_methods');
+            $table->foreign('id_file')->references('id_file')->on('files')->onDelete('set null');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

@@ -9,7 +9,7 @@
 
             @php
                 $edit = false;
-                if (isset($data) && $data->active) {
+                if (isset($data) && $data->active && $data->revised_status == 'pending') {
                     $edit = true;
                 }
             @endphp

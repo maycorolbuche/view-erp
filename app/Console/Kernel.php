@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('task:migrate')->daily()->between('00:00', '04:00');
         $schedule->command('task:remove_old_logs')->daily()->between('00:00', '04:00');
 
+        $schedule->command('task:batch_approved_when_paid')->daily()->between('00:00', '04:00');
         $schedule->command('task:delete_excess_files')->daily()->between('00:00', '04:00');
 
         $schedule->command('task:backup')->daily()->between('00:00', '04:00');

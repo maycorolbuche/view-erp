@@ -29,8 +29,13 @@ class CreateBatchesTable extends Migration
             $table->string('reason_extra_amount')->nullable();
             $table->decimal('amount_paid', 8, 2)->default(0);
             $table->date('payment_date')->nullable();
+            $table->unsignedInteger('revised_by')->nullable();
+            $table->datetime('revised_at')->nullable();
+            $table->enum('revised_status', ['pending', 'analyzing', 'approved'])->default('pending');
+            $table->date('estimated_payment_date')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users');
+            $table->foreign('revised_by')->references('id_user')->on('users');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
