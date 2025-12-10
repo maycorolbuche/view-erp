@@ -32,7 +32,8 @@ class InstallController extends Controller
 
         /* **************************** ARTISAN **************************** */
         $commands = [
-            'migrate --seed',
+            'migrate',
+            'db:seed',
             'cache:clear',
             'view:clear',
             'config:clear',
