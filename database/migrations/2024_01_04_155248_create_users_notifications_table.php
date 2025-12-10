@@ -17,6 +17,7 @@ class CreateUsersNotificationsTable extends Migration
             $table->increments('id_user_notification');
             $table->unsignedInteger('id_user');
             $table->unsignedInteger('id_notification');
+            $table->boolean('required')->default(false);
 
             $table->foreign('id_user')->references('id_user')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_notification')->references('id_notification')->on('notifications')->onUpdate('cascade')->onDelete('cascade');

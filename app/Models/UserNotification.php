@@ -16,6 +16,7 @@ class UserNotification extends Model
     protected $fillable = [
         'id_user',
         'id_notification',
+        'required',
     ];
 
     public function notification()

@@ -27,7 +27,7 @@ class UserNotificationController extends Controller
         try {
             $user = User::with('users_notifications')->find($id);
             if ($user) {
-                $user->id_notification = $user->users_notifications->pluck('id_notification')->toArray();
+                $user->id_notification = $user->users_notifications->keyBy('id_notification')->toArray();
                 $notifications = Notification::orderBy('name')->get();
                 return view('users.notifications.index', compact('pid', 'user', 'notifications'));
             } else {
@@ -54,10 +54,10 @@ class UserNotificationController extends Controller
         try {
             $user = User::find($id);
             if ($user) {
-                UserNotification::where('id_user', $user->id_user)->delete();
+                UserNotification::where('id_user', $user->id_user)->where('required', false)->delete();
                 if ($request->id_notification && count($request->id_notification) > 0) {
                     foreach ($request->id_notification as $id_notification) {
-                        UserNotification::create(['id_user' => $user->id_user, 'id_notification' => $id_notification]);
+                        UserNotification::firstOrCreate(['id_user' => $user->id_user, 'id_notification' => $id_notification]);
                     }
                 }
                 return redirect()->route('users-notifications.index', ['pid' => $id])->with('success', 'Registro salvo com sucesso');

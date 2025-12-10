@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RootUserSeeder::class);
         $this->call(RootSystemSeeder::class);
+        $this->call(NotificationSeeder::class);
         $this->call(RootPermissionSeeder::class);
 
         $this->call(RouteGroupSeeder::class);

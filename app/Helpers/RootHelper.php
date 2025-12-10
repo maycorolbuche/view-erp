@@ -6,8 +6,11 @@ use App\Models\User;
 use App\Models\System;
 use App\Models\Permission;
 use App\Models\Profile;
+use App\Models\UserProfile;
 use App\Models\Route;
 use App\Models\UserSystem;
+use App\Models\Notification;
+use App\Models\UserNotification;
 use Illuminate\Database\QueryException;
 
 class RootHelper
@@ -157,6 +160,32 @@ class RootHelper
                                 ]);
                         }
                     }
+                }
+            }
+        }
+
+        //Adiciona as notificações das rotas autorizadas
+        UserNotification::where('required', true)->update(['required' => false]);
+        $notifications = Notification::whereNotNull('id_route')->get();
+        foreach ($notifications as $notification) {
+            //por Usuários
+            $users = Permission::where('id_route', $notification->id_route)->whereNotNull('id_user')->get();
+            foreach ($users as $user) {
+                UserNotification::updateOrCreate(
+                    ['id_user' => $user->id_user, 'id_notification' => $notification->id_notification],
+                    ['required' => true]
+                );
+            }
+
+            //por Perfis
+            $profiles = Permission::where('id_route', $notification->id_route)->whereNotNull('id_profile')->get();
+            foreach ($profiles as $profile) {
+                $users = UserProfile::where('id_profile', $profile->id_profile)->get();
+                foreach ($users as $user) {
+                    UserNotification::updateOrCreate(
+                        ['id_user' => $user->id_user, 'id_notification' => $notification->id_notification],
+                        ['required' => true]
+                    );
                 }
             }
         }

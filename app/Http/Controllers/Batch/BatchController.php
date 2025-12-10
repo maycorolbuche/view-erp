@@ -55,7 +55,7 @@ class BatchController extends Controller
     public function sendMail($id_batch)
     {
         $batch = Batch::find($id_batch);
-        $notifications = NotificationModel::where('slug', 'batch')->with(['users_notifications.user'])->first();
+        $notifications = NotificationModel::where('slug', 'batch_review')->with(['users_notifications.user'])->first();
         foreach ($notifications->users_notifications as $notification) {
             Notification::send($notification->user, new BatchNotification($batch));
         }

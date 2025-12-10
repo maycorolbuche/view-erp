@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\UpdateLastAccess',
         ],
+        'Illuminate\Notifications\Events\NotificationSent' => [
+            'App\Listeners\LogSentNotification',
+        ],
     ];
 
     /**

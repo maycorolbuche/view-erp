@@ -16,6 +16,7 @@ class Notification extends Model
     protected $fillable = [
         'slug',
         'name',
+        'id_route',
     ];
 
     public function users_notifications()
