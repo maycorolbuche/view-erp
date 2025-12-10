@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Fakers;
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as FakerFactory;

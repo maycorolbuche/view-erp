@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Fakers;
 
 use App\Models\AuthorizationType;
 use Illuminate\Database\Seeder;
