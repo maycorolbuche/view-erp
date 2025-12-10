@@ -41,6 +41,7 @@ class InstallController extends Controller
 
 
         foreach ($commands as $command) {
+            $output .= "\n CMD => " . $command;
             Artisan::call($command);
             $output .= "\n" . Artisan::output();
         }
