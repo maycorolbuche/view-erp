@@ -13,6 +13,7 @@ class Panel extends Component
      */
     public function __construct(
         public string $title = '',
+        public string $badge = '',
         public string $type = '',
         public string $height = '',
         public string $bodyHeight = '',

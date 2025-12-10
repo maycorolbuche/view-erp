@@ -151,20 +151,7 @@ class DataTableHelper
                 return $row->active ? "<span class='badge badge-success'>Ativo</span>" : "<span class='badge badge-danger'>Fechado</span>";
             })
             ->editColumn('status', function ($row) {
-                return (
-                    $row->revised_status === 'pending'
-                    ? "<span class='badge badge-warning'>Revisão Pendente</span>"
-                    : (
-                        $row->revised_status === 'analyzing'
-                        ? "<span class='badge badge-info'>Em Revisão</span>"
-                        : (
-                            $row->active
-                            ? "<span class='badge badge-info'>Revisado</span>"
-                            : "<span class='badge badge-danger'>Fechado</span>"
-                        )
-
-                    )
-                );
+                return "<span class='badge badge-" . $row->status["color"] . "'>" . $row->status["label"] . "</span>";
             })
             ->rawColumns(['actions', 'actions_search', 'created_at', 'active', 'status'])
             ->make(true);

@@ -30,7 +30,8 @@ class BatchReviewController extends Controller
      */
     public function show($id)
     {
-        $data = Batch::where(['id_batch' => $id, 'active' => true])
+        $data = Batch::with('expenses')
+            ->where(['id_batch' => $id, 'active' => true])
             ->whereIn('revised_status', ['pending', 'analyzing'])
             ->first();
         if ($data) {
@@ -69,9 +70,19 @@ class BatchReviewController extends Controller
                     $batch->update($data);
 
                     return redirect()->route('batch-review.show', ['id' => $id]);
+                } elseif ($request->input('_action') == "fail") {
+                    $data = [
+                        'revised_by' => auth()->user()->id_user,
+                        'revised_at' => now(),
+                        'revised_status' => 'pending'
+                    ];
+
+                    $batch->update($data);
+
+                    return redirect()->route('batch-review.show', ['id' => $id]);
                 }
 
-                dd($request->all(), $id);
+                dd($request->all(), $id, $request->input('_action'));
                 /*
                 $user_cash = UserHelper::getCash($batch->id_user);
                 $amount_paid = $batch->refund_amount;

@@ -6,21 +6,21 @@ use App\Models\TaskLog;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class Migrate extends Command
+class Seed extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'task:migrate';
+    protected $signature = 'task:seed';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Verifica as migrações e executa o que estiver pendente';
+    protected $description = 'Verifica as seeds e executa';
 
     /**
      * Create a new command instance.
@@ -48,7 +48,7 @@ class Migrate extends Command
         $log->start_time = now();
         $log->save();
 
-        Artisan::call('migrate --force');
+        Artisan::call('db:seed --force');
         $output = Artisan::output();
 
         $log->end_time = now();

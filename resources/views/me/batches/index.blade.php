@@ -14,7 +14,7 @@
                 }
             @endphp
 
-            <x-panel title="Detalhes do Lote" type="info">
+            <x-panel title="Detalhes do Lote" badge="{{ $data->status['label'] }}" type="{{ $data->status['color'] }}">
 
                 @include('layouts.partials.messages')
 

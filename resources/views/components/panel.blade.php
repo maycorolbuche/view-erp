@@ -2,6 +2,9 @@
     @if ($title)
         <div class="panel-heading">
             <span class="panel-title">{!! $title !!}</span>
+            @if ($badge)
+                <span class='badge'>{{ $badge }}</span>
+            @endif
         </div>
     @endif
     <div class="panel-body" style="{{ $bodyHeight ? 'height:' . $bodyHeight : '' }}">

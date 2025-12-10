@@ -35,6 +35,28 @@ class Batch extends Model
 
     ];
 
+    protected $appends = ['status'];
+
+    public function getStatusAttribute()
+    {
+        if ($this->revised_status === 'pending' && !is_null($this->revised_by)) {
+            return ['type' => 'rejected', 'color' => 'danger', 'label' => 'Rejeitado'];
+        }
+
+        if ($this->revised_status === 'pending') {
+            return ['type' => 'pending', 'color' => 'warning', 'label' => 'Pendente'];
+        }
+
+        if ($this->revised_status === 'analyzing') {
+            return ['type' => 'analyzing', 'color' => 'info', 'label' => 'Em Revisão'];
+        }
+
+        if ($this->active) {
+            return ['type' => 'reviewed', 'color' => 'info', 'label' => 'Revisado'];
+        }
+
+        return ['type' => 'closed', 'color' => 'danger', 'label' => 'Fechado'];
+    }
 
     public function user()
     {
