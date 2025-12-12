@@ -24,6 +24,9 @@ class Expense extends Model
         'amount',
         'notes',
         'id_file',
+        'revised_by',
+        'revised_at',
+        'revised',
     ];
 
     public function authorization()
