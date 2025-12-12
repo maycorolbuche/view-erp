@@ -37,7 +37,7 @@ use App\Models\Profile;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class DataTableHelper
 {
@@ -159,39 +159,6 @@ class DataTableHelper
             DB::raw('DATE(end_datetime) as end_date'),
         ]);
 
-        /*
-        $id_user = 0;
-        if (gettype($where) == "integer") {
-            $id_user = $where;
-            $where = [];
-        }*/
-
-        /* $data = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
-            ->select([
-                'id_authorization',
-                'id_authorization_parent',
-                'id_user',
-                'id_authorization_type',
-                'description',
-                'start_datetime',
-                'end_datetime',
-                'amount',
-                'self',
-                'active',
-                'approved',
-                DB::raw('CONCAT(start_datetime, " ", end_datetime) as period'),
-                DB::raw('DATE(start_datetime) as start_date'),
-                DB::raw('DATE(end_datetime) as end_date'),
-            ])
-            ->where($where);
-        if ($id_user > 0) {
-            $data->whereHas('statuses', function ($query) use ($id_user) {
-                $query->where('authorizations_statuses.id_user', $id_user);
-            })
-                ->orWhere(['authorizations.id_user' => $id_user]);
-        }
-
-        $id_field = request('id-field') ?: 'id';*/
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -269,9 +236,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function systems()
+    public static function systems($query = null)
     {
-        $data = System::select();
+        $data = $query ?: System::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -288,9 +255,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function clients()
+    public static function clients($query = null)
     {
-        $data = Client::select();
+        $data = $query ?: Client::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -304,9 +271,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function branches()
+    public static function branches($query = null)
     {
-        $data = Branch::select();
+        $data = $query ?: Branch::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -323,9 +290,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function holidays()
+    public static function holidays($query = null)
     {
-        $data = Holiday::with('branches')->get();
+        $data = $query ?: Holiday::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -370,9 +337,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function roles()
+    public static function roles($query = null)
     {
-        $data = Role::select();
+        $data = $query ?: Role::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -386,9 +353,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function civil_statuses()
+    public static function civil_statuses($query = null)
     {
-        $data = CivilStatus::select();
+        $data = $query ?: CivilStatus::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -402,9 +369,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function payment_methods()
+    public static function payment_methods($query = null)
     {
-        $data = PaymentMethod::select();
+        $data = $query ?: PaymentMethod::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -421,9 +388,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function employment_types()
+    public static function employment_types($query = null)
     {
-        $data = EmploymentType::select();
+        $data = $query ?: EmploymentType::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -437,9 +404,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function carriers()
+    public static function carriers($query = null)
     {
-        $data = Carrier::select();
+        $data = $query ?: Carrier::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -453,9 +420,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function phones_types()
+    public static function phones_types($query = null)
     {
-        $data = PhoneType::select();
+        $data = $query ?: PhoneType::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -469,9 +436,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function relationships_degrees()
+    public static function relationships_degrees($query = null)
     {
-        $data = RelationshipDegree::select();
+        $data = $query ?: RelationshipDegree::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -485,9 +452,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function authorizations_types()
+    public static function authorizations_types($query = null)
     {
-        $data = AuthorizationType::select();
+        $data = $query ?: AuthorizationType::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -508,9 +475,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function categories()
+    public static function categories($query = null)
     {
-        $data = Category::with('category_type')->select();
+        $data = $query ?: Category::query();
+        $data->with('category_type');
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -524,9 +492,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function discounts()
+    public static function discounts($query = null)
     {
-        $data = Discount::with('categories')->select();
+        $data = $query ?: Discount::query();
+        $data->with('categories');
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
