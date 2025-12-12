@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class Authorization extends Model
@@ -104,5 +105,25 @@ class Authorization extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'id_user', 'id_user');
+    }
+
+    public function scopeMe($query)
+    {
+        return $query->where('id_user', Auth::id());
+    }
+    public function scopeWithMe($query)
+    {
+
+        return $query->where(function ($q) {
+            $q->whereHas('statuses', function ($subQuery) {
+                $subQuery->where((new AuthorizationStatus)->getTable() . '.id_user', Auth::id());
+            })->orWhere((new Authorization)->getTable() . '.id_user', Auth::id());
+        });
+    }
+    public function scopeType($query, $type)
+    {
+        return $query->whereHas('authorization_type', function ($q) use ($type) {
+            $q->where('type', $type);
+        });
     }
 }

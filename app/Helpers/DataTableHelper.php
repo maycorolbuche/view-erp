@@ -36,6 +36,7 @@ use App\Models\Transaction;
 use App\Models\Profile;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use DataTables;
 
 class DataTableHelper
@@ -135,15 +136,37 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function authorizations($where = [])
+    public static function authorizations($query = null)
     {
+        $data = $query ?: Authorization::query();
+        $data->with(['clients', 'statuses', 'user', 'authorization_type']);
+        $id_field = request('id-field') ?: 'id';
+
+        $data->select([
+            'id_authorization',
+            'id_authorization_parent',
+            'id_user',
+            'id_authorization_type',
+            'description',
+            'start_datetime',
+            'end_datetime',
+            'amount',
+            'self',
+            'active',
+            'approved',
+            DB::raw('CONCAT(start_datetime, " ", end_datetime) as period'),
+            DB::raw('DATE(start_datetime) as start_date'),
+            DB::raw('DATE(end_datetime) as end_date'),
+        ]);
+
+        /*
         $id_user = 0;
         if (gettype($where) == "integer") {
             $id_user = $where;
             $where = [];
-        }
+        }*/
 
-        $data = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
+        /* $data = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
             ->select([
                 'id_authorization',
                 'id_authorization_parent',
@@ -156,9 +179,9 @@ class DataTableHelper
                 'self',
                 'active',
                 'approved',
-                \DB::raw('CONCAT(start_datetime, " ", end_datetime) as period'),
-                \DB::raw('DATE(start_datetime) as start_date'),
-                \DB::raw('DATE(end_datetime) as end_date'),
+                DB::raw('CONCAT(start_datetime, " ", end_datetime) as period'),
+                DB::raw('DATE(start_datetime) as start_date'),
+                DB::raw('DATE(end_datetime) as end_date'),
             ])
             ->where($where);
         if ($id_user > 0) {
@@ -168,7 +191,7 @@ class DataTableHelper
                 ->orWhere(['authorizations.id_user' => $id_user]);
         }
 
-        $id_field = request('id-field') ?: 'id';
+        $id_field = request('id-field') ?: 'id';*/
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -696,11 +719,11 @@ class DataTableHelper
             'end_date_approved_period',
             'start_date',
             'end_date',
-            \DB::raw('CONCAT(start_date, " ", end_date) as period'),
-            \DB::raw('CONCAT(start_date_acquisition_period, " ", end_date_acquisition_period) as acquisition_period'),
-            \DB::raw('CONCAT(start_date_requested_period, " ", end_date_requested_period) as requested_period'),
-            \DB::raw('CONCAT(start_date_approval_period, " ", end_date_approval_period) as approval_period'),
-            \DB::raw('CONCAT(start_date_approved_period, " ", end_date_approved_period) as approved_period'),
+            DB::raw('CONCAT(start_date, " ", end_date) as period'),
+            DB::raw('CONCAT(start_date_acquisition_period, " ", end_date_acquisition_period) as acquisition_period'),
+            DB::raw('CONCAT(start_date_requested_period, " ", end_date_requested_period) as requested_period'),
+            DB::raw('CONCAT(start_date_approval_period, " ", end_date_approval_period) as approval_period'),
+            DB::raw('CONCAT(start_date_approved_period, " ", end_date_approved_period) as approved_period'),
         ])->where($where);
 
         return DataTables::of($data)
@@ -882,7 +905,7 @@ class DataTableHelper
     public static function users_cash($where = [])
     {
         $data = User::where($where)->select([
-            \DB::raw('users.*'),
+            DB::raw('users.*'),
         ])->with('user_cash');
         $id_field = request('id-field') ?: 'id';
 

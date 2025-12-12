@@ -65,8 +65,7 @@ class AuthorizationExpenseController extends Controller
 
     public function datatable()
     {
-        $authorization_type = AuthorizationType::where('type', 'expense')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
-        return DataTableHelper::authorizations(['id_user' => Auth::id(), 'id_authorization_type' => $authorization_type[0]]);
+        return DataTableHelper::authorizations(Authorization::me()->type('expense'));
     }
 
     public function authorizationsClients($id_authorization, $clients)

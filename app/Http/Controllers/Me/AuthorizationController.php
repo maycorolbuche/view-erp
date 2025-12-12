@@ -99,7 +99,7 @@ class AuthorizationController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::authorizations(Auth::id());
+        return DataTableHelper::authorizations(Authorization::withMe());
     }
 
     public function sendMail($id_authorization)
