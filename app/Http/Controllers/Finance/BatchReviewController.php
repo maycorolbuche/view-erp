@@ -31,8 +31,8 @@ class BatchReviewController extends Controller
     public function show($id)
     {
         $data = Batch::with('expenses')
-            ->where(['id_batch' => $id, 'active' => true])
-            ->whereIn('revised_status', ['pending', 'analyzing'])
+            ->reviewPending()
+            ->where('id_batch', $id)
             ->first();
         if ($data) {
             $user_cash = UserHelper::getCash($data->id_user);
@@ -56,8 +56,8 @@ class BatchReviewController extends Controller
         }
 
         try {
-            $batch = Batch::where(['id_batch' => $id, 'active' => true])
-                ->whereIn('revised_status', ['pending', 'analyzing'])
+            $batch = Batch::reviewPending()
+                ->where('id_batch', $id)
                 ->first();
             if ($batch) {
                 if ($batch->revised_status == 'pending') {
@@ -124,6 +124,6 @@ class BatchReviewController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::batches(['active' => true, 'revised_status' => ['pending', 'analyzing']]);
+        return DataTableHelper::batches(Batch::reviewPending());
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use App\Traits\CreatedUpdatedBy;
 
 class Batch extends Model
@@ -81,5 +82,22 @@ class Batch extends Model
     public function discounts()
     {
         return $this->belongsToMany(Discount::class, BatchDiscount::class, 'id_batch', 'id_discount')->withPivot(['id_batch_discount', 'id_expense', 'amount', 'expense_amount']);
+    }
+
+    public function scopeMe()
+    {
+        return $this->where('id_user', Auth::id());
+    }
+    public function scopeActive()
+    {
+        return $this->where('active', true);
+    }
+    public function scopeReviewPending()
+    {
+        return $this->active()->whereIn('revised_status',  ['pending', 'analyzing']);
+    }
+    public function scopePaymentPending()
+    {
+        return $this->active()->where('revised_status',  'approved');
     }
 }

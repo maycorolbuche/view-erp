@@ -30,7 +30,7 @@ class BatchPaymentController extends Controller
      */
     public function show($id)
     {
-        $data = Batch::where(['id_batch' => $id, 'active' => true, 'revised_status' => 'approved'])->first();
+        $data = Batch::paymentPending()->where('id_batch', $id)->first();
         if ($data) {
             $user_cash = UserHelper::getCash($data->id_user);
             return view('batch-payments.index', compact('data', 'user_cash'));
@@ -53,7 +53,7 @@ class BatchPaymentController extends Controller
         }
 
         try {
-            $batch = Batch::where(['id_batch' => $id, 'active' => true, 'revised_status' => 'approved'])->first();
+            $batch = Batch::paymentPending()->where('id_batch', $id)->first();
             if ($batch) {
                 $user_cash = UserHelper::getCash($batch->id_user);
                 $amount_paid = $batch->refund_amount;
@@ -95,6 +95,6 @@ class BatchPaymentController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::batches(['active' => true, 'revised_status' => 'approved']);
+        return DataTableHelper::batches(Batch::paymentPending());
     }
 }

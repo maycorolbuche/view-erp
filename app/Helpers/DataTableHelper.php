@@ -109,18 +109,12 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function batches($where = [])
+    public static function batches($query = null)
     {
-        $data = Batch::with(['user']);
-        foreach ($where as $field => $value) {
-            if (is_array($value)) {
-                $data->whereIn($field, $value);
-            } elseif ($value === null) {
-                $data->whereNull($field);
-            } else {
-                $data->where($field, $value);
-            }
-        }
+        $data = $query ?: Batch::query();
+
+        $data->with(['user']);
+
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)

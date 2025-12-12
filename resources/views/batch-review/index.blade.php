@@ -65,6 +65,7 @@
                                 <th type="currency" class='text-center'>Reembolsável?</th>
                                 <th orderable="false"></th>
                                 <th orderable="false"></th>
+                                <th orderable="false"></th>
                             </thead>
                             <tbody>
                                 @foreach ($data->expenses as $expense)
@@ -100,6 +101,16 @@
                                         </td>
                                         <td class="text-right">
                                             @if (trim($expense->notes) != '')
+                                                <button type="button" class="btn btn-info btn-sm fs12"
+                                                    data-container="body" data-toggle="popover" data-placement="left"
+                                                    data-content="{{ $expense->notes }}">
+                                                    <i class="glyphicons glyphicons-notes"></i>
+                                                </button>
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            @if (trim($expense->id_file) != '')
+                                                ;;{{ $expense->id_file }};;
                                                 <button type="button" class="btn btn-info btn-sm fs12"
                                                     data-container="body" data-toggle="popover" data-placement="left"
                                                     data-content="{{ $expense->notes }}">

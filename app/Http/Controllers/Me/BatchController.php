@@ -8,7 +8,6 @@ use App\Models\Expense;
 use App\Models\Notification as NotificationModel;
 use App\Helpers\BatchHelper;
 use App\Helpers\DataTableHelper;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\BatchNotification;
 
@@ -33,7 +32,7 @@ class BatchController extends Controller
      */
     public function show($id)
     {
-        $batch = Batch::where('id_user', Auth::id())->find($id);
+        $batch = Batch::me()->find($id);
         if ($batch) {
             $data = BatchHelper::data($id);
             if ($data) {
@@ -56,7 +55,7 @@ class BatchController extends Controller
     public function destroy($id)
     {
         try {
-            $batch = Batch::find($id);
+            $batch = Batch::me()->find($id);
             if ($batch) {
                 if (!$batch->active) {
                     return redirect()->back()->with('error', 'Este lote não pode ser desfeito, pois já foi processado!')->withInput();
@@ -81,7 +80,7 @@ class BatchController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::batches(['id_user' => Auth::id()]);
+        return DataTableHelper::batches(Batch::me());
     }
 
 
