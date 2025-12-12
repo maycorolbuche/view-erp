@@ -74,7 +74,7 @@ class UserDependentController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserDependent::find($id);
+            $data = UserDependent::user($pid)->find($id);
             if ($data) {
                 $relationships_degrees = RelationshipDegree::all();
                 return view('users.dependents.index', compact('pid', 'data', 'user', 'relationships_degrees'));
@@ -112,7 +112,7 @@ class UserDependentController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_dependent = UserDependent::find($id);
+                $user_dependent = UserDependent::user($pid)->find($id);
                 if ($user_dependent) {
                     $user_dependent->update($request->all());
                     return redirect()->route('users-dependents.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -143,7 +143,7 @@ class UserDependentController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_dependent = UserDependent::find($id);
+                $user_dependent = UserDependent::user($pid)->find($id);
                 if ($user_dependent) {
                     $user_dependent->delete();
                     return redirect()->route('users-dependents.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

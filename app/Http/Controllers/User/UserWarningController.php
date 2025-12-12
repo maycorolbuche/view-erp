@@ -72,7 +72,7 @@ class UserWarningController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserWarning::find($id);
+            $data = UserWarning::user($pid)->find($id);
             if ($data) {
                 return view('users.warnings.index', compact('pid', 'data', 'user'));
             } else {
@@ -109,7 +109,7 @@ class UserWarningController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_warning = UserWarning::find($id);
+                $user_warning = UserWarning::user($pid)->find($id);
                 if ($user_warning) {
                     $user_warning->update($request->all());
                     return redirect()->route('users-warnings.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -140,7 +140,7 @@ class UserWarningController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_warning = UserWarning::find($id);
+                $user_warning = UserWarning::user($pid)->find($id);
                 if ($user_warning) {
                     $user_warning->delete();
                     return redirect()->route('users-warnings.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

@@ -72,7 +72,7 @@ class UserCertificationController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserCertification::find($id);
+            $data = UserCertification::user($pid)->find($id);
             if ($data) {
                 return view('users.certifications.index', compact('pid', 'data', 'user'));
             } else {
@@ -109,7 +109,7 @@ class UserCertificationController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_certification = UserCertification::find($id);
+                $user_certification = UserCertification::user($pid)->find($id);
                 if ($user_certification) {
                     $user_certification->update($request->all());
                     return redirect()->route('users-certifications.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -140,7 +140,7 @@ class UserCertificationController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_certification = UserCertification::find($id);
+                $user_certification = UserCertification::user($pid)->find($id);
                 if ($user_certification) {
                     $user_certification->delete();
                     return redirect()->route('users-certifications.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

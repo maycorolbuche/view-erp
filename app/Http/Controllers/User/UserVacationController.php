@@ -72,7 +72,7 @@ class UserVacationController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserVacation::find($id);
+            $data = UserVacation::user($pid)->find($id);
             if ($data) {
                 return view('users.vacations.index', compact('pid', 'data', 'user'));
             } else {
@@ -109,7 +109,7 @@ class UserVacationController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_vacation = UserVacation::find($id);
+                $user_vacation = UserVacation::user($pid)->find($id);
                 if ($user_vacation) {
                     $user_vacation->update($request->all());
                     return redirect()->route('users-vacations.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -140,7 +140,7 @@ class UserVacationController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_vacation = UserVacation::find($id);
+                $user_vacation = UserVacation::user($pid)->find($id);
                 if ($user_vacation) {
                     $user_vacation->delete();
                     return redirect()->route('users-vacations.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

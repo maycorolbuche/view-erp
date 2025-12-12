@@ -72,7 +72,7 @@ class UserPaymentController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserPayment::find($id);
+            $data = UserPayment::user($pid)->find($id);
             if ($data) {
                 return view('users.payments.index', compact('pid', 'data', 'user'));
             } else {
@@ -109,7 +109,7 @@ class UserPaymentController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_payment = UserPayment::find($id);
+                $user_payment = UserPayment::user($pid)->find($id);
                 if ($user_payment) {
                     $user_payment->update($request->all());
                     return redirect()->route('users-payments.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -140,7 +140,7 @@ class UserPaymentController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_payment = UserPayment::find($id);
+                $user_payment = UserPayment::user($pid)->find($id);
                 if ($user_payment) {
                     $user_payment->delete();
                     return redirect()->route('users-payments.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

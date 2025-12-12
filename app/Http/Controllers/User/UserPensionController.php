@@ -72,7 +72,7 @@ class UserPensionController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserPension::find($id);
+            $data = UserPension::user($pid)->find($id);
             if ($data) {
                 return view('users.pension.index', compact('pid', 'data', 'user'));
             } else {
@@ -109,7 +109,7 @@ class UserPensionController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_pension = UserPension::find($id);
+                $user_pension = UserPension::user($pid)->find($id);
                 if ($user_pension) {
                     $user_pension->update($request->all());
                     return redirect()->route('users-pension.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -140,7 +140,7 @@ class UserPensionController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_pension = UserPension::find($id);
+                $user_pension = UserPension::user($pid)->find($id);
                 if ($user_pension) {
                     $user_pension->delete();
                     return redirect()->route('users-pension.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

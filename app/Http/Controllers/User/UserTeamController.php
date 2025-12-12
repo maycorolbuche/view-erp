@@ -94,7 +94,7 @@ class UserTeamController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserTeam::find($id);
+            $data = UserTeam::user($pid)->find($id);
             if ($data) {
                 $users = User::all();
                 $authorizations_types = AuthorizationType::orderBy('sequence')->get();
@@ -167,7 +167,7 @@ class UserTeamController extends Controller
                     return redirect()->back()->with('error', 'Já existe um registro com esta pessoa!')->withInput();
                 }
 
-                $user_team = UserTeam::find($id);
+                $user_team = UserTeam::user($pid)->find($id);
                 if ($user_team) {
                     $user_team->update($request->all());
 
@@ -200,7 +200,7 @@ class UserTeamController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_team = UserTeam::find($id);
+                $user_team = UserTeam::user($pid)->find($id);
                 if ($user_team) {
                     $user_team->delete();
                     return redirect()->route('users-teams.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

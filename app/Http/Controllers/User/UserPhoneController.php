@@ -76,7 +76,7 @@ class UserPhoneController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserPhone::find($id);
+            $data = UserPhone::user($pid)->find($id);
             if ($data) {
                 $carriers = Carrier::orderBy('name')->get();
                 $phones_types = PhoneType::orderBy('description')->get();
@@ -115,7 +115,7 @@ class UserPhoneController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_phone = UserPhone::find($id);
+                $user_phone = UserPhone::user($pid)->find($id);
                 if ($user_phone) {
                     $user_phone->update($request->all());
                     return redirect()->route('users-phones.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -146,7 +146,7 @@ class UserPhoneController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_phone = UserPhone::find($id);
+                $user_phone = UserPhone::user($pid)->find($id);
                 if ($user_phone) {
                     $user_phone->delete();
                     return redirect()->route('users-phones.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

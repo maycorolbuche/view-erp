@@ -74,7 +74,7 @@ class UserRoleController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserRole::find($id);
+            $data = UserRole::user($pid)->find($id);
             if ($data) {
                 $roles = Role::orderBy('name')->get();
                 return view('users.roles.index', compact('pid', 'data', 'user', 'roles'));
@@ -112,7 +112,7 @@ class UserRoleController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_role = UserRole::find($id);
+                $user_role = UserRole::user($pid)->find($id);
                 if ($user_role) {
                     $user_role->update($request->all());
                     return redirect()->route('users-roles.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -143,7 +143,7 @@ class UserRoleController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_role = UserRole::find($id);
+                $user_role = UserRole::user($pid)->find($id);
                 if ($user_role) {
                     $user_role->delete();
                     return redirect()->route('users-roles.index', compact('pid'))->with('success', 'Registro apagado com sucesso');

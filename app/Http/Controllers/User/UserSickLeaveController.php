@@ -72,7 +72,7 @@ class UserSickLeaveController extends Controller
     {
         $user = User::find($pid);
         if ($user) {
-            $data = UserSickLeave::find($id);
+            $data = UserSickLeave::user($pid)->find($id);
             if ($data) {
                 return view('users.sick-leaves.index', compact('pid', 'data', 'user'));
             } else {
@@ -109,7 +109,7 @@ class UserSickLeaveController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_sick_leave = UserSickLeave::find($id);
+                $user_sick_leave = UserSickLeave::user($pid)->find($id);
                 if ($user_sick_leave) {
                     $user_sick_leave->update($request->all());
                     return redirect()->route('users-sick-leaves.show', compact('pid', 'id'))->with('success', 'Registro salvo com sucesso');
@@ -140,7 +140,7 @@ class UserSickLeaveController extends Controller
         try {
             $user = User::find($pid);
             if ($user) {
-                $user_sick_leave = UserSickLeave::find($id);
+                $user_sick_leave = UserSickLeave::user($pid)->find($id);
                 if ($user_sick_leave) {
                     $user_sick_leave->delete();
                     return redirect()->route('users-sick-leaves.index', compact('pid'))->with('success', 'Registro apagado com sucesso');
