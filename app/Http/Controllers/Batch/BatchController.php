@@ -23,8 +23,8 @@ class BatchController extends Controller
     public function index()
     {
         $expenses = Expense::with(['category', 'clients', 'payment_method'])
-            ->where('id_user', Auth::id())
-            ->whereNull('id_batch')
+            ->me()
+            ->withoutBatch()
             ->orderBy('date', 'desc')
             ->get();
 

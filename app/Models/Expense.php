@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use App\Traits\CreatedUpdatedBy;
 
 class Expense extends Model
@@ -58,5 +59,20 @@ class Expense extends Model
     public function file()
     {
         return $this->hasOne(File::class, 'id_file', 'id_file');
+    }
+
+    public function scopeMe($query)
+    {
+        return $query->where('id_user', Auth::id());
+    }
+    public function scopeWithoutBatch($query)
+    {
+        return $query->whereNull('id_batch');
+    }
+    public function scopeActiveAuthorization($query)
+    {
+        return $query->whereHas('authorization', function ($q) {
+            $q->where('active', true);
+        });
     }
 }

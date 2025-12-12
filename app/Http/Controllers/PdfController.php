@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Helpers\BatchHelper;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -28,7 +27,7 @@ class PdfController extends Controller
 
     function data($id)
     {
-        $data = Batch::where('id_user', Auth::id())->with([
+        $data = Batch::me()->with([
             'user.users_cash',
             'categories' => function ($query) {
                 $query->orderBy('short_name');

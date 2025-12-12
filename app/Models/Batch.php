@@ -84,20 +84,20 @@ class Batch extends Model
         return $this->belongsToMany(Discount::class, BatchDiscount::class, 'id_batch', 'id_discount')->withPivot(['id_batch_discount', 'id_expense', 'amount', 'expense_amount']);
     }
 
-    public function scopeMe()
+    public function scopeMe($query)
     {
-        return $this->where('id_user', Auth::id());
+        return $query->where('id_user', Auth::id());
     }
-    public function scopeActive()
+    public function scopeActive($query)
     {
-        return $this->where('active', true);
+        return $query->where('active', true);
     }
-    public function scopeReviewPending()
+    public function scopeReviewPending($query)
     {
-        return $this->active()->whereIn('revised_status',  ['pending', 'analyzing']);
+        return $query->active()->whereIn('revised_status',  ['pending', 'analyzing']);
     }
-    public function scopePaymentPending()
+    public function scopePaymentPending($query)
     {
-        return $this->active()->where('revised_status',  'approved');
+        return $query->active()->where('revised_status',  'approved');
     }
 }

@@ -245,7 +245,7 @@ class ExpenseController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::expenses(['id_user' => Auth::id(), 'id_batch' => null, 'authorization.active' => true]);
+        return DataTableHelper::expenses(Expense::me()->withoutBatch()->activeAuthorization());
     }
 
     public function expensesClients($id_expense, $clients)

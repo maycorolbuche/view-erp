@@ -41,25 +41,11 @@ use DataTables;
 class DataTableHelper
 {
 
-    public static function expenses($where = [])
+    public static function expenses($query = null)
     {
-        $data = Expense::with(['category', 'user', 'payment_method', 'authorization']);
+        $data = $query ?: Expense::query();
+        $data->with(['category', 'user', 'payment_method', 'authorization']);
         $id_field = request('id-field') ?: 'id';
-
-        foreach ($where as $field => $value) {
-            if ($field === 'authorization.active') {
-                $data->whereHas('authorization', function ($q) use ($value) {
-                    $q->where('active', $value);
-                });
-                continue;
-            }
-
-            if ($value === null) {
-                $data->whereNull($field);
-            } else {
-                $data->where($field, $value);
-            }
-        }
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -112,9 +98,7 @@ class DataTableHelper
     public static function batches($query = null)
     {
         $data = $query ?: Batch::query();
-
         $data->with(['user']);
-
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
