@@ -161,6 +161,6 @@ class UserDependentController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_dependents(['id_user' => request('pid')]);
+        return DataTableHelper::users_dependents(UserDependent::user(request('pid')));
     }
 }

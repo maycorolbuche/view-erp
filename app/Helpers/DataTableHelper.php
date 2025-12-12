@@ -591,10 +591,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_teams($user_id)
+    public static function users_teams($query = null)
     {
-        $data = UserTeam::where('id_user_parent', $user_id)->orWhere('id_user_child', $user_id)
-            ->with(['parent', 'child']);
+        $data = $query ?: UserTeam::query();
+        $data->with(['parent', 'child']);
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -636,9 +636,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_dependents($where = [])
+    public static function users_dependents($query = null)
     {
-        $data = UserDependent::where($where)->with('relationship_degree');
+        $data = $query ?: UserDependent::query();
+        $data->with('relationship_degree');
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -654,9 +655,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_roles($where = [])
+    public static function users_roles($query = null)
     {
-        $data = UserRole::where($where)->with(['role']);
+        $data = $query ?: UserRole::query();
+        $data->with('role');
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -675,9 +677,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_vacations($where = [])
+    public static function users_vacations($query = null)
     {
-        $data = UserVacation::select([
+        $data = $query ?: UserVacation::query();
+        $data->select([
             'id_user_vacation',
             'id_user',
             'start_date_acquisition_period',
@@ -695,7 +698,7 @@ class DataTableHelper
             DB::raw('CONCAT(start_date_requested_period, " ", end_date_requested_period) as requested_period'),
             DB::raw('CONCAT(start_date_approval_period, " ", end_date_approval_period) as approval_period'),
             DB::raw('CONCAT(start_date_approved_period, " ", end_date_approved_period) as approved_period'),
-        ])->where($where);
+        ]);
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -774,9 +777,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_payments($where = [])
+    public static function users_payments($query = null)
     {
-        $data = UserPayment::where($where);
+        $data = $query ?: UserPayment::query();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -795,9 +798,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_pensions($where = [])
+    public static function users_pensions($query = null)
     {
-        $data = UserPension::where($where);
+        $data = $query ?: UserPension::query();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -813,9 +816,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_certifications($where = [])
+    public static function users_certifications($query = null)
     {
-        $data = UserCertification::where($where);
+        $data = $query ?: UserCertification::query();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -834,9 +837,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_sick_leaves($where = [])
+    public static function users_sick_leaves($query = null)
     {
-        $data = UserSickLeave::where($where);
+        $data = $query ?: UserSickLeave::query();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -855,9 +858,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_warnings($where = [])
+    public static function users_warnings($query = null)
     {
-        $data = UserWarning::where('id_user', request('pid'));
+        $data = $query ?: UserWarning::query();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -873,11 +876,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_cash($where = [])
+    public static function users_cash($query = null)
     {
-        $data = User::where($where)->select([
-            DB::raw('users.*'),
-        ])->with('user_cash');
+        $data = $query ?: User::query();
+        $data->with('user_cash');
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
@@ -898,9 +900,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_cash_history($where = [])
+    public static function users_cash_history($query = null)
     {
-        $data = UserCashHistory::where($where)->with('transaction');
+        $data = $query ?: UserCashHistory::query();
+        $data->with('transaction');
 
         return DataTables::of($data)
             ->editColumn('date', function ($row) {
@@ -926,9 +929,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function transactions($where = [])
+    public static function transactions($query = null)
     {
-        $data = Transaction::where($where);
+        $data = $query ?: Transaction::query();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -951,9 +954,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function profiles($where = [])
+    public static function profiles($query = null)
     {
-        $data = Profile::where($where);
+        $data = $query ?: Profile::query();
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)

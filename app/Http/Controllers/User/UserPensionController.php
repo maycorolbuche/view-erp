@@ -158,6 +158,6 @@ class UserPensionController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_pensions(['id_user' => request('pid')]);
+        return DataTableHelper::users_pensions(UserPension::user(request('pid')));
     }
 }

@@ -158,6 +158,6 @@ class UserCertificationController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_certifications(['id_user' => request('pid')]);
+        return DataTableHelper::users_certifications(UserCertification::user(request('pid')));
     }
 }

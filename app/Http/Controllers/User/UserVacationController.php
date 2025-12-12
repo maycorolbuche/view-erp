@@ -158,6 +158,6 @@ class UserVacationController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_vacations(['id_user' => request('pid')]);
+        return DataTableHelper::users_vacations(UserVacation::user(request('pid')));
     }
 }

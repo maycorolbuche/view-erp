@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserCashHistory;
 use App\Helpers\UserHelper;
 use Illuminate\Http\Request;
 use App\Helpers\DataTableHelper;
@@ -89,7 +90,7 @@ class CashAdvanceController extends Controller
 
         if ($type == "user-history") {
             $id_user = request('id_user') ?? "0";
-            return DataTableHelper::users_cash_history(['id_user' => $id_user]);
+            return DataTableHelper::users_cash_history(UserCashHistory::user($id_user));
         } else {
             return DataTableHelper::users_cash();
         }

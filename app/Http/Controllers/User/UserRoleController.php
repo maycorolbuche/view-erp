@@ -161,6 +161,6 @@ class UserRoleController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_roles(['id_user' => request('pid')]);
+        return DataTableHelper::users_roles(UserRole::user(request('pid')));
     }
 }

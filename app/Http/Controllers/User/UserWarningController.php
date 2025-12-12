@@ -158,6 +158,6 @@ class UserWarningController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_warnings(['id_user' => request('pid')]);
+        return DataTableHelper::users_warnings(UserWarning::user(request('pid')));
     }
 }

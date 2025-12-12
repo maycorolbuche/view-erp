@@ -37,6 +37,6 @@ class UserTeam extends Model
 
     public function scopeUser($query, $id_user)
     {
-        return $query->where('id_user', $id_user);
+        return $query->where('id_user_parent', $id_user)->orWhere('id_user_child', $id_user);
     }
 }

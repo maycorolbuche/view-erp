@@ -23,4 +23,9 @@ class Profile extends Model
     {
         return $this->hasMany(Permission::class, 'id_profile', 'id_profile');
     }
+
+    public function scopeSystem($query, $id_system)
+    {
+        return $query->where('id_system', $id_system);
+    }
 }

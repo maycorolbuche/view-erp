@@ -158,6 +158,6 @@ class UserPaymentController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_payments(['id_user' => request('pid')]);
+        return DataTableHelper::users_payments(UserPayment::user(request('pid')));
     }
 }

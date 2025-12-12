@@ -218,7 +218,7 @@ class UserTeamController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_teams(request('pid'));
+        return DataTableHelper::users_teams(UserTeam::user(request('pid')));
     }
 
 

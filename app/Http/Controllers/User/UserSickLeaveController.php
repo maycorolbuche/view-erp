@@ -158,6 +158,6 @@ class UserSickLeaveController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_sick_leaves(['id_user' => request('pid')]);
+        return DataTableHelper::users_sick_leaves(UserSickLeave::user(request('pid')));
     }
 }

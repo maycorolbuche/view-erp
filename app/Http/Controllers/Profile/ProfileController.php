@@ -128,6 +128,6 @@ class ProfileController extends Controller
     public function datatable()
     {
         $id_system = request('__id_system');
-        return DataTableHelper::profiles(['id_system' => $id_system]);
+        return DataTableHelper::profiles(Profile::system($id_system));
     }
 }
