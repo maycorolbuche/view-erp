@@ -24,4 +24,9 @@ class UserRole extends Model
     {
         return $this->hasOne(Role::class, 'id_role', 'id_role');
     }
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

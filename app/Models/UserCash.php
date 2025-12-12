@@ -17,4 +17,9 @@ class UserCash extends Model
         'id_user',
         'amount',
     ];
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

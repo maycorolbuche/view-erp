@@ -34,4 +34,9 @@ class UserTeam extends Model
         return $this->hasMany(UserAuthorizationType::class, 'id_user_parent', 'id_user_parent')
             ->where('id_user_child', $this->id_user_child);
     }
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

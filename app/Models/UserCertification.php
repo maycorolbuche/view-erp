@@ -19,4 +19,9 @@ class UserCertification extends Model
         'end_date',
         'description',
     ];
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

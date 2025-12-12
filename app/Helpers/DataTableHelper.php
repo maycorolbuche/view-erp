@@ -516,9 +516,9 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function discounts_amounts($where = [])
+    public static function discounts_amounts($query = null)
     {
-        $data = DiscountAmount::where($where)->select();
+        $data = $query ?: DiscountAmount::query();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -537,12 +537,13 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users()
+    public static function users($query = null)
     {
+        $data = $query ?: User::query();
+
         $id_system = request('__id_system');
         $system = System::where('id_system', $id_system)->first();
 
-        $data = User::with('branch');
         if ($system->root != true) {
             $data->where('root', false);
         }
@@ -562,9 +563,10 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function users_phones($where = [])
+    public static function users_phones($query = null)
     {
-        $data = UserPhone::where($where)->with(['carrier', 'phone_type']);
+        $data = $query ?: UserPhone::query();
+        $data->with(['carrier', 'phone_type']);
 
         return DataTables::of($data)
             ->addIndexColumn()

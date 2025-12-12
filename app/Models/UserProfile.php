@@ -17,4 +17,9 @@ class UserProfile extends Model
         'id_user',
         'id_profile',
     ];
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

@@ -18,4 +18,9 @@ class DiscountAmount extends Model
         'date',
         'amount',
     ];
+
+    public function scopeDiscount($query, $id_discount)
+    {
+        return $query->where('id_discount', $id_discount);
+    }
 }

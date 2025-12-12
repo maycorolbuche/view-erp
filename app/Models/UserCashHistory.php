@@ -28,4 +28,9 @@ class UserCashHistory extends Model
     {
         return $this->hasOne(Transaction::class, 'id_transaction', 'id_transaction');
     }
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

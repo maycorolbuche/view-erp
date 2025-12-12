@@ -164,6 +164,6 @@ class UserPhoneController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::users_phones(['id_user' => request('pid')]);
+        return DataTableHelper::users_phones(UserPhone::user(request('pid')));
     }
 }

@@ -36,4 +36,9 @@ class UserAuthorizationType extends Model
     {
         return $this->hasOne(AuthorizationType::class, 'id_authorization_type', 'id_authorization_type');
     }
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

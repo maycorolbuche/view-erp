@@ -17,4 +17,9 @@ class UserSystem extends Model
         'id_user',
         'id_system',
     ];
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

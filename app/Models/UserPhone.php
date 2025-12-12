@@ -34,4 +34,9 @@ class UserPhone extends Model
     {
         return $this->hasOne(PhoneType::class, 'id_phone_type', 'id_phone_type');
     }
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }

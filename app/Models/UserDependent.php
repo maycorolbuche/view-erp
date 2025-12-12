@@ -24,4 +24,9 @@ class UserDependent extends Model
     {
         return $this->hasOne(RelationshipDegree::class, 'id_relationship_degree', 'id_relationship_degree');
     }
+
+    public function scopeUser($query, $id_user)
+    {
+        return $query->where('id_user', $id_user);
+    }
 }
