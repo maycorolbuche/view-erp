@@ -56,13 +56,14 @@
                         action="{{ route('batch-review.update', ['id' => $data->id_batch]) }}">
                         <x-table order=1 limit=0>
                             <thead>
+                                <th orderable="false">Conferido?</th>
                                 <th type="number" class='text-right'>Código</th>
                                 <th type="date">Data</th>
                                 <th>Tipo de Despesa</th>
                                 <th>Clientes</th>
                                 <th>Tipo de Pagamento</th>
                                 <th type="currency" class='text-right'>Valor</th>
-                                <th type="currency" class='text-center'>Reembolsável?</th>
+                                <th class='text-center'>Reembolsável?</th>
                                 <th orderable="false"></th>
                                 <th orderable="false"></th>
                                 <th orderable="false"></th>
@@ -70,6 +71,17 @@
                             <tbody>
                                 @foreach ($data->expenses as $expense)
                                     <tr class="{{ !$expense->payment_method->refundable ? 'danger' : '' }}">
+                                        <td class='text-center'>
+                                            <div id="container_expense_{{ $expense->id_expense }}"
+                                                class="checkbox-custom checkbox-info">
+                                                <input type="checkbox" id="expense_{{ $expense->id_expense }}"
+                                                    data-value="{{ $expense->amount }}"
+                                                    onchange="check({{ $expense->id_expense }})">
+                                                <label for="expense_{{ $expense->id_expense }}">
+                                                    &nbsp;
+                                                </label>
+                                            </div>
+                                        </td>
                                         <td class='text-right'>{{ $expense->id_expense }}</td>
                                         <td>{{ \Carbon\Carbon::parse($expense->date)->format('d/m/Y') }}</td>
                                         <td>{{ $expense->category->name }}</td>
@@ -150,3 +162,16 @@
         </x-panel>
     </x-content>
 @endsection
+
+@push('scripts')
+    <script>
+        function check(id) {
+            let container = $(`#container_expense_${id}`);
+
+            container.addClass("checkbox-warning");
+            container.removeClass("checkbox-info");
+
+            //alert(id);
+        }
+    </script>
+@endpush

@@ -24,7 +24,7 @@
                         <th>Clientes</th>
                         <th>Tipo de Pagamento</th>
                         <th type="currency" class='text-right'>Valor</th>
-                        <th type="currency" class='text-center'>Reembolsável?</th>
+                        <th class='text-center'>Reembolsável?</th>
                         <th orderable="false"></th>
                         <th orderable="false"></th>
                     </thead>
