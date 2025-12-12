@@ -24,6 +24,9 @@ class CreateExpensesTable extends Migration
             $table->decimal('amount', 8, 2);
             $table->text('notes')->nullable();
             $table->unsignedInteger('id_file')->nullable();
+            $table->unsignedInteger('revised_by')->nullable();
+            $table->datetime('revised_at')->nullable();
+            $table->boolean('revised')->default(false);
 
             $table->foreign('id_authorization')->references('id_authorization')->on('authorizations');
             $table->foreign('id_user')->references('id_user')->on('users');
@@ -31,6 +34,7 @@ class CreateExpensesTable extends Migration
             $table->foreign('id_category')->references('id_category')->on('categories');
             $table->foreign('id_payment_method')->references('id_payment_method')->on('payment_methods');
             $table->foreign('id_file')->references('id_file')->on('files')->onDelete('set null');
+            $table->foreign('revised_by')->references('id_user')->on('users');
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();

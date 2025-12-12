@@ -110,12 +110,10 @@
                                         </td>
                                         <td class="text-right">
                                             @if (trim($expense->id_file) != '')
-                                                ;;{{ $expense->id_file }};;
-                                                <button type="button" class="btn btn-info btn-sm fs12"
-                                                    data-container="body" data-toggle="popover" data-placement="left"
-                                                    data-content="{{ $expense->notes }}">
-                                                    <i class="glyphicons glyphicons-notes"></i>
-                                                </button>
+                                                <a href="{{ $expense->file->url }}" target="_blank">
+                                                    <i class="fa fa-file"></i>
+                                                    {{ $expense->file->original_name }}
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>
@@ -123,10 +121,20 @@
                             </tbody>
                         </x-table>
 
+                        <div style="margin-top: 20px;"></div>
+
+                        <x-group>
+                            <x-input type="date" name="estimated_payment_date" width="150"
+                                label="Data Prevista para Pagamento" required />
+                        </x-group>
+
                         <x-group right>
                             <x-button type="update" layout="danger" value="fail" label="Reprovar Lote"
                                 permission="{{ in_array('update', request('__permissions_page')) }}"
-                                confirm="Deseja realmente reprovar este lote?" />
+                                confirm="Deseja realmente reprovar este lote?" novalidate />
+                            <x-button type="update" value="approve" label="Aprovar Lote"
+                                permission="{{ in_array('update', request('__permissions_page')) }}"
+                                confirm="Deseja aprovar este lote?" />
                             <x-button type="cancel" route-name="batch-review" />
                         </x-group>
                     </x-form>
