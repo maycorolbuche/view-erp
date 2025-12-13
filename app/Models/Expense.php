@@ -78,4 +78,8 @@ class Expense extends Model
             $q->where('active', true);
         });
     }
+    public function scopeBatch($query, $id_batch)
+    {
+        return $query->where('id_batch', $id_batch);
+    }
 }

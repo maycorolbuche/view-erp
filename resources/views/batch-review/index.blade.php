@@ -76,7 +76,8 @@
                                                 class="checkbox-custom checkbox-info">
                                                 <input type="checkbox" id="expense_{{ $expense->id_expense }}"
                                                     data-value="{{ $expense->amount }}"
-                                                    onchange="check({{ $expense->id_expense }})">
+                                                    onchange="check({{ $expense->id_expense }})"
+                                                    {{ $expense->revised ? 'checked' : '' }}>
                                                 <label for="expense_{{ $expense->id_expense }}">
                                                     &nbsp;
                                                 </label>
@@ -137,7 +138,7 @@
 
                         <x-group>
                             <x-input type="date" name="estimated_payment_date" width="150"
-                                label="Data Prevista para Pagamento" required />
+                                label="Data Prevista para Pagamento" />
                         </x-group>
 
                         <x-group right>
@@ -152,6 +153,65 @@
                     </x-form>
 
                 </x-panel>
+
+
+
+                @push('scripts')
+                    <script>
+                        function clearContainer(container) {
+                            container.removeClass("checkbox-info");
+                            container.removeClass("checkbox-danger");
+                            container.removeClass("checkbox-warning");
+                        }
+
+                        function check(id) {
+                            let container = $(`#container_expense_${id}`);
+
+                            clearContainer(container);
+                            container.addClass("checkbox-warning");
+
+                            const data = {
+                                id_expense: id,
+                                revised: $(`#expense_${id}`).prop("checked"),
+                                _token: '{{ csrf_token() }}',
+                                _method: 'PUT',
+                                _action: "revised"
+                            };
+
+                            const options = {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                body: JSON.stringify(data)
+                            };
+
+                            const url = "{{ route('batch-review.update', ['id' => $data->id_batch]) }}";
+
+                            fetch(url, options)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! status: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    clearContainer(container);
+                                    container.addClass("checkbox-info");
+                                    console.log('Sucesso:', data);
+                                })
+                                .catch(error => {
+                                    clearContainer(container);
+                                    container.addClass("checkbox-danger");
+                                    console.log('erro:', error);
+                                });
+                        }
+                    </script>
+                @endpush
+
             @endif
         @else
             @include('layouts.partials.messages')
@@ -162,16 +222,3 @@
         </x-panel>
     </x-content>
 @endsection
-
-@push('scripts')
-    <script>
-        function check(id) {
-            let container = $(`#container_expense_${id}`);
-
-            container.addClass("checkbox-warning");
-            container.removeClass("checkbox-info");
-
-            //alert(id);
-        }
-    </script>
-@endpush

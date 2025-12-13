@@ -53,10 +53,10 @@ class Batch extends Model
         }
 
         if ($this->active) {
-            return ['type' => 'reviewed', 'color' => 'info', 'label' => 'Revisado'];
+            return ['type' => 'reviewed', 'color' => 'info', 'label' => 'Aprovado'];
         }
 
-        return ['type' => 'closed', 'color' => 'danger', 'label' => 'Fechado'];
+        return ['type' => 'closed', 'color' => 'success', 'label' => 'Concluído'];
     }
 
     public function user()

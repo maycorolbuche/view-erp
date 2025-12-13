@@ -66,7 +66,7 @@ class BatchController extends Controller
                 if ($batch->revised_status !== 'pending') {
                     return redirect()->back()->with('error', 'Este lote não pode ser desfeito, pois já foi revisado!')->withInput();
                 }
-                Expense::where('id_batch', $id)->update(['id_batch' => null]);
+                Expense::where('id_batch', $id)->update(['id_batch' => null, 'revised' => false]);
                 $batch->delete();
                 $this->sendMail($id);
                 return redirect()->route('me-batches')->with('success', 'Registro apagado com sucesso');

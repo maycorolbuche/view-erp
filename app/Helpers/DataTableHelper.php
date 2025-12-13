@@ -130,7 +130,12 @@ class DataTableHelper
                 return $row->active ? "<span class='badge badge-success'>Ativo</span>" : "<span class='badge badge-danger'>Fechado</span>";
             })
             ->editColumn('status', function ($row) {
-                return "<span class='badge badge-" . $row->status["color"] . "'>" . $row->status["label"] . "</span>";
+                return "<span class='badge badge-" . $row->status["color"] . "'>" . $row->status["label"] . "</span>"
+                    . (
+                        $row->status["type"] == "reviewed" && $row->estimated_payment_date
+                        ? "<br><small>Previsão pgto.: " . Carbon::parse($row->estimated_payment_date)->format('d/m/Y') . "</small>"
+                        : ""
+                    );
             })
             ->rawColumns(['actions', 'actions_search', 'created_at', 'active', 'status'])
             ->make(true);

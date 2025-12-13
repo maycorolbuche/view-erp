@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
-use App\Models\Transaction;
+use App\Models\Expense;
 use App\Helpers\UserHelper;
 use Illuminate\Http\Request;
 use App\Helpers\DataTableHelper;
@@ -80,40 +80,46 @@ class BatchReviewController extends Controller
                     $batch->update($data);
 
                     return redirect()->route('batch-review.show', ['id' => $id]);
+                } elseif ($request->input('_action') == "revised") {
+
+                    $expense = Expense::batch($id)->where('id_expense', $request->input("id_expense"));
+                    if (!$expense) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Despesa não encontrada no batch especificado.',
+                            'errors' => [
+                                'expense_id' => ['A despesa informada não pertence a este lote ou não existe.']
+                            ]
+                        ], 404);
+                    }
+
+                    $data = [
+                        'revised_by' => auth()->user()->id_user,
+                        'revised_at' => now(),
+                        'revised' => $request->input("revised", false)
+                    ];
+
+                    $expense->update($data);
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Despesa alterada com sucesso.',
+                    ]);
+                } elseif ($request->input('_action') == "approve") {
+
+                    $data = [
+                        'revised_by' => auth()->user()->id_user,
+                        'revised_at' => now(),
+                        'revised_status' => 'approved',
+                        'estimated_payment_date' => $request->input("estimated_payment_date")
+                    ];
+
+                    $batch->update($data);
+
+                    return redirect()->route('batch-review')->with('success', 'Lote aprovado para pagamento!');
                 }
 
-                dd($request->all(), $id, $request->input('_action'));
-                /*
-                $user_cash = UserHelper::getCash($batch->id_user);
-                $amount_paid = $batch->refund_amount;
-                $discount = 0;
-                if ($user_cash > 0) {
-                    $discount = min($user_cash, $amount_paid);
-                    $amount_paid = $amount_paid - $discount;
-
-                    UserHelper::removeCash($batch->id_user, $discount, [
-                        'id_batch' => $id,
-                    ], false);
-                }
-
-                $batch->update([
-                    'payment_date' => date('Y-m-d'),
-                    'user_cash' => $discount,
-                    'amount_paid' => $amount_paid,
-                    'active' => false,
-                ]);
-
-                Transaction::where(['id_batch' => $id, 'type' => 'batch-payment'])->delete();
-                Transaction::create([
-                    'type' => 'batch-payment',
-                    'id_batch' => $id,
-                    'id_user' => $batch->id_user,
-                    'date' => date("Y-m-d"),
-                    'amount' => $amount_paid * -1,
-                    'description' => 'Pagamento de Lote',
-                ]);*/
-
-                return redirect()->route('batch-review')->with('success', 'Pagamento registrado com sucesso');
+                return redirect()->route('batch-review')->with('error', 'Ação não definida!');
             } else {
                 return redirect()->route('batch-review')->with('error', 'Registro não encontrado!');
             }
