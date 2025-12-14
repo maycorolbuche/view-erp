@@ -7,6 +7,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class BatchNotification extends Notification
 {
@@ -72,6 +73,35 @@ class BatchNotification extends Notification
 
             return (new MailMessage)
                 ->subject('Lote Desfeito | ' . $this->data)
+                ->greeting('Olá, ' . $userName . '!')
+                ->line($html)
+                ->markdown('vendor.notifications.email');
+        } elseif ($this->type == 'user') {
+
+            $subject = "";
+            if ($this->data->status["type"] == "reviewed") {
+                $subject = "Lote Aprovado | " . $this->data->id_batch;
+
+                $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi aprovado. ";
+                if ($this->data->estimated_payment_date && $this->data->refundable_amount > 0) {
+                    $html .= "A data de pagamento está prevista para ocorrer em " . Carbon::parse($this->data->estimated_payment_date)->format('d/m/Y');
+                }
+            } elseif ($this->data->status["type"] == "rejected") {
+                $subject = "Lote Reprovado | " . $this->data->id_batch;
+
+                $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi reprovado. Entre em contato com <b>" . Auth::user()->name . "</b> para mais informações!";
+            } elseif ($this->data->status["type"] == "closed") {
+                if ($this->data->refundable_amount > 0) {
+                    $subject = "Lote Pago | " . $this->data->id_batch;
+                    $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi reembolsado.";
+                } else {
+                    $subject = "Lote Fechado | " . $this->data->id_batch;
+                    $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi fechado.";
+                }
+            }
+
+            return (new MailMessage)
+                ->subject($subject)
                 ->greeting('Olá, ' . $userName . '!')
                 ->line($html)
                 ->markdown('vendor.notifications.email');

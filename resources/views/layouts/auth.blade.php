@@ -5,7 +5,7 @@
     <title>@yield('title')
         @if (!empty(trim($__env->yieldContent('title'))))
             ::
-        @endif View Informática
+        @endif View FS
     </title>
 
     @include('layouts.partials.meta')

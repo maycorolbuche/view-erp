@@ -8,7 +8,6 @@ use App\Models\Expense;
 use App\Models\Notification as NotificationModel;
 use App\Helpers\ExpenseHelper;
 use App\Http\Requests\BatchRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\BatchNotification;
 

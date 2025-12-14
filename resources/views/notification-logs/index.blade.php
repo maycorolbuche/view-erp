@@ -23,6 +23,11 @@
 
                 {!! $data->message !!}
 
+                <br>
+
+                <x-group right>
+                    <x-button type="cancel" route-name="notification-logs" />
+                </x-group>
             </x-panel>
         @else
             @include('layouts.partials.messages')

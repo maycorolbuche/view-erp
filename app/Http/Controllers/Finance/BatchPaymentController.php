@@ -8,6 +8,8 @@ use App\Models\Transaction;
 use App\Helpers\UserHelper;
 use Illuminate\Http\Request;
 use App\Helpers\DataTableHelper;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BatchNotification;
 
 class BatchPaymentController extends Controller
 {
@@ -73,6 +75,7 @@ class BatchPaymentController extends Controller
                     'amount_paid' => $amount_paid,
                     'active' => false,
                 ]);
+                $this->sendMail($id);
 
                 Transaction::where(['id_batch' => $id, 'type' => 'batch-payment'])->delete();
                 Transaction::create([
@@ -96,5 +99,11 @@ class BatchPaymentController extends Controller
     public function datatable()
     {
         return DataTableHelper::batches(Batch::paymentPending());
+    }
+
+    public function sendMail($id_batch)
+    {
+        $batch = Batch::with('user')->find($id_batch);
+        Notification::send($batch->user, new BatchNotification($batch, 'user'));
     }
 }

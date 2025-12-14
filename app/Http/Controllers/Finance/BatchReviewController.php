@@ -10,6 +10,8 @@ use App\Helpers\ConfigHelper;
 use App\Helpers\CalendarHelper;
 use App\Helpers\DataTableHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BatchNotification;
 
 class BatchReviewController extends Controller
 {
@@ -82,6 +84,7 @@ class BatchReviewController extends Controller
                     ];
 
                     $batch->update($data);
+                    $this->sendMail($id);
 
                     return redirect()->route('batch-review.show', ['id' => $id]);
                 } elseif ($request->input('_action') == "revised") {
@@ -111,6 +114,7 @@ class BatchReviewController extends Controller
                     ]);
                 } elseif ($request->input('_action') == "approve") {
 
+
                     $data = [
                         'revised_by' => auth()->user()->id_user,
                         'revised_at' => now(),
@@ -119,6 +123,7 @@ class BatchReviewController extends Controller
                     ];
 
                     $batch->update($data);
+                    $this->sendMail($id);
 
                     return redirect()->route('batch-review')->with('success', 'Lote aprovado para pagamento!');
                 }
@@ -135,5 +140,11 @@ class BatchReviewController extends Controller
     public function datatable()
     {
         return DataTableHelper::batches(Batch::reviewPending());
+    }
+
+    public function sendMail($id_batch)
+    {
+        $batch = Batch::with('user')->find($id_batch);
+        Notification::send($batch->user, new BatchNotification($batch, 'user'));
     }
 }
