@@ -853,5 +853,24 @@ class RouteSeeder extends Seeder
                 'root' => 0,
             ]
         );
+
+
+        /* LOGS */
+        $id_route_group = 9;
+        Route::updateOrCreate(
+            ['id_route' => 54],
+            [
+                'id_route_group' => $id_route_group,
+                'label' => 'E-mails',
+                'name' => 'notification-logs',
+                'uri' => 'logs/notification',
+                'controller' => 'Log\NotificationLogController',
+                'resources' => $query_resources,
+                'permissions' => $query_permissions,
+                'icon' => 'glyphicons glyphicons-message_new',
+                'sequence' => self::sequence(),
+                'root' => 0,
+            ]
+        );
     }
 }

@@ -34,6 +34,7 @@ use App\Models\UserWarning;
 use App\Models\UserCashHistory;
 use App\Models\Transaction;
 use App\Models\Profile;
+use App\Models\NotificationLog;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -972,6 +973,32 @@ class DataTableHelper
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public static function notification_logs($query = null)
+    {
+        $data = $query ?: NotificationLog::query();
+        $id_field = request('id-field') ?: 'id';
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($row) use ($id_field) {
+                $edit_route = route(request('route') ?: 'notification-logs.show', [$id_field => $row->id_notification_log]);
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
+                return $actionBtn;
+            })
+            ->editColumn('sent_at', function ($row) {
+                return Carbon::parse($row->sent_at)->format('d/m/Y H:i:s');
+            })
+            ->editColumn('status', function ($row) {
+                return (
+                    $row->status == "sent"
+                    ? "<span class='badge badge-success'>Enviado</span>"
+                    : $row->status
+                );
+            })
+            ->rawColumns(['actions', 'status'])
             ->make(true);
     }
 }

@@ -83,5 +83,14 @@ class RouteGroupSeeder extends Seeder
                 'note' => 'Os relatórios mostram dados de todos os usuários',
             ]
         );
+        RouteGroup::updateOrCreate(
+            ['id_route_group' => 9],
+            [
+                'icon' => 'far fa-file-alt',
+                'label' => 'Logs',
+                'sequence' => self::sequence(),
+                'note' => 'Os logs mostram dados de todos os usuários',
+            ]
+        );
     }
 }
