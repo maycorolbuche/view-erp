@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Expense;
 use App\Helpers\UserHelper;
-use Illuminate\Http\Request;
+use App\Helpers\ConfigHelper;
+use App\Helpers\CalendarHelper;
 use App\Helpers\DataTableHelper;
+use Illuminate\Http\Request;
 
 class BatchReviewController extends Controller
 {
@@ -36,7 +38,9 @@ class BatchReviewController extends Controller
             ->first();
         if ($data) {
             $user_cash = UserHelper::getCash($data->id_user);
-            return view('batch-review.index', compact('data', 'user_cash'));
+            $estimated_payment_date = CalendarHelper::addBusinessDays(now(), ConfigHelper::get('batches.standard_payment_days'), auth()->user()->id_branch);
+
+            return view('batch-review.index', compact('data', 'user_cash', 'estimated_payment_date'));
         } else {
             return redirect()->route('batch-review')->with('error', 'Registro não encontrado!');
         }

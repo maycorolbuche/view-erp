@@ -18,5 +18,10 @@ class ConfigSeeder extends Seeder
             ['key' => 'batches.active.days_to_close_without_refund'],
             ['value' => '30']
         );
+
+        Config::firstOrCreate(
+            ['key' => 'batches.standard_payment_days'],
+            ['value' => '3']
+        );
     }
 }

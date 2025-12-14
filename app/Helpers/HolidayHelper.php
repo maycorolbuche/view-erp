@@ -2,13 +2,14 @@
 
 namespace App\Helpers;
 
+use DateTime;
 use App\Models\Holiday;
 
 class HolidayHelper
 {
-    public static function date($date, $id_branch)
+    public static function date(DateTime $date, $id_branch)
     {
-        $d = new \DateTime($date);
+        $d = $date;
 
         $year = $d->format('Y');
         $month = $d->format('m');

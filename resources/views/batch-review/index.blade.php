@@ -138,7 +138,7 @@
 
                         <x-group>
                             <x-input type="date" name="estimated_payment_date" width="150"
-                                label="Data Prevista para Pagamento" />
+                                label="Data Prevista para Pagamento" value="{{ $estimated_payment_date }}" />
                         </x-group>
 
                         <x-group right>

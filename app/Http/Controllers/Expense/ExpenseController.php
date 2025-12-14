@@ -18,6 +18,7 @@ use App\Helpers\DateTimeHelper;
 use App\Helpers\DataTableHelper;
 use App\Helpers\FileUploadHelper;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ExpenseController extends Controller
 {
@@ -75,7 +76,13 @@ class ExpenseController extends Controller
         $data = [...$request->all(), 'id_file' => ($file ? $file->id_file : null)];
 
         try {
-            $dates = DateTimeHelper::distribute($request->amount, $request->date, $request->distribute, $authorization->end_date, Auth::user()->id_branch);
+            $dates = DateTimeHelper::distribute(
+                $request->amount,
+                Carbon::parse($request->date),
+                $request->distribute,
+                Carbon::parse($authorization->end_date),
+                Auth::user()->id_branch
+            );
 
             if ($request->distribute <= 1 || count($dates) <= 0) {
                 $expense = Expense::create($data);
@@ -87,6 +94,9 @@ class ExpenseController extends Controller
                 foreach ($dates as $date => $amount) {
                     $request['date'] = $date;
                     $request['amount'] = $amount;
+                    $data['date'] = $date;
+                    $data['amount'] = $amount;
+
                     $expense = Expense::create($data);
 
                     $accumulated_amount = 0;

@@ -35,6 +35,7 @@ class ConfigController extends Controller
         $inputs = $request->only(
             'authorizationsActiveDays_to_close',
             'batchesActiveDays_to_close_without_refund',
+            'batchesStandard_payment_days',
         );
 
         try {

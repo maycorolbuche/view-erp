@@ -3,13 +3,15 @@
 namespace App\Helpers;
 
 use App\Helpers\HolidayHelper;
+use DateTime;
 
 class DateTimeHelper
 {
-    public static function distribute($amount, $start_date, $days, $end_date, $id_branch)
+    public static function distribute(float $amount, DateTime $start_date, int $days, DateTime $end_date, int $id_branch)
     {
-        $date = new \DateTime($start_date);
-        $max_date = new \DateTime($end_date);
+        $date = $start_date;
+        $max_date = $end_date;
+
 
         $partial_amount = round($amount / $days, 2);
 
@@ -33,7 +35,7 @@ class DateTimeHelper
             }
 
             //Verifica se é feriado
-            $holidays = HolidayHelper::date($d->format('Y-m-d'), $id_branch);
+            $holidays = HolidayHelper::date($d, $id_branch);
             if (count($holidays) > 0) {
                 $days++;
                 continue;
