@@ -136,18 +136,30 @@
 
                         <div style="margin-top: 20px;"></div>
 
-                        <x-group>
-                            <x-input type="date" name="estimated_payment_date" width="150"
-                                label="Data Prevista para Pagamento" value="{{ $estimated_payment_date }}" />
-                        </x-group>
+                        @if ($data->refundable_amount <= 0)
+                            <x-note type="warning">
+                                Este lote não tem valor para ser reembolsado.
+                            </x-note>
+                        @else
+                            <x-group>
+                                <x-input type="date" name="estimated_payment_date" width="150"
+                                    label="Data Prevista para Pagamento" value="{{ $estimated_payment_date }}" />
+                            </x-group>
+                        @endif
 
                         <x-group right>
                             <x-button type="update" layout="danger" value="fail" label="Reprovar Lote"
                                 permission="{{ in_array('update', request('__permissions_page')) }}"
                                 confirm="Deseja realmente reprovar este lote?" novalidate />
-                            <x-button type="update" value="approve" label="Aprovar Lote"
-                                permission="{{ in_array('update', request('__permissions_page')) }}"
-                                confirm="Deseja aprovar este lote?" />
+                            @if ($data->refundable_amount <= 0)
+                                <x-button type="update" value="approve" label="Fechar Lote"
+                                    permission="{{ in_array('update', request('__permissions_page')) }}"
+                                    confirm="Deseja fechar este lote?" />
+                            @else
+                                <x-button type="update" value="approve" label="Aprovar Lote"
+                                    permission="{{ in_array('update', request('__permissions_page')) }}"
+                                    confirm="Deseja aprovar este lote?" />
+                            @endif
                             <x-button type="cancel" route-name="batch-review" />
                         </x-group>
                     </x-form>

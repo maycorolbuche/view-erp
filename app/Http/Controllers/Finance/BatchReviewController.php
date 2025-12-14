@@ -114,18 +114,33 @@ class BatchReviewController extends Controller
                     ]);
                 } elseif ($request->input('_action') == "approve") {
 
+                    if ($batch->refundable_amount <= 0) {
+                        $data = [
+                            'revised_by' => auth()->user()->id_user,
+                            'revised_at' => now(),
+                            'revised_status' => 'approved',
+                            'active' => false,
+                            'user_cash' => 0,
+                            'amount_paid' => 0,
+                        ];
 
-                    $data = [
-                        'revised_by' => auth()->user()->id_user,
-                        'revised_at' => now(),
-                        'revised_status' => 'approved',
-                        'estimated_payment_date' => $request->input("estimated_payment_date")
-                    ];
+                        $batch->update($data);
+                        $this->sendMail($id);
 
-                    $batch->update($data);
-                    $this->sendMail($id);
+                        return redirect()->route('batch-review')->with('success', 'Lote fechado com sucesso!');
+                    } else {
+                        $data = [
+                            'revised_by' => auth()->user()->id_user,
+                            'revised_at' => now(),
+                            'revised_status' => 'approved',
+                            'estimated_payment_date' => $request->input("estimated_payment_date")
+                        ];
 
-                    return redirect()->route('batch-review')->with('success', 'Lote aprovado para pagamento!');
+                        $batch->update($data);
+                        $this->sendMail($id);
+
+                        return redirect()->route('batch-review')->with('success', 'Lote aprovado para pagamento!');
+                    }
                 }
 
                 return redirect()->route('batch-review')->with('error', 'Ação não definida!');

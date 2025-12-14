@@ -60,7 +60,7 @@ class BatchPaymentController extends Controller
                 $user_cash = UserHelper::getCash($batch->id_user);
                 $amount_paid = $batch->refund_amount;
                 $discount = 0;
-                if ($user_cash > 0) {
+                if ($amount_paid > 0 && $user_cash > 0) {
                     $discount = min($user_cash, $amount_paid);
                     $amount_paid = $amount_paid - $discount;
 
@@ -77,17 +77,21 @@ class BatchPaymentController extends Controller
                 ]);
                 $this->sendMail($id);
 
-                Transaction::where(['id_batch' => $id, 'type' => 'batch-payment'])->delete();
-                Transaction::create([
-                    'type' => 'batch-payment',
-                    'id_batch' => $id,
-                    'id_user' => $batch->id_user,
-                    'date' => date("Y-m-d"),
-                    'amount' => $amount_paid * -1,
-                    'description' => 'Pagamento de Lote',
-                ]);
+                if ($amount_paid > 0) {
+                    Transaction::where(['id_batch' => $id, 'type' => 'batch-payment'])->delete();
+                    Transaction::create([
+                        'type' => 'batch-payment',
+                        'id_batch' => $id,
+                        'id_user' => $batch->id_user,
+                        'date' => date("Y-m-d"),
+                        'amount' => $amount_paid * -1,
+                        'description' => 'Pagamento de Lote',
+                    ]);
 
-                return redirect()->route('batch-payments')->with('success', 'Pagamento registrado com sucesso');
+                    return redirect()->route('batch-payments')->with('success', 'Pagamento registrado com sucesso');
+                } else {
+                    return redirect()->route('batch-payments')->with('success', 'Lote encerrado com sucesso');
+                }
             } else {
                 return redirect()->route('batch-payments')->with('error', 'Registro não encontrado!');
             }

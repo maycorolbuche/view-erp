@@ -30,7 +30,7 @@ class HomeController extends Controller
 
         $authorizations_pending_count = AuthorizationHelper::pending_count();
 
-        $batch_review_count = Batch::reviewPending()->count();
+        $batch_review_count = Batch::reviewPending()->whereNull('revised_by')->count();
         $batch_payments_count = Batch::paymentPending()->count();
 
         return view('dashboard.index', compact('system', 'permissions', 'batch_review_count', 'batch_payments_count', 'authorizations_pending_count', 'pages', 'user'));
