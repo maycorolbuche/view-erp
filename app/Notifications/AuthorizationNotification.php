@@ -103,6 +103,13 @@ class AuthorizationNotification extends Notification
         }
 
 
+        if ($this->data->agreement_terms <> '') {
+            $html .= "<p><b>Termo de Compromisso: </b>";
+            $html .= "<br>";
+            $html .= "<small>" . $this->data->agreement_terms . "</small>";
+        }
+
+
         $html .= "<p><b>Autorizações Necessárias: </b>" . ($this->data->authorization_type->approval == "all"
             ? "Requer autorização de <u>todas</u> as pessoas da lista abaixo"
             : "Requer autorização de apenas <u>uma</u> pessoa da lista abaixo"

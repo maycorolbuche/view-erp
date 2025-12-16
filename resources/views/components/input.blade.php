@@ -8,7 +8,7 @@
         {{ $label }}{{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
         {!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
-    <div style="position: relative;">
+    <div style="position: relative;{{ $type == 'boolean' ? 'display: flex;align-items: center;gap: 10px;' : '' }}">
         @if ($type == 'icon')
             <!-- -->
             <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}"
@@ -171,7 +171,8 @@
                         <i class="fa fa-trash"></i>
                     </a>
                 </div>
-                <input id="id_{{ $id }}" name="id_{{ $id }}" value="{{ $file->id_file }}" style="display:none">
+                <input id="id_{{ $id }}" name="id_{{ $id }}" value="{{ $file->id_file }}"
+                    style="display:none">
 
                 @push('scripts')
                     <script>

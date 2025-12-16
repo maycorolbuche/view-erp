@@ -18,6 +18,10 @@
                         label="Qtd. dias para encerrar autorização"
                         value="{{ $configs['authorizations.active.days_to_close'] ?? '' }}"
                         tip="Quantos dias após o vencimento de uma autorização, a mesma deve ser encerrada?" />
+                    <x-input type="textarea" name="authorizationsCash_advanceAgreement_terms" width="450"
+                        label="Termo de Consentimento - Solicitação de Adiantamento"
+                        value="{{ $configs['authorizations.cash_advance.agreement_terms'] ?? '' }}"
+                        tip="Deverá ser aceito pelo usuário ao solicitar adiantamento" />
                 </x-group>
 
                 <x-title>Lotes</x-title>

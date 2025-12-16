@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Authorization;
 use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
-use App\Models\AuthorizationType;
 use App\Helpers\UserHelper;
 use App\Helpers\AuthorizationHelper;
+use App\Helpers\ConfigHelper;
 use App\Http\Requests\AuthorizationCashAdvanceRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;
@@ -28,7 +28,8 @@ class AuthorizationCashAdvanceController extends Controller
         $authorizations = AuthorizationHelper::active('expense');
         $parents = AuthorizationHelper::users('cash-advance');
         $user_cash = UserHelper::getCash(Auth::id());
-        return view('authorizations-cash-advances.index', compact('authorizations', 'parents', 'user_cash'));
+        $agreement_terms = ConfigHelper::get('authorizations.cash_advance.agreement_terms');
+        return view('authorizations-cash-advances.index', compact('authorizations', 'parents', 'user_cash', 'agreement_terms'));
     }
 
     /**
@@ -47,6 +48,13 @@ class AuthorizationCashAdvanceController extends Controller
         if (count($parents) <= 0) {
             return redirect()->back()->with('error', 'Não há nenhuma pessoa cadastrada para aprovar suas despesas! Entre em contato com o administrador do sistema.')->withInput();
         }
+
+        $agreement_terms = ConfigHelper::get('authorizations.cash_advance.agreement_terms');
+        if ($agreement_terms <> "" && !$request->input("agreement_terms")) {
+            return redirect()->back()->with('error', 'Você deve aceitar o termo de compormisso, concordando com seus termos e condições!')->withInput();
+        }
+
+        $request->merge(['agreement_terms' => $agreement_terms]);
 
         try {
             $authorization_expense = Authorization::create($request->all());

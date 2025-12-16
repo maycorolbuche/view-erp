@@ -18,7 +18,8 @@
                 <x-note>
                     <span style="font-weight: 600;">Para:</span> <a
                         href="mailto:{{ $data->recipient }}">{{ $data->recipient }}</a>
-                    <br><span style="font-weight: 600;">Data/Hora:</span> {{ $data->sent_at }}
+                    <br><span style="font-weight: 600;">Data/Hora:</span>
+                    {{ \Carbon\Carbon::parse($data->sent_at)->format('d/m/Y H:i:s') }}
                 </x-note>
 
                 {!! $data->message !!}

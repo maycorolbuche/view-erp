@@ -53,6 +53,17 @@
 
                     <br>
 
+                    @if (trim($data->agreement_terms) != '')
+                        <x-note>
+                            <small>
+                                <b>Termo de Compromisso:</b>
+                                <br>{{ $data->agreement_terms }}
+                            </small>
+                        </x-note>
+                    @endif
+
+                    <br>
+
                     @if (trim($data->description) != '')
                         <x-note>
                             {{ $data->description }}

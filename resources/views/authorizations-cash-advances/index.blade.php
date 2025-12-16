@@ -43,6 +43,13 @@
                     <x-group>
                         <x-input name="description" width="600" label="Motivo da Solicitação" required />
                     </x-group>
+                    @if (isset($agreement_terms) && $agreement_terms != '')
+                        <x-group>
+                            <x-input type="boolean" name="agreement_terms" width="400" label="Termo de Compromisso">
+                                {{ $agreement_terms }}
+                            </x-input>
+                        </x-group>
+                    @endif
                     <x-group>
                         <div class="form-group" style="padding: 0 5px 0 5px;">
                             <label for="id_client" class="col-lg-3 control-label" style="padding:0;width:100%;">

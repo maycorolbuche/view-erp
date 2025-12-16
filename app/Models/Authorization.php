@@ -26,6 +26,7 @@ class Authorization extends Model
         'self',
         'active',
         'approved',
+        'agreement_terms',
     ];
 
     protected $appends = ['description_details'];

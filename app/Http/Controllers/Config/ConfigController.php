@@ -36,6 +36,7 @@ class ConfigController extends Controller
             'authorizationsActiveDays_to_close',
             'batchesActiveDays_to_close_without_refund',
             'batchesStandard_payment_days',
+            'authorizationsCash_advanceAgreement_terms',
         );
 
         try {

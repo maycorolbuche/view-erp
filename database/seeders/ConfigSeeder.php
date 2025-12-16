@@ -13,12 +13,14 @@ class ConfigSeeder extends Seeder
             ['key' => 'authorizations.active.days_to_close'],
             ['value' => '30']
         );
+        Config::firstOrCreate(
+            ['key' => 'authorizations.cash_advance.agreement_terms']
+        );
 
         Config::firstOrCreate(
             ['key' => 'batches.active.days_to_close_without_refund'],
             ['value' => '30']
         );
-
         Config::firstOrCreate(
             ['key' => 'batches.standard_payment_days'],
             ['value' => '3']

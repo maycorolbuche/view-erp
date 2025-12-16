@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('configs', function (Blueprint $table) {
             $table->increments('id_config');
             $table->string('key')->unique();
-            $table->string('value')->nullable();
+            $table->text('value')->nullable();
 
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
