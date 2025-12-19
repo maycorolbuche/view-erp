@@ -189,6 +189,8 @@
 
                 </x-form>
             </x-panel>
+        @else
+            @include('layouts.partials.messages')
         @endif
 
         <x-panel title="Dados" type="warning">

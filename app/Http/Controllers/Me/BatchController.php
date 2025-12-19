@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Expense;
 use App\Models\Notification as NotificationModel;
+use App\Models\Authorization;
 use App\Helpers\BatchHelper;
 use App\Helpers\DataTableHelper;
 use Illuminate\Support\Facades\Notification;
@@ -66,10 +67,23 @@ class BatchController extends Controller
                 if ($batch->revised_status !== 'pending') {
                     return redirect()->back()->with('error', 'Este lote não pode ser desfeito, pois já foi revisado!')->withInput();
                 }
-                Expense::where('id_batch', $id)->update(['id_batch' => null, 'revised' => false]);
+
+                //Checa se alguma das despesas do lote possui autorização vencida. Se tiver, lote não pode ser desfeito.
+                $auths = Expense::batch($id)->inactiveAuthorization()->pluck('id_authorization')->toArray();
+                if (count($auths) > 0) {
+                    $authorizations = Authorization::whereIn('id_authorization', $auths)->get();
+                    $message = "Não é possível desfazer este lote, pois ele possui autorizações vencidas!";
+                    $message .= "<ul>";
+                    foreach ($authorizations as $authorization) {
+                        $message .= "<li>" . $authorization->description_details . "</li>";
+                    }
+                    $message .= "</ul>";
+                    return redirect()->back()->with('error', $message)->withInput();
+                }
+                Expense::batch($id)->update(['id_batch' => null, 'revised' => false]);
                 $batch->delete();
                 $this->sendMail($id);
-                return redirect()->route('me-batches')->with('success', 'Registro apagado com sucesso');
+                return redirect()->route('me-batches')->with('success', 'Lote desfeito com sucesso');
             } else {
                 return redirect()->route('me-batches')->with('error', 'Registro não encontrado!');
             }

@@ -30,7 +30,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             @if (count($message) == 1)
                 <i class="fa fa-{{ $type == 'danger' ? 'remove' : 'check' }} pr10"></i>
-                {{ $message[0] }}
+                {!! $message[0] !!}
             @else
                 <ul class="list-unstyled mb-0">
                     @foreach ($message as $msg)

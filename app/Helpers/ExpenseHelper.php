@@ -13,6 +13,8 @@ use App\Models\BatchClient;
 use App\Helpers\HolidayHelper;
 use App\Helpers\DiscountHelper;
 
+use Carbon\Carbon;
+
 class ExpenseHelper
 {
     public static function refresh($id)
@@ -115,7 +117,7 @@ class ExpenseHelper
                 }
 
                 //Não é Feriado?
-                $holyday = HolidayHelper::date($expense->date, $expense->user->id_branch);
+                $holyday = HolidayHelper::date(Carbon::parse($expense->date), $expense->user->id_branch);
                 if (count($holyday) > 0) {
                     continue;
                 }
