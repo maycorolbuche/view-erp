@@ -8,7 +8,8 @@
         {{ $label }}{{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
         {!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
-    <div style="position: relative;{{ $type == 'boolean' ? 'display: flex;align-items: center;gap: 10px;' : '' }}">
+    <div
+        style="position: relative;{{ $type == 'boolean' || $type == 'bool' || $type == 'boolean-checkbox' || $type == 'bool-chk' ? 'display: flex;align-items: center;gap: 10px;' : '' }}">
         @if ($type == 'icon')
             <!-- -->
             <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}"
@@ -113,6 +114,28 @@
                 @endforeach
             </div>
             <!-- -->
+        @elseif ($type == 'bool-chk' || $type == 'boolean-checkbox')
+            <!-- -->
+            <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}">
+
+            <div class="checkbox-custom" style="padding: 0;margin: -18px 0 0 0;">
+                <input id="{{ $id }}_chk" name="{{ $name }}_chk" type="checkbox" value="1"
+                    {{ $value == true ? 'checked' : '' }}>
+                <label for="{{ $id }}_chk"></label>
+            </div>
+
+            @push('scripts')
+                <script>
+                    $(document).ready(function() {
+                        $("#{{ $id }}_chk").change(function() {
+                            $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
+                        });
+                        $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
+                    });
+                </script>
+            @endpush
+
+            <!-- -->
         @elseif ($type == 'bool' || $type == 'boolean')
             <!-- -->
             <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}">
@@ -129,6 +152,7 @@
                         $("#{{ $id }}_switch").change(function() {
                             $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
                         });
+                        $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
                     });
                 </script>
             @endpush

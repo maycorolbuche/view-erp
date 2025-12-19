@@ -45,8 +45,14 @@
                     </x-group>
                     @if (isset($agreement_terms) && $agreement_terms != '')
                         <x-group>
-                            <x-input type="boolean" name="agreement_terms" width="400" label="Termo de Compromisso">
-                                {{ $agreement_terms }}
+                            <x-note>
+                                <h3 style="margin: 0 0 8px 0;padding: 0;font-size: 14px;">
+                                    Termo de Compromisso
+                                </h3>
+                                <small style="text-align: justify;">{{ $agreement_terms }}</small>
+                            </x-note>
+                            <x-input type="boolean-checkbox" name="agreement_terms" width="400">
+                                Li e estou de acordo com o Termo de Compromisso de Adiantamento para Despesas de Viagem
                             </x-input>
                         </x-group>
                     @endif
