@@ -24,6 +24,7 @@ class BatchController extends Controller
         $expenses = Expense::with(['category', 'clients', 'payment_method'])
             ->me()
             ->withoutBatch()
+            ->activeAuthorization()
             ->orderBy('date', 'desc')
             ->get();
 

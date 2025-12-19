@@ -78,6 +78,12 @@ class Expense extends Model
             $q->where('active', true);
         });
     }
+    public function scopeInactiveAuthorization($query)
+    {
+        return $query->whereHas('authorization', function ($q) {
+            $q->where('active', false);
+        });
+    }
     public function scopeBatch($query, $id_batch)
     {
         return $query->where('id_batch', $id_batch);

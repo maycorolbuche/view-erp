@@ -15,9 +15,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // php artisan schedule:run
+
         $schedule->command('task:close_authorizations')->daily()->between('00:00', '04:00');
         $schedule->command('task:close_batches_without_refund')->daily()->between('00:00', '04:00');
 
+        $schedule->command('task:remove_inactive_expenses')->daily()->between('00:00', '04:00');
         $schedule->command('task:email_pending_batches')->daily()->between('00:00', '04:00');
 
         $schedule->command('task:migrate')->daily()->between('00:00', '04:00');
