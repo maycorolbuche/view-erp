@@ -17,6 +17,7 @@ use App\Helpers\ExpenseHelper;
 use App\Helpers\DateTimeHelper;
 use App\Helpers\DataTableHelper;
 use App\Helpers\FileUploadHelper;
+use App\Helpers\ConfigHelper as Configs;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -47,7 +48,9 @@ class ExpenseController extends Controller
             }
         }
 
-        return view('expenses.index', compact('authorizations', 'categories', 'payment_methods', 'users', 'clients', 'id_authorization'));
+        $required_file = Configs::getBoolean("expenses.required.file");
+
+        return view('expenses.index', compact('authorizations', 'categories', 'payment_methods', 'users', 'clients', 'id_authorization', 'required_file'));
     }
 
     /**
@@ -72,6 +75,11 @@ class ExpenseController extends Controller
 
         $authorization = Authorization::where('id_authorization', $request->input('id_authorization'))->first();
         $file = FileUploadHelper::upload($request->file('file'), "expenses");
+        $required_file = Configs::getBoolean("expenses.required.file");
+
+        if (!$file && $required_file) {
+            return redirect()->back()->with('error', 'É necessário anexar o comprovante da despesa!')->withInput();
+        }
 
         $data = [...$request->all(), 'id_file' => ($file ? $file->id_file : null)];
 
@@ -176,7 +184,9 @@ class ExpenseController extends Controller
             $users = User::orderBy('name')->get();
             $clients = Client::orderBy('name')->get();
 
-            return view('expenses.index', compact('data', 'authorizations', 'categories', 'payment_methods', 'users', 'clients'));
+            $required_file = Configs::getBoolean("expenses.required.file");
+
+            return view('expenses.index', compact('data', 'authorizations', 'categories', 'payment_methods', 'users', 'clients', 'required_file'));
         } else {
             return redirect()->route('expenses')->with('error', 'Registro não encontrado!');
         }
@@ -202,6 +212,11 @@ class ExpenseController extends Controller
             $data = [...$request->all(), 'id_file' => ($file ? $file->id_file : null)];
         } else {
             $data = $request->all();
+        }
+
+        $required_file = Configs::getBoolean("expenses.required.file");
+        if (!$data["id_file"] && $required_file) {
+            return redirect()->back()->with('error', 'É necessário anexar o comprovante da despesa!')->withInput();
         }
 
         try {

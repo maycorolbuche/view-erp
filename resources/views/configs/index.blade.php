@@ -24,6 +24,14 @@
                         tip="Deverá ser aceito pelo usuário ao solicitar adiantamento" />
                 </x-group>
 
+                <x-title>Despesas</x-title>
+                <x-group>
+                    <x-input type="bool" name="expensesRequiredFile" width="150"
+                        label="Anexo de arquivo obrigatório"
+                        value="{{ $configs['expenses.required.file'] ?? '' }}"
+                        tip="Origatório anexar o comprovante da despesa?" />
+                </x-group>
+
                 <x-title>Lotes</x-title>
                 <x-group>
                     <x-input type="numeric" name="batchesActiveDays_to_close_without_refund" width="150"

@@ -149,7 +149,8 @@
                         @endif
 
                         <x-input type="file" name="file" width="350" label="Comprovante da Despesa"
-                            value="{{ $data->file ?? '' }}" accept=".jpg,.jpeg,.png,.pdf" />
+                            value="{{ $data->file ?? '' }}" accept=".jpg,.jpeg,.png,.pdf"  
+                            required="{{$required_file?'required':''}}"/>
                     </x-group>
 
                     <div class="panel-heading">

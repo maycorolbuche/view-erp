@@ -21,6 +21,15 @@ class ConfigHelper
         return $default;
     }
 
+    public static function getBoolean($key, $default = false)
+    {
+        $config = Config::where('key', $key)->first();
+        if ($config) {
+            return $config->value == "1" || $default == "true";
+        }
+        return $default;
+    }
+
     public static function set($key, $value)
     {
         $config = Config::updateOrCreate(
