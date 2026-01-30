@@ -17,13 +17,23 @@
     </table>
 </footer>
 
-@if (!$data->active)
+{{-- @if (!$data->active) --}}
+@if ($data->status["type"] <> "reviewed")
     <table style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 1000;">
         <tr>
             <td style="text-align: center;vertical-aign: middle;height: 100%;">
                 <div
                     style="border:10px solid #000;border-left:0;border-right:0;transform: rotate(315deg);font-size:100px;font-weight:bold;opacity: .5;">
-                    &nbsp;&nbsp;&nbsp;&nbsp;PAGO&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{
+                        $data->status["type"] == "closed"
+                            ? "PAGO"
+                            : 
+                            (
+                                $data->status["type"] == "analyzing"
+                                    ? "REVISÃO"
+                                    : mb_strtoupper($data->status["label"])
+                            )
+                    }}&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
             </td>
         </tr>
@@ -142,166 +152,168 @@
     </table>
 
     <div style="page-break-inside: avoid;">
-        <h2>Resumo</h2>
+        @if ($data->status["type"] == "reviewed" || $data->status["type"] == "closed")
+            <h2>Resumo</h2>
 
-        <blockquote style="font-size:14px;">
-            <b>Qtd. Despesas:</b> {{ count($data->expenses) }}
-        </blockquote>
+            <blockquote style="font-size:14px;">
+                <b>Qtd. Despesas:</b> {{ count($data->expenses) }}
+            </blockquote>
 
-        <table>
-            <tr>
-                <td>
-                    <table style="border: 1px solid #000;">
-                        <tr>
-                            <td style="background: #CCC; text-align: center;">
-                                <b>Valor do Lote</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center;font-size: 16px;padding:5px;">
-                                R$ {{ number_format($data->amount, 2, ',', '.') }}
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td style="font-size:30px;text-align:center;width:30px;">-</td>
-                <td>
-                    <table style="border: 1px solid #000;">
-                        <tr>
-                            <td style="background: #CCC; text-align: center;">
-                                <b>Vl. não Reembolsável</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center;font-size: 16px;padding:5px;">
-                                R$ {{ number_format($data->non_refundable_amount, 2, ',', '.') }}
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td style="font-size:30px;text-align:center;width:30px;">-</td>
-                <td>
-                    <table style="border: 1px solid #000;">
-                        <tr>
-                            <td style="background: #CCC; text-align: center;">
-                                <b>Vl. Desconto</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center;font-size: 16px;padding:5px;">
-                                R$ {{ number_format($data->discount, 2, ',', '.') }}
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-
-                @if ($data->active)
+            <table>
+                <tr>
+                    <td>
+                        <table style="border: 1px solid #000;">
+                            <tr>
+                                <td style="background: #CCC; text-align: center;">
+                                    <b>Valor do Lote</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;font-size: 16px;padding:5px;">
+                                    R$ {{ number_format($data->amount, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
                     <td style="font-size:30px;text-align:center;width:30px;">-</td>
                     <td>
                         <table style="border: 1px solid #000;">
                             <tr>
                                 <td style="background: #CCC; text-align: center;">
-                                    <b>Vl. Adiantamento</b><sup>1</sup>
+                                    <b>Vl. não Reembolsável</b>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="text-align: center;font-size: 16px;padding:5px;">
-                                    R$
-                                    {{ number_format($data->user->users_cash ? $data->user->users_cash->amount : 0, 2, ',', '.') }}
+                                    R$ {{ number_format($data->non_refundable_amount, 2, ',', '.') }}
                                 </td>
                             </tr>
                         </table>
                     </td>
-                    <td style="font-size:30px;text-align:center;width:30px;">=</td>
-                    <td>
-                        <table style="border: 1px solid #000;">
-                            <tr>
-                                <td style="background: #CCC; text-align: center;">
-                                    <b>Vl. Reembolso</b><sup>2</sup>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;font-size: 16px;padding:5px;">
-                                    R$
-                                    {{ number_format(
-                                        max([0, $data->refund_amount - ($data->user->users_cash ? $data->user->users_cash->amount : 0)]),
-                                        2,
-                                        ',',
-                                        '.',
-                                    ) }}
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                @else
                     <td style="font-size:30px;text-align:center;width:30px;">-</td>
                     <td>
                         <table style="border: 1px solid #000;">
                             <tr>
                                 <td style="background: #CCC; text-align: center;">
-                                    <b>Vl. Adiantamento</b>
+                                    <b>Vl. Desconto</b>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="text-align: center;font-size: 16px;padding:5px;">
-                                    R$
-                                    {{ number_format($data->user_cash, 2, ',', '.') }}
+                                    R$ {{ number_format($data->discount, 2, ',', '.') }}
                                 </td>
                             </tr>
                         </table>
                     </td>
-                    @if ($data->extra_amount != 0)
-                        <td style="font-size:30px;text-align:center;width:30px;">
-                            {{ $data->extra_amount < 0 ? '-' : '+' }}
-                        </td>
+
+                    @if ($data->active)
+                        <td style="font-size:30px;text-align:center;width:30px;">-</td>
                         <td>
                             <table style="border: 1px solid #000;">
                                 <tr>
                                     <td style="background: #CCC; text-align: center;">
-                                        <b>{{ $data->extra_amount < 0 ? 'Desconto' : 'Acréscimo' }}
-                                            Extra</b><sup>1</sup>
+                                        <b>Vl. Adiantamento</b><sup>1</sup>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: center;font-size: 16px;padding:5px;">
-                                        R$ {{ number_format(abs($data->extra_amount), 2, ',', '.') }}
+                                        R$
+                                        {{ number_format($data->user->users_cash ? $data->user->users_cash->amount : 0, 2, ',', '.') }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="font-size:30px;text-align:center;width:30px;">=</td>
+                        <td>
+                            <table style="border: 1px solid #000;">
+                                <tr>
+                                    <td style="background: #CCC; text-align: center;">
+                                        <b>Vl. Reembolso</b><sup>2</sup>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;font-size: 16px;padding:5px;">
+                                        R$
+                                        {{ number_format(
+                                            max([0, $data->refund_amount - ($data->user->users_cash ? $data->user->users_cash->amount : 0)]),
+                                            2,
+                                            ',',
+                                            '.',
+                                        ) }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    @else
+                        <td style="font-size:30px;text-align:center;width:30px;">-</td>
+                        <td>
+                            <table style="border: 1px solid #000;">
+                                <tr>
+                                    <td style="background: #CCC; text-align: center;">
+                                        <b>Vl. Adiantamento</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;font-size: 16px;padding:5px;">
+                                        R$
+                                        {{ number_format($data->user_cash, 2, ',', '.') }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        @if ($data->extra_amount != 0)
+                            <td style="font-size:30px;text-align:center;width:30px;">
+                                {{ $data->extra_amount < 0 ? '-' : '+' }}
+                            </td>
+                            <td>
+                                <table style="border: 1px solid #000;">
+                                    <tr>
+                                        <td style="background: #CCC; text-align: center;">
+                                            <b>{{ $data->extra_amount < 0 ? 'Desconto' : 'Acréscimo' }}
+                                                Extra</b><sup>1</sup>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;font-size: 16px;padding:5px;">
+                                            R$ {{ number_format(abs($data->extra_amount), 2, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        @endif
+                        <td style="font-size:30px;text-align:center;width:30px;">=</td>
+                        <td>
+                            <table style="border: 1px solid #000;">
+                                <tr>
+                                    <td style="background: #CCC; text-align: center;">
+                                        <b>Vl. Reembolso</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;font-size: 16px;padding:5px;">
+                                        R$ {{ number_format($data->amount_paid, 2, ',', '.') }}
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     @endif
-                    <td style="font-size:30px;text-align:center;width:30px;">=</td>
-                    <td>
-                        <table style="border: 1px solid #000;">
-                            <tr>
-                                <td style="background: #CCC; text-align: center;">
-                                    <b>Vl. Reembolso</b>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center;font-size: 16px;padding:5px;">
-                                    R$ {{ number_format($data->amount_paid, 2, ',', '.') }}
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                @endif
 
-            </tr>
-        </table>
+                </tr>
+            </table>
 
-        @if ($data->active)
-            <b>Obs.:</b>
-            <br><sup>1</sup> Valor de adiantamento referente a {{ date('d/m/Y H:i:s') }}.
-            Este valor pode variar até o momento do pagamento.
-            <br><sup>2</sup> O valor do reembolso pode variar, dependendo do seu saldo de adiantamento
-            (R$ {{ number_format($data->user->users_cash ? $data->user->users_cash->amount : 0, 2, ',', '.') }})
-            no momento do pagamento.
-        @elseif ($data->extra_amount != 0)
-            <b>Obs.:</b>
-            <br><sup>1</sup>{{ $data->reason_extra_amount }}
+            @if ($data->active)
+                <b>Obs.:</b>
+                <br><sup>1</sup> Valor de adiantamento referente a {{ date('d/m/Y H:i:s') }}.
+                Este valor pode variar até o momento do pagamento.
+                <br><sup>2</sup> O valor do reembolso pode variar, dependendo do seu saldo de adiantamento
+                (R$ {{ number_format($data->user->users_cash ? $data->user->users_cash->amount : 0, 2, ',', '.') }})
+                no momento do pagamento.
+            @elseif ($data->extra_amount != 0)
+                <b>Obs.:</b>
+                <br><sup>1</sup>{{ $data->reason_extra_amount }}
+            @endif
+
         @endif
-
 
         <br>
         <br>Eu, <b>{{ $data->user->name }}</b>, declaro serem verdadeiras todas as informações acima.
