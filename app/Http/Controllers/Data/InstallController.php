@@ -12,7 +12,6 @@ class InstallController extends Controller
         $output = '';
 
 
-
         /* **************************** GIT **************************** */
         $gitRepo = env('GIT_REPO');
         $gitToken = env('GIT_TOKEN');
@@ -32,6 +31,7 @@ class InstallController extends Controller
 
         /* **************************** ARTISAN **************************** */
         $commands = [
+            'storage:link',
             'migrate --force',
             'db:seed --force',
             'cache:clear',
