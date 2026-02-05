@@ -400,8 +400,8 @@
     }
 
     function openPopup(url) {
-        const w = Math.min(1000, screen.width * 0.9);
-        const h = Math.min(800, screen.height * 0.9);
+        const w = Math.min(screen.width * 0.4);
+        const h = Math.min(screen.height * 0.4);
 
         const left = (screen.width - w) / 2;
         const top  = (screen.height - h) / 2;
