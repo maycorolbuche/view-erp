@@ -89,7 +89,8 @@ class BatchNotification extends Notification
             } elseif ($this->data->status["type"] == "rejected") {
                 $subject = "Lote Reprovado | " . $this->data->id_batch;
 
-                $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi reprovado. Entre em contato com <b>" . Auth::user()->name . "</b> para mais informações!";
+                $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi reprovado por <b>" . Auth::user()->name . "</b>.";
+                $html .= "<p><b>Motivo da rejeição:</b><br>" . nl2br($this->data->notes);
             } elseif ($this->data->status["type"] == "closed") {
                 if ($this->data->refundable_amount > 0) {
                     $subject = "Lote Pago | " . $this->data->id_batch;

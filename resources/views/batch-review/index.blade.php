@@ -147,6 +147,10 @@
                             </x-group>
                         @endif
 
+                          <x-group>
+                                <x-input type="textarea" name="notes" label="Anotações" value="{{ $notes }}" />
+                          </x-group>
+
                         <x-group right>
                             <x-button type="update" layout="danger" value="fail" label="Reprovar Lote"
                                 permission="{{ in_array('update', request('__permissions_page')) }}"

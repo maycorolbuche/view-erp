@@ -33,6 +33,7 @@ class CreateBatchesTable extends Migration
             $table->datetime('revised_at')->nullable();
             $table->enum('revised_status', ['pending', 'analyzing', 'approved'])->default('pending');
             $table->date('estimated_payment_date')->nullable();
+            $table->text('notes')->nullable();
 
             $table->foreign('id_user')->references('id_user')->on('users');
             $table->foreign('revised_by')->references('id_user')->on('users');

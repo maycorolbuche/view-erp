@@ -33,7 +33,7 @@ class Batch extends Model
         'revised_at',
         'revised_status',
         'estimated_payment_date',
-
+        'notes'
     ];
 
     protected $appends = ['status'];

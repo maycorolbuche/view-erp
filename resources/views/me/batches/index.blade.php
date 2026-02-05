@@ -18,6 +18,14 @@
 
                 @include('layouts.partials.messages')
 
+                @if ($data->notes <> "")
+                    <div class="alert alert-{{ $data->status["type"] == "rejected" ? "danger" : "info" }} alert-dismissable" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-{{ $data->status["type"] == "rejected"  ? 'remove' : 'check' }} pr10"></i>
+                            {{$data->notes}}
+                    </div>
+                @endif
+
                 <x-form action-name="me-batches" action-id="{{ isset($data) ? $data->id_batch : null }}">
 
                     <x-group>

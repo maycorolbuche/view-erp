@@ -41,8 +41,9 @@ class BatchReviewController extends Controller
         if ($data) {
             $user_cash = UserHelper::getCash($data->id_user);
             $estimated_payment_date = CalendarHelper::addBusinessDays(now(), ConfigHelper::get('batches.standard_payment_days'), auth()->user()->id_branch);
+            $notes = "";
 
-            return view('batch-review.index', compact('data', 'user_cash', 'estimated_payment_date'));
+            return view('batch-review.index', compact('data', 'user_cash', 'estimated_payment_date', 'notes'));
         } else {
             return redirect()->route('batch-review')->with('error', 'Registro não encontrado!');
         }
@@ -77,16 +78,24 @@ class BatchReviewController extends Controller
 
                     return redirect()->route('batch-review.show', ['id' => $id]);
                 } elseif ($request->input('_action') == "fail") {
+                    if (!request()->input("notes")) {
+                        return redirect()->back()->with('error', 'Utilize o campo de Anotações para informar o motivo da recusa do lote!')->withInput();
+                    }
                     $data = [
                         'revised_by' => auth()->user()->id_user,
                         'revised_at' => now(),
-                        'revised_status' => 'pending'
+                        'revised_status' => 'pending',
+                        'notes' => request()->input("notes")
                     ];
 
                     $batch->update($data);
-                    $this->sendMail($id);
+                    try {
+                        $this->sendMail($id);
+                    } catch (\Exception $e) {
+                        return redirect()->route('batch-review')->with('error', 'O lote rejeitado com sucesso, mas houve uma falha ao enviar e-mail de notificação!');
+                    }
 
-                    return redirect()->route('batch-review.show', ['id' => $id]);
+                    return redirect()->route('batch-review');
                 } elseif ($request->input('_action') == "revised") {
 
                     $expense = Expense::batch($id)->where('id_expense', $request->input("id_expense"));
@@ -122,10 +131,14 @@ class BatchReviewController extends Controller
                             'active' => false,
                             'user_cash' => 0,
                             'amount_paid' => 0,
+                            'notes' => request()->input("notes")
                         ];
 
                         $batch->update($data);
-                        $this->sendMail($id);
+                        try {
+                            $this->sendMail($id);
+                        } catch (\Exception $e) {
+                        }
 
                         return redirect()->route('batch-review')->with('success', 'Lote fechado com sucesso!');
                     } else {
@@ -133,11 +146,16 @@ class BatchReviewController extends Controller
                             'revised_by' => auth()->user()->id_user,
                             'revised_at' => now(),
                             'revised_status' => 'approved',
-                            'estimated_payment_date' => $request->input("estimated_payment_date")
+                            'estimated_payment_date' => $request->input("estimated_payment_date"),
+                            'notes' => request()->input("notes")
                         ];
 
                         $batch->update($data);
-                        $this->sendMail($id);
+                        try {
+                            $this->sendMail($id);
+                        } catch (\Exception $e) {
+                        }
+
 
                         return redirect()->route('batch-review')->with('success', 'Lote aprovado para pagamento!');
                     }
