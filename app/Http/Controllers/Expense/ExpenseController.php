@@ -207,21 +207,28 @@ class ExpenseController extends Controller
 
         unset($request['id_authorization']);
 
-        $file = FileUploadHelper::upload($request->file('file'), "expenses");
-        if ($file || $request->input("id_file", "") == "") {
-            $data = [...$request->all(), 'id_file' => ($file ? $file->id_file : null)];
-        } else {
-            $data = $request->all();
-        }
-
-        $required_file = Configs::getBoolean("expenses.required.file");
-        if (!$data["id_file"] && $required_file) {
-            return redirect()->back()->with('error', 'É necessário anexar o comprovante da despesa!')->withInput();
-        }
-
         try {
             $expense = Expense::where(['id_expense' => $id, 'id_user' => Auth::id()])->whereNull('id_batch')->first();
             if ($expense) {
+                if (($request->file('file') || $request->input('id_file') == "")
+                    && $expense->id_file
+                ) {
+                    FileUploadHelper::delete($expense->id_file);
+                }
+
+                $file = FileUploadHelper::upload($request->file('file'), "expenses");
+                if ($file || $request->input("id_file", "") == "") {
+                    $data = [...$request->all(), 'id_file' => ($file ? $file->id_file : null)];
+                } else {
+                    $data = $request->all();
+                }
+
+                $required_file = Configs::getBoolean("expenses.required.file");
+                if (!$data["id_file"] && $required_file) {
+                    return redirect()->back()->with('error', 'É necessário anexar o comprovante da despesa!')->withInput();
+                }
+
+
 
                 $expense->update($data);
                 $this->expensesClients($expense->id_expense, $request->client_amount);
@@ -257,6 +264,10 @@ class ExpenseController extends Controller
             }
 
             if ($expense) {
+                if ($expense->id_file) {
+                    FileUploadHelper::delete($expense->id_file);
+                }
+
                 $expense->delete();
                 return redirect()->route('expenses')->with('success', 'Registro apagado com sucesso');
             } else {
