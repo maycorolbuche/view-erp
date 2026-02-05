@@ -64,7 +64,7 @@ class DataTableHelper
             ->addColumn('file_preview', function ($row) use ($id_field) {
                 $actionBtn = "";
                 if ($row->file) {
-                    $actionBtn = '<a href="' . $row->file->url . '" target="_blank" class="edit btn btn-danger btn-sm"><i class="fas fa-file"></i></a>';
+                    $actionBtn = '<a href="' . $row->file->url . '" target="_blank" class="edit btn btn-danger btn-sm" data-type="file"><i class="fas fa-file"></i></a>';
                 }
                 return $actionBtn;
             })

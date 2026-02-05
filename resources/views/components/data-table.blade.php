@@ -25,6 +25,9 @@
                 createdRow: function(row, data, index) {
                     {!! html_entity_decode($createdRow) !!}
                 },
+                drawCallback: function(settings) {
+                    init_modals()
+                }
             });
         });
     </script>

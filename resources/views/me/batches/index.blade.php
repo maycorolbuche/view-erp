@@ -9,7 +9,7 @@
 
             @php
                 $edit = false;
-                if (isset($data) && $data->active && $data->revised_status == 'pending') {
+                if ($data->status["type"]=="pending" || $data->status["type"]=="rejected") {
                     $edit = true;
                 }
             @endphp
@@ -136,7 +136,7 @@
                                     <td class="text-right">
                                         @if ($expense->file)
                                             <a class="btn btn-danger btn-sm fs12" href="{{ $expense->file->url }}"
-                                                target="_blank">
+                                                target="_blank" data-type="file">
                                                 <i class="fas fa-file"></i>
                                             </a>
                                         @endif

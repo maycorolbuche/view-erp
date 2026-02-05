@@ -1,3 +1,21 @@
+<div class="modal fade" id="__fileModal__" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document" style="width: 99vw;height: 90vh;">
+        <div class="modal-content" style="height: 100%;display: flex;flex-direction: column;">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Visualizar arquivo</h4>
+            </div>
+
+            <div class="modal-body" style="overflow-y: auto;flex: 1; padding: 0; margin: 0;">
+                <p class="text-center">Carregando...</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <!-- BEGIN: PAGE SCRIPTS -->
 
 <!-- jQuery -->
@@ -341,7 +359,43 @@
             $(this).val($(this).val().replace(/\D/g, ''));
         });
 
+        init_modals();
     });
+
+    function init_modals(){
+
+        $(document)
+            .off('click', 'a[data-type="file"]') // evita duplicar evento
+            .on('click', 'a[data-type="file"]', function (e) {
+                const url = $(this).attr('href');
+
+                // Decide como abrir baseado no tipo
+                // PDF
+                if (url.match(/\.pdf(\?|#|$)/i)) {
+                    e.preventDefault();
+
+                    $('#__fileModal__ .modal-body').html(
+                        '<iframe src="' + url + '" style="width:100%; height:calc(100% - 8px); border:0;"></iframe>'
+                    );
+
+                    $('#__fileModal__').modal('show');
+                    return;
+                }
+
+                // Imagem
+                if (url.match(/\.(jpg|jpeg|png|gif|webp)(\?|#|$)/i)) {
+                    e.preventDefault();
+
+                    $('#__fileModal__ .modal-body').html(
+                        '<img src="' + url + '" class="img-responsive center-block" />'
+                    );
+
+                    $('#__fileModal__').modal('show');
+                    return;
+                }
+            });
+
+    }
 
 
     function phone_mask_fn() {

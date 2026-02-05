@@ -121,9 +121,9 @@
                                                 </button>
                                             @endif
                                         </td>
-                                        <td class="text-right">
+                                        <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                                             @if (trim($expense->id_file) != '')
-                                                <a href="{{ $expense->file->url }}" target="_blank">
+                                                <a href="{{ $expense->file->url }}" target="_blank" data-type="file">
                                                     <i class="fa fa-file"></i>
                                                     {{ $expense->file->original_name }}
                                                 </a>

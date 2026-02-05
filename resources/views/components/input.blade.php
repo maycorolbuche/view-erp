@@ -186,7 +186,7 @@
                 @endphp
 
                 <div id="filepreview_{{ $id }}" class="form-control">
-                    <a href="{{ $file->url }}" target="_blank">
+                    <a href="{{ $file->url }}" target="_blank" data-type="file">
                         <i class="fa fa-file"></i>
                         {{ $file->original_name }}
                     </a>
