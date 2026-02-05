@@ -374,11 +374,12 @@
                 if (url.match(/\.pdf(\?|#|$)/i)) {
                     e.preventDefault();
 
-                    $('#__fileModal__ .modal-body').html(
+                    /*$('#__fileModal__ .modal-body').html(
                         '<iframe src="' + url + '" style="width:100%; height:calc(100% - 8px); border:0;"></iframe>'
                     );
 
-                    $('#__fileModal__').modal('show');
+                    $('#__fileModal__').modal('show');*/
+                    openPopup(url);
                     return;
                 }
 
@@ -386,16 +387,32 @@
                 if (url.match(/\.(jpg|jpeg|png|gif|webp)(\?|#|$)/i)) {
                     e.preventDefault();
 
-                    $('#__fileModal__ .modal-body').html(
+                    /*$('#__fileModal__ .modal-body').html(
                         '<img src="' + url + '" class="img-responsive center-block" />'
                     );
 
-                    $('#__fileModal__').modal('show');
+                    $('#__fileModal__').modal('show');*/
+                    openPopup(url);
                     return;
                 }
             });
 
     }
+
+    function openPopup(url) {
+        const w = Math.min(1000, screen.width * 0.9);
+        const h = Math.min(800, screen.height * 0.9);
+
+        const left = (screen.width - w) / 2;
+        const top  = (screen.height - h) / 2;
+
+        window.open(
+            url,
+            '_blank',
+            `width=${w},height=${h},top=${top},left=${left},resizable=yes,scrollbars=yes`
+        );
+    }
+
 
 
     function phone_mask_fn() {
