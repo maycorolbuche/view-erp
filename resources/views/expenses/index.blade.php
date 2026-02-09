@@ -62,7 +62,6 @@
                         @endif
                     </x-group>
 
-
                     <x-group>
                         <x-input type="date" name="date" width="150" label="Data" required
                             value="{{ $data->date ?? (date('Y-m-d') ?? '') }}" />
@@ -149,65 +148,15 @@
                         @endif
 
                         <x-input type="file" name="file" width="350" label="Comprovante da Despesa"
-                            value="{{ $data->file ?? '' }}" accept=".jpg,.jpeg,.png,.pdf"  
-                            required="{{$required_file?'required':''}}"/>
+                            value="{{ $data->file ?? '' }}" accept=".jpg,.jpeg,.png,.pdf"
+                            required="{{ $required_file ? 'required' : '' }}" />
                     </x-group>
 
-                    <div class="panel-heading">
-                        <span class="panel-title">
-                            <span>Distribuição do valor da despesa por cliente:</span>
-                        </span>
-                    </div>
-                    <div class="panel-body pn">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-clients">
-                                <thead>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th class="text-right">%</th>
-                                        <th class="text-right">Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($clients as $client)
-                                        <tr class="data"
-                                            style="{{ isset($data->clients[$client->id_client]) || (old('client_amount')[$client->id_client] ?? 0) > 0 ? '' : 'display:none;' }}"
-                                            data-id="{{ $client->id_client }}">
-                                            <td>
-                                                {{ $client->name }}
-                                            </td>
-                                            <td class="client_percentage">
-                                                <x-input type="number" name="client_percentage[{{ $client->id_client }}]"
-                                                    value="{{ $data->clients[$client->id_client]['pivot']['percentage'] ?? '' }}"
-                                                    min="0"
-                                                    onchange="calc_amount('client_amount','client_percentage',{{ $client->id_client }})" />
-                                            </td>
-                                            <td class="client_amount">
-                                                <x-input type="money" name="client_amount[{{ $client->id_client }}]"
-                                                    value="{{ $data->clients[$client->id_client]['pivot']['amount'] ?? '' }}"
-                                                    onchange="calc_percent('client_amount','client_percentage',{{ $client->id_client }})" />
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td></td>
-                                        <td class="client_percentage_total text-right text-bold"></td>
-                                        <td class="client_amount_total text-right text-bold"></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <br>
 
-                    <div class="panel-heading">
-                        <span class="panel-title">
-                            <span>Recursos adicionais:</span>
-                        </span>
-                    </div>
-                    <div class="panel-body pn">
+                    @include('expenses.partials.clients')
+
+                    @include('expenses.partials.users')
+                    <?php /*
                         <div class="table-responsive">
                             <table class="table table-hover table-users">
                                 <thead>
@@ -261,7 +210,8 @@
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
+                        */
+                    ?>
                     <br>
 
                     <x-group>
@@ -292,188 +242,35 @@
 
 @push('scripts')
     <script>
-        var authorizations_clients = {};
-        var date_range = {};
-        @foreach ($authorizations as $authorization)
-            authorizations_clients[{{ $authorization->id_authorization }}] = [];
-            @foreach ($authorization->clients as $client)
-                authorizations_clients[{{ $authorization->id_authorization }}].push({{ $client->id_client }});
-            @endforeach
-            date_range[{{ $authorization->id_authorization }}] = [
-                '{{ $authorization->start_date }}', '{{ $authorization->end_date }}'
-            ];
-        @endforeach
-
         $(document).ready(function() {
-            $("#add_user").change(function() {
-                add_user();
-            });
-
-            setTimeout(function() {
-                $("#amount_preview").change(function() {
-                    calc_items_users();
-                    calc_items_clients();
-                });
-            }, 100)
-
             @if (!isset($data))
                 $("#id_authorization").change(function() {
-                    let id_authorization = $("#id_authorization").find(":selected").val();
-
-                    $(".table-clients").find(".data").hide();
-                    $(".table-clients").find(".data input").val('');
-
-                    if (id_authorization) {
-                        authorizations_clients[id_authorization].map(function(id_client) {
-                            $(".table-clients").find(`.data[data-id=${id_client}]`).show();
-                        });
-                    }
-
                     dates_range();
-                    calc_items_clients();
-                    calc_total('client_amount', 'client_percentage');
                 });
             @endif
-
             dates_range();
-            del_user(0);
-            calc_total('user_amount', 'user_percentage');
-            calc_total('client_amount', 'client_percentage');
-            enable_items_users();
         });
 
         function dates_range() {
-            let id_authorization = $("#id_authorization").find(":selected").val();
+            @if (!isset($data))
+                let id_authorization = $("#id_authorization").find(":selected").val();
+            @else
+                let id_authorization = {{ $data->authorization->id_authorization }};
+            @endif
             $("#date").removeAttr("min");
             $("#date").removeAttr("max");
             if (id_authorization) {
+                let date_range = {};
+
+                @foreach ($authorizations as $authorization)
+                    date_range[{{ $authorization->id_authorization }}] = [
+                        '{{ $authorization->start_date }}', '{{ $authorization->end_date }}'
+                    ];
+                @endforeach
+
                 $("#date").attr("min", date_range[id_authorization][0]);
                 $("#date").attr("max", date_range[id_authorization][1]);
             }
-        }
-
-        function add_user(id_user) {
-            if (id_user == undefined) {
-                id_user = $("#add_user").find(":selected").val();
-            }
-            if (id_user) {
-                $(".table-users").find(`[name='user_amount[${id_user}]']`).val('');
-                $(".table-users").find(`[name='user_amount[${id_user}]_preview']`).val('');
-                $(".table-users").find(`[name='user_percentage[${id_user}]']`).val('');
-                $(".table-users").find(`.data[data-id=${id_user}]`).show();
-                $(".table-users").val('');
-                $("#add_user").val('').trigger("chosen:updated");
-            }
-
-            if ($(".table-users").find(".data:visible").length > 0 &&
-                !$(".table-users").find(".data[data-id={{ auth()->user()->id_user }}]").is(":visible")) {
-                add_user({{ auth()->user()->id_user }});
-            } else {
-                enable_items_users();
-                calc_items_users();
-            }
-        }
-
-        function del_user(id_user) {
-            $(".table-users").find(`.data[data-id=${id_user}]`).hide();
-            $(".table-users").find(`[name='user_amount[${id_user}]']`).val('');
-            $(".table-users").find(`[name='user_amount[${id_user}]_preview']`).val('');
-            $(".table-users").find(`[name='user_percentage[${id_user}]']`).val('');
-
-            if ($(".table-users").find(".data:visible").length == 1 &&
-                $(".table-users").find(".data[data-id={{ auth()->user()->id_user }}]").is(":visible")) {
-                del_user({{ auth()->user()->id_user }});
-            } else {
-                enable_items_users();
-                if (id_user > 0) {
-                    calc_items_users();
-                }
-            }
-        }
-
-        function enable_items_users() {
-            $(".table-users").find(".data").each(function(index, element) {
-                $("#add_user").find(`option[value='${$(this).data('id')}']`)
-                    .prop('disabled', $(this).is(':visible'));
-            });
-
-            $("#add_user").find(`option[value='{{ auth()->user()->id_user }}']`).prop('disabled', true);
-            $("#add_user").trigger("chosen:updated");
-        }
-
-        function calc_items_users() {
-            let ids = [];
-            $(".table-users").find(".data:visible").each(function(index, element) {
-                ids.push($(element).data("id"));
-            })
-            if (!ids.includes({{ auth()->user()->id_user }})) {
-                ids.push({{ auth()->user()->id_user }});
-            }
-            calc_items(ids, 'user_amount', 'user_percentage');
-        }
-
-        function calc_items_clients() {
-            let ids = [];
-            $(".table-clients").find(".data:visible").each(function(index, element) {
-                ids.push($(element).data("id"));
-            })
-            calc_items(ids, 'client_amount', 'client_percentage');
-        }
-
-        function calc_items(ids, amount_field, percentage_field) {
-            let total_amount = +$("#amount").val();
-            let partial_amount = total_amount / ids.length;
-            let accumulated_amount = 0;
-
-            ids.map(function(id, key) {
-                let last = (key + 1 >= ids.length);
-                let amount = partial_amount.toFixed(2);
-                if (last) {
-                    amount = total_amount - accumulated_amount;
-                }
-
-                $(`[name='${amount_field}[${id}]']`).val(amount).change();
-                calc_percent(amount_field, percentage_field, id);
-                accumulated_amount += +amount;
-            });
-        }
-
-        function calc_percent(amount_field, percentage_field, id) {
-            setTimeout(function() {
-                let total_amount = +$("#amount").val();
-                let amount = +$(`[name='${amount_field}[${id}]']`).val();
-                let percentage = (total_amount <= 0 ? 0 : amount / total_amount * 100);
-
-                $(`[name='${percentage_field}[${id}]']`).val(isNaN(percentage) ? 0 : percentage);
-                calc_total(amount_field, percentage_field);
-            }, 10);
-        }
-
-        function calc_amount(amount_field, percentage_field, id) {
-            let total_amount = +$("#amount").val();
-            let percentage = +$(`[name='${percentage_field}[${id}]']`).val();
-            let amount = total_amount * percentage / 100;
-
-            $(`[name='${amount_field}[${id}]']`).val(isNaN(amount) ? 0 : amount.toFixed(2)).change();
-            calc_total(amount_field, percentage_field);
-        }
-
-        function calc_total(amount_field, percentage_field) {
-            let amount_total = 0;
-            $(`.${amount_field}`).find("[type=hidden]").each(function(index, element) {
-                amount_total += +$(element).val();
-            });
-            $(`.${amount_field}_total`).html(amount_total.toLocaleString('pt-BR', {
-                minimumFractionDigits: 2
-            }));
-
-            let percentage_total = 0;
-            $(`.${percentage_field}`).find("[type=number]").each(function(index, element) {
-                percentage_total += +$(element).val();
-            });
-            $(`.${percentage_field}_total`).html(percentage_total.toLocaleString('pt-BR', {
-                minimumFractionDigits: 2
-            }));
         }
     </script>
 @endpush

@@ -1,10 +1,10 @@
-<div class="modal fade" id="__fileModal__" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document" style="width: 99vw;height: 90vh;">
+<div class="modal fade" id="__urlModal__" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document" style="width: 90vw;height: 90vh;">
         <div class="modal-content" style="height: 100%;display: flex;flex-direction: column;">
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Visualizar arquivo</h4>
+                <h4 class="modal-title">Busca</h4>
             </div>
 
             <div class="modal-body" style="overflow-y: auto;flex: 1; padding: 0; margin: 0;">
@@ -15,12 +15,14 @@
     </div>
 </div>
 
-
 <!-- BEGIN: PAGE SCRIPTS -->
 
 <!-- jQuery -->
-<script type="text/javascript" src="{{ asset('vendor/jquery/jquery-1.11.1.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendor/jquery/jquery_ui/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery/jquery-1.11.1.min.js') }}">
+    < /> <
+    script type = "text/javascript"
+    src = "{{ asset('vendor/jquery/jquery_ui/jquery-ui.min.js') }}" >
+</script>
 
 <!-- Bootstrap -->
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
@@ -168,7 +170,12 @@
             }, 1000);
         });
 
+        init_validations();
+        init_masks();
+        init_modals();
+    });
 
+    function init_validations() {
 
         $(".validate").validate({
             ignore: function(index, element) {
@@ -245,8 +252,9 @@
             max: jQuery.validator.format("Por favor, informe um valor menor ou igual a {0}."),
             min: jQuery.validator.format("Por favor, informe um valor maior ou igual a {0}.")
         });
+    }
 
-
+    function init_masks() {
         $(".chosen-select").chosen({
             no_results_text: "Sem resultados para",
             placeholder_text_single: "Selecione uma opção",
@@ -258,7 +266,6 @@
             placeholder_text_single: ' ',
             width: '100%'
         });
-
 
         // Init jQuery masked inputs *********************************************************************
 
@@ -358,53 +365,46 @@
         $('.numeric').on('input', function() {
             $(this).val($(this).val().replace(/\D/g, ''));
         });
+    }
 
-        init_modals();
+    function init_modals() {
+        $(document)
+            .off('click', '[data-url]') // evita duplicar evento
+            .on('click', '[data-url]', function(e) {
+                e.preventDefault();
+
+                const url = $(this).data('url');
+                const callback = $(this).data('callback');
+
+                modalCallback = callback && typeof window[callback] === 'function' ?
+                    window[callback] :
+                    null;
+
+                $('#__urlModal__ .modal-body').html(
+                    '<iframe src="' + url + '" style="width:100%; height:calc(100% - 8px); border:0;"></iframe>'
+                );
+
+                $('#__urlModal__').modal('show');
+            });
+    }
+
+    window.addEventListener('message', function(event) {
+        if (!event.data || event.data.type !== 'IFRAME_CALLBACK') return;
+
+        if (modalCallback) {
+            modalCallback(event.data.payload);
+        }
+
+        $('#__urlModal__').modal('hide');
     });
 
-    function init_modals(){
-
-        $(document)
-            .off('click', 'a[data-type="file"]') // evita duplicar evento
-            .on('click', 'a[data-type="file"]', function (e) {
-                const url = $(this).attr('href');
-
-                // Decide como abrir baseado no tipo
-                // PDF
-                if (url.match(/\.pdf(\?|#|$)/i)) {
-                    e.preventDefault();
-
-                    /*$('#__fileModal__ .modal-body').html(
-                        '<iframe src="' + url + '" style="width:100%; height:calc(100% - 8px); border:0;"></iframe>'
-                    );
-
-                    $('#__fileModal__').modal('show');*/
-                    openPopup(url);
-                    return;
-                }
-
-                // Imagem
-                if (url.match(/\.(jpg|jpeg|png|gif|webp)(\?|#|$)/i)) {
-                    e.preventDefault();
-
-                    /*$('#__fileModal__ .modal-body').html(
-                        '<img src="' + url + '" class="img-responsive center-block" />'
-                    );
-
-                    $('#__fileModal__').modal('show');*/
-                    openPopup(url);
-                    return;
-                }
-            });
-
-    }
 
     function openPopup(url) {
         const w = Math.min(screen.width * 0.4);
         const h = Math.min(screen.height * 0.4);
 
         const left = (screen.width - w) / 2;
-        const top  = (screen.height - h) / 2;
+        const top = (screen.height - h) / 2;
 
         window.open(
             url,
@@ -527,13 +527,31 @@
         });
 
         if (formatted) {
-            return sum.toLocaleString('pt-BR', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
+            return currencyFormat(sum);
         } else {
             return sum.toFixed(2);
         }
+    }
+
+    function numberFormat(number, decimals = 0) {
+        return number.toLocaleString('pt-BR', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+        });
+    }
+
+    function currencyFormat(number) {
+        return numberFormat(number, 2)
+    }
+
+    function toNumber(valor) {
+        if (!valor) return 0;
+
+        return parseFloat(
+            valor
+            .replace(/\./g, '') // remove separador de milhar
+            .replace(',', '.') // troca vírgula por ponto
+        );
     }
 
     function open_url(url, params) {
@@ -546,5 +564,40 @@
         }
         location.href = url + query;
     }
+
+    function renderTemplate(template, params) {
+        template = template.replace(/{(.*?)}/g, function(_, braceKey, underscoreKey) {
+            const key = braceKey || underscoreKey;
+            return params[key] !== undefined ? params[key] : key;
+        });
+        Object.keys(params).map(key => {
+            template = template.replaceAll("__" + key + "__", params[key])
+        });
+
+        const $tmp = $('<div>').html(template);
+
+        $tmp.find('input[data-value]').each(function() {
+            const val = $(this).attr('data-value');
+            $(this).attr('value', val);
+        });
+
+        return $tmp.html();
+    }
+</script>
+
+
+
+<script>
+    $('#__urlModal__').on('hide.bs.modal', function() {
+        // Remove foco de qualquer elemento dentro do modal
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+    });
+
+    $('#__urlModal__').on('hidden.bs.modal', function() {
+        // Remove iframe (importantíssimo)
+        $(this).find('iframe').remove();
+    });
 </script>
 <!-- END: PAGE SCRIPTS -->

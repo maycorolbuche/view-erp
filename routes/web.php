@@ -88,6 +88,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                             Route::delete('/batches/{id}', 'Me\BatchController@destroy')->where('id', '[0-9]+')->name('me-batches.destroy');
                         });
 
+                        Route::group(['prefix' => 'search'], function () {
+                            Route::get('/users', 'Search\UserSearchController@index')->name('users-search');
+                            Route::get('/users/datatable', 'Me\BatchController@datatable')->name('users-search.datatable');
+                        });
+
                         Route::get('/pdf/batch/{id}', 'PdfController@batch')->name('pdf.batch');
 
                         Route::get('/', 'HomeController@dashboard')->name('dashboard');

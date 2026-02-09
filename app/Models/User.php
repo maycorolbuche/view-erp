@@ -86,6 +86,11 @@ class User extends Authenticatable implements CanResetPassword
         ]);
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
     /**
      * Always encrypt password when it is updated.
      *

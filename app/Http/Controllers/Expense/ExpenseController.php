@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Expense;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Expense;
 use App\Models\ExpenseClient;
 use App\Models\ExpenseUser;
-use App\Models\User;
 use App\Models\Category;
 use App\Models\PaymentMethod;
-use App\Models\Client;
 use App\Models\Authorization;
 use App\Http\Requests\ExpenseRequest;
 use App\Helpers\AuthorizationHelper;
@@ -37,8 +36,6 @@ class ExpenseController extends Controller
                 $query->where('categories_types.slug', 'expense');
             })->get();
         $payment_methods = PaymentMethod::orderBy('name')->get();
-        $users = User::orderBy('name')->get();
-        $clients = Client::orderBy('name')->get();
 
         $id_authorization = session('id_authorization', null);
         if ($id_authorization) {
@@ -47,10 +44,11 @@ class ExpenseController extends Controller
                 $id_authorization = null;
             }
         }
-
         $required_file = Configs::getBoolean("expenses.required.file");
 
-        return view('expenses.index', compact('authorizations', 'categories', 'payment_methods', 'users', 'clients', 'id_authorization', 'required_file'));
+        $users = User::select(["id_user", "name"])->where('root', false)->whereNot("id_user", auth()->user()->id_user)->active()->orderBy("name")->get();
+
+        return view('expenses.index', compact('authorizations', 'categories', 'payment_methods', 'id_authorization', 'required_file', 'users'));
     }
 
     /**
@@ -175,18 +173,17 @@ class ExpenseController extends Controller
             $usersById = array_column($data->users->toArray(), null, 'id_user');
             $data->users = $usersById;
 
-            $authorizations = AuthorizationHelper::active('expense');
+            $authorizations = AuthorizationHelper::active('expense')->where("id_authorization", $data->authorization->id_authorization);
             $categories = Category::orderBy('name')->with('category_type')
                 ->whereHas('category_type', function ($query) {
                     $query->where('categories_types.slug', 'expense');
                 })->get();
             $payment_methods = PaymentMethod::orderBy('name')->get();
-            $users = User::orderBy('name')->get();
-            $clients = Client::orderBy('name')->get();
-
             $required_file = Configs::getBoolean("expenses.required.file");
 
-            return view('expenses.index', compact('data', 'authorizations', 'categories', 'payment_methods', 'users', 'clients', 'required_file'));
+            $users = User::select(["id_user", "name"])->where('root', false)->whereNot("id_user", auth()->user()->id_user)->active()->orderBy("name")->get();
+
+            return view('expenses.index', compact('data', 'authorizations', 'categories', 'payment_methods', 'required_file', 'users'));
         } else {
             return redirect()->route('expenses')->with('error', 'Registro não encontrado!');
         }

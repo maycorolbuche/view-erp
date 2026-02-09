@@ -118,7 +118,7 @@
             <!-- -->
             <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}">
 
-            <div class="checkbox-custom" style="padding: 0;margin: -18px 0 0 0;">
+            <div class="checkbox-custom checkbox-info" style="padding: 0;margin: -18px 0 0 0;">
                 <input id="{{ $id }}_chk" name="{{ $name }}_chk" type="checkbox" value="1"
                     {{ $value == true ? 'checked' : '' }}>
                 <label for="{{ $id }}_chk"></label>

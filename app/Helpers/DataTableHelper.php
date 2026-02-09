@@ -546,6 +546,7 @@ class DataTableHelper
     public static function users($query = null)
     {
         $data = $query ?: User::query();
+        $data->with(['branch']);
 
         $id_system = request('__id_system');
         $system = System::where('id_system', $id_system)->first();
@@ -562,10 +563,21 @@ class DataTableHelper
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
                 return $actionBtn;
             })
+            ->addColumn('search', function ($row) use ($id_field) {
+                $params = [
+                    'id'   => $row->id_user,
+                    'nome' => $row->name,
+                    'email' => $row->email,
+                ];
+                $json = htmlspecialchars(json_encode($params), ENT_QUOTES, 'UTF-8');
+
+                $actionBtn = '<a onclick=\'sendParams(' . $json . ');\' class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
+                return $actionBtn;
+            })
             ->editColumn('branch.name', function ($row) {
                 return $row->branch->name ?? '';
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions', 'search'])
             ->make(true);
     }
 

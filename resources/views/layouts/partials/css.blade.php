@@ -251,4 +251,17 @@
     div.form-control {
         background: #fafafa;
     }
+
+    .d-none {
+        display: none;
+    }
+
+    tr.disabled {
+        background: #F5F5F5;
+        color: #BBB;
+    }
+
+    tr.disabled input {
+        color: #BBB;
+    }
 </style>
