@@ -59,6 +59,11 @@ class Expense extends Model
         return $this->hasOne(User::class, 'id_user', 'id_user');
     }
 
+    public function batch()
+    {
+        return $this->hasOne(Batch::class, 'id_batch', 'id_batch');
+    }
+
     public function file()
     {
         return $this->hasOne(File::class, 'id_file', 'id_file');

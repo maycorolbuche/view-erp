@@ -50,6 +50,33 @@ class DataTableHelper
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
+            ->filter(function ($query) {
+                if ($f = request('start_date')) {
+                    $query->whereDate('date', '>=', $f);
+                }
+                if ($f = request('end_date')) {
+                    $query->whereDate('date', '<=', $f);
+                }
+                if ($f = request('id_batch')) {
+                    $query->where('id_batch', $f);
+                }
+                if ($f = request('id_category')) {
+                    $query->where('id_category', $f);
+                }
+                if ($f = request('id_payment_method')) {
+                    $query->where('id_payment_method', $f);
+                }
+                if ($f = request('id_user')) {
+                    $query->whereHas('users', function ($q) use ($f) {
+                        $q->where('users.id_user', $f);
+                    });
+                }
+                if ($f = request('id_client')) {
+                    $query->whereHas('clients', function ($q) use ($f) {
+                        $q->where('clients.id_client', $f);
+                    });
+                }
+            })
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'expenses.show', [$id_field => $row->id_expense]);
@@ -93,7 +120,10 @@ class DataTableHelper
                 }
                 return $html;
             })
-            ->rawColumns(['actions', 'actions_search', 'file_preview', 'payment_method.refundable', 'clients'])
+            ->addColumn('batch_status', function ($row) {
+                return $row->batch ? "<span class='badge badge-" . $row->batch->status["color"] . "'>" . $row->batch->status["label"] . "</span>" : "";
+            })
+            ->rawColumns(['actions', 'actions_search', 'file_preview', 'payment_method.refundable', 'clients', 'batch_status'])
             ->make(true);
     }
 

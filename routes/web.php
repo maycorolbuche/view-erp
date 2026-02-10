@@ -89,8 +89,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
                         });
 
                         Route::group(['prefix' => 'search'], function () {
-                            Route::get('/users', 'Search\UserSearchController@index')->name('users-search');
-                            Route::get('/users/datatable', 'Me\BatchController@datatable')->name('users-search.datatable');
+                            //Route::get('/users', 'Search\UserSearchController@index')->name('users-search');
+                            //Route::get('/users/datatable', 'Me\BatchController@datatable')->name('users-search.datatable');
                         });
 
                         Route::get('/pdf/batch/{id}', 'PdfController@batch')->name('pdf.batch');

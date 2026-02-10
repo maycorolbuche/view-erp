@@ -174,8 +174,30 @@
                         'data' => 'id_batch',
                         'className' => 'text-right',
                     ],
+                    [
+                        'title' => 'Status Lote',
+                        'data' => 'batch_status',
+                        'className' => 'text-center',
+                    ],
                 ]) }}"
-                created-row="if (data['refundable'] !== 1) { $('td', row).addClass('danger'); }" />
+                created-row="if (data['refundable'] !== 1) { $('td', row).addClass('danger'); }">
+
+                <x-group title="Filtros de Busca">
+                    <x-input type="date" name="start_date" width="150" label="Data Inicial" />
+                    <x-input type="date" name="end_date" width="150" label="Data Final" />
+                    <x-input type="number" name="id_batch" width="130" label="Lote" />
+
+                    <x-input type="select" name="id_category" width="200" label="Tipo de Despesa"
+                        list="{{ json_encode($categories) }}" list-value="id_category" list-text="name" />
+                    <x-input type="select" name="id_payment_method" width="200" label="Tipo de Pagamento"
+                        list="{{ json_encode($payment_methods) }}" list-value="id_payment_method" list-text="name" />
+                    <x-input type="select" name="id_client" width="250" label="Cliente"
+                        list="{{ json_encode($clients) }}" list-value="id_client" list-text="name" />
+                    <x-input type="select" name="id_user" width="250" label="Usuário" list="{{ json_encode($users) }}"
+                        list-value="id_user" list-text="name" />
+                </x-group>
+
+            </x-data-table>
         </x-panel>
     </x-content>
 @endsection

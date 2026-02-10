@@ -1,20 +1,33 @@
-<div class="table-responsive">
-    <table id="{{ $id }}" class="table table-striped table-condensed table-hover display" cellspacing="0"
-        width="100%">
-        <thead>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<div>
+    <div data-table-filter="{{ $id }}">{{ $slot }}</div>
+
+    <div class="table-responsive">
+        <table id="{{ $id }}" class="table table-striped table-condensed table-hover display" cellspacing="0"
+            width="100%">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#{{ $id }}').DataTable({
+            const table_{{ $id }} = $('#{{ $id }}').DataTable({
                 serverSide: true,
                 processing: true,
-                ajax: '{{ $dataOrigin }}?id-field={{ $idField ?: '' }}&{!! $queryString ?: '' !!}',
+                ajax: {
+                    url: '{{ $dataOrigin }}?id-field={{ $idField ?: '' }}&{!! $queryString ?: '' !!}',
+                    data: function(d) {
+                        $("[data-table-filter='{{ $id }}']")
+                            .find('input, select')
+                            .each(function() {
+                                d[$(this).attr('name')] = $(this).val();
+                            });
+                    }
+                },
                 columns: {!! html_entity_decode($columns) !!},
                 //pagingType: 'full_numbers',
                 // ordering: true,
@@ -28,6 +41,10 @@
                 drawCallback: function(settings) {
                     init_modals()
                 }
+            });
+
+            $("[data-table-filter='{{ $id }}']").find("input, select").change(function() {
+                table_{{ $id }}.draw();
             });
         });
     </script>
