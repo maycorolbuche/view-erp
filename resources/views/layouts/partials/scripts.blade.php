@@ -386,6 +386,27 @@
 
                 $('#__urlModal__').modal('show');
             });
+
+        $(document)
+            .off('click', 'a[data-type="file"]') // evita duplicar evento
+            .on('click', 'a[data-type="file"]', function(e) {
+                const url = $(this).attr('href');
+
+                // Decide como abrir baseado no tipo
+                // PDF
+                if (url.match(/\.pdf(\?|#|$)/i)) {
+                    e.preventDefault();
+                    openPopup(url);
+                    return;
+                }
+
+                // Imagem
+                if (url.match(/\.(jpg|jpeg|png|gif|webp)(\?|#|$)/i)) {
+                    e.preventDefault();
+                    openPopup(url);
+                    return;
+                }
+            });
     }
 
     window.addEventListener('message', function(event) {
