@@ -22,11 +22,7 @@
                         <tr class="data d-none" data-id={{ $client->id_client }}>
                             <td class="check">
                                 <x-input type="boolean-checkbox" name="client_check[{{ $client->id_client }}]"
-                                    value="{{ (isset($data->clients[$client->id_client]['pivot']['amount']) &&
-                                        $data->clients[$client->id_client]['pivot']['amount'] <= 0) ||
-                                    old()
-                                        ? ''
-                                        : 'true' }}" />
+                                    value="{{ (isset($data) && @$data->clients[$client->id_client]['pivot']['amount'] <= 0) || old() ? '' : 'true' }}" />
                             </td>
                             <td>{{ $client->name }}</td>
                             <td class="percentage">
