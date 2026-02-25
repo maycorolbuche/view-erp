@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Autorização de Despesas')
-@section('breadcrumb', json_encode([['label' => 'Autorização de Despesas', 'icon' => 'fas fa-check-double']]))
+@section('title', 'Autorizações')
+@section('breadcrumb', json_encode([['label' => 'Autorizações', 'icon' => 'fas fa-check-double']]))
 
 @section('content')
     <x-content>
@@ -36,37 +36,35 @@
                         </small>
                     </h1>
 
-                    <h2 style="margin:0">
-                        <small>
-                            @if ($data->authorization_type->type == 'expense')
-                                {{ $data->start_date_br }} a {{ $data->end_date_br }}
-                            @elseif ($data->authorization_type->type == 'cash-advance' || $data->authorization_type->type == 'cash-advance-return')
-                                {{ $data->start_date_br }}
-                                <br>Valor: R$ {{ number_format(abs($data->amount), 2, ',', '.') }}
+                    <div style="margin: 0;margin-top: 12px;font-size: 16px;">
+                        <b>Tipo de Solicitação: </b>{{ $data->authorization_type->name }}
+                        @if ($data->authorization_type->type == 'expense')
+                            <br><b>Período:</b> {{ $data->start_date_br }} a {{ $data->end_date_br }}
+                        @elseif ($data->authorization_type->type == 'cash-advance' || $data->authorization_type->type == 'cash-advance-return')
+                            <br><b>Data:</b> {{ $data->start_date_br }}
+                            <br><b>Valor:</b> R$ {{ number_format(abs($data->amount), 2, ',', '.') }}
 
-                                @if ($data->authorization_type->type == 'cash-advance')
-                                    <br>Autorização vinculada: {{ $data->authorization_parent->description_details ?? '' }}
-                                @endif
+                            @if ($data->authorization_type->type == 'cash-advance')
+                                <br><b>Autorização vinculada:</b>
+                                {{ $data->authorization_parent->description_details ?? '' }}
                             @endif
-                        </small>
-                    </h2>
+                        @endif
+
+
+                        @if (trim($data->description) != '')
+                            <br><b>Motivo da Solicitação:</b>
+                            {{ $data->description }}
+                        @endif
+                    </div>
 
                     <br>
 
-                    @if (trim($data->agreement_terms) != '')
+                    @if (trim($data->agreement_terms) != '' && auth()->user()->id_user == $data->id_user)
                         <x-note>
                             <small>
                                 <b>Termo de Compromisso:</b>
                                 <br>{{ $data->agreement_terms }}
                             </small>
-                        </x-note>
-                    @endif
-
-                    <br>
-
-                    @if (trim($data->description) != '')
-                        <x-note>
-                            {{ $data->description }}
                         </x-note>
                     @endif
 

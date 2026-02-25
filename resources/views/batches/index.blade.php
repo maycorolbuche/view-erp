@@ -94,8 +94,12 @@
                         </tr>
                         <tr id="expenses-not-checked">
                             <th></th>
-                            <th colspan=5 class='text-right text-danger'>Valor não selecionado</th>
-                            <th class='text-right text-danger expenses-not-checked'>0,00</th>
+                            <th colspan=5 class='text-right text-danger' style="border-bottom:1px solid #CCC">
+                                Valor não selecionado
+                            </th>
+                            <th class='text-right text-danger expenses-not-checked' style="border-bottom:1px solid #CCC">
+                                0,00
+                            </th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -106,6 +110,14 @@
                             </th>
                             <th colspan=5 class='text-right'>Valor total</th>
                             <th class='text-right expenses-all'>0,00</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th colspan=5 class='text-right'>Saldo de adiantamento</th>
+                            <th class='text-right'>{{ number_format($user_cash, 2, ',', '.') }}</th>
                             <th></th>
                             <th></th>
                             <th></th>
