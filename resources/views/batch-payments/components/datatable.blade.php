@@ -17,6 +17,11 @@
             'className' => 'text-center',
         ],
         [
+            'title' => 'Data Agendamento',
+            'data' => 'estimated_payment_date',
+            'className' => 'text-center',
+        ],
+        [
             'title' => 'Nome',
             'data' => 'user.name',
         ],

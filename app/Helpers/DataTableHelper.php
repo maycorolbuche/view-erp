@@ -148,6 +148,9 @@ class DataTableHelper
             ->editColumn('created_at', function ($row) {
                 return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
             })
+            ->editColumn('estimated_payment_date', function ($row) {
+                return Carbon::parse($row->created_at)->format('d/m/Y');
+            })
             ->editColumn('refundable_amount', function ($row) {
                 return number_format($row->refundable_amount, 2, ',', '.');
             })

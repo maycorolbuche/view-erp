@@ -75,7 +75,10 @@ class BatchPaymentController extends Controller
                     'amount_paid' => $amount_paid,
                     'active' => false,
                 ]);
-                $this->sendMail($id);
+                try {
+                    $this->sendMail($id);
+                } catch (\Exception $e) {
+                }
 
                 if ($amount_paid > 0) {
                     Transaction::where(['id_batch' => $id, 'type' => 'batch-payment'])->delete();
