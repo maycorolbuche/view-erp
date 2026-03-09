@@ -143,13 +143,13 @@
                         @else
                             <x-group>
                                 <x-input type="date" name="estimated_payment_date" width="150"
-                                    label="Data Prevista para Pagamento" value="{{ $estimated_payment_date }}" />
+                                    label="Data Agendamento" value="{{ $estimated_payment_date }}" />
                             </x-group>
                         @endif
 
-                          <x-group>
-                                <x-input type="textarea" name="notes" label="Anotações" value="{{ $notes }}" />
-                          </x-group>
+                        <x-group>
+                            <x-input type="textarea" name="notes" label="Anotações" value="{{ $notes }}" />
+                        </x-group>
 
                         <x-group right>
                             <x-button type="update" layout="danger" value="fail" label="Reprovar Lote"
