@@ -63,7 +63,9 @@ class UserProfileController extends Controller
                 if ($user->root) {
                     return redirect()->back()->with('error', 'Não é possível alterar os perfis do usuário raiz!');
                 } else {
-                    UserProfile::where('id_user', $id)->delete();
+                    $profiles = Profile::where('id_system', $request->__id_system)->pluck('id_profile')->toArray();
+
+                    UserProfile::where('id_user', $id)->whereIn('id_profile', $profiles)->delete();
                     if (isset($request->profile)) {
                         foreach (array_keys($request->profile) as $id_profile) {
                             UserProfile::create(['id_user' => $id, 'id_profile' => $id_profile]);
