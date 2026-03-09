@@ -97,8 +97,7 @@ class BatchReviewController extends Controller
 
                     return redirect()->route('batch-review');
                 } elseif ($request->input('_action') == "revised") {
-
-                    $expense = Expense::batch($id)->where('id_expense', $request->input("id_expense"));
+                    $expense = Expense::query()->batch($id)->where('id_expense', $request->input("id_expense"));
                     if (!$expense) {
                         return response()->json([
                             'success' => false,
