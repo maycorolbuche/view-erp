@@ -926,7 +926,7 @@ class DataTableHelper
 
     public static function users_cash($query = null)
     {
-        $data = $query ?: User::query();
+        $data = $query ?: User::query()->selectRaw("users.*, users.id_user as id");
         $data->with('user_cash');
         $id_field = request('id-field') ?: 'id';
 
