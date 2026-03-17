@@ -22,9 +22,9 @@ class CreateNotificationLogsTable extends Migration
             $table->string('recipient')->nullable();
             $table->string('subject')->nullable();
             $table->longText('message')->nullable();    // Dados da notificação
-            $table->json('data')->nullable();    // Dados da notificação
+            $table->text('data')->nullable(); //$table->json('data')->nullable();    // Dados da notificação
             $table->string('type')->nullable();    // Dados da notificação
-            $table->json('response')->nullable(); // Resposta do serviço (se houver)
+            $table->text('response')->nullable(); //$table->json('response')->nullable(); // Resposta do serviço (se houver)
             $table->string('status')->default('sent'); // sent, failed, queued, delivered
             $table->text('error_message')->nullable(); // Mensagem de erro se falhar
             $table->timestamp('sent_at');

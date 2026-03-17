@@ -13,20 +13,20 @@ class ScheduleController extends Controller
      */
     public function run(Request $request)
     {
-        // Verificação opcional de segurança via token
-        /*if ($request->token !== env('SCHEDULE_TOKEN')) {
-            return response()->json([
-                'error' => 'Unauthorized'
-            ], 401);
-        }*/
+        // Lista as tasks
+        Artisan::call('schedule:list');
+        $tasks = Artisan::output();
 
         // Executa o scheduler
         Artisan::call('schedule:run');
-        $output = Artisan::output();
+        $execution = Artisan::output();
 
-        return response()->json([
-            'status' => 'ok',
-            'output' => $output
-        ]);
+        $output = "=== SCHEDULE LIST ===\n";
+        $output .= $tasks . "\n";
+        $output .= "=== EXECUTION ===\n";
+        $output .= $execution;
+
+        return response($output, 200)
+            ->header('Content-Type', 'text/plain');
     }
 }

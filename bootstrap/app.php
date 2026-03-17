@@ -52,4 +52,10 @@ $app->singleton(
 |
 */
 
+use Illuminate\Support\Facades\Schema;
+
+$app->booted(function () {
+    Schema::defaultStringLength(191);
+});
+
 return $app;

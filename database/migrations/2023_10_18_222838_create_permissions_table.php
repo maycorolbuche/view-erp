@@ -19,7 +19,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedInteger('id_route');
             $table->unsignedInteger('id_user')->nullable();
             $table->unsignedInteger('id_profile')->nullable();
-            $table->json('permissions');
+            $table->text('permissions'); //$table->json('permissions');
 
             $table->foreign('id_system')->references('id_system')->on('systems')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_route')->references('id_route')->on('routes')->onUpdate('cascade')->onDelete('cascade');

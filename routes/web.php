@@ -14,12 +14,20 @@ use App\Models\Route as Routes;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/enviar-email-teste', function () {
-    try {
-        $to = 'mayco_rolbuche@hotmail.com';
 
-        Mail::raw('Teste de e-mail do Laravel', function ($message) use ($to) {
+Route::get('/test-mail', function (Illuminate\Http\Request $request) {
+    if (!config('app.debug')) {
+        abort(404);
+    }
+
+    try {
+        $to = $request->query('to');
+
+        if (!$to) {
+            return 'Informe o e-mail na URL. Ex: /test-mail?to=teste@email.com';
+        }
+
+        \Illuminate\Support\Facades\Mail::raw('Teste de e-mail do Laravel', function ($message) use ($to) {
             $message->to($to)
                 ->subject('Teste de e-mail do Laravel');
         });
@@ -28,7 +36,22 @@ Route::get('/enviar-email-teste', function () {
     } catch (\Exception $e) {
         return 'Erro ao enviar o e-mail: ' . $e->getMessage();
     }
-});*/
+});
+
+Route::get('/import-database', function (Illuminate\Http\Request $request) {
+    if (!config('app.debug')) {
+        abort(404);
+    }
+
+    $token = $request->query('token');
+    if ($token <> date("Ymd")) {
+        return 'Informe o token na URL, passando o "ano|mes|dia". Ex: /import-database?token=' . date("Ymd");
+    }
+
+    \Illuminate\Support\Facades\Artisan::call('db:seed --class=__DBMigrationSeeder --force');
+    $output = \Illuminate\Support\Facades\Artisan::output();
+    return $output;
+});
 
 Route::get('/home', function () {
     return redirect('/');
@@ -38,6 +61,7 @@ Route::get('/home', function () {
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/install', 'Data\InstallController@run')->name('install');
     Route::get('/schedule', 'Data\ScheduleController@run')->name('schedule');
+    Route::get('/cron', 'Data\ScheduleController@run')->name('cron');
 
 
     Route::group(['middleware' => ['guest']], function () {

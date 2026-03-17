@@ -17,20 +17,20 @@ class Kernel extends ConsoleKernel
     {
         // php artisan schedule:run
 
-        $schedule->command('task:close_authorizations')->daily()->between('00:00', '04:00');
-        $schedule->command('task:close_batches_without_refund')->daily()->between('00:00', '04:00');
+        $schedule->command('task:close_authorizations')->daily();
+        $schedule->command('task:close_batches_without_refund')->daily();
 
-        $schedule->command('task:remove_inactive_expenses')->daily()->between('00:00', '04:00');
-        $schedule->command('task:email_pending_batches')->daily()->between('00:00', '04:00');
+        $schedule->command('task:remove_inactive_expenses')->daily();
+        $schedule->command('task:email_pending_batches')->daily();
 
-        $schedule->command('task:migrate')->daily()->between('00:00', '04:00');
-        $schedule->command('task:seed')->daily()->between('00:00', '04:00');
-        $schedule->command('task:remove_old_logs')->daily()->between('00:00', '04:00');
+        $schedule->command('task:migrate')->daily();
+        $schedule->command('task:seed')->daily();
+        $schedule->command('task:remove_old_logs')->daily();
 
-        $schedule->command('task:batch_approved_when_paid')->daily()->between('00:00', '04:00');
-        $schedule->command('task:delete_excess_files')->daily()->between('00:00', '04:00');
+        $schedule->command('task:batch_approved_when_paid')->daily();
+        $schedule->command('task:delete_excess_files')->daily();
 
-        $schedule->command('task:backup')->daily()->between('00:00', '04:00');
+        $schedule->command('task:backup')->daily();
 
         //$schedule->command('task:close_authorizations')->everyMinute();
         //->everyMinute()

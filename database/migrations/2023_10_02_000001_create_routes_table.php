@@ -20,8 +20,8 @@ class CreateRoutesTable extends Migration
             $table->string('name')->unique();
             $table->string('uri')->unique();
             $table->string('controller');
-            $table->json('resources');
-            $table->json('permissions');
+            $table->text('resources'); //$table->json('resources');
+            $table->text('permissions'); //$table->json('permissions');
             $table->string('icon')->nullable();
             $table->integer('sequence');
             $table->boolean('root')->default(0);
