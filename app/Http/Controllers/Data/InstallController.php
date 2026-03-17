@@ -31,7 +31,7 @@ class InstallController extends Controller
 
         /* **************************** ARTISAN **************************** */
         $commands = [
-            'storage:link',
+            //'storage:link',
             'migrate --force',
             'db:seed --force',
             'cache:clear',
