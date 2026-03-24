@@ -14,6 +14,17 @@
         </ul>
     </div>
     <ul class="nav navbar-nav navbar-right">
+        @if (env('APP_ENV') != 'production')
+            <li class="ph10 pv20 hidden-xs">
+                <span class='badge badge-danger'>{{ env('APP_ENV') }}</span>
+            </li>
+        @endif
+        @if (env('APP_DEBUG') == '1')
+            <li class="ph10 pv20 hidden-xs">
+                <span class='badge badge-warning'>debug</span>
+            </li>
+        @endif
+
         @if (count(auth()->user()->load('systems')->systems) > 1)
             <li>
                 <a class="topbar-menu-toggle" href="javascript:"
