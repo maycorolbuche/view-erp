@@ -58,5 +58,12 @@
             </label>
         </div>
 
+        @if (env('APP_ENV') != 'production' || env('APP_DEBUG') == '1')
+            <div class="p5" style="display: flex;align-items: center;justify-content: center;gap: 10px;">
+                <span class='badge badge-danger'>{{ env('APP_ENV') }}</span>
+                <span class='badge badge-warning'>{{ env('APP_DEBUG') ? 'debug' : '' }}</span>
+            </div>
+        @endif
+
     </x-form>
 @endsection
