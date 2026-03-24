@@ -35,11 +35,10 @@
                                 @push('scripts')
                                     <script>
                                         $(document).ready(function() {
-                                            setTimeout(function() {
-                                                $("#id_authorization").val({{ $authorizations[0]->id_authorization }}).trigger(
-                                                        "chosen:updated")
-                                                    .change();
-                                            }, 100)
+                                            $("#id_authorization")
+                                                .val({{ $authorizations[0]->id_authorization }})
+                                                .trigger("chosen:updated")
+                                                .change();
                                         });
                                     </script>
                                 @endpush
@@ -54,8 +53,10 @@
                                 <script>
                                     $(document).ready(function() {
                                         setTimeout(function() {
-                                            $("#id_authorization").trigger("chosen:updated").change();
-                                        }, 100)
+                                            $("#id_authorization")
+                                                .trigger("chosen:updated")
+                                                .change();
+                                        }, 1000)
                                     });
                                 </script>
                             @endpush
@@ -156,62 +157,7 @@
                     @include('expenses.partials.clients')
 
                     @include('expenses.partials.users')
-                    <?php /*
-                        <div class="table-responsive">
-                            <table class="table table-hover table-users">
-                                <thead>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th class="text-right">%</th>
-                                        <th class="text-right">Valor</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $user)
-                                        <tr class="data"
-                                            style="{{ isset($data->users[$user->id_user]) || (old('user_amount')[$user->id_user] ?? 0) > 0 ? '' : 'display:none;' }}"
-                                            data-id="{{ $user->id_user }}">
-                                            <td>
-                                                {{ $user->name }}
-                                            </td>
-                                            <td class="user_percentage">
-                                                <x-input type="number" name="user_percentage[{{ $user->id_user }}]"
-                                                    value="{{ $data->users[$user->id_user]['pivot']['percentage'] ?? '' }}"
-                                                    min="0"
-                                                    onchange="calc_amount('user_amount','user_percentage',{{ $user->id_user }})" />
-                                            </td>
-                                            <td class="user_amount">
-                                                <x-input type="money" name="user_amount[{{ $user->id_user }}]"
-                                                    value="{{ $data->users[$user->id_user]['pivot']['amount'] ?? '' }}"
-                                                    onchange="calc_percent('user_amount','user_percentage',{{ $user->id_user }})" />
-                                            </td>
-                                            <td class="text-right" style="width: 50px;">
-                                                @if ($user->id_user != auth()->user()->id_user)
-                                                    <a class="btn btn-danger" href="javascript:"
-                                                        onclick="del_user({{ $user->id_user }})">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td>
-                                            <x-input type="select" name="add_user" list="{{ json_encode($users) }}"
-                                                list-value="id_user" list-text="name" />
-                                        </td>
-                                        <td class="user_percentage_total text-right text-bold"></td>
-                                        <td class="user_amount_total text-right text-bold"></td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        */
-                    ?>
+
                     <br>
 
                     <x-group>
