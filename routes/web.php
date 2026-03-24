@@ -78,7 +78,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');
     });
 
-    Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => ['auth', 'active']], function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
