@@ -34,6 +34,9 @@ class ExpenseRequest extends FormRequest
                     ->with('clients')->first();
 
                 $clients = $authorization->clients->pluck('id_client')->toArray();
+                if ($request->input('client_amount') == null) {
+                    return false;
+                }
 
                 $request['client_amount'] = array_intersect_key($request->input('client_amount'), array_flip($clients));
 

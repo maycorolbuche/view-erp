@@ -86,6 +86,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::get('/icons', 'Data\IconController@index')->name('icons');
         });
 
+        /* Storage (só acessa se tiver logado) */
+        Route::get('/storage/{path}', function ($path) {
+            $fullPath = storage_path('app/public/' . $path);
+            if (!file_exists($fullPath)) {
+                abort(404);
+            }
+
+            return response()->file($fullPath);
+        })->where('path', '.*');
+
         try {
             $routes = Routes::all();
             $systems = System::all();
