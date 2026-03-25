@@ -52,7 +52,10 @@ class BatchController extends Controller
             $this->sendMail($id_batch);
             return redirect()->route('me-batches.show', ['id' => $id_batch])->with('success', 'Lote gerado com sucesso');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            $message = $e->getMessage();
+            $message = str_replace("<", "(", $message);
+            $message = str_replace(">", ")", $message);
+            return redirect()->back()->with('error', $message)->withInput();
         }
     }
 
