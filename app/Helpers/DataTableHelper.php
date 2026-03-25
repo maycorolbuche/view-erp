@@ -134,6 +134,17 @@ class DataTableHelper
         $id_field = request('id-field') ?: 'id';
 
         return DataTables::of($data)
+            ->filter(function ($query) {
+                if ($f = request('start_date')) {
+                    $query->whereDate('created_at', '>=', $f);
+                }
+                if ($f = request('end_date')) {
+                    $query->whereDate('created_at', '<=', $f);
+                }
+                if ($f = request('id_user')) {
+                    $query->where('id_user', $f);
+                }
+            })
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'queries-batches.show', [$id_field => $row->id_batch]);

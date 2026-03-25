@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Query;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Helpers\BatchHelper;
 use App\Helpers\DataTableHelper;
 
@@ -16,7 +17,8 @@ class BatchController extends Controller
      */
     public function index()
     {
-        return view('queries.batches');
+        $users = User::orderBy('name')->get();
+        return view('queries.batches', compact('users'));
     }
 
 
