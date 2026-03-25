@@ -47,16 +47,18 @@ class BatchController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
+        $id_batch = ExpenseHelper::batch($request->all());
         try {
-            $id_batch = ExpenseHelper::batch($request->all());
             $this->sendMail($id_batch);
-            return redirect()->route('me-batches.show', ['id' => $id_batch])->with('success', 'Lote gerado com sucesso');
         } catch (\Exception $e) {
+            /*
             $message = $e->getMessage();
             $message = str_replace("<", "(", $message);
             $message = str_replace(">", ")", $message);
             return redirect()->back()->with('error', $message)->withInput();
+            */
         }
+        return redirect()->route('me-batches.show', ['id' => $id_batch])->with('success', 'Lote gerado com sucesso');
     }
 
     public function sendMail($id_batch)
