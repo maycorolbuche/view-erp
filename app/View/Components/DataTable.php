@@ -18,6 +18,7 @@ class DataTable extends Component
         public string $createdRow = '',
         public string $queryString = '',
         public string $idField = '',
+        public string $searchable = '',
         string $order = '',
         string $orderDir = '',
         string $id = '',

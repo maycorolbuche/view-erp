@@ -18,6 +18,9 @@
             const table_{{ $id }} = $('#{{ $id }}').DataTable({
                 serverSide: true,
                 processing: true,
+                @if ($searchable == 'no')
+                    dom: 'lrtip',
+                @endif
                 ajax: {
                     url: '{{ $dataOrigin }}?id-field={{ $idField ?: '' }}&{!! $queryString ?: '' !!}',
                     data: function(d) {

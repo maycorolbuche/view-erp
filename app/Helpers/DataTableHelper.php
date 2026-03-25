@@ -222,7 +222,7 @@ class DataTableHelper
                 $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
                 return $actionBtn;
             })
-            ->editColumn('period', function ($row) {
+            ->addColumn('period', function ($row) {
                 if ($row->authorization_type->type == 'expense') {
                     return Carbon::parse($row->start_datetime)->format('d/m/Y')
                         . ' a '

@@ -221,7 +221,8 @@
                         'data' => 'status',
                         'className' => 'text-center',
                     ],
-                ]) }}">
+                ]) }}"
+                searchable="no">
                 <x-group title="Filtros de Busca">
                     <x-input type="date" name="start_date" width="150" label="Data Inicial" />
                     <x-input type="date" name="end_date" width="150" label="Data Final" />

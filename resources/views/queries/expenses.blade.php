@@ -180,11 +180,13 @@
                         'className' => 'text-center',
                     ],
                 ]) }}"
-                created-row="if (data['refundable'] !== 1) { $('td', row).addClass('danger'); }">
+                created-row="if (data['refundable'] !== 1) { $('td', row).addClass('danger'); }" searchable="no">
 
                 <x-group title="Filtros de Busca">
-                    <x-input type="date" name="start_date" width="150" label="Data Inicial" />
-                    <x-input type="date" name="end_date" width="150" label="Data Final" />
+                    <x-input type="date" name="start_date" width="150" label="Data Inicial"
+                        value="{{ date('Y-m-01') }}" />
+                    <x-input type="date" name="end_date" width="150" label="Data Final"
+                        value="{{ date('Y-m-t') }}" />
                     <x-input type="number" name="id_batch" width="130" label="Lote" />
 
                     <x-input type="select" name="id_category" width="200" label="Tipo de Despesa"
@@ -193,8 +195,8 @@
                         list="{{ json_encode($payment_methods) }}" list-value="id_payment_method" list-text="name" />
                     <x-input type="select" name="id_client" width="250" label="Cliente"
                         list="{{ json_encode($clients) }}" list-value="id_client" list-text="name" />
-                    <x-input type="select" name="id_user" width="250" label="Usuário" list="{{ json_encode($users) }}"
-                        list-value="id_user" list-text="name" />
+                    <x-input type="select" name="id_user" width="250" label="Usuário"
+                        list="{{ json_encode($users) }}" list-value="id_user" list-text="name" />
                 </x-group>
 
             </x-data-table>
