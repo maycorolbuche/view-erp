@@ -124,8 +124,9 @@
         @endif
 
         <x-panel title="Dados" type="warning">
-            <x-data-table data-origin="queries-expenses.datatable" query-string="route=queries-expenses.show" order="date"
-                order-dir="desc"
+
+            <x-data-table id="expenses_query" data-origin="queries-expenses.datatable"
+                query-string="route=queries-expenses.show" order="date" order-dir="desc"
                 columns="{{ json_encode([
                     [
                         'data' => 'actions_search',
@@ -199,7 +200,172 @@
                         list="{{ json_encode($users) }}" list-value="id_user" list-text="name" />
                 </x-group>
 
+                <x-tabs>
+                    <li data-id="tab-data" class="tab">
+                        <a href="javascript:" onclick="dtQueryExpensesTab('tab-data')">
+                            Dados
+                        </a>
+                    </li>
+                    <li data-id="tab-simulator" class="tab">
+                        <a href="javascript:" onclick="dtQueryExpensesTab('tab-simulator')">
+                            Simulador
+                        </a>
+                    </li>
+                </x-tabs>
+
+                <div class="filter--ignore" data-id="simulator">
+                    <div style="font-weight:bold;padding-bottom:15px;">Simule valores e médias de valores</div>
+
+                    <div data-id="simulator-data">
+                        <table class="table">
+                            <thead>
+                                <th>Item</th>
+                                <th>Qtd. Recursos</th>
+                                <th>Valor</th>
+                                <th>Divisão</th>
+                                <th>Média</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right total-amount"></th>
+                                <th></th>
+                                <th></th>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
             </x-data-table>
         </x-panel>
     </x-content>
 @endsection
+
+@push('scripts')
+    <script>
+        function dtQueryExpensesTab(id) {
+            $("[data-table-filter='expenses_query']").find(".tab").removeClass("active");
+            $("[data-table-filter='expenses_query']").find("[data-id=" + id + "]").addClass("active");
+
+            $("[data-table-id='expenses_query']").hide();
+            $("[data-id='simulator']").hide();
+            if (id == "tab-data") {
+                $("[data-table-id='expenses_query']").show();
+            }
+            if (id == "tab-simulator") {
+                $("[data-id='simulator']").show();
+            }
+        }
+
+        let currentRequest = null;
+
+        function loadSimulator() {
+            const $container = $("[data-table-filter='expenses_query'] [data-id='simulator']");
+            const $container_data = $container.find("[data-id='simulator-data']");
+            const $tbody = $container_data.find("tbody")
+
+
+            $container_data.addClass("loading");
+
+            let params = {};
+            $("[data-table-filter='expenses_query']")
+                .find('input, select')
+                .each(function() {
+                    params[$(this).attr('name')] = $(this).val();
+                });
+
+
+            // Se já tiver uma requisição em andamento, cancela
+            if (currentRequest && currentRequest.readyState !== 4) {
+                currentRequest.abort();
+            }
+
+            currentRequest = $.ajax({
+                url: "{{ route('queries-expenses.datatable') }}",
+                data: {
+                    type: 'simulator',
+                    ...params
+                },
+                success: function(data) {
+                    $tbody.html(data)
+                    $tbody.find("input, select").change(function() {
+                        calcItemsSimulator();
+                    });
+                    calcItemsSimulator();
+                    $container_data.removeClass("loading");
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (textStatus === 'abort') return;
+
+                    $tbody.html("")
+
+                    new PNotify({
+                        text: 'Ocorreu um erro ao carregar dados da simulação.',
+                        type: 'danger',
+                        delay: 1400
+                    });
+                    $container_data.removeClass("loading");
+                },
+            });
+        }
+
+        function calcItemsSimulator() {
+            const $container = $("[data-table-filter='expenses_query'] [data-id='simulator']");
+            const $container_data = $container.find("[data-id='simulator-data']");
+            const $tbody = $container_data.find("tbody")
+            const $tfoot = $container_data.find("tfoot")
+
+            let total_amount = 0
+            $tbody.find("tr").each(function() {
+                const amount = $(this).find(".total-amount").find("input[type='hidden']").val();
+                const division = $(this).find(".total-items").find("input").val();
+
+                let avg;
+
+                if (division == 0) {
+                    avg = "-";
+                } else {
+                    avg = parseFloat(amount) / parseFloat(division);
+                    if (isNaN(avg)) {
+                        avg = 0;
+                    }
+                }
+
+                const avg_br = avg.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+                $(this).find(".avg").html(avg_br);
+
+                total_amount += parseFloat(amount) || 0;
+            })
+
+            const total_amount_br = total_amount.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            $tfoot.find(".total-amount").html(total_amount_br);
+        }
+        $(document).ready(function() {
+            $("[data-table-filter='expenses_query']")
+                .find('input:not(.--filter-ignore):not([type=hidden]), select:not(.--filter-ignore)')
+                .change(function() {
+                    loadSimulator();
+                });
+
+            dtQueryExpensesTab('tab-data');
+            loadSimulator();
+        });
+    </script>
+@endpush
+
+@push('styles')
+    <style>
+        [data-table-filter='expenses_query'] .loading {
+            opacity: .5;
+            pointer-events: none;
+        }
+    </style>
+@endpush

@@ -9,6 +9,7 @@ use App\Models\PaymentMethod;
 use App\Models\Client;
 use App\Models\User;
 use App\Helpers\DataTableHelper;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
@@ -60,6 +61,50 @@ class ExpenseController extends Controller
 
     public function datatable()
     {
-        return DataTableHelper::expenses();
+        if (request('type') == 'simulator') {
+            $query = Expense::query();
+            if ($f = request('start_date')) {
+                $query->whereDate('date', '>=', $f);
+            }
+            if ($f = request('end_date')) {
+                $query->whereDate('date', '<=', $f);
+            }
+            if ($f = request('id_batch')) {
+                $query->where('id_batch', $f);
+            }
+            if ($f = request('id_category')) {
+                $query->where('id_category', $f);
+            }
+            if ($f = request('id_payment_method')) {
+                $query->where('id_payment_method', $f);
+            }
+            if ($f = request('id_user')) {
+                $query->whereHas('users', function ($q) use ($f) {
+                    $q->where('users.id_user', $f);
+                });
+            }
+            if ($f = request('id_client')) {
+                $query->whereHas('clients', function ($q) use ($f) {
+                    $q->where('clients.id_client', $f);
+                });
+            }
+
+            $data = $query
+                ->join('categories', 'categories.id_category', '=', 'expenses.id_category')
+                ->select(
+                    'categories.id_category',
+                    'categories.name as category_name',
+                    DB::raw('COUNT(DISTINCT expenses.id_user) as total_users'),
+                    DB::raw('SUM(amount) as total_amount'),
+                    DB::raw('COUNT(*) as total_items')
+                )
+                ->groupBy('id_category', 'categories.name')
+                ->orderBy('categories.name')
+                ->get();
+
+            return view('queries.partials.expenses-simulator', compact('data'));
+        } else {
+            return DataTableHelper::expenses();
+        }
     }
 }

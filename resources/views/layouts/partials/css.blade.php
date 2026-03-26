@@ -264,4 +264,8 @@
     tr.disabled input {
         color: #BBB;
     }
+
+    .dataTables_length {
+        padding-bottom: 6px;
+    }
 </style>
