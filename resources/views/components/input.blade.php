@@ -39,7 +39,7 @@
                     if (is_array($value)) {
                         $v = $value;
                     } else {
-                        $jsonData = json_decode(html_entity_decode($value));
+                        $jsonData = is_array($value) ? $value : json_decode(html_entity_decode($value));
                         if ($jsonData !== null) {
                             $v = $jsonData;
                         } else {
@@ -88,7 +88,7 @@
             <div style="position: relative;display: flex;height: 100%;align-items: center;padding-top: 10px;">
                 @php
                     $v = [];
-                    $jsonData = json_decode(html_entity_decode($value));
+                    $jsonData = is_array($value) ? $value : json_decode(html_entity_decode($value), true);
                     if ($jsonData !== null) {
                         $v = $jsonData;
                     } else {
