@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Models\System;
 use App\Models\Route as Routes;
 
@@ -14,6 +15,15 @@ use App\Models\Route as Routes;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/home', function () {
+    return redirect('/');
+});
+
+Route::get('/cron/run', function () {
+    Artisan::call('schedule:run');
+    return response('<pre>' . Artisan::output() . '</pre>');
+});
 
 Route::get('/test-mail', function (Illuminate\Http\Request $request) {
     if (!config('app.debug')) {
@@ -53,9 +63,6 @@ Route::get('/import-database', function (Illuminate\Http\Request $request) {
     return $output;
 });
 
-Route::get('/home', function () {
-    return redirect('/');
-});
 
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
