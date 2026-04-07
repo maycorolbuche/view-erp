@@ -690,7 +690,9 @@ class DataTableHelper
                 $return = "";
                 foreach ($row->users_authorizations_types as $authorization) {
                     $authorizationtype = AuthorizationType::where('id_authorization_type', $authorization->id_authorization_type)->first();
-                    $return .= " <span class='badge badge-info'>" . $authorizationtype->name . "</span> ";
+                    if ($authorizationtype) {
+                        $return .= " <span class='badge badge-info'>" . $authorizationtype->name . "</span> ";
+                    }
                 }
                 return $return;
             })
