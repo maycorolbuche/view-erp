@@ -143,7 +143,7 @@
                         @else
                             <x-group>
                                 <x-input type="date" name="estimated_payment_date" width="150"
-                                    label="Data Agendamento" value="{{ $estimated_payment_date }}" />
+                                    label="Data Agendamento do Pagamento" value="{{ $estimated_payment_date }}" />
                             </x-group>
                         @endif
 

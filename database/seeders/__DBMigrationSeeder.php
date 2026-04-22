@@ -8,6 +8,10 @@ use Illuminate\Support\Str;
 use App\Helpers\ExpenseHelper;
 use App\Helpers\RootHelper as Root;
 
+/*
+TODO: Remover após migração completa, para evitar que seja executado acidentalmente e cause perda de dados
+*/
+
 class __DBMigrationSeeder extends Seeder
 {
     public function run()

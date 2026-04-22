@@ -32,7 +32,11 @@ class BatchController extends Controller
     {
         $data = BatchHelper::data($id);
         if ($data) {
-            return view('queries.batches', $data);
+            $chart_categories = $data["chart_categories"];
+            $chart_clients = $data["chart_clients"];
+            $data = $data["data"];
+            $users = User::orderBy('name')->get();
+            return view('queries.batches', compact('data', 'users', 'chart_categories', 'chart_clients'));
         } else {
             return redirect()->route('queries-batches')->with('error', 'Registro não encontrado!');
         }

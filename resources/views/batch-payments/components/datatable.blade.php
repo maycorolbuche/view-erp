@@ -7,7 +7,7 @@
             'orderable' => false,
         ],
         [
-            'title' => 'Código',
+            'title' => 'Lote',
             'data' => 'id_batch',
             'className' => 'text-right',
         ],
