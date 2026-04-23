@@ -12,12 +12,17 @@
             'className' => 'text-right',
         ],
         [
-            'title' => 'Data/Hora',
+            'title' => 'Data Lote',
             'data' => 'created_at',
             'className' => 'text-center',
         ],
         [
-            'title' => 'Data Agendamento',
+            'title' => 'Data Conferência',
+            'data' => 'revised_at',
+            'className' => 'text-center',
+        ],
+        [
+            'title' => 'Data p/ Pgto.',
             'data' => 'estimated_payment_date',
             'className' => 'text-center',
         ],
@@ -26,17 +31,12 @@
             'data' => 'user.name',
         ],
         [
-            'title' => 'Qtd. Despesas',
-            'data' => 'expenses_count',
-            'className' => 'text-right',
-        ],
-        [
-            'title' => 'Vl. Reembolsável',
+            'title' => 'Vl. Reemb.',
             'data' => 'refundable_amount',
             'className' => 'text-right',
         ],
         [
-            'title' => 'Vl. Não Reembolsável',
+            'title' => 'Vl. Não Reemb.',
             'data' => 'non_refundable_amount',
             'className' => 'text-right',
         ],
