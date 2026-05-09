@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\User;
 use App\Models\CategoryType;
+use App\Models\CategoryUser;
 use App\Http\Requests\CategoryRequest;
 use App\Helpers\DataTableHelper;
 
@@ -19,7 +21,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories_types = CategoryType::orderBy('name')->get();
-        return view('categories.index', compact('categories_types'));
+        $users = User::orderBy('name')->get();
+        return view('categories.index', compact('categories_types', 'users'));
     }
 
     /**
@@ -36,6 +39,16 @@ class CategoryController extends Controller
 
         try {
             $category = Category::create($request->all());
+            if ($request->filled('users') && is_array($request->users)) {
+                foreach ($request->users as $idUser) {
+                    CategoryUser::create([
+                        'id_category' => $category->id_category,
+                        'id_user'     => $idUser,
+                        'created_by'  => auth()->user()->id_user ?? null,
+                        'updated_by'  => auth()->user()->id_user ?? null,
+                    ]);
+                }
+            }
             return redirect()->route('categories.show', ['id' => $category->id_category])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
@@ -51,9 +64,11 @@ class CategoryController extends Controller
     public function show($id)
     {
         $data = Category::find($id);
+        $users = User::orderBy('name')->get();
         if ($data) {
             $categories_types = CategoryType::orderBy('name')->get();
-            return view('categories.index', compact('data', 'categories_types'));
+            $data->users = $data->users()->pluck('id_user')->toArray();
+            return view('categories.index', compact('data', 'categories_types', 'users'));
         } else {
             return redirect()->route('categories')->with('error', 'Registro não encontrado!');
         }
@@ -82,7 +97,21 @@ class CategoryController extends Controller
         try {
             $category = Category::find($id);
             if ($category) {
+
                 $category->update($request->all());
+
+                CategoryUser::where('id_category', $category->id_category)->delete();
+                if ($request->filled('users') && is_array($request->users)) {
+                    foreach ($request->users as $idUser) {
+                        CategoryUser::create([
+                            'id_category' => $category->id_category,
+                            'id_user'     => $idUser,
+                            'created_by'  => auth()->user()->id_user ?? null,
+                            'updated_by'  => auth()->user()->id_user ?? null,
+                        ]);
+                    }
+                }
+
                 return redirect()->route('categories.show', ['id' => $category->id_category])->with('success', 'Registro salvo com sucesso');
             } else {
                 return redirect()->route('categories')->with('error', 'Registro não encontrado!');

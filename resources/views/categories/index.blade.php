@@ -20,6 +20,13 @@
                         value="{{ $data->id_category_type ?? '' }}" />
                 </x-group>
 
+                <x-group>
+                    <x-input type="multiple" name="users" width="250" label="Usuários" list="{{ json_encode($users) }}"
+                        list-value="id_user" list-text="name" value="{{ json_encode($data->users ?? []) }}"
+                        tip="Se estiver preenchido, esta categoria ficará associada apenas aos usuários selecionados" />
+                </x-group>
+
+
                 <x-group right>
                     <x-button type="store" hidden="{{ isset($data) }}"
                         permission="{{ in_array('store', request('__permissions_page')) }}" />

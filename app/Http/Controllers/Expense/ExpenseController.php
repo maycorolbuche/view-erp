@@ -31,7 +31,7 @@ class ExpenseController extends Controller
     public function index()
     {
         $authorizations = AuthorizationHelper::active('expense');
-        $categories = Category::orderBy('name')->with('category_type')
+        $categories = Category::visible()->orderBy('name')->with('category_type')
             ->whereHas('category_type', function ($query) {
                 $query->where('categories_types.slug', 'expense');
             })->get();
@@ -174,7 +174,7 @@ class ExpenseController extends Controller
             $data->users = $usersById;
 
             $authorizations = AuthorizationHelper::active('expense')->where("id_authorization", $data->authorization->id_authorization);
-            $categories = Category::orderBy('name')->with('category_type')
+            $categories = Category::visible()->orderBy('name')->with('category_type')
                 ->whereHas('category_type', function ($query) {
                     $query->where('categories_types.slug', 'expense');
                 })->get();
