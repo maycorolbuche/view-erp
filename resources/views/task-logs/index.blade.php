@@ -10,6 +10,14 @@
 
                 @include('layouts.partials.messages')
 
+                <x-title>Último acionamento:</x-title>
+                <x-note>
+                    <span style="font-weight: 600;">Início:</span>
+                    {{ $last_start ? \Carbon\Carbon::parse($last_start)->format('d/m/Y H:i:s') : '' }}
+                    <br><span style="font-weight: 600;">Término:</span>
+                    {{ $last_end ? \Carbon\Carbon::parse($last_end)->format('d/m/Y H:i:s') : '' }}
+                </x-note>
+
                 <table class="table table-bordered table-striped table-hover">
 
                     <thead>
