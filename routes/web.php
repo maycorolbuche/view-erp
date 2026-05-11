@@ -21,8 +21,16 @@ Route::get('/home', function () {
 });
 
 Route::get('/cron/run', function () {
+    $return = "";
     Artisan::call('schedule:run');
-    return response('<pre>' . Artisan::output() . '</pre>');
+    $return .= "############## EXECUÇÃO DE JOBS ##############" . PHP_EOL;
+    $return .= Artisan::output();
+
+    Artisan::call('schedule:list');
+    $return .= "############## JOBS AGENDADOS ##############" . PHP_EOL;
+    $return .=  Artisan::output();
+
+    return response("<pre>" . $return . "</pre>");
 });
 
 Route::get('/test-mail', function (Illuminate\Http\Request $request) {

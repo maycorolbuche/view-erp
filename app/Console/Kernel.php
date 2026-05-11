@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Helpers\ConfigHelper as Configs;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // php artisan schedule:run
+        Configs::set("cron.run.start", now());
 
         $schedule->command('task:close_authorizations')->daily();
         $schedule->command('task:close_batches_without_refund')->daily();
@@ -32,8 +34,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('task:backup')->daily();
 
-        //$schedule->command('task:close_authorizations')->everyMinute();
-        //->everyMinute()
+        Configs::set("cron.run.end", now());
 
         //No servidor - CRONTAB:
         //* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
