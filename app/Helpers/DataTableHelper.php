@@ -35,6 +35,7 @@ use App\Models\UserCashHistory;
 use App\Models\Transaction;
 use App\Models\Profile;
 use App\Models\NotificationLog;
+use App\Models\TaskLog;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,51 @@ use Yajra\DataTables\Facades\DataTables;
 
 class DataTableHelper
 {
+
+    public static function memo(?string $content = "", string $title = 'Detalhes'): string
+    {
+        $id = md5($title . $content . microtime());
+
+        $content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
+
+        return '
+            <div style="display: flex;align-items: center;justify-content: center;">
+                <button 
+                    type="button" 
+                    class="btn btn-xs btn-primary"
+                    data-toggle="modal"
+                    data-target="#memoModal' . $id . '">
+                    Ver
+                </button>
+            </div>
+
+            <div class="modal fade" id="memoModal' . $id . '" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+
+                            <h4 class="modal-title">' . $title . '</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <pre style="white-space: pre-wrap; word-break: break-word;">' . $content . '</pre>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Fechar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        ';
+    }
 
     public static function expenses($query = null)
     {
@@ -1060,6 +1106,31 @@ class DataTableHelper
                 );
             })
             ->rawColumns(['actions', 'status'])
+            ->make(true);
+    }
+
+    public static function task_logs($query = null)
+    {
+        $data = $query ?: TaskLog::query();
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->editColumn('details', function ($row) {
+                return self::memo($row->details);
+            })
+            ->editColumn('start_time', function ($row) {
+                if (!$row->start_time) {
+                    return "";
+                }
+                return Carbon::parse($row->start_time)->format('d/m/Y H:i:s');
+            })
+            ->editColumn('end_time', function ($row) {
+                if (!$row->end_time) {
+                    return "";
+                }
+                return Carbon::parse($row->end_time)->format('d/m/Y H:i:s');
+            })
+            ->rawColumns(['details'])
             ->make(true);
     }
 }

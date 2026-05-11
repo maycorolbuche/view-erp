@@ -30,6 +30,9 @@ class RouteSeeder extends Seeder
         $query_resources = ["index",  "show"];
         $query_permissions = [];
 
+        $index_resources = ["index"];
+        $index_permissions = [];
+
 
         /* SISTEMAS */
         $id_route_group = 1;
@@ -868,6 +871,21 @@ class RouteSeeder extends Seeder
                 'resources' => $query_resources,
                 'permissions' => $query_permissions,
                 'icon' => 'glyphicons glyphicons-message_new',
+                'sequence' => self::sequence(),
+                'root' => 0,
+            ]
+        );
+        Route::updateOrCreate(
+            ['id_route' => 55],
+            [
+                'id_route_group' => $id_route_group,
+                'label' => 'Tarefas Agendadas',
+                'name' => 'task-logs',
+                'uri' => 'logs/tasks',
+                'controller' => 'Log\TaskLogController',
+                'resources' => $index_resources,
+                'permissions' => $index_permissions,
+                'icon' => 'far fa-clock',
                 'sequence' => self::sequence(),
                 'root' => 0,
             ]

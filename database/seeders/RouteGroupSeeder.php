@@ -83,6 +83,15 @@ class RouteGroupSeeder extends Seeder
                 'note' => 'Os relatórios mostram dados de todos os usuários',
             ]
         );
+        /*RouteGroup::updateOrCreate(
+            ['id_route_group' => 10],
+            [
+                'icon' => 'fas fa-lock',
+                'label' => 'Segurança',
+                'sequence' => self::sequence(),
+                'note' => 'Configurações de segurança de todo o sistema',
+            ]
+        );*/
         RouteGroup::updateOrCreate(
             ['id_route_group' => 9],
             [

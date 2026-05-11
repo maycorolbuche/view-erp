@@ -18,8 +18,8 @@ class RootHelper
 
     public static function run()
     {
-        //Adiciona as rota "root" para os sistemas "root"
-        $routes = Route::select(['id_route', 'permissions'])->where('root', true)->get();
+        //Adiciona todas as rotas para os sistemas "root"
+        $routes = Route::select(['id_route', 'permissions'])/*->where('root', true)*/->get();
         $systems = System::select('id_system')->where('root', true)->get();
         foreach ($systems as $system) {
             foreach ($routes as $route) {
