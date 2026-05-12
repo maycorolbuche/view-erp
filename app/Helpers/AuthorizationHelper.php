@@ -70,7 +70,7 @@ class AuthorizationHelper
         return $authorization;
     }
 
-    public static function active($type, $id_user = null)
+    public static function active(string $type, $id_user = null)
     {
         if ($id_user == null) {
             $id_user = Auth::id();
