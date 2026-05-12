@@ -20,19 +20,6 @@ Route::get('/home', function () {
     return redirect('/');
 });
 
-Route::get('/cron/run', function () {
-    $return = "";
-    Artisan::call('schedule:run');
-    $return .= "############## EXECUÇÃO DE JOBS ##############" . PHP_EOL;
-    $return .= Artisan::output();
-
-    Artisan::call('schedule:list');
-    $return .= "############## JOBS AGENDADOS ##############" . PHP_EOL;
-    $return .=  Artisan::output();
-
-    return response("<pre>" . $return . "</pre>");
-});
-
 Route::get('/test-mail', function (Illuminate\Http\Request $request) {
     if (!config('app.debug')) {
         abort(404);
@@ -76,7 +63,8 @@ Route::get('/import-database', function (Illuminate\Http\Request $request) {
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/install', 'Data\InstallController@run')->name('install');
     Route::get('/schedule', 'Data\ScheduleController@run')->name('schedule');
-    Route::get('/cron', 'Data\ScheduleController@run')->name('cron');
+    Route::get('/cron/run', 'Data\ScheduleController@run')->name('cron_run');
+    Route::get('/cron/list', 'Data\ScheduleController@list')->name('cron_list');
 
 
     Route::group(['middleware' => ['guest']], function () {

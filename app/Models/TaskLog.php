@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\CreatedUpdatedBy;
 
 class TaskLog extends Model
 {
-    use HasFactory, CreatedUpdatedBy;
+    use HasFactory;
 
     protected $table = 'task_logs';
     protected $primaryKey = 'id_task_log';
