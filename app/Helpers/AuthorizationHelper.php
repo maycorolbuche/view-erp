@@ -182,6 +182,7 @@ class AuthorizationHelper
         $ids = [];
 
         $authorizations = Authorization::where('end_datetime', '<', now()->subDays($days_to_close))
+            ->where('created_at', '<', now()->subDays($days_to_close))
             ->where('active', true)
             ->get();
         foreach ($authorizations as $authorization) {
