@@ -36,7 +36,7 @@ class ScheduleController extends Controller
         $now = now()->format('i H * * *');
 
         $output = [];
-
+        cache()->forget('cron_running');
         // evita concorrência
         if (!cache()->add(
             'cron_running',
@@ -57,14 +57,9 @@ class ScheduleController extends Controller
 
                 try {
                     // pega comando
-                    $command = $event->command;
-
-                    // remove "artisan "
-                    $command = preg_replace(
-                        '/^.*artisan"\s+/',
-                        '',
-                        $event->command
-                    );
+                    $str = $event->command;
+                    $parts = explode(" ", $str);
+                    $command = end($parts);
 
                     Artisan::call($command);
 
