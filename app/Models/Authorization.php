@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\CreatedUpdatedBy;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class Authorization extends Model
@@ -108,23 +108,82 @@ class Authorization extends Model
         return $this->hasOne(User::class, 'id_user', 'id_user');
     }
 
-    public function scopeMe($query)
+    public function scopeMe(Builder $query)
     {
-        return $query->where('id_user', Auth::id());
+        return $query->where('id_user', auth()->id());
     }
-    public function scopeWithMe($query)
-    {
 
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('active', true);
+    }
+
+    public function scopePending(Builder $query)
+    {
+        return $query->where('approved', null);
+    }
+
+    public function scopeApproved(Builder $query)
+    {
+        return $query->where('approved', true);
+    }
+
+    public function scopeWithMe(Builder $query)
+    {
         return $query->where(function ($q) {
             $q->whereHas('statuses', function ($subQuery) {
-                $subQuery->where((new AuthorizationStatus)->getTable() . '.id_user', Auth::id());
-            })->orWhere((new Authorization)->getTable() . '.id_user', Auth::id());
+                $subQuery->where((new AuthorizationStatus)->getTable() . '.id_user', auth()->id());
+            })->orWhere((new Authorization)->getTable() . '.id_user', auth()->id());
         });
     }
-    public function scopeType($query, $type)
+
+    public function scopeType(Builder $query, string $type)
     {
         return $query->whereHas('authorization_type', function ($q) use ($type) {
             $q->where('type', $type);
         });
+    }
+
+    public static function getActiveExpenses()
+    {
+        return self::with(['clients', 'statuses', 'user', 'authorization_type'])
+            ->me()
+            ->type('expense')
+            ->active()
+            ->approved()
+            ->latest()
+            ->get();
+    }
+
+    public function scopePendingResponse(Builder $query, ?int $id_user = null)
+    {
+        $id_user ??= auth()->id();
+
+        return $query->with([
+            'clients',
+            'statuses',
+            'user',
+            'authorization_type'
+        ])
+            ->whereHas('statuses', function ($query) use ($id_user) {
+                $query->where('authorizations_statuses.id_user', $id_user)
+                    ->whereNull('approved');
+            })
+            ->type('expense')
+            ->active()
+            ->pending();
+    }
+
+    public static function getPendingResponse(?int $id_user = null)
+    {
+        return self::pendingResponse($id_user)
+            ->latest()
+            ->get();
+    }
+
+    public static function getPendingResponseCount(?int $id_user = null)
+    {
+        return self::pendingResponse($id_user)
+            ->count();
     }
 }

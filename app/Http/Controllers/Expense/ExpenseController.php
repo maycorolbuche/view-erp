@@ -11,13 +11,11 @@ use App\Models\Category;
 use App\Models\PaymentMethod;
 use App\Models\Authorization;
 use App\Http\Requests\ExpenseRequest;
-use App\Helpers\AuthorizationHelper;
 use App\Helpers\ExpenseHelper;
 use App\Helpers\DateTimeHelper;
 use App\Helpers\DataTableHelper;
 use App\Helpers\FileUploadHelper;
 use App\Helpers\ConfigHelper as Configs;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class ExpenseController extends Controller
@@ -30,7 +28,8 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $authorizations = AuthorizationHelper::active('expense');
+        $authorizations = Authorization::getActiveExpenses();
+
         $categories = Category::visible()->orderBy('name')->with('category_type')
             ->whereHas('category_type', function ($query) {
                 $query->where('categories_types.slug', 'expense');
@@ -87,7 +86,7 @@ class ExpenseController extends Controller
                 Carbon::parse($request->date),
                 $request->distribute,
                 Carbon::parse($authorization->end_date),
-                Auth::user()->id_branch
+                auth()->user()->id_branch
             );
 
             if ($request->distribute <= 1 || count($dates) <= 0) {
@@ -159,7 +158,7 @@ class ExpenseController extends Controller
     public function show($id)
     {
         $data = Expense::with(['authorization', 'clients', 'users', 'file'])
-            ->where(['id_expense' => $id, 'id_user' => Auth::id()])
+            ->where(['id_expense' => $id, 'id_user' => auth()->id()])
             ->whereNull('id_batch')
             ->whereHas('authorization', function ($q) {
                 $q->where('active', true);
@@ -173,7 +172,7 @@ class ExpenseController extends Controller
             $usersById = array_column($data->users->toArray(), null, 'id_user');
             $data->users = $usersById;
 
-            $authorizations = AuthorizationHelper::active('expense')->where("id_authorization", $data->authorization->id_authorization);
+            $authorizations = Authorization::getActiveExpenses()->where("id_authorization", $data->authorization->id_authorization);
             $categories = Category::visible()->orderBy('name')->with('category_type')
                 ->whereHas('category_type', function ($query) {
                     $query->where('categories_types.slug', 'expense');
@@ -205,7 +204,7 @@ class ExpenseController extends Controller
         unset($request['id_authorization']);
 
         try {
-            $expense = Expense::where(['id_expense' => $id, 'id_user' => Auth::id()])->whereNull('id_batch')->first();
+            $expense = Expense::where(['id_expense' => $id, 'id_user' => auth()->id()])->whereNull('id_batch')->first();
             if ($expense) {
                 if (($request->file('file') || $request->input('id_file') == "")
                     && $expense->id_file
@@ -255,7 +254,7 @@ class ExpenseController extends Controller
         }
 
         try {
-            $expense = Expense::where(['id_expense' => $id, 'id_user' => Auth::id()])->whereNull('id_batch')->first();
+            $expense = Expense::where(['id_expense' => $id, 'id_user' => auth()->id()])->whereNull('id_batch')->first();
             if ($expense->id_batch) {
                 return redirect()->back()->with('error', 'Esta despesa está vinculada a um lote. Não é possível apagá-la!')->withInput();
             }

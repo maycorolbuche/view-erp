@@ -3,107 +3,13 @@
 namespace App\Helpers;
 
 use App\Models\Authorization;
-use App\Models\AuthorizationType;
-use App\Models\UserAuthorizationType;
-use App\Models\User;
 use App\Helpers\ConfigHelper as Configs;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AuthorizationHelper
 {
 
-    public static function users($type, $id_user = null)
-    {
-        $authorization_type = AuthorizationType::where('type', $type)->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
-        if (count($authorization_type) > 0) {
-            $id_authorization_type = $authorization_type[0];
-            if ($id_user == null) {
-                $id_user = Auth::id();
-            }
-
-            $users_authorizations_types = UserAuthorizationType::where([
-                'id_authorization_type' => $id_authorization_type,
-                'id_user_child' => $id_user
-            ])->distinct()->pluck('id_user_parent')->toArray();
-
-            if (count($users_authorizations_types) > 0) {
-                $users = User::whereIn('id_user', $users_authorizations_types)->get();
-                return $users->toArray();
-            } else {
-                return [];
-            }
-        } else {
-            return [];
-        }
-    }
-
-    public static function pending($id_user = null)
-    {
-        if ($id_user == null) {
-            $id_user = Auth::id();
-        }
-
-        $authorization = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
-            ->whereHas('statuses', function ($query) use ($id_user) {
-                $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
-            })
-            ->where(['active' => 1, 'approved' => null])
-            ->latest()->get();
-
-        return $authorization;
-    }
-
-    public static function pending_count($id_user = null)
-    {
-        if ($id_user == null) {
-            $id_user = Auth::id();
-        }
-
-        $authorization = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
-            ->whereHas('statuses', function ($query) use ($id_user) {
-                $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
-            })
-            ->where(['active' => 1, 'approved' => null])
-            ->count();
-
-        return $authorization;
-    }
-
-    public static function active(string $type, $id_user = null)
-    {
-        if ($id_user == null) {
-            $id_user = Auth::id();
-        }
-
-        $authorization = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
-            ->whereHas('authorization_type', function ($query) use ($type) {
-                $query->where('authorizations_types.type', $type);
-            })
-            ->where(['id_user' => $id_user, 'active' => 1, 'approved' => 1])
-            ->latest()->get();
-
-        return $authorization;
-    }
-
-    public static function pendingAuthorization($id_authorization, $id_user = null)
-    {
-        if ($id_user == null) {
-            $id_user = Auth::id();
-        }
-
-        $count = Authorization::with(['clients', 'statuses', 'user', 'authorization_type'])
-            ->whereHas('statuses', function ($query) use ($id_user) {
-                $query->where('authorizations_statuses.id_user', $id_user)->whereNull('approved');
-            })
-            ->where(['active' => 1, 'approved' => null])
-            ->where(['id_authorization' => $id_authorization])
-            ->count();
-
-        return $count > 0;
-    }
-
-    public static function refresh($id)
+    public static function refresh(int $id)
     {
         $authorization = Authorization::with(['authorization_statuses', 'authorization_type'])->find($id);
         $approval = $authorization->authorization_type->approval;

@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Authorization;
 use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
+use App\Models\AuthorizationType;
 use App\Helpers\UserHelper;
-use App\Helpers\AuthorizationHelper;
 use App\Helpers\ConfigHelper;
 use App\Http\Requests\AuthorizationCashAdvanceRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Helpers\DataTableHelper;
@@ -25,9 +24,9 @@ class AuthorizationCashAdvanceController extends Controller
      */
     public function index()
     {
-        $authorizations = AuthorizationHelper::active('expense');
-        $parents = AuthorizationHelper::users('cash-advance');
-        $user_cash = UserHelper::getCash(Auth::id());
+        $authorizations = Authorization::getActiveExpenses();
+        $parents = AuthorizationType::getUsers('cash-advance');
+        $user_cash = UserHelper::getCash(auth()->id());
         $agreement_terms = ConfigHelper::get('authorizations.cash_advance.agreement_terms');
         return view('authorizations-cash-advances.index', compact('authorizations', 'parents', 'user_cash', 'agreement_terms'));
     }
@@ -44,7 +43,7 @@ class AuthorizationCashAdvanceController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
-        $parents = AuthorizationHelper::users('cash-advance');
+        $parents = AuthorizationType::getUsers('cash-advance');
         if (count($parents) <= 0) {
             return redirect()->back()->with('error', 'Não há nenhuma pessoa cadastrada para aprovar suas despesas! Entre em contato com o administrador do sistema.')->withInput();
         }

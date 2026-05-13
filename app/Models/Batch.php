@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use App\Traits\CreatedUpdatedBy;
 
 class Batch extends Model
@@ -86,7 +85,7 @@ class Batch extends Model
 
     public function scopeMe($query)
     {
-        return $query->where('id_user', Auth::id());
+        return $query->where('id_user', auth()->id());
     }
     public function scopeActive($query)
     {

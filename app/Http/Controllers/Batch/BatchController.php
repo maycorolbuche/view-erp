@@ -9,7 +9,6 @@ use App\Models\Notification as NotificationModel;
 use App\Helpers\ExpenseHelper;
 use App\Http\Requests\BatchRequest;
 use App\Helpers\UserHelper;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\BatchNotification;
 
@@ -30,7 +29,7 @@ class BatchController extends Controller
             ->orderBy('date', 'desc')
             ->get();
 
-        $user_cash = UserHelper::getCash(Auth::id());
+        $user_cash = UserHelper::getCash(auth()->id());
 
         return view('batches.index', compact('expenses', 'user_cash'));
     }

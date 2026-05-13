@@ -3,16 +3,15 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class CheckUserActive
 {
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
         if ($user && !$user->active) {
-            Auth::logout();
+            auth()->logout();
 
             return redirect('/login')->withErrors([
                 'message' => 'Seu usuário está inativo.'

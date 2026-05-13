@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Models\AuthorizationType;
 use App\Models\UserCash;
 
@@ -26,7 +25,7 @@ class AuthorizationCashAdvanceReturnRequest extends FormRequest
      */
     public function rules()
     {
-        $max_amount = UserCash::where('id_user', Auth::id())->sum('amount');
+        $max_amount = UserCash::where('id_user', auth()->id())->sum('amount');
 
         return [
             'amount' => [
@@ -50,7 +49,7 @@ class AuthorizationCashAdvanceReturnRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'id_user' => Auth::id(),
+            'id_user' => auth()->id(),
             'self' => true,
             'start_datetime' => date('Y-m-d') . ' 00:00:00',
             'end_datetime' => date('Y-m-d') . ' 23:59:59',

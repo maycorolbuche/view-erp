@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Route;
 
 class Access
@@ -39,7 +38,7 @@ class Access
         $id_route = $route['id_route'];
 
         //Verifica se tem permissão para acessar esta rota
-        $access = Auth::user()->load(['permissions' => function ($query) use ($id_route, $id_system) {
+        $access = auth()->user()->load(['permissions' => function ($query) use ($id_route, $id_system) {
             $query->where('id_route', $id_route)->where('id_system', $id_system);
         }])['permissions'];
 
@@ -47,7 +46,7 @@ class Access
 
 
             //Verifica se o(s) perfil(s) tem permissão para acessar esta rota
-            $access = Auth::user()->load(['profiles' => function ($query) use ($id_route, $id_system) {
+            $access = auth()->user()->load(['profiles' => function ($query) use ($id_route, $id_system) {
                 $query->where('id_system', $id_system)->whereHas('permissions', function ($subquery) use ($id_route, $id_system) {
                     $subquery->where('id_route', $id_route)->where('id_system', $id_system);
                 })->with(['permissions' => function ($subquery) use ($id_route, $id_system) {

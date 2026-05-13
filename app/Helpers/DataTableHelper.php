@@ -314,11 +314,12 @@ class DataTableHelper
                     ? "<span class='badge badge-success'>Aprovado</span>"
                     : ($row->approved === 0
                         ? "<span class='badge badge-danger'>Negado</span>"
-                        : ($row->active === 1
-                            ? "<span class='badge badge-warning'>Aguardando</span>"
-                            : "<span class='badge badge-muted'>Expirado</span>"
-                        )
+                        : "<span class='badge badge-warning'>Aguardando Aprovação</span>"
                     )
+                ) . ' ' . (
+                    $row->active === 1
+                    ? "<span class='badge badge-warning'>Ativo</span>"
+                    : "<span class='badge badge-muted'>Inativo</span>"
                 );
             })
             ->editColumn('description', function ($row) {

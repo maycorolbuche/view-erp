@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Authorization;
 use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
+use App\Models\AuthorizationType;
 use App\Models\Client;
-use App\Helpers\AuthorizationHelper;
 use App\Http\Requests\AuthorizationExpenseRequest;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
@@ -24,7 +24,8 @@ class AuthorizationExpenseController extends Controller
     public function index()
     {
         $clients = Client::orderBy('name')->get();
-        $parents = AuthorizationHelper::users('expense');
+        $parents = AuthorizationType::getUsers('expense');
+
         return view('authorizations-expenses.index', compact('clients', 'parents'));
     }
 
@@ -40,7 +41,7 @@ class AuthorizationExpenseController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
-        $parents = AuthorizationHelper::users('expense');
+        $parents = AuthorizationType::getUsers('expense');
         if (count($parents) <= 0) {
             return redirect()->back()->with('error', 'Não há nenhuma pessoa cadastrada para aprovar suas despesas! Entre em contato com o administrador do sistema.')->withInput();
         }

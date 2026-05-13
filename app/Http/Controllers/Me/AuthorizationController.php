@@ -7,7 +7,6 @@ use App\Helpers\AuthorizationHelper;
 use App\Models\Authorization;
 use App\Models\AuthorizationStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Helpers\DataTableHelper;
@@ -22,7 +21,7 @@ class AuthorizationController extends Controller
      */
     public function index()
     {
-        $pending = AuthorizationHelper::pending();
+        $pending = Authorization::getPendingResponse();
         return view('me.authorizations.index', compact('pending'));
     }
 
@@ -36,13 +35,13 @@ class AuthorizationController extends Controller
     {
         $data = Authorization::with(['statuses', 'authorization_parent'])->find($id);
         if ($data) {
-            if ($data->id_user != Auth::id()) {
-                if (!in_array(Auth::id(), $data->statuses->pluck('id_user')->toArray())) {
+            if ($data->id_user != auth()->id()) {
+                if (!in_array(auth()->id(), $data->statuses->pluck('id_user')->toArray())) {
                     return redirect()->route('me-authorizations')->with('error', 'Registro não encontrado!');
                 }
             }
-            $pending = AuthorizationHelper::pending();
-            $edit = AuthorizationHelper::pendingAuthorization($id);
+            $pending = Authorization::getPendingResponse();
+            $edit = !!Authorization::query()->pendingResponse()->find($id);
 
             return view('me.authorizations.index', compact('data', 'pending', 'edit'));
         } else {
@@ -59,7 +58,7 @@ class AuthorizationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $edit = AuthorizationHelper::pendingAuthorization($id);
+        $edit = !!Authorization::query()->pendingResponse()->find($id);
         if (!$edit) {
             return redirect()->back()->with('error', 'Você não tem permissão autorizar/negar este item!')->withInput();
         }
@@ -77,9 +76,9 @@ class AuthorizationController extends Controller
                     return redirect()->back()->with('error', 'O motivo da recusa deve ser informado!')->withInput();
                 }
 
-                $authorization_status = AuthorizationStatus::where(['id_authorization' => $id, 'id_user' => Auth::id()]);
+                $authorization_status = AuthorizationStatus::where(['id_authorization' => $id, 'id_user' => auth()->id()]);
                 if ($authorization_status) {
-                    $authorization_status->update(['id_authorization' => $id, 'id_user' => Auth::id(), 'approved' => $status == 'S', 'description' => $description]);
+                    $authorization_status->update(['id_authorization' => $id, 'id_user' => auth()->id(), 'approved' => $status == 'S', 'description' => $description]);
                     AuthorizationHelper::refresh($id);
 
                     try {

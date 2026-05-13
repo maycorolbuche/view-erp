@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class BatchRequest extends FormRequest
 {
@@ -46,7 +45,7 @@ class BatchRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'id_user' => Auth::id(),
+            'id_user' => auth()->id(),
             'datetime' => date("Y-m-d H:i:s"),
             'expense' => array_keys($this->expense ?? []),
         ]);

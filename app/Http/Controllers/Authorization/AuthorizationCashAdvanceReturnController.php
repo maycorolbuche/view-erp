@@ -8,9 +8,7 @@ use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
 use App\Helpers\UserHelper;
-use App\Helpers\AuthorizationHelper;
 use App\Http\Requests\AuthorizationCashAdvanceReturnRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Helpers\DataTableHelper;
@@ -25,8 +23,8 @@ class AuthorizationCashAdvanceReturnController extends Controller
      */
     public function index()
     {
-        $parents = AuthorizationHelper::users('cash-advance-return');
-        $user_cash = UserHelper::getCash(Auth::id());
+        $parents = AuthorizationType::getUsers('cash-advance-return');
+        $user_cash = UserHelper::getCash(auth()->id());
         return view('authorizations-cash-advance-returns.index', compact('parents', 'user_cash'));
     }
 
@@ -42,13 +40,13 @@ class AuthorizationCashAdvanceReturnController extends Controller
             return redirect()->back()->with('error', 'Você não tem permissão para cadastrar nessa página!')->withInput();
         }
 
-        $parents = AuthorizationHelper::users('cash-advance-return');
+        $parents = AuthorizationType::getUsers('cash-advance-return');
         if (count($parents) <= 0) {
             return redirect()->back()->with('error', 'Não há nenhuma pessoa cadastrada para aprovar suas despesas! Entre em contato com o administrador do sistema.')->withInput();
         }
 
         $authorization_type = AuthorizationType::where('type', 'cash-advance-return')->select('id_authorization_type')->pluck('id_authorization_type')->toArray();
-        $authorization_count = Authorization::where(['id_user' => Auth::id(), 'id_authorization_type' => $authorization_type[0], 'active' => true])->count();
+        $authorization_count = Authorization::where(['id_user' => auth()->id(), 'id_authorization_type' => $authorization_type[0], 'active' => true])->count();
         if ($authorization_count > 0) {
             return redirect()->back()->with('error', 'Já existe uma solicição de devolução em andamento. Aguarde a conclusão desta solicitação antes de solicitar novamente!')->withInput();
         }

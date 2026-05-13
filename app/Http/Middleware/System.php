@@ -4,8 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Helpers\AuthorizationHelper;
+use App\Models\Authorization;
 
 class System
 {
@@ -23,7 +22,7 @@ class System
 
 
         //Verifica se tem permissão para acessar este sistema
-        $access = Auth::user()->load(
+        $access = auth()->user()->load(
             ['systems' => function ($query) use ($system) {
                 $query->where('slug', $system);
             }]
@@ -37,9 +36,9 @@ class System
         $request->merge(['__id_system' => $id_system]);
         $request->merge(['__system' => $access[0]->toArray()]);
 
-        $permissions = Auth::user()->load('permissions.route.route_group')['permissions']->toArray();
+        $permissions = auth()->user()->load('permissions.route.route_group')['permissions']->toArray();
 
-        foreach (Auth::user()->load('profiles.permissions.route.route_group')["profiles"] as $profile) {
+        foreach (auth()->user()->load('profiles.permissions.route.route_group')["profiles"] as $profile) {
             $permissions = array_merge($permissions, $profile->permissions->toArray());
         }
 
@@ -66,7 +65,7 @@ class System
         $request->merge(['__permissions' => $permissions_group]);
         $request->merge(['__permissions_list' => $permissions_list]);
 
-        $request->merge(['__count_authorization' => count(AuthorizationHelper::pending())]);
+        $request->merge(['__count_authorization' => Authorization::getPendingResponseCount()]);
 
         return $next($request);
     }

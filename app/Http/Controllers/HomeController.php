@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\System;
 use App\Models\Batch;
-use App\Helpers\AuthorizationHelper;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Authorization;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $systems = Auth::user()->load('systems')['systems']->toArray();
+        $systems = auth()->user()->load('systems')['systems']->toArray();
         if (count($systems) <= 0) {
             return view('errors.systems');
         } elseif (count($systems) == 1) {
@@ -26,9 +25,9 @@ class HomeController extends Controller
         $system = System::find($id_system);
         $permissions = request('__permissions_list');
         $pages = request('__permissions');
-        $user = Auth::user();
+        $user = auth()->user();
 
-        $authorizations_pending_count = AuthorizationHelper::pending_count();
+        $authorizations_pending_count = Authorization::getPendingResponseCount();
 
         $batch_review_count = Batch::reviewPending()->whereNull('revised_by')->count();
         $batch_payments_count = Batch::paymentPending()->count();

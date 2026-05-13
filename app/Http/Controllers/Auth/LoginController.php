@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -48,20 +47,20 @@ class LoginController extends Controller
         }
 
         if (!app()->environment('local')) {
-            if (!Auth::attempt($credentials, $remember)) {
+            if (!auth()->attempt($credentials, $remember)) {
                 return redirect()
                     ->route('login')
                     ->withInput()
                     ->withErrors(trans('auth.failed'));
             }
 
-            $user = Auth::user();
+            $user = auth()->user();
         } else {
-            Auth::login($user, $remember);
+            auth()->login($user, $remember);
         }
 
         if ($user->active <= 0) {
-            Auth::logout();
+            auth()->logout();
             return redirect()
                 ->route('login')
                 ->withInput()

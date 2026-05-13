@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Factory as ValidationFactory;
 use Illuminate\Http\Request;
 use App\Models\Authorization;
@@ -100,7 +99,7 @@ class ExpenseRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'id_user' => Auth::id(),
+            'id_user' => auth()->id(),
         ]);
     }
 }

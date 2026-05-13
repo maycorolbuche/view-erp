@@ -8,17 +8,21 @@
         @if (isset($data))
 
             @php
-                $type = 'muted';
-                $status = 'Expirado';
+                $type = 'warning';
+                $status = 'Pendente';
                 if ($data->approved === 1) {
                     $type = 'success';
                     $status = 'Aprovado';
                 } elseif ($data->approved === 0) {
                     $type = 'danger';
                     $status = 'Negado';
-                } elseif ($data->active === 1) {
-                    $type = 'warning';
-                    $status = 'Pendente';
+                }
+
+                $type_active = 'muted';
+                $status_active = 'Inativo';
+                if ($data->active === 1) {
+                    $type_active = 'success';
+                    $status_active = 'Ativo';
                 }
             @endphp
 
@@ -28,6 +32,7 @@
 
                 <span class='badge badge-success'>{{ $data->authorization_type->name }}</span>
                 <span class='badge badge-{{ $type }}'>{{ $status }}</span>
+                <span class='badge badge-{{ $type_active }}'>{{ $status_active }}</span>
                 <h1 class="mtn" style="margin:0;margin-top:10px;">
                     <small>
                         {{ $data->user->name ?? '' }}

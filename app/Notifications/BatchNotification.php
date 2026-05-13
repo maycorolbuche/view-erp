@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class BatchNotification extends Notification
@@ -69,7 +68,7 @@ class BatchNotification extends Notification
                 ->markdown('vendor.notifications.email');
         } elseif ($this->type == 'delete') {
 
-            $html .= "<b>" . Auth::user()->name . "</b> desfez o lote nº <b>" . $this->data . "</b>:";
+            $html .= "<b>" . auth()->user()->name . "</b> desfez o lote nº <b>" . $this->data . "</b>:";
 
             return (new MailMessage)
                 ->subject('Lote Desfeito | ' . $this->data)
@@ -89,7 +88,7 @@ class BatchNotification extends Notification
             } elseif ($this->data->status["type"] == "rejected") {
                 $subject = "Lote Reprovado | " . $this->data->id_batch;
 
-                $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi reprovado por <b>" . Auth::user()->name . "</b>.";
+                $html .= "O lote nº <b>" . $this->data->id_batch . "</b> foi reprovado por <b>" . auth()->user()->name . "</b>.";
                 $html .= "<p><b>Motivo da rejeição:</b><br>" . nl2br($this->data->notes);
             } elseif ($this->data->status["type"] == "closed") {
                 if ($this->data->refundable_amount > 0) {
