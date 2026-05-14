@@ -9,6 +9,9 @@
     </title>
 
     @include('layouts.partials.meta')
+
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+
     @include('layouts.partials.css')
     @stack('styles')
 </head>

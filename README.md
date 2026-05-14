@@ -1,64 +1,275 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# View Intranet
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema Intranet ViewFS
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Antes de iniciar, instale:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+
+- Composer
+- Node.js 20+
+- NPM
+- MySQL/MariaDB
+- Git
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalar Dependências do Laravel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Instale as dependências PHP:
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+---
 
-### Premium Partners
+## Configurar Ambiente
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Copie o arquivo `.env`:
 
-## Contributing
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+No Windows:
 
-## Code of Conduct
+```bat
+copy .env.example .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Configurar Banco de Dados
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Edite o `.env`:
 
-## License
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome_banco
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Gerar APP_KEY
+
+```bash
+php artisan key:generate
+```
+
+---
+
+## Rodar Migrations/Seeders
+
+```bash
+php artisan migrate --seed
+```
+
+---
+
+## Instalar Dependências Frontend
+
+Instale dependências do Vite/NPM:
+
+```bash
+npm install
+```
+
+---
+
+## Rodar Ambiente de Desenvolvimento
+
+## Terminal 1 — Laravel
+
+```bash
+php artisan serve
+```
+
+Aplicação:
+
+```plaintext
+http://127.0.0.1:8000
+```
+
+---
+
+## Terminal 2 — Vite
+
+```bash
+npm run dev
+```
+
+O Vite ficará responsável por:
+
+- CSS
+- JS
+- Hot Reload
+- Bootstrap
+- Bootstrap Icons
+
+---
+
+## Build de Produção
+
+Gerar assets otimizados:
+
+```bash
+npm run build
+```
+
+Arquivos gerados:
+
+```plaintext
+public/build
+```
+
+---
+
+## Estrutura Frontend
+
+```plaintext
+resources/
+├── js/
+│   └── app.js
+├── scss/
+│   ├── app.scss
+```
+
+---
+
+## Bootstrap
+
+Importação no `resources/js/app.js`:
+
+```js
+import './bootstrap';
+
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+```
+
+---
+
+## Comandos Úteis
+
+## Limpar cache Laravel
+
+```bash
+php artisan optimize:clear
+```
+
+---
+
+## Limpar cache de configuração
+
+```bash
+php artisan config:clear
+```
+
+---
+
+## Recriar autoload do Composer
+
+```bash
+composer dump-autoload
+```
+
+---
+
+## Reinstalar dependências NPM
+
+Linux/macOS:
+
+```bash
+rm -rf node_modules
+rm package-lock.json
+
+npm install
+```
+
+Windows:
+
+```bat
+rmdir /s /q node_modules
+del package-lock.json
+
+npm install
+```
+
+---
+
+## Deploy Produção
+
+Instalar dependências PHP sem dev:
+
+```bash
+composer install --no-dev --optimize-autoloader
+```
+
+Gerar build frontend:
+
+```bash
+npm install
+npm run build
+```
+
+Cachear Laravel:
+
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+---
+
+## Permissões Linux
+
+Caso necessário:
+
+```bash
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+```
+
+---
+
+## Scheduler (Cron)
+
+Adicionar no servidor:
+
+```bash
+* * * * * php /caminho-do-projeto/artisan schedule:run >> /dev/null 2>&1
+```
+
+---
+
+## Queue Worker
+
+Caso utilize filas:
+
+```bash
+php artisan queue:work
+```
+
+---
+
+## Tecnologias Utilizadas
+
+- Laravel
+- Vite
+- Bootstrap 5
+- Bootstrap Icons
+- MySQL
+- PHP
+- JavaScript
+
+---
