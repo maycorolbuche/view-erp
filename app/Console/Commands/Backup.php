@@ -55,8 +55,20 @@ class Backup extends Command
 
         $output .= PHP_EOL . PHP_EOL;
 
-        Artisan::call('backup:run --only-db');
-        $output .= Artisan::output();
+        try {
+
+            Artisan::call('backup:run', [
+                '--only-db' => true
+            ]);
+
+            $output .= Artisan::output();
+        } catch (\Throwable $e) {
+
+            $output .= $e->getMessage();
+            $output .= PHP_EOL;
+            $output .= $e->getTraceAsString();
+        }
+
 
         //php artisan backup:run --only-db
         //php artisan backup:run --only-files
