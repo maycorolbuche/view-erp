@@ -1,0 +1,25 @@
+.proj-row {
+    margin-bottom: 14px;
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13.5px;
+        color: #d3d5dc;
+        margin-bottom: 8px;
+        gap: 10px;
+    }
+
+    .bar {
+        height: 6px;
+        background: #23242b;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--red), #ff5868);
+        border-radius: 4px;
+    }
+}

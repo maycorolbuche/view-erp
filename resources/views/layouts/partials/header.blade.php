@@ -2,12 +2,12 @@
     <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir menu">
         <i class="bi bi-list"></i>
     </button>
-    <!--
+
     <div class="search">
         <i class="bi bi-search"></i>
         <input placeholder="Buscar na intranet...">
     </div>
-    -->
+
     <div class="top-actions">
         @if (env('APP_ENV') != 'production')
             <span class="badge bg-warning">

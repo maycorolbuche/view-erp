@@ -1,0 +1,56 @@
+.donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+
+    .donut {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: conic-gradient(
+            var(--red) 0 22%,
+            #cfd1d6 22% 67%,
+            #4a4d55 67% 100%
+        );
+        position: relative;
+        flex-shrink: 0;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 18px;
+            background: var(--card);
+            border-radius: 50%;
+        }
+
+        @media (max-width: 575.98px) {
+            width: 130px;
+            height: 130px;
+
+            &::after {
+                inset: 16px;
+            }
+        }
+    }
+
+    .legend {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 13.5px;
+
+        .lg {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cfd1d6;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+    }
+}

@@ -8,6 +8,15 @@
         </button>
     </div>
 
+    <div class="user-card">
+        <img src="https://i.pravatar.cc/80?img=12" alt="">
+        <div class="grow">
+            <div class="name">John Doe</div>
+            <div class="role">Administrador</div>
+        </div>
+        <i class="bi bi-chevron-down chev"></i>
+    </div>
+
     @php
         $current_route = explode('.', Route::currentRouteName() ?? '')[0];
         //dd($current_route);
@@ -18,7 +27,7 @@
             <a class="nav-item {{ $current_route == 'dashboard' ? 'active' : '' }}" data-tip="Home"
                 href="{{ route('dashboard') }}">
                 <div class="left">
-                    <i class="bi bi-house-door"></i>
+                    <i class="bi bi-columns-gap"></i>
                     <span class="label">Dashboard</span>
                 </div>
             </a>

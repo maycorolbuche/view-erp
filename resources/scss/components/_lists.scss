@@ -1,0 +1,44 @@
+.list-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #101115;
+    margin-bottom: 10px;
+
+    .ico {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: #1a1b21;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #cfd1d6;
+        flex-shrink: 0;
+    }
+
+    .grow {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .label {
+        font-size: 13px;
+        color: #c0c3cb;
+    }
+
+    .num {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .pct {
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+}

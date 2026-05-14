@@ -1,0 +1,46 @@
+@keyframes heroParticles {
+    0% {
+        background-position:
+            0 0,
+            20px 40px,
+            50px 10px,
+            80px 30px,
+            120px 60px;
+    }
+
+    25% {
+        background-position:
+            30px -20px,
+            -10px 70px,
+            90px 40px,
+            50px 10px,
+            160px 20px;
+    }
+
+    50% {
+        background-position:
+            60px 0,
+            -40px 100px,
+            130px 10px,
+            20px -10px,
+            200px -20px;
+    }
+
+    75% {
+        background-position:
+            30px -20px,
+            -10px 70px,
+            90px 40px,
+            50px 10px,
+            160px 20px;
+    }
+
+    100% {
+        background-position:
+            0 0,
+            20px 40px,
+            50px 10px,
+            80px 30px,
+            120px 60px;
+    }
+}

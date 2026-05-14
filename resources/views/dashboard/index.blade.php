@@ -2,10 +2,8 @@
 @section('title', $system->name)
 
 @section('content')
-
-
     <div class="welcome">
-        <h1>Bem-vindo de volta, John! 👋</h1>
+        <h1>Bem-vindo de volta, {{ auth()->user()->name }}! 👋</h1>
         <p>Aqui está o que acontece na View hoje.</p>
     </div>
 
@@ -278,3 +276,25 @@
     </div>
 
 @endsection
+
+@push('styles')
+    <style>
+        .welcome {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px
+        }
+
+        .welcome h1 {
+            font-size: clamp(20px, 3.2vw, 30px);
+            font-weight: 700;
+            margin: 0
+        }
+
+        .welcome p {
+            color: #b6b9c1;
+            margin: 6px 0 0;
+            font-size: 14px
+        }
+    </style>
+@endpush
