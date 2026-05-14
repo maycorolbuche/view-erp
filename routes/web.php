@@ -43,23 +43,6 @@ Route::get('/test-mail', function (Illuminate\Http\Request $request) {
     }
 });
 
-Route::get('/import-database', function (Illuminate\Http\Request $request) {
-    if (!config('app.debug')) {
-        abort(404);
-    }
-
-    $token = $request->query('token');
-    if ($token <> date("Ymd")) {
-        return 'Informe o token na URL, passando o "ano|mes|dia". Ex: /import-database?token=' . date("Ymd");
-    }
-
-    \Illuminate\Support\Facades\Artisan::call('db:seed --class=__DBMigrationSeeder --force');
-    $output = \Illuminate\Support\Facades\Artisan::output();
-    return $output;
-});
-
-
-
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/install', 'Data\InstallController@run')->name('install');
     Route::get('/schedule', 'Data\ScheduleController@run')->name('schedule');

@@ -19,7 +19,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 1],
             [
-                'icon' => 'glyphicons glyphicons-show_thumbnails_with_lines',
+                'icon' => 'bi bi-grid',
                 'label' => 'Sistemas',
                 'sequence' => self::sequence(),
             ]
@@ -27,7 +27,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 2],
             [
-                'icon' => 'glyphicons glyphicons-cogwheel',
+                'icon' => 'bi bi-gear',
                 'label' => 'Parametrização',
                 'sequence' => self::sequence(),
             ]
@@ -35,7 +35,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 3],
             [
-                'icon' => 'fas fa-users-cog',
+                'icon' => 'bi bi-file-person',
                 'label' => 'Usuários e Acessos',
                 'sequence' => self::sequence(),
             ]
@@ -43,7 +43,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 4],
             [
-                'icon' => 'fas fa-user-friends',
+                'icon' => 'bi bi-people',
                 'label' => 'Pessoas',
                 'sequence' => self::sequence(),
             ]
@@ -51,7 +51,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 5],
             [
-                'icon' => 'far fa-money-bill-alt',
+                'icon' => 'bi bi-cash-coin',
                 'label' => 'Despesas',
                 'sequence' => self::sequence(),
             ]
@@ -59,7 +59,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 7],
             [
-                'icon' => 'fas fa-money',
+                'icon' => 'bi bi-currency-dollar',
                 'label' => 'Financeiro',
                 'sequence' => self::sequence(),
                 'note' => 'As telas do financeiro mostram dados de todos os usuários',
@@ -68,7 +68,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 6],
             [
-                'icon' => 'fas fa-search',
+                'icon' => 'bi bi-search',
                 'label' => 'Consultas',
                 'sequence' => self::sequence(),
                 'note' => 'As consultas mostram dados de todos os usuários',
@@ -77,7 +77,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 8],
             [
-                'icon' => 'fas fa-file-contract',
+                'icon' => 'bi bi-file-bar-graph',
                 'label' => 'Relatórios',
                 'sequence' => self::sequence(),
                 'note' => 'Os relatórios mostram dados de todos os usuários',
@@ -95,7 +95,7 @@ class RouteGroupSeeder extends Seeder
         RouteGroup::updateOrCreate(
             ['id_route_group' => 9],
             [
-                'icon' => 'far fa-file-alt',
+                'icon' => 'bi bi-file-earmark',
                 'label' => 'Logs',
                 'sequence' => self::sequence(),
                 'note' => 'Os logs mostram dados de todos os usuários',
