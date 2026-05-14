@@ -181,6 +181,10 @@
             background: #17181d;
             color: #fff;
         }
+
+        @media (max-width: 991.98px) {
+            display: none;
+        }
     }
 
     .submenu {
@@ -264,12 +268,20 @@
     }
 }
 
-@media (max-width: 991.98px) {
-    .mobile-toggle {
-        display: flex;
-    }
+.mobile-toggle {
+    display: none;
+    background: #16171c;
+    border: 1px solid #1d1e24;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
 
-    .collapse-btn {
-        display: none;
+    @media (max-width: 991.98px) {
+        display: flex;
     }
 }
