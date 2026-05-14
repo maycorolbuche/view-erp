@@ -415,7 +415,7 @@
 
     .topbar {
         position: relative;
-        z-index: 2;
+        z-index: 10;
         display: flex;
         align-items: center;
         gap: 16px;
