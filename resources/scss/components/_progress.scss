@@ -19,7 +19,11 @@
 
     .fill {
         height: 100%;
-        background: linear-gradient(90deg, var(--red), #ff5868);
+        background: linear-gradient(
+            90deg,
+            var(--bs-primary),
+            rgba(var(--bs-primary-rgb), 0.35)
+        );
         border-radius: 4px;
     }
 }

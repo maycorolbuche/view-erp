@@ -1,3 +1,8 @@
+$red: #ff2b3d;
+$green: #22c55e;
+
+$primary: $red;
+
 :root {
     --bg: #0a0a0c;
     --panel: #0f1013;
@@ -6,10 +11,10 @@
     --card-border: #1f2026;
     --text: #e9eaee;
     --muted: #8a8d96;
-    --red: #ff2b3d;
+    --red: #{$red};
     --red-soft: #ff4757;
     --red-dim: #3a1014;
-    --green: #22c55e;
+    --green: #{$green};
     --sidebar-w: 260px;
     --sidebar-w-collapsed: 72px;
 }

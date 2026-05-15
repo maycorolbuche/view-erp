@@ -21,7 +21,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--red);
+            color: var(--bs-primary);
             font-size: 15px;
         }
 
@@ -44,7 +44,7 @@
 
     .delta-up,
     .delta-down {
-        color: var(--red);
+        color: var(--bs-primary);
     }
 
     .panel-title {
@@ -53,7 +53,7 @@
         margin-bottom: 14px;
 
         &.red {
-            color: var(--red);
+            color: var(--bs-primary);
         }
     }
 

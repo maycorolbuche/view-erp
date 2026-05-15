@@ -86,7 +86,7 @@
                     <div class="pct delta-up"><i class="bi bi-arrow-up-right"></i> 5%</div>
                 </div>
                 <div class="list-row">
-                    <div class="ico" style="color:var(--red)"><i class="bi bi-exclamation-octagon"></i></div>
+                    <div class="ico" style="color:var(--bs-primary)"><i class="bi bi-exclamation-octagon"></i></div>
                     <div class="grow">
                         <div class="label">Pendências críticas</div>
                         <div class="num">7</div>
@@ -102,7 +102,7 @@
                 <div class="donut-wrap">
                     <div class="donut"></div>
                     <div class="legend">
-                        <div class="lg"><span class="dot" style="background:var(--red)"></span> Alta
+                        <div class="lg"><span class="dot" style="background:var(--bs-primary)"></span> Alta
                             &nbsp; <strong>28 (22%)</strong></div>
                         <div class="lg"><span class="dot" style="background:#cfd1d6"></span> Média &nbsp;
                             <strong>58 (45%)</strong>
@@ -142,7 +142,7 @@
                         <div class="fill" style="width:20%"></div>
                     </div>
                 </div>
-                <div class="text-end"><span class="ver-todos">Ver todos</span></div>
+                <div class="text-end"><a class="link" href="javascript:">Ver todos</a></div>
             </div>
         </div>
 
@@ -173,7 +173,7 @@
                         <div class="when">há 1 dia</div>
                     </div>
                 </div>
-                <div class="text-end mt-2"><span class="ver-todos">Ver todos</span></div>
+                <div class="text-end mt-2"><a class="link" href="javascript:">Ver todos</a></div>
             </div>
         </div>
     </div>
@@ -245,7 +245,7 @@
                         <div class="h">10:00 - 11:00</div>
                     </div>
                 </div>
-                <div class="text-end mt-2"><span class="ver-todos">Ver agenda</span></div>
+                <div class="text-end mt-2"><a class="link" href="javascript:">Ver todos</a></div>
             </div>
         </div>
 
@@ -270,7 +270,7 @@
                         <div class="w">27 Mai</div>
                     </div>
                 </div>
-                <div class="text-end mt-2"><span class="ver-todos">Ver todos</span></div>
+                <div class="text-end mt-2"><a class="link" href="javascript:">Ver todos</a></div>
             </div>
         </div>
     </div>

@@ -1,7 +1,10 @@
-@use "bootstrap/dist/css/bootstrap.min.css";
 @use "@fontsource/inter/index.css";
 
 @use "abstracts/variables";
+@use "bootstrap/scss/bootstrap" with (
+    $primary: variables.$primary
+);
+
 @use "abstracts/animations";
 
 @use "base/reset";
@@ -11,6 +14,7 @@
 @use "layout/main";
 @use "layout/topbar";
 
+@use "components/link";
 @use "components/cards";
 @use "components/lists";
 @use "components/donut";

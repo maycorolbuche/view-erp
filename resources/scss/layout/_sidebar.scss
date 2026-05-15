@@ -74,7 +74,7 @@
         .logo {
             font-weight: 800;
             font-size: 26px;
-            color: var(--red);
+            color: var(--bs-primary);
         }
 
         .sub {
@@ -131,13 +131,13 @@
         &.active {
             background: linear-gradient(
                 90deg,
-                rgba(255, 43, 61, 0.14),
+                rgba(var(--bs-primary-rgb), 0.14),
                 rgba(255, 43, 61, 0)
             );
             color: #fff;
 
             i.bi {
-                color: var(--red);
+                color: var(--bs-primary);
             }
 
             &::before {
@@ -147,7 +147,7 @@
                 top: 6px;
                 bottom: 6px;
                 width: 3px;
-                background: var(--red);
+                background: var(--bs-primary);
                 border-radius: 2px;
             }
         }
@@ -160,7 +160,7 @@
 
         &[aria-expanded="true"] .chev {
             transform: rotate(90deg);
-            color: var(--red);
+            color: var(--bs-primary);
         }
     }
 
@@ -208,7 +208,7 @@
         }
 
         .active a {
-            color: var(--red);
+            color: var(--bs-primary);
         }
     }
 
