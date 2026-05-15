@@ -8,7 +8,6 @@
         @endif View FS
     </title>
 
-    @include('layouts.partials.css')
 
 </head>
 

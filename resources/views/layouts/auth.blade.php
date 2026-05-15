@@ -9,7 +9,6 @@
     </title>
 
     @include('layouts.partials.meta')
-    @include('layouts.partials.css')
 
 
     <!-- Admin Forms CSS -->
