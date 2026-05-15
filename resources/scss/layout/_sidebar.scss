@@ -6,7 +6,6 @@
     width: var(--sidebar-w);
     background: var(--panel);
     border-right: 1px solid #15161b;
-    padding: 18px 14px;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -14,20 +13,39 @@
     transition:
         width 0.25s ease,
         transform 0.3s ease;
-    overflow-y: auto;
-    overflow-x: hidden;
 
-    &::-webkit-scrollbar {
-        width: 6px;
+    .sidebar-header {
+        flex-shrink: 0;
+        padding: 6px 6px 6px 12px;
+        border-bottom: 1px solid var(--card-border);
     }
 
-    &::-webkit-scrollbar-thumb {
-        background: #23242b;
-        border-radius: 4px;
+    .sidebar-body {
+        flex: 1;
+        padding: 6px 0 0 14px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #23242b;
+            border-radius: 4px;
+        }
     }
 
     &.collapsed {
         width: var(--sidebar-w-collapsed);
+
+        .sidebar-header {
+            padding-left: 6px;
+        }
+
+        .sidebar-body {
+            padding-left: 6px;
+        }
 
         .brand-text,
         .nav-item .label,
@@ -45,7 +63,7 @@
 
         .nav-item {
             justify-content: center;
-            padding: 11px 0;
+            padding: 11px 12px 11px 0;
 
             .left {
                 justify-content: center;
@@ -53,7 +71,7 @@
             }
 
             &.active::before {
-                left: 0;
+                left: -6px;
             }
         }
 
