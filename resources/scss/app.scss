@@ -1,9 +1,22 @@
 @use "@fontsource/inter/index.css";
 
-@use "abstracts/variables";
+@use "abstracts/variables" as v;
 @use "bootstrap/scss/bootstrap" with (
-    $primary: variables.$primary
+    $theme-colors: v.$theme-colors,
+
+    $body-bg: v.$body-bg,
+    $body-color: v.$body-color,
+
+    $card-bg: v.$card-bg,
+    $card-color: v.$card-color,
+    $card-border-color: v.$card-border-color,
+
+    $card-cap-bg: v.$card-cap-bg,
+    $card-cap-color: v.$card-cap-color,
+
+    $card-border-radius: v.$card-border-radius
 );
+@use "bootstrap-icons/font/bootstrap-icons.css";
 
 @use "abstracts/animations";
 

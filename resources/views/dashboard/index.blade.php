@@ -10,95 +10,68 @@
     <!-- STATS -->
     <div class="row g-3 mb-3" style="position: relative;z-index: 3;">
         <div class="col-12 col-sm-6 col-xl">
-            <div class="card-dark stat">
-                <div class="stat-head"><span class="stat-icon"><i class="bi bi-cash-coin"></i></span> Receita
-                    (mês)</div>
-                <div class="stat-value">R$ 8,42M</div>
-                <div class="stat-delta"><span class="delta-up"><i class="bi bi-arrow-up-right"></i> 12,4%</span>
-                    vs mês anterior</div>
-            </div>
+            <x-value-card icon="cash-coin" title="Receita (mês)" info-icon="arrow-up-right" info-value="R$ 8,42M"
+                info="vs mês anterior">
+                R$ 8,42M
+            </x-value-card>
         </div>
+
         <div class="col-12 col-sm-6 col-xl">
-            <div class="card-dark stat">
-                <div class="stat-head"><span class="stat-icon"><i class="bi bi-bullseye"></i></span> SLA Geral
-                </div>
-                <div class="stat-value">96,7%</div>
-                <div class="stat-delta"><span class="delta-up"><i class="bi bi-arrow-up-right"></i> 3,2%</span>
-                    vs mês anterior</div>
-            </div>
+            <x-value-card icon="bullseye" title="SLA Geral" info-icon="arrow-up-right" info-value="3,2%"
+                info="vs mês anterior">
+                96,7%
+            </x-value-card>
         </div>
+
         <div class="col-12 col-sm-6 col-xl">
-            <div class="card-dark stat">
-                <div class="stat-head"><span class="stat-icon"><i class="bi bi-record-circle"></i></span>
-                    Projetos Críticos</div>
-                <div class="stat-value">12</div>
-                <div class="stat-delta"><span class="delta-down"><i class="bi bi-arrow-down-right"></i> 2</span>
-                    vs mês anterior</div>
-            </div>
+            <x-value-card icon="record-circle" title="Projetos Críticos" info-icon="arrow-down-right" info-value="2"
+                info="vs mês anterior">
+                12
+            </x-value-card>
         </div>
+
         <div class="col-12 col-sm-6 col-xl">
-            <div class="card-dark stat">
-                <div class="stat-head"><span class="stat-icon"><i class="bi bi-building"></i></span> Incidentes
-                    Abertos</div>
-                <div class="stat-value">28</div>
-                <div class="stat-delta"><span class="delta-down"><i class="bi bi-arrow-down-right"></i>
-                        15%</span> vs mês anterior</div>
-            </div>
+            <x-value-card icon="building" title="Incidentes" info-icon="arrow-down-right" info-value="15%"
+                info="vs mês anterior">
+                28
+            </x-value-card>
         </div>
+
         <div class="col-12 col-sm-6 col-xl">
-            <div class="card-dark stat">
-                <div class="stat-head"><span class="stat-icon"><i class="bi bi-graph-up-arrow"></i></span> NPS
-                    Interno</div>
-                <div class="stat-value">8,7</div>
-                <div class="stat-delta"><span class="delta-up"><i class="bi bi-arrow-up-right"></i> 0,8</span> vs
-                    mês anterior</div>
-            </div>
+            <x-value-card icon="graph-up-arrow" title="NPS" info-icon="arrow-up-right" info-value="0,8"
+                info="vs mês anterior">
+                8,7
+            </x-value-card>
         </div>
     </div>
 
     <!-- ROW 2 -->
     <div class="row g-3 mb-3">
+
         <div class="col-12 col-lg-6 col-xl-4">
-            <div class="card-dark h-100">
-                <div class="panel-title red">Operação em tempo real</div>
-                <div class="list-row">
-                    <div class="ico"><i class="bi bi-clipboard-check"></i></div>
-                    <div class="grow">
-                        <div class="label">Chamados abertos</div>
-                        <div class="num">128</div>
-                    </div>
-                    <div class="pct delta-down"><i class="bi bi-arrow-down-right"></i> 8%</div>
-                </div>
-                <div class="list-row">
-                    <div class="ico"><i class="bi bi-diagram-3"></i></div>
-                    <div class="grow">
-                        <div class="label">Aprovações pendentes</div>
-                        <div class="num">42</div>
-                    </div>
-                    <div class="pct delta-down"><i class="bi bi-arrow-down-right"></i> 12%</div>
-                </div>
-                <div class="list-row">
-                    <div class="ico"><i class="bi bi-people"></i></div>
-                    <div class="grow">
-                        <div class="label">Fluxos em execução</div>
-                        <div class="num">19</div>
-                    </div>
-                    <div class="pct delta-up"><i class="bi bi-arrow-up-right"></i> 5%</div>
-                </div>
-                <div class="list-row">
-                    <div class="ico" style="color:var(--bs-primary)"><i class="bi bi-exclamation-octagon"></i></div>
-                    <div class="grow">
-                        <div class="label">Pendências críticas</div>
-                        <div class="num">7</div>
-                    </div>
-                    <div class="pct delta-down"><i class="bi bi-arrow-down-right"></i> 22%</div>
-                </div>
-            </div>
+            <x-card title="Operação em tempo real">
+                <x-line-card icon="graph-up-arrow" title="NPS" info-icon="arrow-up-right" info-value="0,8">
+                    8,7
+                </x-line-card>
+                <x-line-card icon="clipboard-check" title="Chamados abertos" info-icon="arrow-down-right" info-value="8%">
+                    128
+                </x-line-card>
+                <x-line-card icon="diagram-3" title="Aprovações pendentes" info-icon="arrow-down-right" info-value="12%">
+                    42
+                </x-line-card>
+                <x-line-card icon="people" title="Fluxos em execução" info-icon="arrow-up-right" info-value="5%">
+                    19
+                </x-line-card>
+                <x-line-card icon="exclamation-octagon" title="Pendências críticas" info-icon="arrow-up-right"
+                    info-value="22%">
+                    7
+                </x-line-card>
+            </x-card>
         </div>
 
+
         <div class="col-12 col-lg-6 col-xl-3">
-            <div class="card-dark h-100">
-                <div class="panel-title">Chamados por prioridade</div>
+            <x-card title="Chamados por prioridade">
                 <div class="donut-wrap">
                     <div class="donut"></div>
                     <div class="legend">
@@ -112,12 +85,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </x-card>
         </div>
 
         <div class="col-12 col-lg-6 col-xl-3">
-            <div class="card-dark h-100">
-                <div class="panel-title">Projetos em andamento</div>
+            <x-card title="Projetos em andamento">
                 <div class="proj-row">
                     <div class="top"><span>Plataforma Intranet</span><span>75%</span></div>
                     <div class="bar">
@@ -143,12 +115,11 @@
                     </div>
                 </div>
                 <div class="text-end"><a class="link" href="javascript:">Ver todos</a></div>
-            </div>
+            </x-card>
         </div>
 
         <div class="col-12 col-lg-6 col-xl-2">
-            <div class="card-dark h-100">
-                <div class="panel-title">Feed Corporativo</div>
+            <x-card title="Feed Corporativo">
                 <div class="feed-item">
                     <div class="ico"><i class="bi bi-megaphone"></i></div>
                     <div>
@@ -174,15 +145,14 @@
                     </div>
                 </div>
                 <div class="text-end mt-2"><a class="link" href="javascript:">Ver todos</a></div>
-            </div>
+            </x-card>
         </div>
     </div>
 
     <!-- ROW 3 -->
     <div class="row g-3">
         <div class="col-12 col-xl-6">
-            <div class="card-dark h-100">
-                <div class="panel-title">Acesso rápido</div>
+            <x-card title="Acesso rápido">
                 <div class="quick">
                     <div class="q">
                         <div class="ic"><i class="bi bi-headset"></i></div>
@@ -209,12 +179,11 @@
                         <div class="lbl">Power BI</div>
                     </div>
                 </div>
-            </div>
+            </x-card>
         </div>
 
         <div class="col-12 col-md-6 col-xl-3">
-            <div class="card-dark h-100">
-                <div class="panel-title">Próximos eventos</div>
+            <x-card title="Próximos eventos">
                 <div class="event">
                     <div class="date">
                         <div class="d">24</div>
@@ -246,12 +215,11 @@
                     </div>
                 </div>
                 <div class="text-end mt-2"><a class="link" href="javascript:">Ver todos</a></div>
-            </div>
+            </x-card>
         </div>
 
         <div class="col-12 col-md-6 col-xl-3">
-            <div class="card-dark h-100">
-                <div class="panel-title">Aniversariantes</div>
+            <x-card title="Aniversariantes">
                 <div class="bday"><img src="https://i.pravatar.cc/80?img=15">
                     <div>
                         <div class="n">Rafael Almeida</div>
@@ -271,7 +239,7 @@
                     </div>
                 </div>
                 <div class="text-end mt-2"><a class="link" href="javascript:">Ver todos</a></div>
-            </div>
+            </x-card>
         </div>
     </div>
 

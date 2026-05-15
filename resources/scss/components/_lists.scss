@@ -3,19 +3,19 @@
     align-items: center;
     gap: 14px;
     padding: 12px;
-    border-radius: 12px;
-    background: #101115;
-    margin-bottom: 10px;
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-border-radius);
+    background: var(--card-bg);
 
     .ico {
         width: 36px;
         height: 36px;
         border-radius: 10px;
-        background: #1a1b21;
+        background: var(--icon-bg);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #cfd1d6;
+        color: var(--text-dark);
         flex-shrink: 0;
     }
 
@@ -26,7 +26,7 @@
 
     .label {
         font-size: 13px;
-        color: #c0c3cb;
+        color: var(--text-dark);
     }
 
     .num {
@@ -40,5 +40,14 @@
         display: flex;
         align-items: center;
         gap: 4px;
+    }
+}
+
+.card {
+    .list-row {
+        border-radius: 12px;
+        background: var(--card-bg-dark);
+        border: 0;
+        margin-bottom: 10px;
     }
 }

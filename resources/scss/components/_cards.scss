@@ -1,28 +1,41 @@
-.card-dark {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 18px;
+.card {
+    .card-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 14px;
 
-    &.stat {
-        .stat-head {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #c9ccd3;
-            font-size: 14px;
-        }
-
-        .stat-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            background: #1d1e24;
+        .card-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--bs-primary);
-            font-size: 15px;
+        }
+    }
+
+    .card-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        color: var(--bs-primary);
+        font-size: 15px;
+    }
+
+    &.stat {
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 100;
+
+            .card-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
 
         .stat-value {
@@ -32,32 +45,17 @@
             letter-spacing: -0.5px;
         }
 
-        .stat-delta {
+        .card-subtitle {
             font-size: 12.5px;
-            color: var(--muted);
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 6px;
             flex-wrap: wrap;
         }
-    }
 
-    .delta-up,
-    .delta-down {
-        color: var(--bs-primary);
-    }
-
-    .panel-title {
-        font-size: 15px;
-        font-weight: 600;
-        margin-bottom: 14px;
-
-        &.red {
+        .stat-delta {
             color: var(--bs-primary);
         }
-    }
-
-    @media (max-width: 575.98px) {
-        padding: 14px;
     }
 }

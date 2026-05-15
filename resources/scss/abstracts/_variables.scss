@@ -1,9 +1,45 @@
 $red: #ff2b3d;
 $green: #22c55e;
 
-$primary: $red;
+$bg: #0a0a0c;
+$text: #e9eaee;
+$text-dark: #c9ccd3;
+$text-muted: #8a8d96;
+$card-bg: #15161b;
+$card-bg-dark: #101115;
+$icon-bg: #1a1b21;
+$border: #1f2026;
+$border-radius: 16px;
+
+$theme-colors: (
+    "primary": $red,
+    "success": #22c55e,
+    "danger": #dc3545,
+    "warning": #ffc107,
+);
+
+$body-color: $text;
+$body-bg: $bg;
+
+$card-bg: $card-bg;
+$card-color: $text;
+$card-border-color: $border;
+$card-cap-bg: $card-bg;
+$card-cap-color: $text;
+$card-border-radius: $border-radius;
 
 :root {
+    --text: #{$text};
+    --text-dark: #{$text-dark};
+    --text-muted: #{$text-muted};
+
+    --card-bg: #{$card-bg};
+    --card-bg-dark: #{$card-bg-dark};
+    --card-border: #{$border};
+    --card-border-radius: #{$border-radius};
+
+    --icon-bg: #{$icon-bg};
+
     --bg: #0a0a0c;
     --panel: #0f1013;
     --panel-2: #141519;

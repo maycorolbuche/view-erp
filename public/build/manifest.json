@@ -77,7 +77,7 @@
     ]
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-BfNB4ySN.css",
+    "file": "assets/app-CTM3YVnV.css",
     "name": "app",
     "names": [
       "app.css"
@@ -98,7 +98,9 @@
       "assets/inter-latin-ext-400-normal-C1nco2VV.woff2",
       "assets/inter-latin-ext-400-normal-77YHD8bZ.woff",
       "assets/inter-latin-400-normal-C38fXH4l.woff2",
-      "assets/inter-latin-400-normal-CyCys3Eg.woff"
+      "assets/inter-latin-400-normal-CyCys3Eg.woff",
+      "assets/bootstrap-icons-mSm7cUeB.woff2",
+      "assets/bootstrap-icons-BeopsB42.woff"
     ]
   }
 }

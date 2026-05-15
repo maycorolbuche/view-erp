@@ -2,10 +2,7 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
-use Illuminate\Support\Str;
-
-class Card extends BaseComponent
+class LineCard extends Card
 {
     /**
      * Create a new component instance.
@@ -13,10 +10,13 @@ class Card extends BaseComponent
      * @return void
      */
     public function __construct(
-        public string $icon = '',
-        public string $title = '',
+        string $icon = '',
+        string $title = '',
+        public string $infoValue = '',
+        public string $infoIcon = '',
     ) {
-        $this->icon = $this->formatIcon($icon);
+        parent::__construct($icon, $title);
+        $this->infoIcon = $this->formatIcon($infoIcon);
     }
 
     /**
@@ -26,6 +26,6 @@ class Card extends BaseComponent
      */
     public function render()
     {
-        return view('components.cards.card');
+        return view('components.cards.line-card');
     }
 }
