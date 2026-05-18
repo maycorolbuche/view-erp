@@ -1,56 +1,94 @@
-$red: #ff2b3d;
-$green: #22c55e;
+$primary: #ff2b3d;
+$success: #22c55e;
+$danger: #dc3545;
+$warning: #ffc107;
 
 $bg: #0a0a0c;
 $text: #e9eaee;
 $text-dark: #c9ccd3;
 $text-muted: #8a8d96;
-$card-bg: #15161b;
-$card-bg-dark: #101115;
-$icon-bg: #1a1b21;
-$border: #1f2026;
-$border-radius: 16px;
+$border-color: #1f2026;
+$border-color-light: #414145;
+$border-color-dark: #101115;
 
+/*CARD*/
+$card-bg: #15161b;
+$card-bg-dark: $border-color-dark;
+$card-color: $text;
+$card-border-color: $border-color;
+$card-cap-bg: $card-bg;
+$card-cap-color: $card-color;
+$card-border-radius: 16px;
+
+/*ICON*/
+$icon-bg: #1a1b21;
+
+/*INPUTS*/
+$input-bg: #0f1117;
+$input-color: $text;
+$input-border-width: 1px;
+$input-border-color: $border-color;
+$input-border-radius: 8px;
+$input-focus-bg: $input-bg;
+$input-focus-color: $text;
+$input-focus-border-color: $border-color-light;
+$input-placeholder-color: rgba(0, 0, 0, 0);
+$input-box-shadow: none;
+$input-focus-box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0);
+
+$input-group-addon-bg: $input-bg;
+$input-group-addon-color: rgba(255, 255, 255, 0.55);
+$input-group-addon-border-color: $border-color;
+
+$form-check-input-bg: $input-bg;
+$form-check-input-border: 1px solid rgba(255, 255, 255, 0.12);
+$form-check-input-checked-bg-color: $primary;
+$form-check-input-checked-border-color: $border-color;
+
+$input-disabled-bg: rgba(255, 255, 255, 0.04);
+$input-disabled-border-color: rgba(255, 255, 255, 0.04);
+
+/*THEME*/
 $theme-colors: (
-    "primary": $red,
-    "success": #22c55e,
-    "danger": #dc3545,
-    "warning": #ffc107,
+    "primary": $primary,
+    "success": $success,
+    "danger": $danger,
+    "warning": $warning,
 );
 
 $body-color: $text;
 $body-bg: $bg;
 
-$card-bg: $card-bg;
-$card-color: $text;
-$card-border-color: $border;
-$card-cap-bg: $card-bg;
-$card-cap-color: $text;
-$card-border-radius: $border-radius;
-
 :root {
+    --primary: #{$primary};
+
     --text: #{$text};
     --text-dark: #{$text-dark};
     --text-muted: #{$text-muted};
 
     --card-bg: #{$card-bg};
     --card-bg-dark: #{$card-bg-dark};
-    --card-border: #{$border};
-    --card-border-radius: #{$border-radius};
+    --card-border-color: #{$card-border-color};
+    --card-border-radius: #{$card-border-radius};
 
     --icon-bg: #{$icon-bg};
 
+    --input-bg: #{$input-bg};
+    --input-border-color: #{$input-border-color};
+    --input-border-width: #{$input-border-width};
+    --input-border-radius: #{$input-border-radius};
+    --input-focus-border-color: #{$input-focus-border-color};
+
+    /*TODO: Verificar os itens abaixo e remover os desnecessarios*/
     --bg: #0a0a0c;
     --panel: #0f1013;
     --panel-2: #141519;
     --card: #15161b;
-    --card-border: #1f2026;
     --text: #e9eaee;
     --muted: #8a8d96;
-    --red: #{$red};
+    --red: #{$primary};
     --red-soft: #ff4757;
     --red-dim: #3a1014;
-    --green: #{$green};
     --sidebar-w: 260px;
     --sidebar-w-collapsed: 72px;
 }

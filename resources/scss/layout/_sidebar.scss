@@ -17,7 +17,7 @@
     .sidebar-header {
         flex-shrink: 0;
         padding: 6px 6px 6px 12px;
-        border-bottom: 1px solid var(--card-border);
+        border-bottom: 1px solid var(--card-border-color);
     }
 
     .sidebar-body {
@@ -92,7 +92,7 @@
         .logo {
             font-weight: 800;
             font-size: 26px;
-            color: var(--bs-primary);
+            color: var(--primary);
         }
 
         .sub {
@@ -149,13 +149,13 @@
         &.active {
             background: linear-gradient(
                 90deg,
-                rgba(var(--bs-primary-rgb), 0.14),
+                rgba(var(--primary-rgb), 0.14),
                 rgba(255, 43, 61, 0)
             );
             color: #fff;
 
             i.bi {
-                color: var(--bs-primary);
+                color: var(--primary);
             }
 
             &::before {
@@ -165,7 +165,7 @@
                 top: 6px;
                 bottom: 6px;
                 width: 3px;
-                background: var(--bs-primary);
+                background: var(--primary);
                 border-radius: 2px;
             }
         }
@@ -178,7 +178,7 @@
 
         &[aria-expanded="true"] .chev {
             transform: rotate(90deg);
-            color: var(--bs-primary);
+            color: var(--primary);
         }
     }
 
@@ -226,7 +226,7 @@
         }
 
         .active a {
-            color: var(--bs-primary);
+            color: var(--primary);
         }
     }
 

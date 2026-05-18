@@ -9,76 +9,43 @@
     </title>
 
     @include('layouts.partials.meta')
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+    @stack('styles')
 
-
-    <!-- Admin Forms CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin-tools/admin-forms/css/admin-forms.css') }}">
 </head>
 
 
 <body class="external-page sb-l-c sb-r-c">
 
-    <!-- Start: Main -->
-    <div id="main" class="animated fadeIn">
+    <div class="container-fluid min-vh-100">
+        <div class="row min-vh-100">
 
-        <!-- Start: Content-Wrapper -->
-        <section id="content_wrapper">
+            <!-- Lado esquerdo -->
+            <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-5">
 
-            <!-- begin canvas animation bg -->
-            <div id="canvas-wrapper">
-                <canvas id="demo-canvas"></canvas>
+                <!-- Logo -->
+                <div>
+                    <h2 class="fw-bold mb-0">
+                        VIEW
+                        <small class="fw-light">INTRANET</small>
+                    </h2>
+                </div>
+
+                @yield('side-card')
+
             </div>
 
-            <!-- Begin: Content -->
-            <section id="content">
-                <div class="admin-form theme-info" style="max-width: @yield('width', 500)px;">
-
-                    <div class="row mb15 table-layout">
-
-                        <div class="col-xs-6 va-m pln">
-                            <a href="{{ route('home') }}">
-                                <img src="{{ asset('assets/img/logos/logo-white.png') }}" style="height: 50px;">
-                            </a>
-                        </div>
-
-                        <div class="col-xs-6 text-right va-b pr5">
-                            <div class="login-links">
-                                @yield('header-links')
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="panel panel-info mt10 br-n">
-                        @yield('content')
-                    </div>
+            <!-- Lado direito -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center p-4">
+                <div>
+                    @yield('content')
                 </div>
-            </section>
-            <!-- End: Content -->
+            </div>
 
-        </section>
-        <!-- End: Content-Wrapper -->
-
+        </div>
     </div>
-    <!-- End: Main -->
 
-
-    @include('layouts.partials.scripts')
-
-    <script type="text/javascript" src="{{ asset('assets/js/pages/login/EasePack.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/pages/login/TweenLite.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/pages/login/login.js') }}"></script>
-
-    <script type="text/javascript">
-        CanvasBG.init({
-            Loc: {
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 3.3
-            },
-        });
-    </script>
-
-    @yield('scripts')
+    @stack('scripts')
 
 </body>
 

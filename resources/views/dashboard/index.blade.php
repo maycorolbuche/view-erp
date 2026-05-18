@@ -75,7 +75,7 @@
                 <div class="donut-wrap">
                     <div class="donut"></div>
                     <div class="legend">
-                        <div class="lg"><span class="dot" style="background:var(--bs-primary)"></span> Alta
+                        <div class="lg"><span class="dot" style="background:var(--primary)"></span> Alta
                             &nbsp; <strong>28 (22%)</strong></div>
                         <div class="lg"><span class="dot" style="background:#cfd1d6"></span> Média &nbsp;
                             <strong>58 (45%)</strong>
