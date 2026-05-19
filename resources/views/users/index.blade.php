@@ -62,6 +62,8 @@
 @endsection
 
 @push('scripts')
+    <?php /*
+TODO: Verificar depois
     <script>
         $("[name=name]").blur(function() {
             if ($("[name=slug]").val() == "") {
@@ -69,4 +71,6 @@
             }
         });
     </script>
+    */
+    ?>
 @endpush
