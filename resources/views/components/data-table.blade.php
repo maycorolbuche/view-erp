@@ -14,7 +14,6 @@
     <div data-table-filter="{{ $id }}">
         {{ $slot }}
     </div>
-    ||||
     <div data-table-id="{{ $id }}" class="table-responsive">
         <table id="{{ $id }}" class="table table-striped table-condensed table-hover display" width="100%"
             data-datatable data-config='@json($datatableConfig)'>
@@ -22,5 +21,4 @@
             <tbody></tbody>
         </table>
     </div>
-    ||||
 </div>

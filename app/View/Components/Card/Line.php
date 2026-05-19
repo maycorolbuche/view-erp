@@ -1,18 +1,19 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Card;
 
-class ValueCard extends Card
+use Closure;
+use Illuminate\Contracts\View\View;
+use App\View\Components\Card;
+
+class Line extends Card
 {
     /**
      * Create a new component instance.
-     *
-     * @return void
      */
     public function __construct(
         string $icon = '',
         string $title = '',
-        public string $info = '',
         public string $infoValue = '',
         public string $infoIcon = '',
     ) {
@@ -22,11 +23,9 @@ class ValueCard extends Card
 
     /**
      * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render()
+    public function render(): View|Closure|string
     {
-        return view('components.cards.value-card');
+        return view('components.card.line');
     }
 }

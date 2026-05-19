@@ -2,6 +2,7 @@
 @section('title', $system->name)
 
 @section('content')
+
     <div class="welcome">
         <h1>Bem-vindo de volta, {{ auth()->user()->name }}! 👋</h1>
         <p>Aqui está o que acontece na View hoje.</p>
@@ -10,38 +11,38 @@
     <!-- STATS -->
     <div class="row g-3 mb-3" style="position: relative;z-index: 3;">
         <div class="col-12 col-sm-6 col-xl">
-            <x-value-card icon="cash-coin" title="Receita (mês)" info-icon="arrow-up-right" info-value="R$ 8,42M"
+            <x-card.value icon="cash-coin" title="Receita (mês)" info-icon="arrow-up-right" info-value="R$ 8,42M"
                 info="vs mês anterior">
                 R$ 8,42M
-            </x-value-card>
+            </x-card.value>
         </div>
 
         <div class="col-12 col-sm-6 col-xl">
-            <x-value-card icon="bullseye" title="SLA Geral" info-icon="arrow-up-right" info-value="3,2%"
+            <x-card.value icon="bullseye" title="SLA Geral" info-icon="arrow-up-right" info-value="3,2%"
                 info="vs mês anterior">
                 96,7%
-            </x-value-card>
+            </x-card.value>
         </div>
 
         <div class="col-12 col-sm-6 col-xl">
-            <x-value-card icon="record-circle" title="Projetos Críticos" info-icon="arrow-down-right" info-value="2"
+            <x-card.value icon="record-circle" title="Projetos Críticos" info-icon="arrow-down-right" info-value="2"
                 info="vs mês anterior">
                 12
-            </x-value-card>
+            </x-card.value>
         </div>
 
         <div class="col-12 col-sm-6 col-xl">
-            <x-value-card icon="building" title="Incidentes" info-icon="arrow-down-right" info-value="15%"
+            <x-card.value icon="building" title="Incidentes" info-icon="arrow-down-right" info-value="15%"
                 info="vs mês anterior">
                 28
-            </x-value-card>
+            </x-card.value>
         </div>
 
         <div class="col-12 col-sm-6 col-xl">
-            <x-value-card icon="graph-up-arrow" title="NPS" info-icon="arrow-up-right" info-value="0,8"
+            <x-card.value icon="graph-up-arrow" title="NPS" info-icon="arrow-up-right" info-value="0,8"
                 info="vs mês anterior">
                 8,7
-            </x-value-card>
+            </x-card.value>
         </div>
     </div>
 
@@ -50,22 +51,22 @@
 
         <div class="col-12 col-lg-6 col-xl-4">
             <x-card title="Operação em tempo real">
-                <x-line-card icon="graph-up-arrow" title="NPS" info-icon="arrow-up-right" info-value="0,8">
+                <x-card.line icon="graph-up-arrow" title="NPS" info-icon="arrow-up-right" info-value="0,8">
                     8,7
-                </x-line-card>
-                <x-line-card icon="clipboard-check" title="Chamados abertos" info-icon="arrow-down-right" info-value="8%">
+                </x-card.line>
+                <x-card.line icon="clipboard-check" title="Chamados abertos" info-icon="arrow-down-right" info-value="8%">
                     128
-                </x-line-card>
-                <x-line-card icon="diagram-3" title="Aprovações pendentes" info-icon="arrow-down-right" info-value="12%">
+                </x-card.line>
+                <x-card.line icon="diagram-3" title="Aprovações pendentes" info-icon="arrow-down-right" info-value="12%">
                     42
-                </x-line-card>
-                <x-line-card icon="people" title="Fluxos em execução" info-icon="arrow-up-right" info-value="5%">
+                </x-card.line>
+                <x-card.line icon="people" title="Fluxos em execução" info-icon="arrow-up-right" info-value="5%">
                     19
-                </x-line-card>
-                <x-line-card icon="exclamation-octagon" title="Pendências críticas" info-icon="arrow-up-right"
+                </x-card.line>
+                <x-card.line icon="exclamation-octagon" title="Pendências críticas" info-icon="arrow-up-right"
                     info-value="22%">
                     7
-                </x-line-card>
+                </x-card.line>
             </x-card>
         </div>
 

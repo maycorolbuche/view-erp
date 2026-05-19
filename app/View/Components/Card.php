@@ -2,12 +2,13 @@
 
 namespace App\View\Components;
 
+use Closure;
+use Illuminate\Contracts\View\View;
+
 class Card extends BaseComponent
 {
     /**
      * Create a new component instance.
-     *
-     * @return void
      */
     public function __construct(
         public string $icon = '',
@@ -18,11 +19,9 @@ class Card extends BaseComponent
 
     /**
      * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render()
+    public function render(): View|Closure|string
     {
-        return view('components.cards.card');
+        return view('components.card.card');
     }
 }
