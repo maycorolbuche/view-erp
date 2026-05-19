@@ -2,15 +2,18 @@
 
 namespace App\View\Components;
 
+use Closure;
+use Illuminate\Contracts\View\View;
+
+
 use Illuminate\Support\Str;
 
 class DataTable extends BaseComponent
 {
-    public $id, $dataOrigin, $order;
+    public string $id, $dataOrigin, $order;
+
     /**
      * Create a new component instance.
-     *
-     * @return void
      */
     public function __construct(
         public string $columns,
@@ -56,10 +59,8 @@ class DataTable extends BaseComponent
 
     /**
      * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render()
+    public function render(): View|Closure|string
     {
         return view('components.data-table');
     }
