@@ -2,9 +2,7 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
-
-class GroupItem extends Component
+class GroupItem extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -14,8 +12,7 @@ class GroupItem extends Component
     public function __construct(
         public int $width = 400,
         public string $padding = '0',
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

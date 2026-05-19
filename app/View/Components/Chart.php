@@ -2,10 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Str;
 
-class Chart extends Component
+class Chart extends BaseComponent
 {
     public $id, $seriesName, $pointFormat;
     /**

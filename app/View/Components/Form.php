@@ -2,10 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Facades\Route;
 
-class Form extends Component
+class Form extends BaseComponent
 {
     public $action, $actionName, $actionId, $actionPid, $method;
     public bool $files;

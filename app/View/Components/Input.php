@@ -2,10 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Str;
 
-class Input extends Component
+class Input extends BaseComponent
 {
     public $value;
     public string $name, $id, $field, $type, $class, $rows;

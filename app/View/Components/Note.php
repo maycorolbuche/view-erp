@@ -2,9 +2,7 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
-
-class Note extends Component
+class Note extends BaseComponent
 {
     /**
      * Create a new component instance.

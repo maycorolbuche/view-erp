@@ -2,10 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Str;
 
-class Button extends Component
+class Button extends BaseComponent
 {
     public $name, $id, $route, $routeName, $type, $value, $label, $layout, $confirm, $confirmTitle, $method;
     public bool $disabled, $hidden, $novalidate;

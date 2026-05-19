@@ -2,9 +2,7 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
-
-class Group extends Component
+class Group extends BaseComponent
 {
     public bool $right;
 

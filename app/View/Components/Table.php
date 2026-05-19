@@ -2,10 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Str;
 
-class Table extends Component
+class Table extends BaseComponent
 {
     public $id;
     /**

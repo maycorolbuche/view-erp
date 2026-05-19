@@ -3,9 +3,8 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use Illuminate\Support\Str;
 
-class ActionCheckbox extends Component
+class ActionCheckbox extends BaseComponent
 {
     /**
      * Create a new component instance.

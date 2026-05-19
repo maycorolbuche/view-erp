@@ -2,10 +2,9 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\Support\Str;
 
-class DataTable extends Component
+class DataTable extends BaseComponent
 {
     public $id, $dataOrigin, $order;
     /**

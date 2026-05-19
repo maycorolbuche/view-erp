@@ -2,9 +2,8 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 
-class Tabs extends Component
+class Tabs extends BaseComponent
 {
     /**
      * Create a new component instance.
