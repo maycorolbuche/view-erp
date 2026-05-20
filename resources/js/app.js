@@ -3,9 +3,14 @@ import "./bootstrap";
 import "bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-//plugins
+// plugins
 import { initDataTables } from "./plugins/datatable";
 import { initTomSelect } from "./plugins/tom-select";
+import { initVanta } from "./plugins/vanta";
+
+// vanta
+import * as THREE from "three";
+import NET from "vanta/dist/vanta.net.min";
 
 // components
 import "./components/sidebar";
@@ -14,4 +19,5 @@ import "./components/sidebar";
 $(function () {
     initDataTables();
     initTomSelect();
+    initVanta();
 });

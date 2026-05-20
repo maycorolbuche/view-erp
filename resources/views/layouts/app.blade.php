@@ -20,7 +20,7 @@
 
 
     <main class="main">
-        <div class="hero-bg"></div>
+        <div class="hero-bg vanta-three"></div>
 
         @include('layouts.partials.header')
 
