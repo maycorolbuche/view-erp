@@ -28,16 +28,14 @@
         <span class="ic"><i class="bi bi-lightbulb"></i></span>
 
         <div class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-toggle user-menu" data-bs-toggle="dropdown"
-                aria-expanded="false">
-
+            <button class="btn btn-secondary dropdown-toggle d-flex align-items-center" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="avatar">
                     {{ auth()->user()->initials }}
                     A
                 </div>
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+            </button>
+            <ul class="dropdown-menu">
                 <li>
                     <a class="dropdown-item" href="{{ route('me-password-change') }}">
                         <i class="bi bi-lock me-2"></i>
@@ -81,57 +79,3 @@
         </div>
     </div>
 </nav>
-
-<style>
-    .user-menu {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        color: inherit;
-        padding: 8px 14px;
-        border-radius: 14px;
-        transition: .2s;
-    }
-
-    .user-menu:hover {
-        background: rgba(255, 255, 255, .06);
-    }
-
-    .avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #4f46e5, #7c3aed);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 12px;
-        flex-shrink: 0;
-    }
-
-
-    .dropdown-menu {
-        min-width: 260px;
-        border-radius: 16px;
-        overflow: hidden;
-        padding: 8px;
-    }
-
-    .dropdown-item {
-        border-radius: 10px;
-        padding: 10px 12px;
-        transition: .15s;
-    }
-
-    .dropdown-item:hover {
-        background: #f3f4f6;
-    }
-
-    .dropdown-header {
-        font-weight: 700;
-        padding: 12px;
-    }
-</style>

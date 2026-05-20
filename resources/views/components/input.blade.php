@@ -3,13 +3,12 @@
 @endphp
 <div id="group-{{ $id }}" class="form-group field {{ $errors->has($field) ? 'has-error' : '' }}"
     style="flex-shrink: 1;flex-grow: 1;flex-basis: {{ $width }}px;padding: 0 5px 0 5px;display: flex; flex-direction: column;">
-    <label for="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}" class="col-lg-3 control-label"
-        style="padding:0;width:100%;">
+    <label for="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}" class="form-label fw-semibold">
         {{ $label }}{{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
         {!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
-    <div
-        style="position: relative;{{ $type == 'boolean' || $type == 'bool' || $type == 'boolean-checkbox' || $type == 'bool-chk' ? 'display: flex;align-items: center;gap: 10px;' : '' }}">
+    <div class="input-group"
+        style="{{ $type == 'boolean' || $type == 'bool' || $type == 'boolean-checkbox' || $type == 'bool-chk' ? 'display: flex;align-items: center;gap: 10px;' : '' }}">
         @if ($type == 'icon')
             <!-- -->
             <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}"

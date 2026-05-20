@@ -9,7 +9,7 @@ FORM LABEL
     color: var(--text-dark);
 }
 .form-label {
-    margin: 0 0 3px 3px;
+    margin: 0 0 5px 3px;
 }
 
 /* ==========================================================================
@@ -54,6 +54,7 @@ INPUT
     font-size: 12px;
     border: 0;
     background: transparent;
+    padding: 10px 15px;
 }
 
 /* Remove autofill branco do Chrome */

@@ -48,15 +48,18 @@
 
 @use "layout/sidebar";
 @use "layout/main";
+@use "layout/hero";
 @use "layout/topbar";
 @use "layout/spacing";
 @use "layout/font";
 
+@use "components/title";
 @use "components/form";
 @use "components/link";
 @use "components/buttons";
 @use "components/dividers";
 @use "components/cards";
+@use "components/avatar";
 @use "components/lists";
 @use "components/donut";
 @use "components/progress";

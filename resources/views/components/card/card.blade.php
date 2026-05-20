@@ -1,4 +1,4 @@
- <div class="card h-100">
+ <div class="card {{ $fullHeight ? 'h-100' : '' }}">
      <div class="card-body">
          @if (!empty($title))
              <div class="card-title">

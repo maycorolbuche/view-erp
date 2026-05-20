@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="welcome">
+    <div class="title-bar">
         <h1>Bem-vindo de volta, {{ auth()->user()->name }}! 👋</h1>
         <p>Aqui está o que acontece na View hoje.</p>
     </div>
@@ -50,7 +50,7 @@
     <div class="row g-3 mb-3">
 
         <div class="col-12 col-lg-6 col-xl-4">
-            <x-card title="Operação em tempo real">
+            <x-card title="Operação em tempo real" full-height>
                 <x-card.line icon="graph-up-arrow" title="NPS" info-icon="arrow-up-right" info-value="0,8">
                     8,7
                 </x-card.line>
@@ -72,7 +72,7 @@
 
 
         <div class="col-12 col-lg-6 col-xl-3">
-            <x-card title="Chamados por prioridade">
+            <x-card title="Chamados por prioridade" full-height>
                 <div class="donut-wrap">
                     <div class="donut"></div>
                     <div class="legend">
@@ -90,7 +90,7 @@
         </div>
 
         <div class="col-12 col-lg-6 col-xl-3">
-            <x-card title="Projetos em andamento">
+            <x-card title="Projetos em andamento" full-height>
                 <div class="proj-row">
                     <div class="top"><span>Plataforma Intranet</span><span>75%</span></div>
                     <div class="bar">
@@ -120,7 +120,7 @@
         </div>
 
         <div class="col-12 col-lg-6 col-xl-2">
-            <x-card title="Feed Corporativo">
+            <x-card title="Feed Corporativo" full-height>
                 <div class="feed-item">
                     <div class="ico"><i class="bi bi-megaphone"></i></div>
                     <div>
@@ -153,7 +153,7 @@
     <!-- ROW 3 -->
     <div class="row g-3">
         <div class="col-12 col-xl-6">
-            <x-card title="Acesso rápido">
+            <x-card title="Acesso rápido" full-height>
                 <div class="quick">
                     <div class="q">
                         <div class="ic"><i class="bi bi-headset"></i></div>
@@ -184,7 +184,7 @@
         </div>
 
         <div class="col-12 col-md-6 col-xl-3">
-            <x-card title="Próximos eventos">
+            <x-card title="Próximos eventos" full-height>
                 <div class="event">
                     <div class="date">
                         <div class="d">24</div>
@@ -220,7 +220,7 @@
         </div>
 
         <div class="col-12 col-md-6 col-xl-3">
-            <x-card title="Aniversariantes">
+            <x-card title="Aniversariantes" full-height>
                 <div class="bday"><img src="https://i.pravatar.cc/80?img=15">
                     <div>
                         <div class="n">Rafael Almeida</div>
@@ -245,25 +245,3 @@
     </div>
 
 @endsection
-
-@push('styles')
-    <style>
-        .welcome {
-            position: relative;
-            z-index: 2;
-            margin-bottom: 20px
-        }
-
-        .welcome h1 {
-            font-size: clamp(20px, 3.2vw, 30px);
-            font-weight: 700;
-            margin: 0
-        }
-
-        .welcome p {
-            color: #b6b9c1;
-            margin: 6px 0 0;
-            font-size: 14px
-        }
-    </style>
-@endpush

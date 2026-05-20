@@ -3,9 +3,9 @@
 @section('breadcrumb', json_encode([request('__route')]))
 
 @section('content')
-    <x-content>
+    <x-content title="Pessoas">
 
-        <x-panel title="Formulário" type="primary">
+        <x-card title="Formulário">
 
             @include('users.components.header', ['user' => isset($data) ? $data : null])
 
@@ -14,7 +14,7 @@
             @include('layouts.partials.messages')
 
             <x-form action-name="users" action-id="{{ isset($data) ? $data->id_user : null }}">
-                <x-group title="Dados Pessoais">
+                <x-group title="Dados Pessoais" icon="person">
                     <x-input name="name" width="400" label="Nome" required value="{{ $data->name ?? '' }}" />
                     <x-input type="email" name="email" width="400" label="E-mail" required
                         value="{{ $data->email ?? '' }}" />
@@ -53,24 +53,26 @@
                 </x-group>
 
             </x-form>
-        </x-panel>
+        </x-card>
 
-        <x-panel title="Dados" type="warning">
+        <x-card title="Dados">
             @include('users.components.datatable', ['route' => 'users.show'])
-        </x-panel>
+        </x-card>
     </x-content>
 @endsection
 
 @push('scripts')
-    <?php /*
-TODO: Verificar depois
     <script>
-        $("[name=name]").blur(function() {
-            if ($("[name=slug]").val() == "") {
-                $("[name=slug]").val($("[name=name]").val()).blur()
+        document.querySelector('[name="name"]').addEventListener('blur', function() {
+            const slugInput = document.querySelector('[name="slug"]');
+            const nameInput = document.querySelector('[name="name"]');
+
+            if (slugInput.value === '') {
+                slugInput.value = nameInput.value;
+
+                // dispara o evento blur manualmente
+                slugInput.dispatchEvent(new Event('blur'));
             }
         });
     </script>
-    */
-    ?>
 @endpush

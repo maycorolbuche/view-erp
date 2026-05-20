@@ -14,9 +14,10 @@ class Group extends BaseComponent
     public function __construct(
         string $right = 'false',
         public string $title = '',
-        public string $type = '',
+        public string $icon = '',
     ) {
         $this->right = $right && $right != "false";
+        $this->icon = $this->formatIcon($icon);
     }
 
     /**

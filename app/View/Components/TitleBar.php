@@ -2,27 +2,24 @@
 
 namespace App\View\Components;
 
-class Content extends BaseComponent
+use Closure;
+use Illuminate\Contracts\View\View;
+
+class TitleBar extends BaseComponent
 {
     /**
      * Create a new component instance.
-     *
-     * @return void
      */
     public function __construct(
         public string $title = '',
         public string $description = '',
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
      */
-    public function render()
+    public function render(): View|Closure|string
     {
-        return view('components.content');
+        return view('components.title-bar');
     }
 }

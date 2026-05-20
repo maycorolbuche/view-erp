@@ -13,6 +13,7 @@ class Card extends BaseComponent
     public function __construct(
         public string $icon = '',
         public string $title = '',
+        public bool $fullHeight = false,
     ) {
         $this->icon = $this->formatIcon($icon);
     }
