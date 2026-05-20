@@ -5,5 +5,7 @@
     <input type="hidden" name="_action">
     <input type="hidden" name="_id" value="{{ $actionId ?: '' }}">
 
-    {{ $slot }}
+    <div class="gap-4 d-flex flex-column">
+        {{ $slot }}
+    </div>
 </form>

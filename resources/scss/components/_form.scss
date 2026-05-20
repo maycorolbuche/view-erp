@@ -17,7 +17,6 @@ INPUT GROUP
 ========================================================================== */
 
 .input-group {
-    overflow: hidden;
     transition: all 0.2s ease;
     border: var(--input-border-width) solid var(--input-border-color);
     border-radius: var(--input-border-radius);
@@ -81,4 +80,37 @@ BOTÃO FORM
 
 .input-group .btn:hover {
     color: #ffffff;
+}
+
+/* ==========================================================================
+PLUGIN TOM SELECT
+========================================================================== */
+.ts-wrapper {
+    border-radius: var(--input-border-radius) !important;
+
+    .ts-control {
+        input {
+            font-size: 12px;
+        }
+    }
+
+    [data-selectable] {
+        &[data-value=""] {
+            display: none;
+        }
+
+        color: var(--text);
+        background: var(--menu-bg);
+        font-size: 13px;
+        padding: 8px 15px !important;
+
+        &:hover {
+            color: #fff;
+            background: var(--menu-hover-bg);
+        }
+        &.active {
+            color: #fff;
+            background: var(--menu-hover-bg);
+        }
+    }
 }

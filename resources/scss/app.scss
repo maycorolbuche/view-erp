@@ -1,44 +1,8 @@
 @use "@fontsource/inter/index.css";
 
-@use "abstracts/variables" as v;
-@use "bootstrap/scss/bootstrap" with (
-    $theme-colors: v.$theme-colors,
+@use "abstracts/variables";
+@use "plugins/bootstrap.scss";
 
-    $body-bg: v.$body-bg,
-    $body-color: v.$body-color,
-
-    $card-bg: v.$card-bg,
-    $card-color: v.$card-color,
-    $card-border-color: v.$card-border-color,
-    $card-cap-bg: v.$card-cap-bg,
-    $card-cap-color: v.$card-cap-color,
-    $card-border-radius: v.$card-border-radius,
-
-    $input-bg: v.$input-bg,
-    $input-color: v.$input-color,
-    $input-border-width: v.$input-border-width,
-    $input-border-color: v.$input-border-color,
-    $input-border-radius: v.$input-border-radius,
-    $input-focus-bg: v.$input-focus-bg,
-    $input-focus-color: v.$input-focus-color,
-    $input-focus-border-color: v.$input-focus-border-color,
-    $input-placeholder-color: v.$input-placeholder-color,
-    $input-box-shadow: v.$input-box-shadow,
-    $input-focus-box-shadow: v.$input-focus-box-shadow,
-
-    $input-group-addon-bg: v.$input-group-addon-bg,
-    $input-group-addon-color: v.$input-group-addon-color,
-    $input-group-addon-border-color: v.$input-group-addon-border-color,
-
-    $form-check-input-bg: v.$form-check-input-bg,
-    $form-check-input-border: v.$form-check-input-border,
-    $form-check-input-checked-bg-color: v.$form-check-input-checked-bg-color,
-    $form-check-input-checked-border-color:
-        v.$form-check-input-checked-border-color,
-
-    $input-disabled-bg: v.$input-disabled-bg,
-    $input-disabled-border-color: v.$input-disabled-border-color
-);
 @use "bootstrap-icons/font/bootstrap-icons.css";
 
 @use "abstracts/animations";

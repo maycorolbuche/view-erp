@@ -58,7 +58,7 @@
             @endphp
             <select id="{{ $id }}"
                 name="{{ $name }}{{ $type == 'multiple' || $type == 'select-multiple' ? '[]' : '' }}"
-                {{ $required ? 'required' : '' }} class="chosen-select"
+                {{ $required ? 'required' : '' }} class="form-select tom-select"
                 {{ $type == 'multiple' || $type == 'select-multiple' ? 'multiple' : '' }}>
                 <option></option>
                 @foreach (json_decode(html_entity_decode($list), true) as $item)
@@ -159,24 +159,12 @@
             <!-- -->
         @elseif ($type == 'textarea')
             <!-- -->
-            <span class="append-icon right error-icon">
-                <i class="fa fa-remove"></i>
-            </span>
-            <span class="append-icon right success-icon">
-                <i class="fa fa-check"></i>
-            </span>
             <textarea id="{{ $id }}" name="{{ $name }}" class="form-control {{ $class }}"
                 rows="{{ $rows }}" placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }}
                 {{ $disabled ? 'disabled' : '' }} {{ $readonly ? 'readonly' : '' }}>{{ $value }}</textarea>
             <!-- -->
         @elseif ($type != 'html')
             <!-- -->
-            <span class="append-icon right error-icon">
-                <i class="fa fa-remove"></i>
-            </span>
-            <span class="append-icon right success-icon">
-                <i class="fa fa-check"></i>
-            </span>
 
             @if ($type == 'file' && $value)
                 @php

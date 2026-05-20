@@ -4,7 +4,7 @@
     left: 0;
     bottom: 0;
     width: var(--sidebar-w);
-    background: var(--panel);
+    background: var(--menu-bg);
     border-right: 1px solid #15161b;
     display: flex;
     flex-direction: column;
@@ -142,7 +142,7 @@
         }
 
         &:hover {
-            background: #17181d;
+            background: var(--menu-hover-bg);
             color: #fff;
         }
 
@@ -196,7 +196,7 @@
         justify-content: center;
 
         &:hover {
-            background: #17181d;
+            background: var(--menu-hover-bg);
             color: #fff;
         }
 
@@ -220,7 +220,7 @@
             transition: 0.15s;
 
             &:hover {
-                background: #17181d;
+                background: var(--menu-hover-bg);
                 color: #fff;
             }
         }

@@ -64,12 +64,12 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-CRXa2fam.js",
+    "file": "assets/app-C2y5u2EB.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-Pks1HSZp.css"
+      "assets/app-CDlQ_b6O.css"
     ],
     "assets": [
       "assets/bootstrap-icons-mSm7cUeB.woff2",
@@ -77,7 +77,7 @@
     ]
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-3giaWR_Q.css",
+    "file": "assets/app-D2PPPcxU.css",
     "name": "app",
     "names": [
       "app.css"

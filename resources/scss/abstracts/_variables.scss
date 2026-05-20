@@ -10,6 +10,8 @@ $text-muted: #8a8d96;
 $border-color: #1f2026;
 $border-color-light: #414145;
 $border-color-dark: #101115;
+$menu-bg: #0f1013;
+$menu-hover-bg: #17181d;
 
 /*CARD*/
 $card-bg: #15161b;
@@ -48,6 +50,16 @@ $form-check-input-checked-border-color: $border-color;
 $input-disabled-bg: rgba(255, 255, 255, 0.04);
 $input-disabled-border-color: rgba(255, 255, 255, 0.04);
 
+/*DROPDOWN*/
+$dropdown-bg: $menu-bg;
+$dropdown-color: $text;
+$dropdown-link-color: $text;
+$dropdown-link-hover-bg: $menu-hover-bg;
+$dropdown-link-hover-color: #fff;
+$dropdown-link-active-bg: $menu-bg;
+$dropdown-link-active-color: #fff;
+$dropdown-link-disabled-color: $text-muted;
+
 /*THEME*/
 $theme-colors: (
     "primary": $primary,
@@ -79,16 +91,17 @@ $body-bg: $bg;
     --input-border-radius: #{$input-border-radius};
     --input-focus-border-color: #{$input-focus-border-color};
 
+    --sidebar-w: 260px;
+    --sidebar-w-collapsed: 72px;
+
+    --menu-bg: #{$menu-bg};
+    --menu-hover-bg: #{$menu-hover-bg};
+
     /*TODO: Verificar os itens abaixo e remover os desnecessarios*/
     --bg: #0a0a0c;
-    --panel: #0f1013;
-    --panel-2: #141519;
     --card: #15161b;
-    --text: #e9eaee;
     --muted: #8a8d96;
     --red: #{$primary};
     --red-soft: #ff4757;
     --red-dim: #3a1014;
-    --sidebar-w: 260px;
-    --sidebar-w-collapsed: 72px;
 }

@@ -31,7 +31,7 @@
                         value="{{ $data->id_civil_status ?? '' }}" />
                 </x-group>
 
-                <x-group title="Dados Empresariais">
+                <x-group title="Dados Empresariais" icon="building">
                     <x-input type="select" name="id_employment_type" width="200" label="Tipo de Recurso" required
                         list="{{ json_encode($employment_types) }}" list-value="id_employment_type" list-text="description"
                         value="{{ $data->id_employment_type ?? '' }}" />
