@@ -34,9 +34,16 @@
             background: #23242b;
             border-radius: 4px;
         }
+
+        a {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
     }
 
-    &.collapsed {
+    &.collapsed:not(:hover) {
         width: var(--sidebar-w-collapsed);
 
         .sidebar-header {
