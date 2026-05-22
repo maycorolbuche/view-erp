@@ -1,4 +1,14 @@
 <aside class="sidebar" id="sidebar">
+
+    <script>
+        // RESTORE SIDEBAR STATE
+        const sidebar = document.getElementById("sidebar");
+        if (localStorage.getItem("sidebar") === "collapsed") {
+            document.body.classList.add("sidebar-collapsed");
+            document.getElementById("sidebar").classList.add("collapsed");
+        }
+    </script>
+
     <div class="sidebar-header">
         <div class="brand">
             <div class="brand-text">
