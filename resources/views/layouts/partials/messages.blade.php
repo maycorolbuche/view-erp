@@ -26,19 +26,29 @@
 
 @foreach ($messages as $type => $message)
     @if (count($message) > 0)
-        <div class="alert alert-{{ $type }} alert-dismissable" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <div class="alert alert-{{ $type }} alert-dismissable mt-3 d-flex align-items-center" role="alert"
+            data-bs-theme="dark">
+            @if ($type == 'danger')
+                <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+            @elseif ($type == 'success')
+                <i class="bi bi-check-circle-fill fs-5"></i>
+            @elseif ($type == 'info')
+                <i class="bi bi-info-circle-fill fs-5"></i>
+            @endif
+
             @if (count($message) == 1)
-                <i class="fa fa-{{ $type == 'danger' ? 'remove' : 'check' }} pr10"></i>
-                {!! $message[0] !!}
+                <span class="flex-fill px-3">
+                    {!! $message[0] !!}
+                </span>
             @else
-                <ul class="list-unstyled mb-0">
+                <ul class="flex-fill mb-0">
                     @foreach ($message as $msg)
-                        <li><i class="fa fa-{{ $type == 'danger' ? 'remove' : 'check' }} pr10"></i>{{ $msg }}
-                        </li>
+                        <li>{{ $msg }}</li>
                     @endforeach
                 </ul>
             @endif
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 @endforeach

@@ -21,6 +21,11 @@ INPUT GROUP
     border: var(--input-border-width) solid var(--input-border-color);
     border-radius: var(--input-border-radius);
     background: var(--input-bg);
+    padding: 1px;
+
+    &.is-invalid {
+        border: var(--input-border-width) solid var(--danger);
+    }
 }
 
 /* Remove outline duplo no focus */
@@ -40,10 +45,10 @@ INPUT GROUP
     color: rgba(255, 255, 255, 0.55);
     padding-left: 18px;
     padding-right: 14px;
-}
 
-.input-group-text i {
-    font-size: 16px;
+    i {
+        font-size: 16px;
+    }
 }
 
 /* ==========================================================================
@@ -76,10 +81,10 @@ BOTÃO FORM
     box-shadow: none;
     padding-left: 16px;
     padding-right: 18px;
-}
 
-.input-group .btn:hover {
-    color: #ffffff;
+    &.btn:hover {
+        color: #ffffff;
+    }
 }
 
 /* ==========================================================================
@@ -87,6 +92,7 @@ PLUGIN TOM SELECT
 ========================================================================== */
 .ts-wrapper {
     border-radius: var(--input-border-radius) !important;
+    border: none !important;
 
     .ts-control {
         input {

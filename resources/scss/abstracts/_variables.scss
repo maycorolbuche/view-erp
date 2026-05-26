@@ -1,7 +1,8 @@
 $primary: #ff2b3d;
-$success: #22c55e;
-$danger: #dc3545;
-$warning: #ffc107;
+$success: #16a34a;
+$danger: #dc2626;
+$warning: #d97706;
+$info: #2563eb;
 
 $bg: #0a0a0c;
 $text: #e9eaee;
@@ -66,6 +67,7 @@ $theme-colors: (
     "success": $success,
     "danger": $danger,
     "warning": $warning,
+    "info": $info,
 );
 
 $body-color: $text;
@@ -73,6 +75,10 @@ $body-bg: $bg;
 
 :root {
     --primary: #{$primary};
+    --success: #{$success};
+    --danger: #{$danger};
+    --warning: #{$warning};
+    --info: #{$info};
 
     --text: #{$text};
     --text-dark: #{$text-dark};

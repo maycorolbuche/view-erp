@@ -1,13 +1,13 @@
 @php
     $value = old(str_replace('[', '.', str_replace(']', '', $field))) ?: $value;
 @endphp
-<div id="group-{{ $id }}" class="form-group field {{ $errors->has($field) ? 'has-error' : '' }}"
+<div id="group-{{ $id }}" class="form-group field"
     style="flex-shrink: 1;flex-grow: 1;flex-basis: {{ $width }}px;padding: 0 5px 0 5px;display: flex; flex-direction: column;">
     <label for="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}" class="form-label fw-semibold">
         {{ $label }}{{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
         {!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
-    <div class="input-group"
+    <div class="input-group {{ $errors->has($field) ? 'is-invalid' : '' }}"
         style="{{ $type == 'boolean' || $type == 'bool' || $type == 'boolean-checkbox' || $type == 'bool-chk' ? 'display: flex;align-items: center;gap: 10px;' : '' }}">
         @if ($type == 'icon')
             <!-- -->
@@ -202,7 +202,8 @@
 
             <input type="{{ $type }}" id="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}"
                 name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}{{ $multiple ? '[ ]' : '' }}"
-                value="{{ $value }}" class="form-control {{ $class }}"
+                value="{{ $value }}"
+                class="form-control {{ $class }} {{ $errors->has($field) ? 'is-invalid' : '' }}"
                 placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
                 {{ $readonly ? 'readonly' : '' }} {{ $multiple ? 'multiple' : '' }}
                 {{ $accept ? 'accept=' . $accept : '' }} {{ $min ? 'min=' . $min : '' }}
@@ -258,7 +259,9 @@
     @endif
 
     @if ($errors->has($field))
-        <em for="{{ $id }}" class="has-error">{{ $errors->first($field) }}</em>
+        <div id="{{ $id }}Feedback" class="invalid-feedback">
+            {{ $errors->first($field) }}
+        </div>
     @endif
 </div>
 

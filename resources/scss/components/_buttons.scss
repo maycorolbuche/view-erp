@@ -1,3 +1,9 @@
 .btn {
-    font-size: 16px;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 5px;
+
+    &:hover {
+        color: #fff;
+    }
 }

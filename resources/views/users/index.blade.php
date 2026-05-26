@@ -60,19 +60,3 @@
         </x-card>
     </x-content>
 @endsection
-
-@push('scripts')
-    <script>
-        document.querySelector('[name="name"]').addEventListener('blur', function() {
-            const slugInput = document.querySelector('[name="slug"]');
-            const nameInput = document.querySelector('[name="name"]');
-
-            if (slugInput.value === '') {
-                slugInput.value = nameInput.value;
-
-                // dispara o evento blur manualmente
-                slugInput.dispatchEvent(new Event('blur'));
-            }
-        });
-    </script>
-@endpush

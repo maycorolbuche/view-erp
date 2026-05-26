@@ -7,8 +7,7 @@
         </div>
     @endif
 
-    <div
-        class="gap-2 row-gap-3 d-flex flex-row flex-wrap align-items-stretch {{ $right ? 'justify-content-end;' : '' }}">
+    <div class="gap-2 row-gap-3 d-flex flex-row flex-wrap align-items-stretch {{ $right ? 'justify-content-end' : '' }}">
         {{ $slot }}
     </div>
 
