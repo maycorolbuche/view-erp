@@ -120,3 +120,15 @@ PLUGIN TOM SELECT
         }
     }
 }
+
+/* ==========================================================================
+PLUGIN DATATABLE
+========================================================================== */
+.dt-container {
+    .form-control {
+        transition: all 0.2s ease;
+        border: var(--input-border-width) solid var(--input-border-color);
+        border-radius: var(--input-border-radius);
+        background: var(--input-bg);
+    }
+}

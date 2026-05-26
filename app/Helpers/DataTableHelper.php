@@ -126,18 +126,18 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'expenses.show', [$id_field => $row->id_expense]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('actions_search', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'expenses.show', [$id_field => $row->id_expense]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="bi bi-search"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('file_preview', function ($row) use ($id_field) {
                 $actionBtn = "";
                 if ($row->file) {
-                    $actionBtn = '<a href="' . $row->file->url . '" target="_blank" class="edit btn btn-danger btn-sm" data-type="file"><i class="fas fa-file"></i></a>';
+                    $actionBtn = '<a href="' . $row->file->url . '" target="_blank" class="edit btn btn-danger btn-sm" data-type="file"><i class="bi bi-file-earmark-text"></i></a>';
                 }
                 return $actionBtn;
             })
@@ -194,12 +194,12 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'queries-batches.show', [$id_field => $row->id_batch]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('actions_search', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'queries-batches.show', [$id_field => $row->id_batch]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="bi bi-search"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('created_at', function ($row) {
@@ -263,12 +263,12 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'me-authorizations.show', [$id_field => $row->id_authorization]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('actions_search', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'me-authorizations.show', [$id_field => $row->id_authorization]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="bi bi-search"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('period', function ($row) {
@@ -344,7 +344,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'systems.show', [$id_field => $row->id_system]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('icon', function ($row) {
@@ -363,7 +363,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'clients.show', [$id_field => $row->id_client]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -379,7 +379,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'branches.show', [$id_field => $row->id_branch]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('name', function ($row) {
@@ -398,7 +398,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'holidays.show', [$id_field => $row->id_holiday]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('date', function ($row) {
@@ -445,7 +445,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'roles.show', [$id_field => $row->id_role]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -461,7 +461,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'civil-statuses.show', [$id_field => $row->id_civil_status]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -477,7 +477,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'payment-methods.show', [$id_field => $row->id_payment_method]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('refundable', function ($row) {
@@ -496,7 +496,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'employment-types.show', [$id_field => $row->id_employment_type]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -512,7 +512,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'carriers.show', [$id_field => $row->id_carrier]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -528,7 +528,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'phones-types.show', [$id_field => $row->id_phone_type]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -544,7 +544,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'relationships-degrees.show', [$id_field => $row->id_relationship_degree]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -560,13 +560,13 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'authorizations-types.show', [$id_field => $row->id_authorization_type]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('approval', function ($row) {
                 $items = [
-                    'one' => '<span class="badge badge-info"><i class="fas fa-user"></i> Um Responsável</span>',
-                    'all' => '<span class="badge badge-success"><i class="fas fa-users"></i> Todos os Responsáveis</span>',
+                    'one' => '<span class="badge badge-info"><i class="bi bi-person-fill"></i> Um Responsável</span>',
+                    'all' => '<span class="badge badge-success"><i class="bi bi-people-fill"></i> Todos os Responsáveis</span>',
                 ];
                 return $items[$row->approval];
             })
@@ -584,7 +584,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'categories.show', [$id_field => $row->id_category]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -601,7 +601,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'discounts.show', [$id_field => $row->id_discount]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('categories', function ($row) {
@@ -623,7 +623,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('discounts-amounts.show', ['pid' => request('pid'), 'id' => $row->id_discount_amount]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('date', function ($row) {
@@ -653,7 +653,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'users.show', [$id_field => $row->id_user]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('search', function ($row) use ($id_field) {
@@ -664,7 +664,7 @@ class DataTableHelper
                 ];
                 $json = htmlspecialchars(json_encode($params), ENT_QUOTES, 'UTF-8');
 
-                $actionBtn = '<a onclick=\'sendParams(' . $json . ');\' class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
+                $actionBtn = '<a onclick=\'sendParams(' . $json . ');\' class="edit btn btn-info btn-sm"><i class="bi bi-search"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('branch.name', function ($row) {
@@ -683,7 +683,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-phones.show', ['pid' => request('pid'), 'id' => $row->id_user_phone]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('carrier.name', function ($row) {
@@ -694,8 +694,8 @@ class DataTableHelper
             })
             ->editColumn('phone', function ($row) {
                 return $row->phone
-                    . ($row->has_whatsapp ? " <span class='fab fa-whatsapp text-success'></span>" : "")
-                    . ($row->is_business ? " <span class='fas fa-building text-info'></span>" : "")
+                    . ($row->has_whatsapp ? " <i class='bi bi-whatsapp text-success'></i>" : "")
+                    . ($row->is_business ? " <i class='bi bi-building text-info'></i>" : "")
                     ?? '';
             })
             ->rawColumns(['actions', 'phone'])
@@ -711,7 +711,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-teams.show', ['pid' => request('pid'), 'id' => $row->id_user_team]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->addColumn('name', function ($row) {
@@ -730,9 +730,9 @@ class DataTableHelper
             })
             ->addColumn('relationship', function ($row) {
                 if ($row->id_user_parent == request('pid')) {
-                    return '<span class="badge badge-warning"><span class="fas fa-user-friends"></span> Subordinado</span>';
+                    return '<span class="badge badge-warning"><i class="bi bi-people-fill"></i> Subordinado</span>';
                 } else {
-                    return '<span class="badge badge-danger"><span class="fas fa-user-tie"></span> Superior</span>';
+                    return '<span class="badge badge-danger"><i class="bi bi-person-fill"></i> Superior</span>';
                 }
             })
             ->addColumn('authorizations', function ($row) {
@@ -758,7 +758,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-dependents.show', ['pid' => request('pid'), 'id' => $row->id_user_dependent]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('birth_date', function ($row) {
@@ -777,7 +777,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-roles.show', ['pid' => request('pid'), 'id' => $row->id_user_role]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('start_date', function ($row) {
@@ -817,7 +817,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-vacations.show', ['pid' => request('pid'), 'id' => $row->id_user_vacation]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('start_date', function ($row) {
@@ -898,7 +898,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-payments.show', ['pid' => request('pid'), 'id' => $row->id_user_payment]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('date', function ($row) {
@@ -919,7 +919,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-pension.show', ['pid' => request('pid'), 'id' => $row->id_user_pension]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('date', function ($row) {
@@ -937,7 +937,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-certifications.show', ['pid' => request('pid'), 'id' => $row->id_user_certification]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('start_date', function ($row) {
@@ -958,7 +958,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-sick-leaves.show', ['pid' => request('pid'), 'id' => $row->id_user_sick_leave]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('start_date', function ($row) {
@@ -979,7 +979,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) {
                 $edit_route = route('users-warnings.show', ['pid' => request('pid'), 'id' => $row->id_user_warning]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('date', function ($row) {
@@ -999,7 +999,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'users.show', [$id_field => $row->id_user ?? 0]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('user_cash.amount', function ($row) {
@@ -1076,7 +1076,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'profiles.show', [$id_field => $row->id_profile]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="glyphicons glyphicons-edit"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
@@ -1092,7 +1092,7 @@ class DataTableHelper
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {
                 $edit_route = route(request('route') ?: 'notification-logs.show', [$id_field => $row->id_notification_log]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="fas fa-search"></i></a>';
+                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-info btn-sm"><i class="bi bi-search"></i></a>';
                 return $actionBtn;
             })
             ->editColumn('sent_at', function ($row) {
