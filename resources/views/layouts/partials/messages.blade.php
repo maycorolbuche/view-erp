@@ -26,8 +26,7 @@
 
 @foreach ($messages as $type => $message)
     @if (count($message) > 0)
-        <div class="alert alert-{{ $type }} alert-dismissable mt-3 d-flex align-items-center" role="alert"
-            data-bs-theme="dark">
+        <div class="alert alert-{{ $type }} alert-dismissable mt-3 d-flex align-items-center" role="alert">
             @if ($type == 'danger')
                 <i class="bi bi-exclamation-triangle-fill fs-5"></i>
             @elseif ($type == 'success')
