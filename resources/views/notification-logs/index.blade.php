@@ -12,7 +12,7 @@
 
                 <x-title>{{ $data->subject }}
                     <span style="float: right;">
-                        {!! $data->status == 'sent' ? "<span class='badge badge-success'>Enviado</span>" : $data->status !!}
+                        {!! $data->status == 'sent' ? "<span class='badge text-bg-success'>Enviado</span>" : $data->status !!}
                     </span>
                 </x-title>
                 <x-note>

@@ -15,7 +15,9 @@
             'params' => isset($id) ? ['id' => $id] : null,
         ],
         [
-            'title' => 'Telefones' . ($phones_count > 0 ? " <span class='badge badge-hero badge-info'>$phones_count</span>" : ''),
+            'title' =>
+                'Telefones' .
+                ($phones_count > 0 ? " <span class='badge text-bg-hero text-bg-info'>$phones_count</span>" : ''),
             'name' => 'users-phones',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
@@ -27,13 +29,20 @@
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
-            'title' => 'Equipe' . ($parents_count > 0 ? " <span class='badge badge-hero badge-danger'>$parents_count</span>" : '') . ($childs_count > 0 ? " <span class='badge badge-hero badge-warning'>$childs_count</span>" : ''),
+            'title' =>
+                'Equipe' .
+                ($parents_count > 0 ? " <span class='badge text-bg-hero text-bg-danger'>$parents_count</span>" : '') .
+                ($childs_count > 0 ? " <span class='badge text-bg-hero text-bg-warning'>$childs_count</span>" : ''),
             'name' => 'users-teams',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
-            'title' => 'Dependentes' . ($dependents_count > 0 ? " <span class='badge badge-hero badge-info'>$dependents_count</span>" : ''),
+            'title' =>
+                'Dependentes' .
+                ($dependents_count > 0
+                    ? " <span class='badge text-bg-hero text-bg-info'>$dependents_count</span>"
+                    : ''),
             'name' => 'users-dependents',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
@@ -69,7 +78,11 @@
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
-            'title' => 'Certificações' . ($certifications_count > 0 ? " <span class='badge badge-hero badge-success'>$certifications_count</span>" : ''),
+            'title' =>
+                'Certificações' .
+                ($certifications_count > 0
+                    ? " <span class='badge text-bg-hero text-bg-success'>$certifications_count</span>"
+                    : ''),
             'name' => 'users-certifications',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,
@@ -87,7 +100,11 @@
             'params' => isset($id) ? ['pid' => $id] : null,
         ],
         [
-            'title' => 'Usuário' . " <span class='badge badge-hero' style='padding: 0;background: initial;'><i class='fa fa-circle text-" . ($active ? 'info' : 'muted') . " fs12 pr5'></i></span>",
+            'title' =>
+                'Usuário' .
+                " <span class='badge text-bg-hero' style='padding: 0;background: initial;'><i class='fa fa-circle text-" .
+                ($active ? 'info' : 'muted') .
+                " fs12 pr5'></i></span>",
             'name' => 'users-access',
             'resource' => isset($id) ? '.index' : null,
             'params' => isset($id) ? ['pid' => $id] : null,

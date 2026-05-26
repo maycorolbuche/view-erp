@@ -46,7 +46,8 @@
                                     <tbody>
                                         @foreach ($group->routes as $route)
                                             @php
-                                                $route_permissions = $route->toArray()['permissions'][0]['permissions'] ?? [];
+                                                $route_permissions =
+                                                    $route->toArray()['permissions'][0]['permissions'] ?? [];
                                             @endphp
                                             <tr>
                                                 <td class="text-left" style="width:100%">
@@ -64,7 +65,7 @@
                                                     @if (isset($permissions_profiles[$route->id_route]))
                                                         <div style='padding-left: 35px;'>
                                                             @foreach ($permissions_profiles[$route->id_route] as $perm)
-                                                                <span class='badge badge-warning small'
+                                                                <span class='badge text-bg-warning small'
                                                                     style='font-size:9px;'>
                                                                     {{ $perm['profile']['name'] }}
                                                                 </span>

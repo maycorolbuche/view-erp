@@ -26,8 +26,8 @@
 
                 @include('layouts.partials.messages')
 
-                <span class='badge badge-success'>{{ $data->authorization_type->name }}</span>
-                <span class='badge badge-{{ $type }}'>{{ $status }}</span>
+                <span class='badge text-bg-success'>{{ $data->authorization_type->name }}</span>
+                <span class='badge text-bg-{{ $type }}'>{{ $status }}</span>
                 <h1 class="mtn" style="margin:0;margin-top:10px;">
                     <small>
                         {{ $data->user->name ?? '' }}

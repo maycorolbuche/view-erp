@@ -98,8 +98,8 @@
                                         <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
                                         <td class='text-center'>
                                             {!! $expense->payment_method->refundable
-                                                ? "<span class='badge badge-info'>Reembolsável</span>"
-                                                : "<span class='badge badge-danger'>Não Reembolsável</span>" !!}
+                                                ? "<span class='badge text-bg-info'>Reembolsável</span>"
+                                                : "<span class='badge text-bg-danger'>Não Reembolsável</span>" !!}
                                         </td>
                                         <td class="text-right">
                                             @foreach ($expense->users as $user)

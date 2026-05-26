@@ -9,7 +9,7 @@
 
             @php
                 $edit = false;
-                if ($data->status["type"]=="pending" || $data->status["type"]=="rejected") {
+                if ($data->status['type'] == 'pending' || $data->status['type'] == 'rejected') {
                     $edit = true;
                 }
             @endphp
@@ -18,11 +18,12 @@
 
                 @include('layouts.partials.messages')
 
-                @if ($data->notes <> "")
-                    <div class="alert alert-{{ $data->status["type"] == "rejected" ? "danger" : "info" }} alert-dismissable" role="alert">
+                @if ($data->notes != '')
+                    <div class="alert alert-{{ $data->status['type'] == 'rejected' ? 'danger' : 'info' }} alert-dismissable"
+                        role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-{{ $data->status["type"] == "rejected"  ? 'remove' : 'check' }} pr10"></i>
-                            {{$data->notes}}
+                        <i class="fa fa-{{ $data->status['type'] == 'rejected' ? 'remove' : 'check' }} pr10"></i>
+                        {{ $data->notes }}
                     </div>
                 @endif
 
@@ -110,8 +111,8 @@
                                     <td class='text-right'>{{ number_format($expense->amount, 2, ',', '.') }}</td>
                                     <td class='text-center'>
                                         {!! $expense->payment_method->refundable
-                                            ? "<span class='badge badge-info'>Reembolsável</span>"
-                                            : "<span class='badge badge-danger'>Não Reembolsável</span>" !!}
+                                            ? "<span class='badge text-bg-info'>Reembolsável</span>"
+                                            : "<span class='badge text-bg-danger'>Não Reembolsável</span>" !!}
                                     </td>
                                     <td class="text-right">
                                         @foreach ($expense->users as $user)

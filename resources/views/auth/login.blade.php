@@ -167,8 +167,8 @@
 
                 @if (env('APP_ENV') != 'production' || env('APP_DEBUG') == '1')
                     <div class="p-2 d-flex align-items-center justify-content-center gap-10">
-                        <span class='badge badge-danger'>{{ env('APP_ENV') }}</span>
-                        <span class='badge badge-warning'>{{ env('APP_DEBUG') ? 'debug' : '' }}</span>
+                        <span class='badge text-bg-danger'>{{ env('APP_ENV') }}</span>
+                        <span class='badge text-bg-warning'>{{ env('APP_DEBUG') ? 'debug' : '' }}</span>
                     </div>
                 @endif
 

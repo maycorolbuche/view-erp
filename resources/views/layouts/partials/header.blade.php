@@ -10,12 +10,12 @@
 
     <div class="top-actions">
         @if (env('APP_ENV') != 'production')
-            <span class="badge bg-warning">
+            <span class="badge text-bg-warning">
                 {{ env('APP_ENV') }}
             </span>
         @endif
         @if (env('APP_DEBUG') == '1')
-            <span class="badge bg-danger">
+            <span class="badge text-bg-danger">
                 debug
             </span>
         @endif
@@ -50,7 +50,7 @@
                             Autorizações
                         </span>
                         @if (request('__count_authorization') > 0)
-                            <span class="badge bg-warning text-dark">
+                            <span class="badge text-bg-warning text-dark">
                                 {{ request('__count_authorization') }}
                             </span>
                         @endif

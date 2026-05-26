@@ -41,7 +41,7 @@
                                                     <label for="system_{{ $system->id_system }}">
                                                         <i class="{{ $system->icon }}"></i>
                                                         &nbsp;{{ $system->name }}
-                                                        &nbsp;<span class='badge badge-info'>/{{ $system->slug }}</span>
+                                                        &nbsp;<span class='badge text-bg-info'>/{{ $system->slug }}</span>
                                                     </label>
                                                 </div>
                                             </td>

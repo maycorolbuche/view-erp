@@ -153,8 +153,8 @@ class DataTableHelper
             })
             ->editColumn('payment_method.refundable', function ($row) {
                 return $row->payment_method->refundable
-                    ? "<span class='badge badge-info'>Reembolsável</span>"
-                    : "<span class='badge badge-danger'>Não Reembolsável</span>";
+                    ? "<span class='badge text-bg-info'>Reembolsável</span>"
+                    : "<span class='badge text-bg-danger'>Não Reembolsável</span>";
             })
             ->addColumn('clients', function ($row) {
                 $html = '';
@@ -167,7 +167,7 @@ class DataTableHelper
                 return $html;
             })
             ->addColumn('batch_status', function ($row) {
-                return $row->batch ? "<span class='badge badge-" . $row->batch->status["color"] . "'>" . $row->batch->status["label"] . "</span>" : "";
+                return $row->batch ? "<span class='badge text-bg-" . $row->batch->status["color"] . "'>" . $row->batch->status["label"] . "</span>" : "";
             })
             ->rawColumns(['actions', 'actions_search', 'file_preview', 'payment_method.refundable', 'clients', 'batch_status'])
             ->make(true);
@@ -221,10 +221,10 @@ class DataTableHelper
                 return number_format($row->amount, 2, ',', '.');
             })
             ->editColumn('active', function ($row) {
-                return $row->active ? "<span class='badge badge-success'>Ativo</span>" : "<span class='badge badge-danger'>Fechado</span>";
+                return $row->active ? "<span class='badge text-bg-success'>Ativo</span>" : "<span class='badge text-bg-danger'>Fechado</span>";
             })
             ->addColumn('status', function ($row) {
-                return "<span class='badge badge-" . $row->status["color"] . "'>" . $row->status["label"] . "</span>"
+                return "<span class='badge text-bg-" . $row->status["color"] . "'>" . $row->status["label"] . "</span>"
                     . (
                         $row->status["type"] == "reviewed" && $row->estimated_payment_date
                         ? "<br><small>Previsão pgto.: " . Carbon::parse($row->estimated_payment_date)->format('d/m/Y') . "</small>"
@@ -305,18 +305,18 @@ class DataTableHelper
                             : ($row->approved === null && $row->active === 1 ? 'warning' : 'muted')
                         )
                     );
-                    $users .= "<span class='badge badge-$class'>" . $user->short_name . "</span> ";
+                    $users .= "<span class='badge text-bg-$class'>" . $user->short_name . "</span> ";
                 }
                 return $users;
             })
             ->editColumn('approved', function ($row) {
                 return ($row->approved === 1
-                    ? "<span class='badge badge-success'>Aprovado</span>"
+                    ? "<span class='badge text-bg-success'>Aprovado</span>"
                     : ($row->approved === 0
-                        ? "<span class='badge badge-danger'>Negado</span>"
+                        ? "<span class='badge text-bg-danger'>Negado</span>"
                         : ($row->active === 1
-                            ? "<span class='badge badge-warning'>Aguardando</span>"
-                            : "<span class='badge badge-muted'>Expirado</span>"
+                            ? "<span class='badge text-bg-warning'>Aguardando</span>"
+                            : "<span class='badge text-bg-muted'>Expirado</span>"
                         )
                     )
                 );
@@ -422,13 +422,13 @@ class DataTableHelper
                     'easter' => ['Dinâmico', 'warning']
                 ];
 
-                return "<span class='badge badge-" . $items[$type][1] . "'>" . $items[$type][0] . "</span>"
-                    . ($type == "easter" ? " <span class='badge badge-info'>🐇 " . ($row->easter > 0 ? "+" : "") . $row->easter . "</span>" : "");
+                return "<span class='badge text-bg-" . $items[$type][1] . "'>" . $items[$type][0] . "</span>"
+                    . ($type == "easter" ? " <span class='badge text-bg-info'>🐇 " . ($row->easter > 0 ? "+" : "") . $row->easter . "</span>" : "");
             })
             ->addColumn('branches', function ($row) {
                 $branches = '';
                 foreach ($row->branches as $branch) {
-                    $branches .= "<span class='badge badge-info'>" . $branch->short_name . "</span> ";
+                    $branches .= "<span class='badge text-bg-info'>" . $branch->short_name . "</span> ";
                 }
                 return $branches;
             })
@@ -565,8 +565,8 @@ class DataTableHelper
             })
             ->editColumn('approval', function ($row) {
                 $items = [
-                    'one' => '<span class="badge badge-info"><i class="bi bi-person-fill"></i> Um Responsável</span>',
-                    'all' => '<span class="badge badge-success"><i class="bi bi-people-fill"></i> Todos os Responsáveis</span>',
+                    'one' => '<span class="badge text-bg-info"><i class="bi bi-person-fill"></i> Um Responsável</span>',
+                    'all' => '<span class="badge text-bg-success"><i class="bi bi-people-fill"></i> Todos os Responsáveis</span>',
                 ];
                 return $items[$row->approval];
             })
@@ -607,7 +607,7 @@ class DataTableHelper
             ->addColumn('categories', function ($row) {
                 $html = "";
                 foreach ($row->categories as $category) {
-                    $html .= "<span class='badge badge-info'>" . $category->short_name . "</span> ";
+                    $html .= "<span class='badge text-bg-info'>" . $category->short_name . "</span> ";
                 }
                 return $html;
             })
@@ -730,9 +730,9 @@ class DataTableHelper
             })
             ->addColumn('relationship', function ($row) {
                 if ($row->id_user_parent == request('pid')) {
-                    return '<span class="badge badge-warning"><i class="bi bi-people-fill"></i> Subordinado</span>';
+                    return '<span class="badge text-bg-warning"><i class="bi bi-people-fill"></i> Subordinado</span>';
                 } else {
-                    return '<span class="badge badge-danger"><i class="bi bi-person-fill"></i> Superior</span>';
+                    return '<span class="badge text-bg-danger"><i class="bi bi-person-fill"></i> Superior</span>';
                 }
             })
             ->addColumn('authorizations', function ($row) {
@@ -740,7 +740,7 @@ class DataTableHelper
                 foreach ($row->users_authorizations_types as $authorization) {
                     $authorizationtype = AuthorizationType::where('id_authorization_type', $authorization->id_authorization_type)->first();
                     if ($authorizationtype) {
-                        $return .= " <span class='badge badge-info'>" . $authorizationtype->name . "</span> ";
+                        $return .= " <span class='badge text-bg-info'>" . $authorizationtype->name . "</span> ";
                     }
                 }
                 return $return;
@@ -1101,7 +1101,7 @@ class DataTableHelper
             ->editColumn('status', function ($row) {
                 return (
                     $row->status == "sent"
-                    ? "<span class='badge badge-success'>Enviado</span>"
+                    ? "<span class='badge text-bg-success'>Enviado</span>"
                     : $row->status
                 );
             })

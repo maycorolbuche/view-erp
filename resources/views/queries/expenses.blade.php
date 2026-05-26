@@ -11,8 +11,8 @@
                 @include('layouts.partials.messages')
 
                 {!! $data->payment_method->refundable
-                    ? "<span class='badge badge-info'>Reembolsável</span>"
-                    : "<span class='badge badge-danger'>Não Reembolsável</span>" !!}
+                    ? "<span class='badge text-bg-info'>Reembolsável</span>"
+                    : "<span class='badge text-bg-danger'>Não Reembolsável</span>" !!}
                 <h1 class="mtn" style="margin:0;margin-top:10px;">
                     <small>
                         {{ $data->user->name ?? '' }}

@@ -2,12 +2,12 @@
     <x-title>
         {{ $user->name ?? '' }}
         @if ($user->id_branch)
-            <span class="badge badge-success" style="padding-left:10px;">
+            <span class="badge text-bg-success" style="padding-left:10px;">
                 {{ $user->branch->name ?? '' }}
             </span>
         @endif
         @if ($user->id_employment_type)
-            <span class="badge badge-primary" style="padding-left:10px;">
+            <span class="badge text-bg-primary" style="padding-left:10px;">
                 {{ $user->employment_type->description ?? '' }}
             </span>
         @endif

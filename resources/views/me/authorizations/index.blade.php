@@ -28,8 +28,8 @@
 
                 <x-form action-name="me-authorizations" action-id="{{ isset($data) ? $data->id_authorization : null }}">
 
-                    <span class='badge badge-success'>{{ $data->authorization_type->name }}</span>
-                    <span class='badge badge-{{ $type }}'>{{ $status }}</span>
+                    <span class='badge text-bg-success'>{{ $data->authorization_type->name }}</span>
+                    <span class='badge text-bg-{{ $type }}'>{{ $status }}</span>
                     <h1 class="mtn" style="margin:0;margin-top:10px;">
                         <small>
                             {{ $data->user->name ?? '' }}
@@ -163,7 +163,7 @@
                 <x-panel title="Autorizações Pendentes" type="warning">
                     @foreach ($pending as $authorization)
                         <x-note type="warning">
-                            <span class='badge badge-success'>{{ $authorization->authorization_type->name }}</span>
+                            <span class='badge text-bg-success'>{{ $authorization->authorization_type->name }}</span>
                             <b>{{ $authorization->user->name }}</b>
                             @if ($authorization->authorization_type->type == 'expense')
                                 <br>{{ $authorization->start_date_br }} a {{ $authorization->end_date_br }}
@@ -177,7 +177,7 @@
                             @if ($authorization->authorization_type->type == 'expense')
                                 <br><b>Clientes:</b>
                                 @foreach ($authorization->clients as $client)
-                                    <span class='badge badge-info'>{{ $client->name }}</span>
+                                    <span class='badge text-bg-info'>{{ $client->name }}</span>
                                 @endforeach
                             @endif
                             <x-group right>
