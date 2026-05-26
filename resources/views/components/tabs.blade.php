@@ -1,3 +1,3 @@
-<ul class="nav nav-list nav-list-topbar">
+<ul class="tabs">
     {{ $slot }}
 </ul>
