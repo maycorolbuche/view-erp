@@ -1,0 +1,51 @@
+.dt-container {
+    .form-control {
+        transition: all 0.2s ease;
+        border: var(--input-border-width) solid var(--input-border-color);
+        border-radius: var(--input-border-radius);
+        background: var(--input-bg);
+
+        &:focus {
+            border-color: var(--input-focus-border-color);
+        }
+    }
+
+    .dt-paging {
+        .pagination {
+            gap: 6px;
+
+            li {
+                button {
+                    border-radius: 3px;
+                    font-size: 12px;
+                    border-color: var(--border-color);
+                    color: var(--text-dark);
+
+                    &:hover {
+                        border-color: var(--border-color-light);
+                        color: var(--text);
+                    }
+
+                    &:focus {
+                        box-shadow: none;
+                        outline: none;
+                    }
+                }
+
+                &.active {
+                    button {
+                        color: var(--primary);
+                        border-color: var(--primary);
+                        background-color: var(--menu-bg-hover);
+                    }
+                }
+
+                &.disabled {
+                    button {
+                        opacity: 0.4;
+                    }
+                }
+            }
+        }
+    }
+}

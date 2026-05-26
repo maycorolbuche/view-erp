@@ -5,7 +5,7 @@
 @section('content')
     <x-content title="Pessoas">
 
-        <x-card title="Formulário">
+        <x-panel title="Formulário">
 
             @include('users.components.header', ['user' => isset($data) ? $data : null])
 
@@ -53,10 +53,10 @@
                 </x-group>
 
             </x-form>
-        </x-card>
+        </x-panel>
 
-        <x-card title="Dados">
+        <x-panel title="Dados">
             @include('users.components.datatable', ['route' => 'users.show'])
-        </x-card>
+        </x-panel>
     </x-content>
 @endsection

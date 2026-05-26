@@ -1,3 +1,7 @@
+<x-card title="{{ $title }}">
+    {{ $slot }}
+</x-card>
+<?php /*
 <div class="panel {{ $type ? 'panel-' . $type : '' }}" style="{{ $height ? 'height:' . $height : '' }}">
     @if ($title)
         <div class="panel-heading">
@@ -11,3 +15,5 @@
         {{ $slot }}
     </div>
 </div>
+*/
+?>
