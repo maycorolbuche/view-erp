@@ -15,25 +15,29 @@ FORM LABEL
 /* ==========================================================================
 INPUT GROUP
 ========================================================================== */
-
-.input-group:not([data-group-type="radio"]):not([data-group-type="checkbox"]) {
+.input-group {
     transition: all 0.2s ease;
     border: var(--input-border-width) solid var(--input-border-color);
     border-radius: var(--input-border-radius);
     background: var(--input-bg);
     padding: 1px;
 
-    &.is-invalid {
-        border: var(--input-border-width) solid var(--danger);
+    &[data-group-type="radio"],
+    &[data-group-type="checkbox"] {
+        border: var(--input-border-width) solid var(--input-border-color);
+        border-radius: var(--input-border-radius);
+        padding: 10px 10px 2px 10px;
+        background: transparent;
     }
-}
-.input-group {
-    border: var(--input-border-width) solid var(--input-border-color);
-    border-radius: var(--input-border-radius);
-    padding: 10px 10px 2px 10px;
+
+    &[data-group-type="bool"],
+    &[data-group-type="boolean"] {
+        border: 0;
+        background: transparent;
+    }
 
     &.is-invalid {
-        border: var(--input-border-width) solid var(--danger);
+        border: var(--input-border-width) solid var(--danger) !important;
     }
 }
 

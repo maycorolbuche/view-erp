@@ -142,25 +142,14 @@
             <!-- -->
         @elseif ($type == 'bool' || $type == 'boolean')
             <!-- -->
-            <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}">
-
-            <div class="switch switch-info round switch-inline" style="margin-top: 8px;">
-                <input id="{{ $id }}_switch" name="{{ $name }}_switch" type="checkbox"
-                    value="1" {{ $value == true ? 'checked' : '' }}>
-                <label for="{{ $id }}_switch"></label>
+            <input type="hidden" name="{{ $name }}" value="0">
+            <div class="px-1 py-2">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="{{ $id }}"
+                        name="{{ $name }}" value="1" {{ $value ? 'checked' : '' }}>
+                    <label class="form-check-label" for="{{ $id }}"></label>
+                </div>
             </div>
-
-            @push('scripts')
-                <script>
-                    $(document).ready(function() {
-                        $("#{{ $id }}_switch").change(function() {
-                            $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
-                        });
-                        $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
-                    });
-                </script>
-            @endpush
-
             <!-- -->
         @elseif ($type == 'textarea')
             <!-- -->

@@ -92,7 +92,7 @@ class Input extends BaseComponent
             }
         } elseif ($type == 'phone') {
             $type = 'text';
-            $class .= ' phone ';
+            $mask .= 'phone';
         } elseif ($type == 'money') {
             $type = 'text';
             $mask = 'money';
