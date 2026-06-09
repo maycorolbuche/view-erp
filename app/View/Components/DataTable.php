@@ -5,9 +5,6 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 
-
-use Illuminate\Support\Str;
-
 class DataTable extends BaseComponent
 {
     public string $id, $dataOrigin, $order;
@@ -35,7 +32,7 @@ class DataTable extends BaseComponent
             }
         }
 
-        $this->id = $id ?: Str::random(8);
+        $this->id = $id ?: uniqid("table__");
 
         $_columns = json_decode(html_entity_decode($columns));
         if ($order <> "") {

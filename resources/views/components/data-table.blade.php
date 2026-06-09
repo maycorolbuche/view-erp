@@ -15,8 +15,8 @@
         {{ $slot }}
     </div>
     <div data-table-id="{{ $id }}" class="table-responsive">
-        <table id="{{ $id }}" class="table table-striped table-condensed table-hover display" width="100%"
-            data-datatable data-config='@json($datatableConfig)'>
+        <table id="{{ $id }}" class="table table-hover display" width="100%" data-datatable
+            data-config='@json($datatableConfig)'>
             <thead></thead>
             <tbody></tbody>
         </table>

@@ -61,6 +61,11 @@ $dropdown-link-active-bg: $menu-bg;
 $dropdown-link-active-color: #fff;
 $dropdown-link-disabled-color: $text-muted;
 
+/*TABLE*/
+$table-bg: $card-bg;
+$table-border-color: $card-border-color;
+$table-hover-bg: $menu-hover-bg;
+
 /*THEME*/
 $theme-colors: (
     "primary": $primary,
@@ -92,6 +97,9 @@ $body-bg: $bg;
     --card-bg-dark: #{$card-bg-dark};
     --card-border-color: #{$card-border-color};
     --card-border-radius: #{$card-border-radius};
+
+    --table-bg: #{$table-bg};
+    --table-hover-bg: #{$table-hover-bg};
 
     --icon-bg: #{$icon-bg};
 

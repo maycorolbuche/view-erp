@@ -30,10 +30,7 @@
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle d-flex align-items-center" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="avatar">
-                    {{ auth()->user()->initials }}
-                    A
-                </div>
+                <x-avatar initials="{{ auth()->user()->initials }}" />
             </button>
             <ul class="dropdown-menu">
                 <li>

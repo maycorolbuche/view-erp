@@ -10,6 +10,24 @@
         }
     }
 
+    .dt-layout-table {
+        margin-bottom: 20px;
+
+        .table {
+            tr {
+                td {
+                    vertical-align: middle;
+                }
+
+                &:hover {
+                    td {
+                        background: var(--table-hover-bg);
+                    }
+                }
+            }
+        }
+    }
+
     .dt-paging {
         .pagination {
             gap: 6px;
