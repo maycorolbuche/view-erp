@@ -62,26 +62,39 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $("[name=type]").change(function() {
-                change_type();
+        document.addEventListener('DOMContentLoaded', () => {
+            const typeInputs = document.querySelectorAll('[name="type"]');
+
+            typeInputs.forEach(input => {
+                input.addEventListener('change', changeType);
             });
-            change_type();
+
+            changeType();
         });
 
-        function change_type() {
-            let val = $("[name=type]:checked").val();
+        function changeType() {
+            const checked = document.querySelector('[name="type"]:checked');
+            const val = checked?.value;
 
-            $("#group-easter").hide();
-            $("#group-date").show();
-            $("#date").removeAttr("min").removeAttr("max");
-            if (val == "repeat") {
-                $("#date").attr("min", "{{ date('Y') }}-01-01").attr("max", "{{ date('Y') }}-12-31");
-            } else if (val == "easter") {
-                $("#group-date").hide();
-                $("#group-easter").show();
+            const groupEaster = document.getElementById('group-easter');
+            const groupDate = document.getElementById('group-date');
+            const date = document.getElementById('date');
+
+            groupEaster.style.display = 'none';
+            groupDate.style.display = '';
+
+            date.removeAttribute('min');
+            date.removeAttribute('max');
+
+            if (val === 'repeat') {
+                date.setAttribute('min', '{{ date('Y') }}-01-01');
+                date.setAttribute('max', '{{ date('Y') }}-12-31');
+            } else if (val === 'easter') {
+                groupDate.style.display = 'none';
+                groupEaster.style.display = '';
             }
-            console.log("XXX", val);
+
+            console.log('XXX', val);
         }
     </script>
 @endpush

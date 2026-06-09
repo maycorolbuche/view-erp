@@ -7,7 +7,7 @@
         {{ $label }}{{ $label && substr($label, -1) != ':' && substr($label, -1) != '?' ? ':' : '' }}
         {!! $required ? '<span class="text-danger">*</span>' : '' !!}
     </label>
-    <div class="input-group {{ $errors->has($field) ? 'is-invalid' : '' }}"
+    <div class="input-group {{ $errors->has($field) ? 'is-invalid' : '' }}" data-group-type="{{ $pre_type }}"
         style="{{ $type == 'boolean' || $type == 'bool' || $type == 'boolean-checkbox' || $type == 'bool-chk' ? 'display: flex;align-items: center;gap: 10px;' : '' }}">
         @if ($type == 'icon')
             <!-- -->
@@ -71,20 +71,22 @@
             <!-- -->
         @elseif ($type == 'radio')
             <!-- -->
-            <div style="position: relative;display: flex;height: 100%;align-items: center;padding-top: 10px;">
+            <div style="position: relative;display: flex;gap:10px;height: 100%;align-items: center;">
                 @foreach (json_decode(html_entity_decode($list), true) as $key => $item)
-                    <div class="radio-custom">
-                        <input type="radio" id="{{ $id }}_{{ $item[$listValue] }}"
-                            name="{{ $name }}" value="{{ $item[$listValue] }}"
-                            {{ $value == $item[$listValue] ? 'checked' : '' }}>
-                        <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                            id="{{ $id }}_{{ $item[$listValue] }}" name="{{ $name }}"
+                            value="{{ $item[$listValue] }}" {{ $value == $item[$listValue] ? 'checked' : '' }}>
+                        <label class="form-check-label" for="{{ $id }}_{{ $item[$listValue] }}">
+                            {{ $item[$listText] }}
+                        </label>
                     </div>
                 @endforeach
             </div>
             <!-- -->
         @elseif ($type == 'checkbox')
             <!-- -->
-            <div style="position: relative;display: flex;height: 100%;align-items: center;padding-top: 10px;">
+            <div style="position: relative;display: flex;gap:10px;height: 100%;align-items: center;">
                 @php
                     $v = [];
                     $jsonData = is_array($value) ? $value : json_decode(html_entity_decode($value), true);
@@ -104,11 +106,14 @@
                     }
                 @endphp
                 @foreach (json_decode(html_entity_decode($list), true) as $key => $item)
-                    <div class="checkbox-custom">
-                        <input type="checkbox" id="{{ $id }}_{{ $item[$listValue] }}"
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                            id="{{ $id }}_{{ $item[$listValue] }}"
                             name="{{ $name }}[{{ $item[$listValue] }}]" value="{{ $item[$listValue] }}"
                             {{ in_array($item[$listValue], $value) ? 'checked' : '' }}>
-                        <label for="{{ $id }}_{{ $item[$listValue] }}">{{ $item[$listText] }}</label>
+                        <label class="form-check-label" for="{{ $id }}_{{ $item[$listValue] }}">
+                            {{ $item[$listText] }}
+                        </label>
                     </div>
                 @endforeach
             </div>
@@ -220,10 +225,10 @@
     </div>
 
     @if ($accept != '')
-        <span class="help-block">Formatos permitidos: {{ str_replace(',', ', ', $accept) }}</span>
+        <span class="form-text">Formatos permitidos: {{ str_replace(',', ', ', $accept) }}</span>
     @endif
     @if ($tip != '')
-        <span class="help-block">{{ $tip }}</span>
+        <span class="form-text">{{ $tip }}</span>
     @endif
 
     @if ($errors->has($field))
