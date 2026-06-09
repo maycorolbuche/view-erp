@@ -6,7 +6,7 @@
     <x-content>
 
         @if (isset($data))
-            <x-panel title="Detalhes do Lote" type="info">
+            <x-panel title="Detalhes do Lote">
 
                 <x-title>
                     Lote {{ $data->id_batch ?? '' }} | {{ $data->user->name }}
@@ -48,7 +48,7 @@
             @include('layouts.partials.messages')
         @endif
 
-        <x-panel title="Lotes pendentes de pagamento" type="warning">
+        <x-panel title="Lotes pendentes de pagamento">
             @include('batch-payments.components.datatable', ['route' => 'batch-payments.show'])
         </x-panel>
     </x-content>

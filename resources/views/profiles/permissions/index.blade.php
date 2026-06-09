@@ -6,7 +6,7 @@
 
     <x-content>
 
-        <x-panel title="Formulário" type="primary">
+        <x-panel title="Formulário">
 
             @include('profiles.components.header', compact('profile'))
 
@@ -46,7 +46,8 @@
                                     <tbody>
                                         @foreach ($group->routes as $route)
                                             @php
-                                                $route_permissions = $route->toArray()['permissions'][0]['permissions'] ?? [];
+                                                $route_permissions =
+                                                    $route->toArray()['permissions'][0]['permissions'] ?? [];
                                             @endphp
                                             <tr>
                                                 <td class="text-left" style="width:100%">
@@ -113,7 +114,7 @@
 
         </x-panel>
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('profiles.components.datatable', [
                 'route' => 'profiles-permissions.index',
                 'field' => 'pid',

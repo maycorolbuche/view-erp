@@ -6,7 +6,7 @@
     <x-content>
 
         @if (isset($data))
-            <x-panel title="Formulário" type="primary">
+            <x-panel title="Formulário">
 
                 @include('layouts.partials.messages')
 
@@ -123,7 +123,7 @@
             </x-panel>
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
 
             <x-data-table id="expenses_query" data-origin="queries-expenses.datatable"
                 query-string="route=queries-expenses.show" order="date" order-dir="desc"
@@ -196,8 +196,8 @@
                         list="{{ json_encode($payment_methods) }}" list-value="id_payment_method" list-text="name" />
                     <x-input type="select" name="id_client" width="250" label="Cliente"
                         list="{{ json_encode($clients) }}" list-value="id_client" list-text="name" />
-                    <x-input type="select" name="id_user" width="250" label="Usuário"
-                        list="{{ json_encode($users) }}" list-value="id_user" list-text="name" />
+                    <x-input type="select" name="id_user" width="250" label="Usuário" list="{{ json_encode($users) }}"
+                        list-value="id_user" list-text="name" />
                 </x-group>
 
                 <x-tabs>

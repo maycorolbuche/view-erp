@@ -6,7 +6,7 @@
     <x-content>
 
         @if (isset($data))
-            <x-panel title="Dados do E-mail" type="primary">
+            <x-panel title="Dados do E-mail">
 
                 @include('layouts.partials.messages')
 
@@ -34,7 +34,7 @@
             @include('layouts.partials.messages')
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('notification-logs.components.datatable', ['route' => 'notification-logs.show'])
         </x-panel>
     </x-content>

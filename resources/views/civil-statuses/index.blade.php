@@ -5,7 +5,7 @@
 @section('content')
     <x-content>
 
-        <x-panel title="Formulário" type="primary">
+        <x-panel title="Formulário">
 
             @include('civil-statuses.components.header', ['civil_status' => isset($data) ? $data : null])
 
@@ -32,7 +32,7 @@
             </x-form>
         </x-panel>
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('civil-statuses.components.datatable', ['route' => 'civil-statuses.show'])
         </x-panel>
     </x-content>

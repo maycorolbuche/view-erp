@@ -22,7 +22,7 @@
                 }
             @endphp
 
-            <x-panel title="Detalhes da Autorização | {{ $status }}" type="{{ $type }}">
+            <x-panel title="Detalhes da Autorização | {{ $status }}">
 
                 @include('layouts.partials.messages')
 
@@ -160,7 +160,7 @@
 
         @if (isset($pending))
             @if (count($pending) > 0)
-                <x-panel title="Autorizações Pendentes" type="warning">
+                <x-panel title="Autorizações Pendentes">
                     @foreach ($pending as $authorization)
                         <x-note type="warning">
                             <span class='badge text-bg-success'>{{ $authorization->authorization_type->name }}</span>
@@ -191,7 +191,7 @@
             @endif
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('me.authorizations.components.datatable', ['route' => 'me-authorizations.show'])
         </x-panel>
     </x-content>

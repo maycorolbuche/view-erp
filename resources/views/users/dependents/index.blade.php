@@ -6,7 +6,7 @@
 
     <x-content>
 
-        <x-panel title="Formulário" type="primary">
+        <x-panel title="Formulário">
 
             @include('users.components.header', compact('user'))
 
@@ -45,7 +45,7 @@
 
             <br>
 
-            <x-panel title="Lista de Dependentes" type="success">
+            <x-panel title="Lista de Dependentes">
                 <x-data-table data-origin="users-dependents.datatable" pid={{ $pid }}
                     query-string="pid={{ $pid }}" order="name"
                     columns="{{ json_encode([
@@ -78,7 +78,7 @@
 
         </x-panel>
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('users.components.datatable', [
                 'route' => 'users-dependents.index',
                 'field' => 'pid',

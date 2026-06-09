@@ -5,7 +5,7 @@
 @section('content')
     <x-content>
 
-        <x-panel title="Formulário" type="primary">
+        <x-panel title="Formulário">
 
             @include('clients.components.header', ['client' => isset($data) ? $data : null])
 
@@ -48,7 +48,7 @@
             </x-form>
         </x-panel>
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('clients.components.datatable', ['route' => 'clients.show'])
         </x-panel>
     </x-content>

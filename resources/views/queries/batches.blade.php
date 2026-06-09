@@ -34,7 +34,7 @@
                         label="(=) Valor do Reembolso" />
                 </x-group>
                 @if (!$data->active)
-                    <x-panel title="Dados do Pagamento" type="warning">
+                    <x-panel title="Dados do Pagamento">
                         <x-group>
                             <x-card type="danger" value="R$ {{ number_format($data->user_cash, 2, ',', '.') }}"
                                 label="(-) Adiantamento Utilizado" />
@@ -173,7 +173,7 @@
             </x-panel>
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             <x-data-table data-origin="queries-batches.datatable" query-string="route=queries-batches.show"
                 id-field="{{ $field ?? '' }}" order="id_batch" order-dir="desc"
                 columns="{{ json_encode([

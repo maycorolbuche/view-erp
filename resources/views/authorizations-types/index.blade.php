@@ -6,7 +6,7 @@
     <x-content>
 
         @if (isset($data))
-            <x-panel title="Formulário" type="primary">
+            <x-panel title="Formulário">
 
                 @include('authorizations-types.components.header', [
                     'authorization_type' => isset($data) ? $data : null,
@@ -33,7 +33,7 @@
             </x-panel>
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('authorizations-types.components.datatable', ['route' => 'authorizations-types.show'])
         </x-panel>
     </x-content>

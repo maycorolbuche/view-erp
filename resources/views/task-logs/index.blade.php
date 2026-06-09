@@ -6,7 +6,7 @@
     <x-content>
 
         @if (isset($data))
-            <x-panel title="Lista de Tarefas" type="primary">
+            <x-panel title="Lista de Tarefas">
 
                 @include('layouts.partials.messages')
 
@@ -64,7 +64,7 @@
             @include('layouts.partials.messages')
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('task-logs.components.datatable')
         </x-panel>
     </x-content>

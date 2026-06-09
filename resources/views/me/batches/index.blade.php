@@ -44,7 +44,7 @@
                             label="(=) Valor do Reembolso" />
                     </x-group>
                     @if (!$data->active)
-                        <x-panel title="Dados do Pagamento" type="warning">
+                        <x-panel title="Dados do Pagamento">
                             <x-group>
                                 <x-card type="danger" value="R$ {{ number_format($data->user_cash, 2, ',', '.') }}"
                                     label="(-) Adiantamento Utilizado" />
@@ -202,7 +202,7 @@
             @include('layouts.partials.messages')
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('me.batches.components.datatable', ['route' => 'me-batches.show'])
         </x-panel>
     </x-content>

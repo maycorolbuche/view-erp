@@ -7,7 +7,7 @@
 
         @if (isset($data))
             @if ($data->revised_status == 'pending')
-                <x-panel title="Detalhes do Lote para Revisão" type="info">
+                <x-panel title="Detalhes do Lote para Revisão">
 
                     <x-title>
                         Lote {{ $data->id_batch ?? '' }} | {{ $data->user->name }}
@@ -44,7 +44,7 @@
                     </x-form>
                 </x-panel>
             @else
-                <x-panel title="Revisão das Despesas do Lote" type="info">
+                <x-panel title="Revisão das Despesas do Lote">
 
                     <x-title>
                         Lote {{ $data->id_batch ?? '' }} | {{ $data->user->name }}
@@ -233,7 +233,7 @@
             @include('layouts.partials.messages')
         @endif
 
-        <x-panel title="Lotes para revisão" type="warning">
+        <x-panel title="Lotes para revisão">
             @include('batch-review.components.datatable', ['route' => 'batch-review.show'])
         </x-panel>
     </x-content>

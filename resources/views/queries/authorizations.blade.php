@@ -22,7 +22,7 @@
                 }
             @endphp
 
-            <x-panel title="Detalhes da Autorização | {{ $status }}" type="{{ $type }}">
+            <x-panel title="Detalhes da Autorização | {{ $status }}">
 
                 @include('layouts.partials.messages')
 
@@ -134,7 +134,7 @@
             </x-panel>
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             <x-data-table data-origin="queries-authorizations.datatable" query-string="route=queries-authorizations.show"
                 order="id_authorization" order-dir="desc"
                 columns="{{ json_encode([

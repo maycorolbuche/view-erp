@@ -6,7 +6,7 @@
 
     <x-content>
 
-        <x-panel title="Formulário" type="primary">
+        <x-panel title="Formulário">
 
 
             @include('layouts.partials.messages')
@@ -26,8 +26,7 @@
 
                 <x-title>Despesas</x-title>
                 <x-group>
-                    <x-input type="bool" name="expensesRequiredFile" width="150"
-                        label="Anexo de arquivo obrigatório"
+                    <x-input type="bool" name="expensesRequiredFile" width="150" label="Anexo de arquivo obrigatório"
                         value="{{ $configs['expenses.required.file'] ?? '' }}"
                         tip="Origatório anexar o comprovante da despesa?" />
                 </x-group>

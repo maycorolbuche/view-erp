@@ -7,7 +7,7 @@
 
         @include('layouts.partials.messages')
 
-        <x-panel title="Registro de Transações" type="warning">
+        <x-panel title="Registro de Transações">
 
             <x-data-table data-origin="cash-flow.datatable" order="created_at" order_dir="desc"
                 columns="{{ json_encode([

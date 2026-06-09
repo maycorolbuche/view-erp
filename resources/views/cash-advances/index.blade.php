@@ -6,7 +6,7 @@
     <x-content>
 
         @if (isset($data))
-            <x-panel title="Formulário" type="primary">
+            <x-panel title="Formulário">
 
                 <x-title>
                     {{ $data->name ?? '' }}
@@ -41,7 +41,7 @@
 
                 <br>
 
-                <x-panel title="Histórico" type="success">
+                <x-panel title="Histórico">
                     <x-data-table data-origin="cash-advances.datatable"
                         query-string="type=user-history&id_user={{ $data->id_user }}" order="date" order_dir="desc"
                         columns="{{ json_encode([
@@ -78,7 +78,7 @@
             @include('layouts.partials.messages')
         @endif
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('cash-advances.components.datatable', ['route' => 'cash-advances.show'])
         </x-panel>
     </x-content>

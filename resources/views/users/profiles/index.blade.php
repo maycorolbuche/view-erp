@@ -6,7 +6,7 @@
 
     <x-content>
 
-        <x-panel title="Formulário" type="primary">
+        <x-panel title="Formulário">
 
             @include('users.components.header', compact('user'))
 
@@ -74,7 +74,7 @@
 
         </x-panel>
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('users.components.datatable', [
                 'route' => 'users-profiles.index',
                 'field' => 'pid',

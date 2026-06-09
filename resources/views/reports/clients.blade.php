@@ -4,15 +4,14 @@
 
 @section('content')
     <x-content>
-        <x-panel title="Relatório por Clientes" type="primary">
+        <x-panel title="Relatório por Clientes">
 
             @include('layouts.partials.messages')
 
             <x-group>
                 <x-input type="date" id="start_date" value="{{ $start_date }}" width="150" label="Data Inicial"
                     required />
-                <x-input type="date" id="end_date" value="{{ $end_date }}" width="150" label="Data Final"
-                    required />
+                <x-input type="date" id="end_date" value="{{ $end_date }}" width="150" label="Data Final" required />
             </x-group>
 
             <x-group right>

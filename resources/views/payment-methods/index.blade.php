@@ -5,7 +5,7 @@
 @section('content')
     <x-content>
 
-        <x-panel title="Formulário" type="primary">
+        <x-panel title="Formulário">
 
             @include('payment-methods.components.header', [
                 'payment_method' => isset($data) ? $data : null,
@@ -16,7 +16,8 @@
             <x-form action-name="payment-methods" action-id="{{ isset($data) ? $data->id_payment_method : null }}">
                 <x-group>
                     <x-input name="name" width="400" label="Nome" required value="{{ $data->name ?? '' }}" />
-                    <x-input type="bool" name="refundable" width="100" label="Reembolsável?" value="{{ $data->refundable ?? 0 }}" />
+                    <x-input type="bool" name="refundable" width="100" label="Reembolsável?"
+                        value="{{ $data->refundable ?? 0 }}" />
                 </x-group>
 
                 <x-group right>
@@ -34,7 +35,7 @@
             </x-form>
         </x-panel>
 
-        <x-panel title="Dados" type="warning">
+        <x-panel title="Dados">
             @include('payment-methods.components.datatable', ['route' => 'payment-methods.show'])
         </x-panel>
     </x-content>
