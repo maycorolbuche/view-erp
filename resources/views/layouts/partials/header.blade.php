@@ -20,59 +20,33 @@
             </span>
         @endif
 
-        <span class="ic"><i class="bi bi-bell"></i></span>
-        <span class="ic"><i class="bi bi-chat"></i></span>
-        <span class="ic"><i class="bi bi-bell-fill"></i><span class="dot">5</span></span>
-        <span class="ic"><i class="bi bi-calendar3"></i></span>
-        <span class="ic"><i class="bi bi-star"></i></span>
-        <span class="ic"><i class="bi bi-lightbulb"></i></span>
+        <x-dropdown icon="calendar3" header-title="Eventos">
+            <x-dropdown.item>Evento 1</x-dropdown.item>
+            <x-dropdown.item>Evento 2</x-dropdown.item>
+            <x-dropdown.item>Evento 3</x-dropdown.item>
+        </x-dropdown>
+
+        <x-dropdown icon="bell" header-title="Notificações" count="5">
+            <x-dropdown.item>Notificação 1</x-dropdown.item>
+            <x-dropdown.item>Notificação 2</x-dropdown.item>
+            <x-dropdown.item>Notificação 3</x-dropdown.item>
+        </x-dropdown>
 
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle d-flex align-items-center" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <x-avatar initials="{{ auth()->user()->initials }}" />
-            </button>
-            <ul class="dropdown-menu">
-                <li>
-                    <a class="dropdown-item" href="{{ route('me-password-change') }}">
-                        <i class="bi bi-lock me-2"></i>
-                        Alterar senha
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item d-flex justify-content-between align-items-center"
-                        href="{{ route('me-authorizations') }}">
-                        <span>
-                            <i class="bi bi-check2-circle me-2"></i>
-                            Autorizações
-                        </span>
-                        @if (request('__count_authorization') > 0)
-                            <span class="badge text-bg-warning text-dark">
-                                {{ request('__count_authorization') }}
-                            </span>
-                        @endif
-                    </a>
-                </li>
+            <x-dropdown>
+                <x-slot:trigger>
+                    <x-avatar initials="{{ auth()->user()->initials }}" />
+                </x-slot:trigger>
+                <x-dropdown.item icon="lock" href="{{ route('me-password-change') }}">Alterar senha</x-dropdown.item>
+                <x-dropdown.item icon="check2-circle" count="{{ request('__count_authorization') }}"
+                    href="{{ route('me-authorizations') }}">
+                    Autorizações
+                </x-dropdown.item>
+                <x-dropdown.item icon="database" href="{{ route('me-batches') }}">Lotes</x-dropdown.item>
+                <x-dropdown.item icon="box-arrow-right" type="danger"
+                    href="{{ route('logout') }}">Desconectar</x-dropdown.item>
+            </x-dropdown>
 
-                <li>
-                    <a class="dropdown-item" href="{{ route('me-batches') }}">
-                        <i class="bi bi-database me-2"></i>
-                        Lotes
-                    </a>
-                </li>
-
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-                <li>
-                    <a class="dropdown-item text-danger" href="{{ route('logout') }}">
-
-                        <i class="bi bi-box-arrow-right me-2"></i>
-                        Logout
-                    </a>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
