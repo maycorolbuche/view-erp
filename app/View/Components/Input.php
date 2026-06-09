@@ -77,9 +77,9 @@ class Input extends BaseComponent
         } elseif ($type == 'rg') {
             $type = 'text';
             $class .= ' rg ';
-        } elseif ($type == 'numeric') {
+        } elseif ($type == 'number') {
             $type = 'text';
-            $class .= ' numeric ';
+            $mask = 'number';
         } elseif ($type == 'pis') {
             $type = 'text';
             $class .= ' pis ';
@@ -96,7 +96,6 @@ class Input extends BaseComponent
         } elseif ($type == 'money') {
             $type = 'text';
             $mask = 'money';
-            $class .= ' money text-right ';
         }
 
         $this->id = $id;
