@@ -18,7 +18,7 @@
                     <x-input name="name" width="400" label="Nome" required value="{{ $data->name ?? '' }}" />
                     <x-input type="email" name="email" width="400" label="E-mail" required
                         value="{{ $data->email ?? '' }}" />
-                    <x-input type="cpf_cnpj" name="cpf_or_cnpj" width="200" label="CPF/CNPJ"
+                    <x-input type="cpfcnpj" name="cpf_or_cnpj" width="200" label="CPF/CNPJ"
                         value="{{ $data->cpf_or_cnpj ?? '' }}" />
                     <x-input type="rg" name="id_card" width="200" label="RG"
                         value="{{ $data->id_card ?? '' }}" />

@@ -65,9 +65,15 @@ class Input extends BaseComponent
         if ($type == 'slug') {
             $type = 'text';
             $class .= ' slug ';
-        } elseif ($type == 'cpf_cnpj') {
+        } elseif ($type == 'cpf') {
             $type = 'text';
-            $class .= ' cpf_cnpj ';
+            $mask = 'cpf';
+        } elseif ($type == 'cnpj') {
+            $type = 'text';
+            $mask = 'cnpj';
+        } elseif ($type == 'cpfcnpj') {
+            $type = 'text';
+            $mask = 'cpfcnpj';
         } elseif ($type == 'rg') {
             $type = 'text';
             $class .= ' rg ';
