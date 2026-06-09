@@ -82,7 +82,7 @@ class Input extends BaseComponent
             $mask = 'number';
         } elseif ($type == 'pis') {
             $type = 'text';
-            $class .= ' pis ';
+            $mask = 'pis';
         } elseif ($type == 'zipcode') {
             $type = 'text';
             $mask = "zipcode";

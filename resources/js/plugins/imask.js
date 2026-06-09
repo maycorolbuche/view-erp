@@ -61,6 +61,10 @@ const masks = {
         padFractionalZeros: true,
     },
 
+    pis: {
+        mask: "000.00000.00-0",
+    },
+
     phone: {
         mask: [{ mask: "(00) 0000-0000" }, { mask: "(00) 00000-0000" }],
     },
