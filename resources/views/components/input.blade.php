@@ -201,13 +201,17 @@
             @endif
 
             <input type="{{ $type }}" id="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}"
+                data-type="{{ $pre_type }}"
                 name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}{{ $multiple ? '[ ]' : '' }}"
                 value="{{ $value }}"
                 class="form-control {{ $class }} {{ $errors->has($field) ? 'is-invalid' : '' }}"
                 placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
                 {{ $readonly ? 'readonly' : '' }} {{ $multiple ? 'multiple' : '' }}
                 {{ $accept ? 'accept=' . $accept : '' }} {{ $min ? 'min=' . $min : '' }}
-                {{ $max ? 'max=' . $max : '' }} {{ $onchange ? 'onchange=' . $onchange : '' }}>
+                {{ $max ? 'max=' . $max : '' }} {{ $onchange ? 'onchange=' . $onchange : '' }}
+                {{ $mask ? 'data-mask=' . $mask : '' }} {{ $address ? 'data-address=' . $address : '' }}
+                {{ $district ? 'data-district=' . $district : '' }} {{ $city ? 'data-city=' . $city : '' }}
+                {{ $state ? 'data-state=' . $state : '' }}>
 
             @if ($pre_type == 'money')
                 <input type="hidden" id="{{ $id }}" name="{{ $name }}"

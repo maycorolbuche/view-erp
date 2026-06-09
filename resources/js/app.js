@@ -7,6 +7,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { initDataTables } from "./plugins/datatable";
 import { initTomSelect } from "./plugins/tom-select";
 import { initVanta } from "./plugins/vanta";
+import "./plugins/imask";
+import "./plugins/viacep";
 
 // vanta
 import * as THREE from "three";

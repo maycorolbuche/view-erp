@@ -40,6 +40,11 @@ class Input extends BaseComponent
         string $rows = '',
         public string $accept = '',
         public string $onchange = '',
+        public ?string $mask = null,
+        public ?string $address = null,
+        public ?string $district = null,
+        public ?string $city = null,
+        public ?string $state = null,
     ) {
         if ($name == '') {
             $name = $id;
@@ -72,9 +77,9 @@ class Input extends BaseComponent
         } elseif ($type == 'pis') {
             $type = 'text';
             $class .= ' pis ';
-        } elseif ($type == 'zip_code') {
+        } elseif ($type == 'zipcode') {
             $type = 'text';
-            $class .= ' zip_code ';
+            $mask = "zipcode";
         } elseif ($type == 'date') {
             if ($value <> "") {
                 $value = date("Y-m-d", strtotime($value));
@@ -100,6 +105,12 @@ class Input extends BaseComponent
         $this->readonly = $readonly && $readonly != "false";
         $this->hidden = $hidden && $hidden != "false";
         $this->multiple = $multiple && $multiple != "false";
+        $this->mask = $mask;
+
+        $this->$address = $address;
+        $this->$district = $district;
+        $this->$city = $city;
+        $this->$state = $state;
     }
 
     /**
