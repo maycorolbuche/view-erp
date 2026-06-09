@@ -119,13 +119,13 @@
             </div>
             <!-- -->
         @elseif ($type == 'bool-chk' || $type == 'boolean-checkbox')
-            <!-- -->
-            <input type="hidden" id="{{ $id }}" name="{{ $name }}" value="{{ $value }}">
-
-            <div class="checkbox-custom checkbox-info" style="padding: 0;margin: -18px 0 0 0;">
-                <input id="{{ $id }}_chk" name="{{ $name }}_chk" type="checkbox" value="1"
-                    {{ $value == true ? 'checked' : '' }}>
-                <label for="{{ $id }}_chk"></label>
+            <input type="hidden" name="{{ $name }}" value="0">
+            <div class="px-1 py-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="{{ $id }}"
+                        name="{{ $name }}" value="1" {{ $value ? 'checked' : '' }}>
+                    <label class="form-check-label" for="{{ $id }}"></label>
+                </div>
             </div>
 
             @push('scripts')

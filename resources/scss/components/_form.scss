@@ -31,9 +31,15 @@ INPUT GROUP
     }
 
     &[data-group-type="bool"],
-    &[data-group-type="boolean"] {
+    &[data-group-type="boolean"],
+    &[data-group-type="bool-chk"],
+    &[data-group-type="boolean-checkbox"] {
         border: 0;
         background: transparent;
+    }
+    &[data-group-type="bool-chk"],
+    &[data-group-type="boolean-checkbox"] {
+        flex-wrap: nowrap;
     }
 
     &.is-invalid {
