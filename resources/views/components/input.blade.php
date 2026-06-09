@@ -200,10 +200,8 @@
                 @endpush
             @endif
 
-            <input type="{{ $type }}" id="{{ $id }}{{ $pre_type == 'money' ? '_preview' : '' }}"
-                data-type="{{ $pre_type }}"
-                name="{{ $name }}{{ $pre_type == 'money' ? '_preview' : '' }}{{ $multiple ? '[ ]' : '' }}"
-                value="{{ $value }}"
+            <input type="{{ $type }}" id="{{ $id }}" data-type="{{ $pre_type }}"
+                name="{{ $name }}{{ $multiple ? '[ ]' : '' }}" value="{{ $value }}"
                 class="form-control {{ $class }} {{ $errors->has($field) ? 'is-invalid' : '' }}"
                 placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $disabled ? 'disabled' : '' }}
                 {{ $readonly ? 'readonly' : '' }} {{ $multiple ? 'multiple' : '' }}
@@ -212,40 +210,6 @@
                 {{ $mask ? 'data-mask=' . $mask : '' }} {{ $address ? 'data-address=' . $address : '' }}
                 {{ $district ? 'data-district=' . $district : '' }} {{ $city ? 'data-city=' . $city : '' }}
                 {{ $state ? 'data-state=' . $state : '' }}>
-
-            @if ($pre_type == 'money')
-                <input type="hidden" id="{{ $id }}" name="{{ $name }}"
-                    value="{{ $value }}">
-
-                @push('scripts')
-                    <script>
-                        $(document).ready(function() {
-                            $("#{{ $id }}_preview").change(function() {
-                                change_money_{{ $id }}();
-                            });
-                            $("#{{ $id }}").change(function() {
-                                let val = +($("#{{ $id }}").val() ?? 0);
-
-                                $("#{{ $id }}_preview").val(val.toLocaleString('pt-BR', {
-                                    minimumFractionDigits: 2
-                                })).blur();
-                            });
-
-                            @if ($value != '')
-                                $("#{{ $id }}_preview").val(({{ $value }}).toLocaleString('pt-BR', {
-                                    minimumFractionDigits: 2
-                                }));
-                            @endif
-                            change_money_{{ $id }}();
-                        });
-
-                        function change_money_{{ $id }}() {
-                            let val = $("#{{ $id }}_preview").val();
-                            $("#{{ $id }}").val(parseFloat(val ? val.replace(/\./g, '').replace(',', '.') : 0));
-                        }
-                    </script>
-                @endpush
-            @endif
             <!-- -->
         @endif
 
