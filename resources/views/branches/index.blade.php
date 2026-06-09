@@ -18,7 +18,7 @@
                         value="{{ $data->short_name ?? '' }}" />
                 </x-group>
 
-                <x-group title="Endereço">
+                <x-group icon="house" title="Endereço">
                     <x-input type="zipcode" name="zip_code" width="150" label="CEP" address="address"
                         district="district" state="state" city="city" value="{{ $data->zip_code ?? '' }}" />
                     <x-input type="text" name="address" width="400" label="Endereço"
