@@ -4,7 +4,7 @@ import "bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 // plugins
-import { initDataTables } from "./plugins/datatable";
+import "./plugins/datatable";
 import { initTomSelect } from "./plugins/tom-select";
 import { initVanta } from "./plugins/vanta";
 import "./plugins/imask";
@@ -18,8 +18,8 @@ import NET from "vanta/dist/vanta.net.min";
 import "./components/sidebar";
 
 //inicializar plugins
-$(function () {
-    initDataTables();
-    initTomSelect();
-    initVanta();
-});
+//$(function () {
+//initDataTables();
+initTomSelect();
+initVanta();
+//});

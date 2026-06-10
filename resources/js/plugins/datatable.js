@@ -1,22 +1,19 @@
-import $ from "jquery";
-
-window.$ = $;
-window.jQuery = $;
-
 import DataTable from "datatables.net-bs5";
+import "datatables.net-responsive-bs5";
 
 import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+import "datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css";
 
-export function createDataTable(config) {
-    let currentRequest = null;
+(() => {
+    "use strict";
 
-    const table = $(`#${config.id}`)
-        .on("preXhr.dt", function () {
-            if (currentRequest && currentRequest.readyState !== 4) {
-                currentRequest.abort();
-            }
-        })
-        .DataTable({
+    function createDataTable(el) {
+        let currentRequest = null;
+
+        const config = JSON.parse(el.dataset.config);
+        console.log("config", config);
+
+        const table = new DataTable(el, {
             serverSide: true,
             processing: true,
 
@@ -28,12 +25,15 @@ export function createDataTable(config) {
                 url: config.ajax.url,
 
                 data: function (d) {
-                    $(`[data-table-filter='${config.id}']`)
-                        .find(
-                            "input:not(.--filter-ignore):not([type=hidden]), select:not(.--filter-ignore)",
+                    document
+                        .querySelectorAll(
+                            `[data-table-filter="${config.id}"] input:not(.--filter-ignore):not([type="hidden"]),
+                             [data-table-filter="${config.id}"] select:not(.--filter-ignore)`,
                         )
-                        .each(function () {
-                            d[$(this).attr("name")] = $(this).val();
+                        .forEach((element) => {
+                            if (element.name) {
+                                d[element.name] = element.value;
+                            }
                         });
                 },
 
@@ -81,20 +81,23 @@ export function createDataTable(config) {
             },
         });
 
-    $(`[data-table-filter='${config.id}']`)
-        .find(
-            "input:not(.--filter-ignore):not([type=hidden]), select:not(.--filter-ignore)",
-        )
-        .on("change", function () {
-            table.draw();
+        document
+            .querySelectorAll(
+                `[data-table-filter="${config.id}"] input:not(.--filter-ignore):not([type="hidden"]),
+                 [data-table-filter="${config.id}"] select:not(.--filter-ignore)`,
+            )
+            .forEach((element) => {
+                element.addEventListener("change", () => {
+                    table.draw();
+                });
+            });
+
+        return table;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll("[data-datatable]").forEach((table) => {
+            createDataTable(table);
         });
-
-    return table;
-}
-
-export function initDataTables() {
-    $("[data-datatable]").each(function () {
-        const config = $(this).data("config");
-        createDataTable(config);
     });
-}
+})();
