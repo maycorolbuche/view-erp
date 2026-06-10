@@ -74,11 +74,12 @@
                                         <td class='text-center'>
                                             <div id="container_expense_{{ $expense->id_expense }}"
                                                 class="checkbox-custom checkbox-info">
-                                                <input type="checkbox" id="expense_{{ $expense->id_expense }}"
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="expense_{{ $expense->id_expense }}"
                                                     data-value="{{ $expense->amount }}"
                                                     onchange="check({{ $expense->id_expense }})"
                                                     {{ $expense->revised ? 'checked' : '' }}>
-                                                <label for="expense_{{ $expense->id_expense }}">
+                                                <label class="form-check-label" for="expense_{{ $expense->id_expense }}">
                                                     &nbsp;
                                                 </label>
                                             </div>

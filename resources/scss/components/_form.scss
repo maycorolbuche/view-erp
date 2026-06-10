@@ -139,3 +139,37 @@ PLUGIN TOM SELECT
         }
     }
 }
+
+/* ==========================================================================
+CHECKBOX
+========================================================================== */
+.checkbox-info {
+    .form-check-input {
+        &:not(:checked) {
+            border-color: var(--bs-info);
+        }
+        &:checked {
+            background-color: var(--bs-info);
+        }
+    }
+}
+.checkbox-warning {
+    .form-check-input {
+        &:not(:checked) {
+            border-color: var(--bs-warning);
+        }
+        &:checked {
+            background-color: var(--bs-warning);
+        }
+    }
+}
+.checkbox-danger {
+    .form-check-input {
+        &:not(:checked) {
+            border-color: var(--bs-danger);
+        }
+        &:checked {
+            background-color: var(--bs-danger);
+        }
+    }
+}
