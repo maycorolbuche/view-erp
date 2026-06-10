@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div class="sidebar-overlay" id="overlay"></div>
+    @include('layouts.partials.overlays')
 
     @include('layouts.partials.sidebar')
 

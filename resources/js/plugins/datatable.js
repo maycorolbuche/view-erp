@@ -11,7 +11,6 @@ import "datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css";
         let currentRequest = null;
 
         const config = JSON.parse(el.dataset.config);
-        console.log("config", config);
 
         const table = new DataTable(el, {
             serverSide: true,

@@ -11,4 +11,5 @@ import "./plugins/imask";
 import "./plugins/viacep";
 
 // components
+import "./components/loading";
 import "./components/sidebar";

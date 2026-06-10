@@ -16,6 +16,7 @@
 
 
 <body class="external-page sb-l-c sb-r-c">
+    @include('layouts.partials.overlays')
 
     <div class="container-fluid min-vh-100">
         <div class="row min-vh-100">
