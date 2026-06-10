@@ -1,26 +1,29 @@
 import TomSelect from "tom-select";
 import "tom-select/dist/css/tom-select.bootstrap5.css";
 
-export function initTomSelect() {
-    document.querySelectorAll(".tom-select").forEach((el) => {
-        // evita inicializar duas vezes
-        if (el.tomselect) return;
+document.querySelectorAll(".tom-select").forEach((el) => {
+    // evita inicializar duas vezes
+    if (el.tomselect) return;
 
-        new TomSelect(el, {
-            create: false,
-            allowEmptyOption: true,
+    new TomSelect(el, {
+        create: false,
+        allowEmptyOption: true,
 
-            plugins: {
-                remove_button: {
-                    title: "Remover",
-                },
+        plugins: {
+            remove_button: {
+                title: "Remover",
             },
-            placeholder: "Selecione",
-            onInitialize: function () {
-                if (!this.getValue()) {
-                    this.clear(true);
-                }
+        },
+        placeholder: "Selecione",
+        render: {
+            no_results: function () {
+                return '<div class="no-results">Nenhum resultado encontrado</div>';
             },
-        });
+        },
+        onInitialize: function () {
+            if (!this.getValue()) {
+                this.clear(true);
+            }
+        },
     });
-}
+});

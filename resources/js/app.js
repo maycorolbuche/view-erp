@@ -5,7 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 // plugins
 import "./plugins/datatable";
-import { initTomSelect } from "./plugins/tom-select";
+import "./plugins/tom-select";
 import { initVanta } from "./plugins/vanta";
 import "./plugins/imask";
 import "./plugins/viacep";
@@ -19,7 +19,5 @@ import "./components/sidebar";
 
 //inicializar plugins
 //$(function () {
-//initDataTables();
-initTomSelect();
 initVanta();
 //});
