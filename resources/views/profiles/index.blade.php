@@ -44,13 +44,3 @@
         </x-panel>
     </x-content>
 @endsection
-
-@push('scripts')
-    <script>
-        $("[name=name]").blur(function() {
-            if ($("[name=slug]").val() == "") {
-                $("[name=slug]").val($("[name=name]").val()).blur()
-            }
-        });
-    </script>
-@endpush

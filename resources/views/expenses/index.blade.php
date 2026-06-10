@@ -34,7 +34,7 @@
                             @elseif (count($authorizations) == 1)
                                 @push('scripts')
                                     <script>
-                                        $(document).ready(function() {
+                                        document.addEventListener("DOMContentLoaded", () => {
                                             $("#id_authorization")
                                                 .val({{ $authorizations[0]->id_authorization }})
                                                 .trigger("chosen:updated")
@@ -51,7 +51,7 @@
 
                             @push('scripts')
                                 <script>
-                                    $(document).ready(function() {
+                                    document.addEventListener("DOMContentLoaded", () => {
                                         setTimeout(function() {
                                             $("#id_authorization")
                                                 .trigger("chosen:updated")
@@ -141,7 +141,7 @@
                                         $("#bt_distribute").html(`Distribuir: ${$("#distribute").val()}`);
                                     }
 
-                                    $(document).ready(function() {
+                                    document.addEventListener("DOMContentLoaded", () => {
                                         button_distribute();
                                     });
                                 </script>
@@ -188,7 +188,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", () => {
             @if (!isset($data))
                 $("#id_authorization").change(function() {
                     dates_range();

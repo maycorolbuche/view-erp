@@ -4,6 +4,7 @@ import "bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 // Plugins
+import "./plugins/jquery";
 import "./plugins/datatable";
 import "./plugins/tom-select";
 import "./plugins/vanta";
@@ -13,8 +14,3 @@ import "./plugins/viacep";
 // Components
 import "./components/loading";
 import "./components/sidebar";
-
-// JQuery
-import $ from "jquery";
-window.$ = $;
-window.jQuery = $;

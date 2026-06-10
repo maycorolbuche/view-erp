@@ -140,7 +140,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", () => {
             sum_expenses();
         });
 

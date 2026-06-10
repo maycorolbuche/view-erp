@@ -64,7 +64,7 @@ class Input extends BaseComponent
         $this->pre_type = $type;
         if ($type == 'slug') {
             $type = 'text';
-            $class .= ' slug ';
+            $mask = 'slug';
         } elseif ($type == 'cpf') {
             $type = 'text';
             $mask = 'cpf';

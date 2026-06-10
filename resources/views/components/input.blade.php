@@ -22,7 +22,7 @@
 
             @push('scripts')
                 <script>
-                    $(document).ready(function() {
+                    document.addEventListener("DOMContentLoaded", () => {
                         sel_icon_{{ $id }}('{{ $value }}');
                     });
                 </script>
@@ -130,7 +130,7 @@
 
             @push('scripts')
                 <script>
-                    $(document).ready(function() {
+                    document.addEventListener("DOMContentLoaded", () => {
                         $("#{{ $id }}_chk").change(function() {
                             $("#{{ $id }}").val($(this).prop("checked") ? 1 : 0);
                         });
@@ -181,7 +181,7 @@
 
                 @push('scripts')
                     <script>
-                        $(document).ready(function() {
+                        document.addEventListener("DOMContentLoaded", () => {
                             $("#{{ $id }}").hide();
                         });
 

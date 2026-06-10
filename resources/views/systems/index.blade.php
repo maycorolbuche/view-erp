@@ -51,10 +51,12 @@
 
 @push('scripts')
     <script>
-        $("[name=name]").blur(function() {
-            if ($("[name=slug]").val() == "") {
-                $("[name=slug]").val($("[name=name]").val()).blur()
-            }
+        document.addEventListener("DOMContentLoaded", () => {
+            $("[name=name]").blur(function() {
+                if ($("[name=slug]").val() == "") {
+                    $("[name=slug]")[0].imask.value = $("[name=name]").val();
+                }
+            });
         });
     </script>
 @endpush

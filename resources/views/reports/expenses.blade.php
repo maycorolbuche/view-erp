@@ -82,7 +82,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", () => {
             $('#datatable').dataTable({
                 order: [
                     [1, 'asc']

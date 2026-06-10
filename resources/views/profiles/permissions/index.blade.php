@@ -124,7 +124,7 @@
 
     @push('scripts')
         <script>
-            $(document).ready(function() {
+            document.addEventListener("DOMContentLoaded", () => {
                 $("[name^='route']").change(function() {
                     let id = $(this).data("id");
                     let checked = $(this).is(":checked");

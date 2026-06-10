@@ -348,7 +348,7 @@
             });
             $tfoot.find(".total-amount").html(total_amount_br);
         }
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", () => {
             $("[data-table-filter='expenses_query']")
                 .find('input:not(.--filter-ignore):not([type=hidden]), select:not(.--filter-ignore)')
                 .change(function() {

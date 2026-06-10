@@ -87,7 +87,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", () => {
             $("#bt_add_payment").click(function() {
                 $("#transaction").val("add");
                 return true;

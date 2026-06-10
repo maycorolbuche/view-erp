@@ -58,7 +58,7 @@
         var $clientsTBody = $clientsTable.find("tbody")
         var $clientsTFoot = $clientsTable.find("tfoot")
 
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", () => {
             @if (!isset($data))
                 setTimeout(function() {
                     $("#id_authorization").change(function() {

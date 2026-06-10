@@ -97,7 +97,7 @@
         var $usersTBody = $usersTable.find("tbody")
         var $usersTFoot = $usersTable.find("tfoot")
 
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", () => {
             $usersTable.find(".search-user").change(function() {
                 users_add($(this).val())
             });

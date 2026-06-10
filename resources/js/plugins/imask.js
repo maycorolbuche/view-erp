@@ -68,6 +68,16 @@ const masks = {
     phone: {
         mask: [{ mask: "(00) 0000-0000" }, { mask: "(00) 00000-0000" }],
     },
+
+    slug: {
+        mask: /^[a-z0-9-]*$/,
+        prepare: (value) =>
+            value
+                .toLowerCase()
+                .replace(/\s+/g, "-")
+                .replace(/_/g, "-")
+                .replace(/[^a-z0-9-]/g, ""),
+    },
 };
 
 (() => {
@@ -79,7 +89,7 @@ const masks = {
         | Evita dupla inicialização
         |--------------------------------------------------------------------------
         */
-        if (el.maskRef) {
+        if (el.imask) {
             return;
         }
 
@@ -120,7 +130,7 @@ const masks = {
         |--------------------------------------------------------------------------
         */
         if (!isNumericMask) {
-            el.maskRef = IMask(el, maskOptions);
+            el.imask = IMask(el, maskOptions);
             return;
         }
 
@@ -203,7 +213,7 @@ const masks = {
         | Refs
         |--------------------------------------------------------------------------
         */
-        el.maskRef = imask;
+        el.imask = imask;
         el.hiddenInputRef = hidden;
     });
 })();
