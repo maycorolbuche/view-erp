@@ -17,6 +17,7 @@
     "imask": "^7.6.1",
     "jquery": "^4.0.0",
     "lodash": "^4.18.1",
+    "magnific-popup": "^1.2.0",
     "three": "^0.134.0",
     "tom-select": "^2.6.1",
     "vanta": "^0.5.24"

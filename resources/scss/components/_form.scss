@@ -33,13 +33,20 @@ INPUT GROUP
     &[data-group-type="bool"],
     &[data-group-type="boolean"],
     &[data-group-type="bool-chk"],
-    &[data-group-type="boolean-checkbox"] {
+    &[data-group-type="boolean-checkbox"],
+    &[data-group-type="icon"] {
         border: 0;
         background: transparent;
     }
     &[data-group-type="bool-chk"],
     &[data-group-type="boolean-checkbox"] {
         flex-wrap: nowrap;
+    }
+
+    &[data-group-type="icon"] {
+        .btn {
+            border-radius: var(--input-border-radius) !important;
+        }
     }
 
     &.is-invalid {

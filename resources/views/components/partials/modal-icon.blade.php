@@ -1,10 +1,8 @@
 <div style="display:none;">
     <div id="modal-content_{{ $id }}" class="popup-basic bg-none mfp-with-anim">
-        <div class="panel">
-            <div class="panel-heading">
-                <span class="panel-title">Busca de ícones</span>
-            </div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-body">
+                <span class="card-title">Busca de ícones</span>
                 <div>
                     <div class="input-group input-group-merge input-hero mb10">
                         <span class="input-group-addon">
@@ -18,7 +16,7 @@
                     class="icons">
                 </div>
             </div>
-            <div class="panel-footer text-right">
+            <div class="card-footer text-end">
                 <button class="btn btn-warning" type="button" onclick="sel_icon_{{ $id }}();">Remover
                     Ícone</button>
             </div>
@@ -45,15 +43,15 @@
         function load_icons_{{ $id }}() {
             let el = $("#modal-content_{{ $id }} .icons");
 
-            if ($.trim(el.html()) == "") {
-                loading();
+            if (el.html().trim() === "") {
+                document.getElementById("page-loader").classList.add("show");
 
                 $.ajax({
                     url: '{{ route('icons') }}',
                     type: "GET",
                     data: $('#login_form').serialize(),
                     success: function(result) {
-                        loading(false);
+                        document.getElementById("page-loader").classList.remove("show")
 
                         let list = {};
                         Object.keys(result).map(group => {
@@ -94,7 +92,7 @@
                     error: function(xhr, status, error) {
                         console.log('Erro na solicitação AJAX:', status, error);
                         alert("Erro na solicitação AJAX" + error)
-                        loading(false);
+                        document.getElementById("page-loader").classList.remove("show")
                     }
                 });
             }

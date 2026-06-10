@@ -15,7 +15,7 @@
                 {{ $required ? 'required' : '' }}>
 
             <button type="button" id="ibt_{{ $id }}" onclick="open_popup_{{ $id }}()"
-                class="btn btn-dark">
+                class="btn btn-primary">
                 <i class="{{ $value }}"></i>
                 <span>Selecionar</span>
             </button>
