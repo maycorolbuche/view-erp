@@ -185,6 +185,11 @@
                         'title' => 'Status',
                         'data' => 'approved',
                     ],
+                    [
+                        'title' => 'Dt. Cadastro',
+                        'className' => 'text-center',
+                        'data' => 'created_at',
+                    ],
                 ]) }}" />
         </x-panel>
     </x-content>

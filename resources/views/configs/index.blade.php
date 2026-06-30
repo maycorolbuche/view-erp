@@ -13,7 +13,7 @@
 
             <x-form action-name="configs" action="{{ route('configs.update') }}">
                 <x-title>Autorizações</x-title>
-                <x-group>
+                <x-group style="gap: 10px;">
                     <x-input type="numeric" name="authorizationsActiveDays_to_close" width="150"
                         label="Qtd. dias para encerrar autorização"
                         value="{{ $configs['authorizations.active.days_to_close'] ?? '' }}"
@@ -24,16 +24,19 @@
                         tip="Deverá ser aceito pelo usuário ao solicitar adiantamento" />
                 </x-group>
 
+                <hr>
+
                 <x-title>Despesas</x-title>
-                <x-group>
-                    <x-input type="bool" name="expensesRequiredFile" width="150"
-                        label="Anexo de arquivo obrigatório"
+                <x-group style="gap: 10px;">
+                    <x-input type="bool" name="expensesRequiredFile" width="150" label="Anexo de arquivo obrigatório"
                         value="{{ $configs['expenses.required.file'] ?? '' }}"
                         tip="Origatório anexar o comprovante da despesa?" />
                 </x-group>
 
+                <hr>
+
                 <x-title>Lotes</x-title>
-                <x-group>
+                <x-group style="gap: 10px;">
                     <x-input type="numeric" name="batchesActiveDays_to_close_without_refund" width="150"
                         label="Qtd. dias para gerar lote automático sem reembolso"
                         value="{{ $configs['batches.active.days_to_close_without_refund'] ?? '' }}"

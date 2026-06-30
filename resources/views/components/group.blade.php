@@ -9,7 +9,7 @@
     @endif
 
     <div
-        style="display: flex;flex-direction: row;flex-wrap: wrap;align-items: stretch;{{ $right ? 'justify-content: flex-end;' : '' }}">
+        style="display: flex;flex-direction: row;flex-wrap: wrap;align-items: stretch;{{ $right ? 'justify-content: flex-end;' : '' }};{{ $attributes['style'] ?? '' }}">
         {{ $slot }}
     </div>
 

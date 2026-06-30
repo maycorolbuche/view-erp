@@ -44,7 +44,7 @@ class Batch extends Model
         }
 
         if ($this->revised_status === 'pending') {
-            return ['type' => 'pending', 'color' => 'warning', 'label' => 'Pendente'];
+            return ['type' => 'pending', 'color' => 'warning', 'label' => 'Pendente p/ Análise'];
         }
 
         if ($this->revised_status === 'analyzing') {

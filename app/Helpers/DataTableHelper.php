@@ -253,6 +253,7 @@ class DataTableHelper
             'self',
             'active',
             'approved',
+            'created_at',
             DB::raw('CONCAT(start_datetime, " ", end_datetime) as period'),
             DB::raw('DATE(start_datetime) as start_date'),
             DB::raw('DATE(end_datetime) as end_date'),
@@ -281,6 +282,9 @@ class DataTableHelper
                 } else {
                     return '';
                 }
+            })
+            ->editColumn('created_at', function ($row) {
+                return Carbon::parse($row->created_at)->format('d/m/Y');
             })
             ->editColumn('start_date', function ($row) {
                 return Carbon::parse($row->start_datetime)->format('d/m/Y');
