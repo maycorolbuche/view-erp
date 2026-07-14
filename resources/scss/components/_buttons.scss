@@ -1,3 +1,5 @@
+@use "../abstracts/variables" as v;
+
 .btn {
     font-size: 14px;
     color: #fff;
@@ -5,5 +7,18 @@
 
     &:hover {
         color: #fff;
+    }
+
+    @each $name, $color in v.$theme-colors {
+        &.btn-#{$name} {
+            background: rgba(var(--bs-#{$name}-rgb), 0.1) !important;
+            color: var(--bs-#{$name}) !important;
+            border: 1px solid var(--bs-#{$name}) !important;
+
+            &:hover {
+                color: #000 !important;
+                background: var(--bs-#{$name}) !important;
+            }
+        }
     }
 }

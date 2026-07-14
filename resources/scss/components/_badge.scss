@@ -1,4 +1,22 @@
+@use "../abstracts/variables" as v;
+
 .badge {
     color: #fff !important;
-    font-weight: 500;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+
+    @each $name, $color in v.$theme-colors {
+        &.text-bg-#{$name} {
+            background-color: rgba(var(--bs-#{$name}-rgb), 0.15) !important;
+            color: var(--bs-#{$name}) !important;
+            border: 1px solid var(--bs-#{$name}) !important;
+        }
+    }
 }
+
+/*
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #ffdb70;
+    border: 1px solid var(--color-hom);
+*/
