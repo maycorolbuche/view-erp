@@ -86,10 +86,17 @@ class AuthorizationHelper
         $days_to_close = +Configs::get('authorizations.active.days_to_close', 30);
 
         $ids = [];
+        $limitDate = now()->subDays($days_to_close);
 
-        $authorizations = Authorization::where('end_datetime', '<', now()->subDays($days_to_close))
-            ->where('created_at', '<', now()->subDays($days_to_close))
+
+        $authorizations = Authorization::query()
+            ->where('end_datetime', '<', $limitDate)
+            ->where('created_at', '<', $limitDate)
             ->where('active', true)
+            ->whereDoesntHave('authorization_statuses', function ($query) use ($limitDate) {
+                $query->where('created_at', '>=', $limitDate)
+                    ->orWhere('updated_at', '>=', $limitDate);
+            })
             ->get();
         foreach ($authorizations as $authorization) {
             $authorization->active = false;
