@@ -10,3 +10,27 @@ body {
     overflow-x: hidden;
     font-size: 12px;
 }
+
+.light-bg {
+    background-color: #0d0d11; /* Cor escura de fundo */
+
+    /* Múltiplos fundos:
+     1. Gradiente Radial Vermelho no canto superior esquerdo (brilho)
+     2. Padrão de Pontos feito com radial-gradient */
+    background-image: 
+    /* Brilho vermelho avermelhado/suave no topo/esquerda */
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(230, 30, 45, 0.35) 0%,
+            rgba(230, 30, 45, 0.12) 30%,
+            transparent 65%
+        ),
+        /* Malha de pontos sutil */
+        radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+
+    /* Define a distância do espaçamento entre os pontos */
+    background-size:
+        100% 100%,
+        20px 20px;
+    background-repeat: no-repeat, repeat;
+}

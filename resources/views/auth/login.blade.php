@@ -1,36 +1,24 @@
 @extends('layouts.auth')
 
 @section('side-card')
-    <!-- Texto central -->
-    <div class="px-4">
-        <h1 class="display-5 fw-bold mb-4">
-            Bem-vindo de volta! 👋
-        </h1>
+    <div class="d-flex flex-column justify-content-end h-100">
+        <div class="d-flex align-items-center gap-3">
 
-        <p class="fs-5 mb-0">
-            Acesse sua conta para continuar
-            acompanhando o que acontece na View.
-        </p>
-    </div>
+            <div class="border border-secondary rounded-2 p-2 px-3 text-secondary fs-4">
+                <i class="bi bi-shield-check"></i>
+            </div>
 
-    <!-- Rodapé -->
-    <div class="d-flex align-items-start gap-3">
+            <div>
+                <h6 class="fw-semibold mb-2">
+                    Ambiente seguro
+                </h6>
 
-        <div class="border rounded-4 p-3">
-            <i class="bi bi-shield-check"></i>
+                <p class="mb-0">
+                    Suas informações estão protegidas.
+                </p>
+            </div>
+
         </div>
-
-        <div>
-            <h5 class="fw-semibold mb-2">
-                Segurança em primeiro lugar
-            </h5>
-
-            <p class="mb-0">
-                Nossas informações são protegidas com os
-                mais altos padrões de segurança.
-            </p>
-        </div>
-
     </div>
 @endsection
 
@@ -39,12 +27,11 @@
 
         <div class="p-4 p-lg-5">
 
-            <!-- Ícone -->
-            <div class="text-center">
+            <div class="text-center mb-4">
 
-                <h2 class="fw-bold mb-2">
+                <h3 class="fw-bold mb-2">
                     Acessar sua conta
-                </h2>
+                </h3>
 
                 <p class="text-muted mb-0">
                     Informe suas credenciais para entrar na intranet
@@ -58,7 +45,7 @@
                 @include('layouts.partials.messages')
 
                 {{-- USUÁRIO --}}
-                <div class="mb-4">
+                <div class="mb-2">
 
                     <label for="username" class="form-label fw-semibold">
                         Usuário
@@ -86,7 +73,8 @@
                 </div>
 
                 {{-- SENHA --}}
-                <div class="mb-4">
+                <div class="mb-2">
+
 
                     <label for="password" class="form-label fw-semibold">
                         Senha
@@ -101,7 +89,7 @@
                         <input type="password" id="password" name="password" class="form-control"
                             placeholder="Digite sua senha">
 
-                        <button type="button" class="btn btn-outline-secondary">
+                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password', this)">
                             <i class="bi bi-eye"></i>
                         </button>
 
@@ -135,38 +123,14 @@
                 </div>
 
                 <!-- Botão -->
-                <div class="d-grid mb-4">
+                <div class="d-grid mb-1">
                     <button type="submit" class="btn btn-danger btn-lg">
                         Entrar
                     </button>
                 </div>
 
-                <!-- Divider -->
-                <div class="d-flex align-items-center gap-3 mb-4">
-
-                    <hr class="flex-grow-1">
-
-                    <span class="text-muted">
-                        ou
-                    </span>
-
-                    <hr class="flex-grow-1">
-
-                </div>
-
-                <!-- Microsoft -->
-                <div class="d-grid">
-
-                    <button type="button"
-                        class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2">
-                        <i class="bi bi-microsoft"></i>
-                        Entrar com Microsoft
-                    </button>
-
-                </div>
-
                 @if (env('APP_ENV') != 'production' || env('APP_DEBUG') == '1')
-                    <div class="p-2 d-flex align-items-center justify-content-center gap-10">
+                    <div class="p-2 d-flex align-items-center justify-content-center gap-1">
                         <span class='badge text-bg-danger'>{{ env('APP_ENV') }}</span>
                         <span class='badge text-bg-warning'>{{ env('APP_DEBUG') ? 'debug' : '' }}</span>
                     </div>

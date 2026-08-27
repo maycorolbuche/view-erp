@@ -1,45 +1,88 @@
 @extends('layouts.auth')
 
-@section('header-links')
-    <a href="{{ route('login') }}" class="active">Login</a>
-@endsection
 
-@section('content')
-    <form method="post" action="{{ route('password.email') }}">
-        {{ csrf_field() }}
+@section('side-card')
+    <div class="d-flex flex-column justify-content-end h-100">
+        <div class="d-flex align-items-center gap-3">
 
-        <div class="panel-body bg-light p30">
+            <div class="border border-secondary rounded-2 p-2 px-3 text-secondary fs-4">
+                <i class="bi bi-shield-check"></i>
+            </div>
 
-            <div class="row">
-                <div class="col-md-12 pr30">
+            <div>
+                <h6 class="fw-semibold mb-2">
+                    Ambiente seguro
+                </h6>
 
-                    @include('layouts.partials.messages')
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <div class="section">
-                        <label for="email" class="field-label text-muted fs18 mb10 ">E-mail</label>
-                        <div class="smart-widget sm-right smr-80">
-                            <label for="email" class="field prepend-icon">
-                                <input type="email" name="email" class="gui-input" placeholder="Seu endereço de e-mail"
-                                    value="{{ old('email') ?? (session('email') ?? '') }}">
-                                <label for="email" class="field-icon">
-                                    <i class="fa fa-envelope-o"></i>
-                                </label>
-                            </label>
-                            <button type="submit" class="button">Enviar</button>
-                        </div>
-                    </div>
-                    <span>
-                        Digite seu <b>e-mail</b> para receber as instruções de recuperação de senha.
-                    </span>
-                </div>
-
+                <p class="mb-0">
+                    Suas informações estão protegidas.
+                </p>
             </div>
 
         </div>
-    </form>
+    </div>
+@endsection
+
+@section('content')
+    <x-card>
+
+        <div class="p-4 p-lg-5">
+
+            <div class="text-center mb-4">
+
+                <h3 class="fw-bold mb-2">
+                    Recuperar acesso
+                </h3>
+
+                <p class="text-muted mb-0">
+                    Informe seu e-mail para receber as instruções de recuperação de senha.
+                </p>
+            </div>
+
+            <x-form :action="route('password.email')">
+                @include('layouts.partials.messages')
+
+                <div class="mb-2">
+
+                    <label for="email" class="form-label fw-semibold">
+                        E-mail
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+
+                        <input type="email" id="email" name="email" class="form-control"
+                            placeholder="Digite seu e-mail" value="{{ old('email') }}">
+
+                    </div>
+
+                    @if ($errors->has('email'))
+                        <div class="mt-2 fs-6">
+                            <span class="text-danger">
+                                {{ $errors->first('email') }}
+                            </span>
+                        </div>
+                    @endif
+
+                </div>
+
+
+                <div class="d-grid mb-1">
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        Enviar
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ route('login') }}">
+                        Voltar para o login
+                    </a>
+                </div>
+            </x-form>
+
+        </div>
+    </x-card>
 @endsection

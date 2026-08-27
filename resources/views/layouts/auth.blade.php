@@ -15,7 +15,7 @@
 </head>
 
 
-<body class="external-page sb-l-c sb-r-c">
+<body class="light-bg">
     @include('layouts.partials.overlays')
 
     <div class="container-fluid min-vh-100">
@@ -26,21 +26,18 @@
 
                 <!-- Logo -->
                 <div>
-                    <h2 class="fw-bold mb-0">
-                        VIEW
-                        <small class="fw-light">INTRANET</small>
-                    </h2>
+                    <x-logo zoom="0.6" />
                 </div>
 
-                @yield('side-card')
+                <div class="flex-fill">
+                    @yield('side-card')
+                </div>
 
             </div>
 
             <!-- Lado direito -->
             <div class="col-lg-6 d-flex align-items-center justify-content-center p-4">
-                <div>
-                    @yield('content')
-                </div>
+                @yield('content')
             </div>
 
         </div>

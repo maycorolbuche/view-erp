@@ -11,35 +11,44 @@ if (localStorage.getItem("sidebar") === "collapsed") {
 }
 
 // Mobile open/close
-mobileToggle.addEventListener("click", () => {
-    sidebar.classList.add("open");
-    sidebar.classList.remove("collapsed");
-    overlay.classList.add("show");
-    body.classList.remove("sidebar-collapsed");
-});
-overlay.addEventListener("click", () => {
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
-});
+if (mobileToggle && sidebar) {
+    mobileToggle.addEventListener("click", () => {
+        sidebar.classList.add("open");
+        sidebar.classList.remove("collapsed");
+        if (overlay) {
+            overlay.classList.add("show");
+        }
+        body.classList.remove("sidebar-collapsed");
+    });
+}
+
+if (overlay) {
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("show");
+    });
+}
 
 // Desktop collapse (icons only)
-collapseBtn.addEventListener("click", () => {
-    body.classList.toggle("sidebar-collapsed");
-    sidebar.classList.toggle("collapsed");
-    localStorage.removeItem("sidebar");
+if (collapseBtn && sidebar) {
+    collapseBtn.addEventListener("click", () => {
+        body.classList.toggle("sidebar-collapsed");
+        sidebar.classList.toggle("collapsed");
+        localStorage.removeItem("sidebar");
 
-    // close all submenus when collapsing
-    if (sidebar.classList.contains("collapsed")) {
-        document
-            .querySelectorAll(".submenu.open")
-            .forEach((s) => s.classList.remove("open"));
-        document
-            .querySelectorAll('[aria-expanded="true"]')
-            .forEach((b) => b.setAttribute("aria-expanded", "false"));
+        // close all submenus when collapsing
+        if (sidebar.classList.contains("collapsed")) {
+            document
+                .querySelectorAll(".submenu.open")
+                .forEach((s) => s.classList.remove("open"));
+            document
+                .querySelectorAll('[aria-expanded="true"]')
+                .forEach((b) => b.setAttribute("aria-expanded", "false"));
 
-        localStorage.setItem("sidebar", "collapsed");
-    }
-});
+            localStorage.setItem("sidebar", "collapsed");
+        }
+    });
+}
 
 // Close mobile sidebar on link click
 document.querySelectorAll(".submenu a").forEach((a) => {
