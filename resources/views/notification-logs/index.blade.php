@@ -12,7 +12,11 @@
 
                 <x-title>{{ $data->subject }}
                     <span style="float: right;">
-                        {!! $data->status == 'sent' ? "<span class='badge text-bg-success'>Enviado</span>" : $data->status !!}
+                        @if ($data->status === 'sent')
+                            <span class="badge text-bg-success">Enviado</span>
+                        @else
+                            {{ $data->status }}
+                        @endif
                     </span>
                 </x-title>
                 <x-note>
@@ -22,7 +26,9 @@
                     {{ \Carbon\Carbon::parse($data->sent_at)->format('d/m/Y H:i:s') }}
                 </x-note>
 
-                {!! $data->message !!}
+                <div class="border rounded p-3 bg-light text-break">
+                    {!! nl2br(e($data->message)) !!}
+                </div>
 
                 <br>
 

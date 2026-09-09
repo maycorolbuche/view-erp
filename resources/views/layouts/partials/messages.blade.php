@@ -37,7 +37,7 @@
 
             @if (count($message) == 1)
                 <span class="flex-fill px-3">
-                    {!! $message[0] !!}
+                    {{ $message[0] }}
                 </span>
             @else
                 <ul class="flex-fill mb-0">

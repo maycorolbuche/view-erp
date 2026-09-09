@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use App\Models\System;
 use App\Models\Route as Routes;
 
@@ -20,34 +20,8 @@ Route::get('/home', function () {
     return redirect('/');
 });
 
-Route::get('/test-mail', function (Illuminate\Http\Request $request) {
-    if (!config('app.debug')) {
-        abort(404);
-    }
-
-    try {
-        $to = $request->query('to');
-
-        if (!$to) {
-            return 'Informe o e-mail na URL. Ex: /test-mail?to=teste@email.com';
-        }
-
-        \Illuminate\Support\Facades\Mail::raw('Teste de e-mail do Laravel', function ($message) use ($to) {
-            $message->to($to)
-                ->subject('Teste de e-mail do Laravel');
-        });
-
-        return 'E-mail de teste enviado para ' . $to;
-    } catch (\Exception $e) {
-        return 'Erro ao enviar o e-mail: ' . $e->getMessage();
-    }
-});
-
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    Route::get('/install', 'Data\InstallController@run')->name('install');
     Route::get('/schedule', 'Data\ScheduleController@run')->name('schedule');
-    Route::get('/cron/run', 'Data\ScheduleController@run')->name('cron_run');
-    Route::get('/cron/list', 'Data\ScheduleController@list')->name('cron_list');
 
 
     Route::group(['middleware' => ['guest']], function () {
@@ -66,7 +40,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::group(['middleware' => ['auth', 'active']], function () {
         Route::get('/', 'HomeController@index')->name('home');
-        Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+        Route::post('/logout', 'Auth\LogoutController@index')->name('logout');
 
         Route::group(['prefix' => 'data'], function () {
             Route::get('/icons', 'Data\IconController@index')->name('icons');
@@ -74,8 +48,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         /* Storage (só acessa se tiver logado) */
         Route::get('/storage/{path}', function ($path) {
-            $fullPath = storage_path('app/public/' . $path);
-            if (!file_exists($fullPath)) {
+            $disk = Storage::disk('public');
+            $basePath = realpath($disk->path(''));
+            $fullPath = realpath($disk->path($path));
+
+            if (
+                $basePath === false ||
+                $fullPath === false ||
+                !is_file($fullPath) ||
+                ($fullPath !== $basePath && !str_starts_with($fullPath, $basePath . DIRECTORY_SEPARATOR))
+            ) {
                 abort(404);
             }
 

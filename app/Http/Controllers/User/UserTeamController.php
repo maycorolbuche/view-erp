@@ -35,7 +35,8 @@ class UserTeamController extends Controller
                 return redirect()->route('users-teams')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -80,7 +81,8 @@ class UserTeamController extends Controller
             $this->UsersAuthorizationsTypes($user_team->id_user_team, $request->id_authorization_type ?? []);
             return redirect()->route('users-teams.show', ['pid' => $pid, 'id' => $user_team->id_user_team])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -180,7 +182,8 @@ class UserTeamController extends Controller
                 return redirect()->route('users-teams')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -211,7 +214,8 @@ class UserTeamController extends Controller
                 return redirect()->route('users-teams.index', compact('pid'))->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 

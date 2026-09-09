@@ -1,6 +1,13 @@
 <li>
-    <a class="dropdown-item d-flex align-items-center gap-2 p-2 py-3 {{ $type ? 'text-' . $type : '' }}"
-        href="{{ $href }}">
+    @if ($method !== 'get')
+        <form action="{{ $href }}" method="POST">
+            @csrf
+            <button type="submit"
+                class="dropdown-item d-flex align-items-center gap-2 p-2 py-3 {{ $type ? 'text-' . $type : '' }}">
+    @else
+        <a class="dropdown-item d-flex align-items-center gap-2 p-2 py-3 {{ $type ? 'text-' . $type : '' }}"
+            href="{{ $href }}">
+    @endif
         @if ($icon)
             <div>
                 <i class="icon {{ $icon }}"></i>
@@ -18,5 +25,10 @@
         @if ($count > 0)
             <span class="badge bg-primary">{{ $count }}</span>
         @endif
-    </a>
+    @if ($method !== 'get')
+            </button>
+        </form>
+    @else
+        </a>
+    @endif
 </li>

@@ -36,7 +36,8 @@ class RelationshipDegreeController extends Controller
             $relationship_degree = RelationshipDegree::create($request->all());
             return redirect()->route('relationships-degrees.show', ['id' => $relationship_degree->id_relationship_degree])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -85,7 +86,8 @@ class RelationshipDegreeController extends Controller
                 return redirect()->route('relationships-degrees')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -110,7 +112,8 @@ class RelationshipDegreeController extends Controller
                 return redirect()->route('relationships-degrees')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 

@@ -3,7 +3,10 @@
 @section('width', 800)
 
 @section('header-links')
-    <a href="{{ route('logout') }}">Desconectar</a>
+    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+        @csrf
+        <button type="submit" class="btn btn-link p-0 text-white">Desconectar</button>
+    </form>
 @endsection
 
 @section('content')
