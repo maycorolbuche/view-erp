@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +42,7 @@ class Batch extends Model
 
     protected $appends = ['status'];
 
-    public function getStatusAttribute()
+    public function getStatusAttribute(): array
     {
         if ($this->revised_status === 'pending' && !is_null($this->revised_by)) {
             return ['type' => 'rejected', 'color' => 'danger', 'label' => 'Rejeitado'];
@@ -59,44 +63,44 @@ class Batch extends Model
         return ['type' => 'closed', 'color' => 'success', 'label' => 'Concluído'];
     }
 
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id_user', 'id_user');
     }
 
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, BatchCategory::class, 'id_batch', 'id_category')->withPivot(['amount', 'expenses_count']);
     }
 
-    public function clients()
+    public function clients(): BelongsToMany
     {
         return $this->belongsToMany(Client::class, BatchClient::class, 'id_batch', 'id_client')->withPivot(['amount', 'expenses_count']);
     }
 
-    public function expenses()
+    public function expenses(): HasMany
     {
         return $this->hasMany(Expense::class, 'id_batch', 'id_batch');
     }
 
-    public function discounts()
+    public function discounts(): BelongsToMany
     {
         return $this->belongsToMany(Discount::class, BatchDiscount::class, 'id_batch', 'id_discount')->withPivot(['id_batch_discount', 'id_expense', 'amount', 'expense_amount']);
     }
 
-    public function scopeMe($query)
+    public function scopeMe(Builder $query): Builder
     {
         return $query->where('id_user', Auth::id());
     }
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
     }
-    public function scopeReviewPending($query)
+    public function scopeReviewPending(Builder $query): Builder
     {
         return $query->active()->whereIn('revised_status',  ['pending', 'analyzing']);
     }
-    public function scopePaymentPending($query)
+    public function scopePaymentPending(Builder $query): Builder
     {
         return $query->active()->where('revised_status',  'approved');
     }

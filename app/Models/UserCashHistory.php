@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -24,12 +26,12 @@ class UserCashHistory extends Model
         'current_balance',
     ];
 
-    public function transaction()
+    public function transaction(): HasOne
     {
         return $this->hasOne(Transaction::class, 'id_transaction', 'id_transaction');
     }
 
-    public function scopeUser($query, $id_user)
+    public function scopeUser(Builder $query, int|string $id_user): Builder
     {
         return $query->where('id_user', $id_user);
     }

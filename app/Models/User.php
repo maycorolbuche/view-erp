@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -78,7 +82,7 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
 
-    public function updateLastAccess()
+    public function updateLastAccess(): void
     {
         $this->update([
             'last_access' => now(),
@@ -86,7 +90,7 @@ class User extends Authenticatable implements CanResetPassword
         ]);
     }
 
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
     }
@@ -94,20 +98,20 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Always encrypt password when it is updated.
      *
-     * @param $value
-     * @return string
+     * @param string $value
+     * @return void
      */
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute(string $value): void
     {
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification(mixed $token): void
     {
         $this->notify(new ResetPassword($token));
     }
 
-    public function getShortNameAttribute()
+    public function getShortNameAttribute(): string
     {
         $names = explode(' ', trim($this->name));
         $firstName = $names[0];
@@ -116,7 +120,7 @@ class User extends Authenticatable implements CanResetPassword
         return $firstName . $lastName;
     }
 
-    public function getInitialsAttribute()
+    public function getInitialsAttribute(): string
     {
         $names = explode(' ', mb_strtoupper(trim($this->name)));
         $firstName = mb_substr($names[0], 0, 1, 'UTF-8');
@@ -126,7 +130,7 @@ class User extends Authenticatable implements CanResetPassword
     }
 
 
-    public function getDependentsCountAttribute()
+    public function getDependentsCountAttribute(): int
     {
         if ($this->relationLoaded('users_dependents')) {
             return $this->users_dependents->count();
@@ -135,7 +139,7 @@ class User extends Authenticatable implements CanResetPassword
         return $this->users_dependents()->count();
     }
 
-    public function getParentsCountAttribute()
+    public function getParentsCountAttribute(): int
     {
         if ($this->relationLoaded('users_parent')) {
             return $this->users_parent->count();
@@ -144,7 +148,7 @@ class User extends Authenticatable implements CanResetPassword
         return $this->users_parent()->count();
     }
 
-    public function getChildsCountAttribute()
+    public function getChildsCountAttribute(): int
     {
         if ($this->relationLoaded('users_child')) {
             return $this->users_child->count();
@@ -153,7 +157,7 @@ class User extends Authenticatable implements CanResetPassword
         return $this->users_child()->count();
     }
 
-    public function getPhonesCountAttribute()
+    public function getPhonesCountAttribute(): int
     {
         if ($this->relationLoaded('users_phones')) {
             return $this->users_phones->count();
@@ -162,7 +166,7 @@ class User extends Authenticatable implements CanResetPassword
         return $this->users_phones()->count();
     }
 
-    public function getCertificationsCountAttribute()
+    public function getCertificationsCountAttribute(): int
     {
         if ($this->relationLoaded('users_certifications')) {
             return $this->users_certifications->count();
@@ -173,67 +177,67 @@ class User extends Authenticatable implements CanResetPassword
 
 
 
-    public function profiles()
+    public function profiles(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class, UserProfile::class, 'id_user', 'id_profile')->withPivot('id_user_profile');
     }
 
-    public function permissions()
+    public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class, 'id_user', 'id_user');
     }
 
-    public function employment_type()
+    public function employment_type(): HasOne
     {
         return $this->hasOne(EmploymentType::class, 'id_employment_type', 'id_employment_type');
     }
 
-    public function users_dependents()
+    public function users_dependents(): HasMany
     {
         return $this->hasMany(UserDependent::class, 'id_user', 'id_user');
     }
 
-    public function users_parent()
+    public function users_parent(): HasOne
     {
         return $this->hasOne(UserTeam::class, 'id_user_child', 'id_user');
     }
 
-    public function users_child()
+    public function users_child(): HasOne
     {
         return $this->hasOne(UserTeam::class, 'id_user_parent', 'id_user');
     }
 
-    public function users_phones()
+    public function users_phones(): HasMany
     {
         return $this->hasMany(UserPhone::class, 'id_user', 'id_user');
     }
 
-    public function users_certifications()
+    public function users_certifications(): HasMany
     {
         return $this->hasMany(UserCertification::class, 'id_user', 'id_user');
     }
 
-    public function branch()
+    public function branch(): HasOne
     {
         return $this->hasOne(Branch::class, 'id_branch', 'id_branch');
     }
 
-    public function users_discounts()
+    public function users_discounts(): HasMany
     {
         return $this->hasMany(UserDiscount::class, 'id_user', 'id_user');
     }
 
-    public function users_notifications()
+    public function users_notifications(): HasMany
     {
         return $this->hasMany(UserNotification::class, 'id_user', 'id_user');
     }
 
-    public function users_cash()
+    public function users_cash(): HasOne
     {
         return $this->hasOne(UserCash::class, 'id_user', 'id_user');
     }
 
-    public function user_cash()
+    public function user_cash(): HasOne
     {
         return $this->hasOne(UserCash::class, 'id_user', 'id_user');
     }

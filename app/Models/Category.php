@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,12 +23,12 @@ class Category extends Model
     ];
 
 
-    public function category_type()
+    public function category_type(): HasOne
     {
         return $this->hasOne(CategoryType::class, 'id_category_type', 'id_category_type');
     }
 
-    public function users()
+    public function users(): HasMany
     {
         return $this->hasMany(CategoryUser::class, 'id_category', 'id_category');
     }
@@ -35,12 +37,12 @@ class Category extends Model
     {
         $idUser = $idUser ?? auth()->user()->id_user;
 
-        return $query->where(function ($q) use ($idUser) {
+        return $query->where(function (Builder $q) use ($idUser) {
             // sem vínculos
             $q->whereDoesntHave('users')
 
                 // OU vinculado ao usuário
-                ->orWhereHas('users', function ($sub) use ($idUser) {
+                ->orWhereHas('users', function (Builder $sub) use ($idUser) {
                     $sub->where('id_user', $idUser);
                 });
         });

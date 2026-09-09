@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -18,7 +19,7 @@ class Profile extends Model
         'root',
     ];
 
-    public function permissions()
+    public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class, 'id_profile', 'id_profile');
     }

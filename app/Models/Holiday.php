@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -21,7 +23,7 @@ class Holiday extends Model
         'name',
     ];
 
-    public function getDateAttribute()
+    public function getDateAttribute(): string
     {
 
         if ($this->easter !== null) {
@@ -33,17 +35,17 @@ class Holiday extends Model
         }
     }
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         return $this->easter !== null ? "easter" : ($this->year == null ? "repeat" : "unique");
     }
 
-    public function holidays_branches()
+    public function holidays_branches(): HasMany
     {
         return $this->hasMany(HolidayBranch::class, 'id_holiday', 'id_holiday');
     }
 
-    public function branches()
+    public function branches(): BelongsToMany
     {
         return $this->belongsToMany(Branch::class, HolidayBranch::class, 'id_holiday', 'id_branch');
     }

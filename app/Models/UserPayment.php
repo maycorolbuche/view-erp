@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -20,7 +21,7 @@ class UserPayment extends Model
         'description',
     ];
 
-    public function scopeUser($query, $id_user)
+    public function scopeUser(Builder $query, int|string $id_user): Builder
     {
         return $query->where('id_user', $id_user);
     }
