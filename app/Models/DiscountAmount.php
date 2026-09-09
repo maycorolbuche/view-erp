@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -19,7 +20,7 @@ class DiscountAmount extends Model
         'amount',
     ];
 
-    public function scopeDiscount($query, $id_discount)
+    public function scopeDiscount(Builder $query, int|string $id_discount): Builder
     {
         return $query->where('id_discount', $id_discount);
     }

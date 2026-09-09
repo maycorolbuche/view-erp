@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -20,12 +22,12 @@ class UserDependent extends Model
         'birth_date',
     ];
 
-    public function relationship_degree()
+    public function relationship_degree(): HasOne
     {
         return $this->hasOne(RelationshipDegree::class, 'id_relationship_degree', 'id_relationship_degree');
     }
 
-    public function scopeUser($query, $id_user)
+    public function scopeUser(Builder $query, int|string $id_user): Builder
     {
         return $query->where('id_user', $id_user);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -27,7 +28,7 @@ class UserVacation extends Model
         'end_date',
     ];
 
-    public function scopeUser($query, $id_user)
+    public function scopeUser(Builder $query, int|string $id_user): Builder
     {
         return $query->where('id_user', $id_user);
     }

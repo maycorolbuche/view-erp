@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -25,17 +27,17 @@ class UserPhone extends Model
     ];
 
 
-    public function carrier()
+    public function carrier(): HasOne
     {
         return $this->hasOne(Carrier::class, 'id_carrier', 'id_carrier');
     }
 
-    public function phone_type()
+    public function phone_type(): HasOne
     {
         return $this->hasOne(PhoneType::class, 'id_phone_type', 'id_phone_type');
     }
 
-    public function scopeUser($query, $id_user)
+    public function scopeUser(Builder $query, int|string $id_user): Builder
     {
         return $query->where('id_user', $id_user);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,7 @@ class RouteGroup extends Model
         'note',
     ];
 
-    public function routes()
+    public function routes(): HasMany
     {
         return $this->hasMany(Route::class, 'id_route_group', 'id_route_group');
     }

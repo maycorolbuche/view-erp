@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -19,7 +20,7 @@ class Notification extends Model
         'id_route',
     ];
 
-    public function users_notifications()
+    public function users_notifications(): HasMany
     {
         return $this->hasMany(UserNotification::class, 'id_notification', 'id_notification');
     }

@@ -25,7 +25,7 @@ class File extends Model
 
     protected $appends = ['url'];
 
-    public function getUrlAttribute()
+    public function getUrlAttribute(): string
     {
         return Storage::disk($this->disk)->url($this->path);
     }

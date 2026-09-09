@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\CreatedUpdatedBy;
@@ -24,12 +25,12 @@ class Permission extends Model
         'permissions' => 'array',
     ];
 
-    public function route()
+    public function route(): HasOne
     {
         return $this->hasOne(Route::class, 'id_route', 'id_route');
     }
 
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class, 'id_profile', 'id_profile');
     }
