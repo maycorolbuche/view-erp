@@ -53,14 +53,14 @@
                         <x-panel title="Por Categoria" height="100%" body-height="calc(100% - 40px)">
                             <x-chart seriesName="Valor"
                                 pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})"
-                                series="{{ json_encode($chart_categories) }}" />
+                                :series="json_encode($chart_categories)" />
                         </x-panel>
                     </x-group-item>
                     <x-group-item width="250" padding="3px">
                         <x-panel title="Por Cliente" height="100%" body-height="calc(100% - 40px)">
                             <x-chart seriesName="Valor"
                                 pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})"
-                                series="{{ json_encode($chart_clients) }}" />
+                                :series="json_encode($chart_clients)" />
                         </x-panel>
                     </x-group-item>
                 </x-group>

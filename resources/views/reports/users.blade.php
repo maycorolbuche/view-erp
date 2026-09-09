@@ -26,8 +26,7 @@
             <x-title>Geral</x-title>
 
             <x-chart height="300px" seriesName="Valor"
-                pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})"
-                series="{{ json_encode($data['general_chart']) }}" />
+                pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})" :series="json_encode($data['general_chart'])" />
 
 
             <x-table order=1 limit=10>
@@ -64,9 +63,8 @@
             <x-title>Despesas por Usuários</x-title>
 
             <x-chart type="column" height="300px" seriesName="Valor"
-                pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})"
-                categories="{{ json_encode($data['users_chart_categories']) }}"
-                series="{{ json_encode($data['users_chart']) }}" />
+                pointFormat="{series.name}: <b>{point.percentage:.1f}%</b> (R$ {point.y:.2f})" :categories="json_encode($data['users_chart_categories'])"
+                :series="json_encode($data['users_chart'])" />
 
         </x-panel>
     </x-content>

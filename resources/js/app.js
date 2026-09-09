@@ -16,3 +16,4 @@ import "./plugins/viacep";
 import "./components/loading";
 import "./components/sidebar";
 import "./components/password";
+import "./components/filters";
