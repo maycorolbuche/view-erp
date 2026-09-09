@@ -18,7 +18,7 @@ class AuthenticationRoutesTest extends TestCase
 
     public function test_logout_is_not_available_through_get(): void
     {
-        $this->get('/logout')->assertNotFound();
+        $this->get('/logout')->assertStatus(405);
     }
 
     public function test_guest_posting_logout_is_redirected_to_login(): void
