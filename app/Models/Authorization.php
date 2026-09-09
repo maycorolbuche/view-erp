@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use App\Helpers\ConfigHelper as Configs;
 use App\Traits\CreatedUpdatedBy;
 use Carbon\Carbon;
 
@@ -185,5 +186,38 @@ class Authorization extends Model
     {
         return self::pendingResponse($id_user)
             ->count();
+    }
+
+    private static function expirationLimitDate(): Carbon
+    {
+        return now()->subDays(
+            (int) Configs::get('authorizations.active.days_to_close', 30)
+        );
+    }
+
+    private static function applyCanExpireQuery(Builder $query): Builder
+    {
+        $limitDate = self::expirationLimitDate();
+
+        return $query
+            ->where('end_datetime', '<', $limitDate)
+            ->where('created_at', '<', $limitDate)
+            ->whereDoesntHave('authorization_statuses', function ($query) use ($limitDate) {
+                $query->where('created_at', '>=', $limitDate)
+                    ->orWhere('updated_at', '>=', $limitDate);
+            });
+    }
+
+    public function scopeCanExpire(Builder $query): Builder
+    {
+        return self::applyCanExpireQuery($query);
+    }
+
+    public function getCanExpireAttribute(): bool
+    {
+        return self::query()
+            ->whereKey($this->getKey())
+            ->canExpire()
+            ->exists();
     }
 }

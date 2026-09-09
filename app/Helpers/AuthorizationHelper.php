@@ -90,13 +90,8 @@ class AuthorizationHelper
 
 
         $authorizations = Authorization::query()
-            ->where('end_datetime', '<', $limitDate)
-            ->where('created_at', '<', $limitDate)
-            ->where('active', true)
-            ->whereDoesntHave('authorization_statuses', function ($query) use ($limitDate) {
-                $query->where('created_at', '>=', $limitDate)
-                    ->orWhere('updated_at', '>=', $limitDate);
-            })
+            ->active()
+            ->canExpire()
             ->get();
         foreach ($authorizations as $authorization) {
             $authorization->active = false;

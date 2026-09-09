@@ -16,7 +16,7 @@ use Database\Seeders\Fakers\ExpensesTableSeeder;
 use Database\Seeders\Fakers\PermissionsSeeder;
 use Database\Seeders\Fakers\RootHelperSeeder;
 
-class DatabaseSeeder extends Seeder
+class FakerSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // php artisan db:seed --class="Database\Seeders\Fakers\FakerSeeder
+
+
         $this->call(SystemsTableSeeder::class);
         $this->call(BranchesTableSeeder::class);
         $this->call(ClientsTableSeeder::class);

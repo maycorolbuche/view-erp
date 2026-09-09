@@ -16,6 +16,89 @@ use App\Models\Route as Routes;
 |
 */
 
+/*
+Route::get('/__authorizations', function () {
+    $days_to_close = +App\Helpers\ConfigHelper::get('authorizations.active.days_to_close', 30);
+
+
+    $authorizations = \App\Models\Authorization::query()
+        ->orderByDesc('id_authorization')
+        ->get();
+
+    $html = '
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: 8px;
+                border: 1px solid #ccc;
+                text-align: left;
+            }
+
+            th {
+                background: #eee;
+            }
+
+            .yes {
+                background: #d4edda;
+                color: #155724;
+                font-weight: bold;
+            }
+
+            .no {
+                background: #f8d7da;
+                color: #721c24;
+            }
+        </style>
+
+        <h2>Debug Authorizations |  days_to_close: ' . $days_to_close . '</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Created At</th>
+                    <th>End Datetime</th>
+                    <th>Active</th>
+                    <th>Can Expire</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+
+    foreach ($authorizations as $authorization) {
+        $canExpire = $authorization->can_expire;
+
+        $html .= '
+            <tr>
+                <td>' . $authorization->id_authorization . '</td>
+                <td>' . $authorization->created_at . '</td>
+                <td>' . $authorization->end_datetime . '</td>
+                <td>' . ($authorization->active ? 'SIM' : 'NÃO') . '</td>
+                <td class="' . ($canExpire ? 'yes' : 'no') . '">
+                    ' . ($canExpire ? 'SIM' : 'NÃO') . '
+                </td>
+            </tr>
+        ';
+    }
+
+    $html .= '
+            </tbody>
+        </table>
+    ';
+
+    return $html;
+});
+*/
+
 Route::get('/home', function () {
     return redirect('/');
 });
