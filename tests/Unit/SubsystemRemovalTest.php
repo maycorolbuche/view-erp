@@ -31,6 +31,14 @@ class SubsystemRemovalTest extends TestCase
         }
     }
 
+    public function test_permission_middleware_uses_existing_authorization_helper(): void
+    {
+        $middleware = file_get_contents(__DIR__ . '/../../app/Http/Middleware/LoadPermissions.php');
+
+        $this->assertStringContainsString('AuthorizationHelper::pending_count()', $middleware);
+        $this->assertStringNotContainsString('Authorization::getPendingResponseCount()', $middleware);
+    }
+
     public function test_obsolete_system_runtime_artifacts_were_removed(): void
     {
         $this->assertFileDoesNotExist(__DIR__ . '/../../app/Models/System.php');

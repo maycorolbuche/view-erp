@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Authorization;
+use App\Helpers\AuthorizationHelper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +47,7 @@ class LoadPermissions
         $request->merge([
             '__permissions' => $permissionsGroup,
             '__permissions_list' => $permissionsList,
-            '__count_authorization' => Authorization::getPendingResponseCount(),
+            '__count_authorization' => AuthorizationHelper::pending_count(),
         ]);
 
         return $next($request);
