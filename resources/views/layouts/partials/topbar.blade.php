@@ -19,7 +19,7 @@
                 @endphp
                 <li class="crumb-{{ $type }}">
                     @if ($index < count($breadcrumb) - 1 && $path != '')
-                        <a href="{{ route($path, ['system' => request('__system')['slug']]) }}">
+                        <a href="{{ route($path) }}">
                             @if ($icon != '')
                                 <span class="{{ $icon }}"></span>
                             @endif

@@ -173,11 +173,6 @@ class User extends Authenticatable implements CanResetPassword
 
 
 
-    public function systems()
-    {
-        return $this->belongsToMany(System::class, UserSystem::class, 'id_user', 'id_system');
-    }
-
     public function profiles()
     {
         return $this->belongsToMany(Profile::class, UserProfile::class, 'id_user', 'id_profile')->withPivot('id_user_profile');

@@ -20,7 +20,6 @@ class Access
     {
         $current_route = explode(".", \Route::currentRouteName() ?? '');
 
-        $id_system = ($request->input('__id_system'));
         $route = Route::where('name', $current_route[0])->first();
 
         if (!$route || !isset($request['__permissions_list'][$route->name])) {
@@ -33,19 +32,19 @@ class Access
         $id_route = $route['id_route'];
 
         //Verifica se tem permissão para acessar esta rota
-        $access = Auth::user()->load(['permissions' => function ($query) use ($id_route, $id_system) {
-            $query->where('id_route', $id_route)->where('id_system', $id_system);
+        $access = Auth::user()->load(['permissions' => function ($query) use ($id_route) {
+            $query->where('id_route', $id_route);
         }])['permissions'];
 
         if (count($access) <= 0) {
 
 
             //Verifica se o(s) perfil(s) tem permissão para acessar esta rota
-            $access = Auth::user()->load(['profiles' => function ($query) use ($id_route, $id_system) {
-                $query->where('id_system', $id_system)->whereHas('permissions', function ($subquery) use ($id_route, $id_system) {
-                    $subquery->where('id_route', $id_route)->where('id_system', $id_system);
-                })->with(['permissions' => function ($subquery) use ($id_route, $id_system) {
-                    $subquery->where('id_route', $id_route)->where('id_system', $id_system);
+            $access = Auth::user()->load(['profiles' => function ($query) use ($id_route) {
+                $query->whereHas('permissions', function ($subquery) use ($id_route) {
+                    $subquery->where('id_route', $id_route);
+                })->with(['permissions' => function ($subquery) use ($id_route) {
+                    $subquery->where('id_route', $id_route);
                 }]);
             }])['profiles'];
 

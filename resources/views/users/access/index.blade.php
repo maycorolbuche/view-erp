@@ -16,7 +16,7 @@
 
             @if ($user->root == true)
                 <x-note type="warning">
-                    Este é um usuário do sistema. Ele não pode ser desativado!
+                    Este é um usuário raiz. Ele não pode ser desativado!
                 </x-note>
             @endif
 

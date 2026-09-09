@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Profile;
 use App\Models\UserProfile;
-use App\Models\UserSystem;
 use Illuminate\Http\Request;
 use App\Helpers\RootHelper as Root;
 
@@ -25,16 +24,13 @@ class UserProfileController extends Controller
     public function index($id)
     {
         $pid = $id;
-        $id_system = request('__id_system');
-
         try {
             $user = User::find($id);
             if ($user) {
-                $profiles = Profile::where('id_system', $id_system)->orderBy('name')->get();
+                $profiles = Profile::orderBy('name')->get();
                 $users_profiles = UserProfile::where('id_user', $id)->get()->keyBy('id_profile');
-                $has_access = UserSystem::where('id_system', $id_system)->where('id_user', $id)->exists();
 
-                return view('users.profiles.index', compact('pid', 'user', 'profiles', 'users_profiles', 'has_access'));
+                return view('users.profiles.index', compact('pid', 'user', 'profiles', 'users_profiles'));
             } else {
                 return redirect()->route('users-profiles')->with('error', 'Registro não encontrado!');
             }
@@ -64,11 +60,10 @@ class UserProfileController extends Controller
                 if ($user->root) {
                     return redirect()->back()->with('error', 'Não é possível alterar os perfis do usuário raiz!');
                 } else {
-                    $profiles = Profile::where('id_system', $request->__id_system)->pluck('id_profile')->toArray();
-
-                    UserProfile::where('id_user', $id)->whereIn('id_profile', $profiles)->delete();
+                    $profiles = Profile::pluck('id_profile')->toArray();
+                    UserProfile::where('id_user', $id)->delete();
                     if (isset($request->profile)) {
-                        foreach (array_keys($request->profile) as $id_profile) {
+                        foreach (array_intersect(array_keys($request->profile), $profiles) as $id_profile) {
                             UserProfile::create(['id_user' => $id, 'id_profile' => $id_profile]);
                         }
                     }

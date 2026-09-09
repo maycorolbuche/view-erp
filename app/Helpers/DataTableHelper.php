@@ -5,7 +5,6 @@ namespace App\Helpers;
 use App\Models\Expense;
 use App\Models\Batch;
 use App\Models\Authorization;
-use App\Models\System;
 use App\Models\Client;
 use App\Models\Branch;
 use App\Models\Holiday;
@@ -335,25 +334,6 @@ class DataTableHelper
             ->make(true);
     }
 
-    public static function systems($query = null)
-    {
-        $data = $query ?: System::query();
-        $id_field = request('id-field') ?: 'id';
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($row) use ($id_field) {
-                $edit_route = route(request('route') ?: 'systems.show', [$id_field => $row->id_system]);
-                $actionBtn = '<a href="' . $edit_route . '" class="edit btn btn-warning btn-sm"><i class="bi bi-pen"></i></a>';
-                return $actionBtn;
-            })
-            ->addColumn('icon', function ($row) {
-                return "<i style='font-size:20px' class='" . $row->icon . "'></i>";
-            })
-            ->rawColumns(['actions', 'icon'])
-            ->make(true);
-    }
-
     public static function clients($query = null)
     {
         $data = $query ?: Client::query();
@@ -641,10 +621,7 @@ class DataTableHelper
         $data = $query ?: User::query();
         $data->with(['branch']);
 
-        $id_system = request('__id_system');
-        $system = System::where('id_system', $id_system)->first();
-
-        if ($system->root != true) {
+        if (!auth()->user()->root) {
             $data->where('root', false);
         }
         $id_field = request('id-field') ?: 'id';

@@ -33,8 +33,6 @@ class ProfileController extends Controller
         }
 
         unset($request["root"]);
-        $request->merge(['id_system' => request('__id_system')]);
-
         try {
             $profile = Profile::create($request->all());
             Root::run();
@@ -130,7 +128,6 @@ class ProfileController extends Controller
 
     public function datatable()
     {
-        $id_system = request('__id_system');
-        return DataTableHelper::profiles(Profile::system($id_system));
+        return DataTableHelper::profiles();
     }
 }

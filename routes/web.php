@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use App\Models\System;
 use App\Models\Route as Routes;
 
 /*
@@ -18,7 +17,7 @@ use App\Models\Route as Routes;
 
 Route::get('/home', function () {
     return redirect('/');
-});
+})->name('home');
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/schedule', 'Data\ScheduleController@run')->name('schedule');
@@ -39,7 +38,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     });
 
     Route::group(['middleware' => ['auth', 'active']], function () {
-        Route::get('/', 'HomeController@index')->name('home');
         Route::post('/logout', 'Auth\LogoutController@index')->name('logout');
 
         Route::group(['prefix' => 'data'], function () {
@@ -64,82 +62,73 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             return response()->file($fullPath);
         })->where('path', '.*');
 
-        try {
-            $routes = Routes::all();
-            $systems = System::all();
-            $path = explode("/", request()->path());
+        Route::group(['middleware' => ['permissions']], function () {
+            Route::get('/', 'HomeController@index')->name('dashboard');
 
-            foreach ($systems as $system) {
-                Route::group(['prefix' => $system->slug, 'middleware' => ['system']], function () use ($routes, $path, $system) {
+            try {
+                $routes = Routes::all();
 
-                    Route::get('/', 'HomeController@dashboard')->name('system.' . $system->slug);
+                Route::group(['prefix' => 'me'], function () {
+                    Route::get('/password-change', 'Auth\PasswordChangeController@index')->name('me-password-change');
+                    Route::put('/password-change', 'Auth\PasswordChangeController@update')->name('me-password-change.update');
 
-                    if ($path[0] == $system->slug) {
-                        Route::group(['prefix' => 'me'], function () {
-                            Route::get('/password-change', 'Auth\PasswordChangeController@index')->name('me-password-change');
-                            Route::put('/password-change', 'Auth\PasswordChangeController@update')->name('me-password-change.update');
+                    Route::get('/authorizations', 'Me\AuthorizationController@index')->name('me-authorizations');
+                    Route::get('/authorizations/datatable', 'Me\AuthorizationController@datatable')->name('me-authorizations.datatable');
+                    Route::get('/authorizations/{id}', 'Me\AuthorizationController@show')->where('id', '[0-9]+')->name('me-authorizations.show');
+                    Route::put('/authorizations/{id}', 'Me\AuthorizationController@update')->where('id', '[0-9]+')->name('me-authorizations.update');
 
-                            Route::get('/authorizations', 'Me\AuthorizationController@index')->name('me-authorizations');
-                            Route::get('/authorizations/datatable', 'Me\AuthorizationController@datatable')->name('me-authorizations.datatable');
-                            Route::get('/authorizations/{id}', 'Me\AuthorizationController@show')->where('id', '[0-9]+')->name('me-authorizations.show');
-                            Route::put('/authorizations/{id}', 'Me\AuthorizationController@update')->where('id', '[0-9]+')->name('me-authorizations.update');
+                    Route::get('/batches', 'Me\BatchController@index')->name('me-batches');
+                    Route::get('/batches/datatable', 'Me\BatchController@datatable')->name('me-batches.datatable');
+                    Route::get('/batches/{id}', 'Me\BatchController@show')->where('id', '[0-9]+')->name('me-batches.show');
+                    Route::delete('/batches/{id}', 'Me\BatchController@destroy')->where('id', '[0-9]+')->name('me-batches.destroy');
+                });
 
-                            Route::get('/batches', 'Me\BatchController@index')->name('me-batches');
-                            Route::get('/batches/datatable', 'Me\BatchController@datatable')->name('me-batches.datatable');
-                            Route::get('/batches/{id}', 'Me\BatchController@show')->where('id', '[0-9]+')->name('me-batches.show');
-                            Route::delete('/batches/{id}', 'Me\BatchController@destroy')->where('id', '[0-9]+')->name('me-batches.destroy');
-                        });
+                Route::group(['prefix' => 'search'], function () {
+                    //Route::get('/users', 'Search\UserSearchController@index')->name('users-search');
+                    //Route::get('/users/datatable', 'Me\BatchController@datatable')->name('users-search.datatable');
+                });
 
-                        Route::group(['prefix' => 'search'], function () {
-                            //Route::get('/users', 'Search\UserSearchController@index')->name('users-search');
-                            //Route::get('/users/datatable', 'Me\BatchController@datatable')->name('users-search.datatable');
-                        });
+                Route::get('/pdf/batch/{id}', 'PdfController@batch')->name('pdf.batch');
 
-                        Route::get('/pdf/batch/{id}', 'PdfController@batch')->name('pdf.batch');
+                Route::group(['middleware' => ['access']], function () use ($routes) {
+                    foreach ($routes as $route) {
+                        Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
 
-                        Route::get('/', 'HomeController@dashboard')->name('dashboard');
-
-                        Route::group(['middleware' => ['access']], function () use ($routes) {
-                            foreach ($routes as $route) {
-
-                                Route::get($route->uri . '/datatable', $route->controller . '@datatable')->name($route->name . '.datatable');
-
-                                if (in_array("index", $route->resources)) {
-                                    if (strpos($route->uri, "/{pid}/") !== false) {
-                                        Route::get(str_replace("/{pid}/", "/", $route->uri), $route->controller . '@parent')->name($route->name);
-                                        Route::get($route->uri, $route->controller . '@index')->name($route->name . ".index");
-                                    } else {
-                                        Route::get($route->uri, $route->controller . '@index')->name($route->name);
-                                    }
-                                }
-                                if (in_array("create", $route->resources)) {
-                                    Route::get($route->uri . '/create', $route->controller . '@create')->name($route->name . '.create');
-                                }
-                                if (in_array("store", $route->resources)) {
-                                    Route::post($route->uri, $route->controller . '@store')->name($route->name . '.store');
-                                }
-                                if (in_array("show", $route->resources)) {
-                                    Route::get($route->uri . '/{id}', $route->controller . '@show')->where('id', '[0-9]+')->name($route->name . '.show');
-                                }
-                                if (in_array("edit", $route->resources)) {
-                                    Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->where('id', '[0-9]+')->name($route->name . '.edit');
-                                }
-
-                                if (in_array("update-all", $route->resources)) {
-                                    Route::put($route->uri, $route->controller . '@update')->where('id', '[0-9]+')->name($route->name . '.update');
-                                } elseif (in_array("update", $route->resources)) {
-                                    Route::put($route->uri . '/{id}', $route->controller . '@update')->where('id', '[0-9]+')->name($route->name . '.update');
-                                }
-
-                                if (in_array("destroy", $route->resources)) {
-                                    Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->where('id', '[0-9]+')->name($route->name . '.destroy');
-                                }
+                        if (in_array("index", $route->resources)) {
+                            if (strpos($route->uri, "/{pid}/") !== false) {
+                                Route::get(str_replace("/{pid}/", "/", $route->uri), $route->controller . '@parent')->name($route->name);
+                                Route::get($route->uri, $route->controller . '@index')->name($route->name . ".index");
+                            } else {
+                                Route::get($route->uri, $route->controller . '@index')->name($route->name);
                             }
-                        });
+                        }
+                        if (in_array("create", $route->resources)) {
+                            Route::get($route->uri . '/create', $route->controller . '@create')->name($route->name . '.create');
+                        }
+                        if (in_array("store", $route->resources)) {
+                            Route::post($route->uri, $route->controller . '@store')->name($route->name . '.store');
+                        }
+                        if (in_array("show", $route->resources)) {
+                            Route::get($route->uri . '/{id}', $route->controller . '@show')->where('id', '[0-9]+')->name($route->name . '.show');
+                        }
+                        if (in_array("edit", $route->resources)) {
+                            Route::get($route->uri . '/{id}/edit', $route->controller . '@edit')->where('id', '[0-9]+')->name($route->name . '.edit');
+                        }
+
+                        if (in_array("update-all", $route->resources)) {
+                            Route::put($route->uri, $route->controller . '@update')->where('id', '[0-9]+')->name($route->name . '.update');
+                        } elseif (in_array("update", $route->resources)) {
+                            Route::put($route->uri . '/{id}', $route->controller . '@update')->where('id', '[0-9]+')->name($route->name . '.update');
+                        }
+
+                        if (in_array("destroy", $route->resources)) {
+                            Route::delete($route->uri . '/{id}', $route->controller . '@destroy')->where('id', '[0-9]+')->name($route->name . '.destroy');
+                        }
                     }
                 });
+            } catch (\Exception $e) {
+                report($e);
             }
-        } catch (\Exception $e) {
-        }
+        });
     });
 });

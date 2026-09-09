@@ -15,7 +15,6 @@ class Permission extends Model
 
     protected $fillable = [
         'id_route',
-        'id_system',
         'id_user',
         'id_profile',
         'permissions',

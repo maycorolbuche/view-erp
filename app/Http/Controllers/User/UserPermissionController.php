@@ -23,30 +23,29 @@ class UserPermissionController extends Controller
      */
     public function index($id)
     {
-        $id_system = request('__id_system');
         $user = User::find($id);
         if (!$user) {
             return redirect()->route('users-permissions')->with('error', 'Registro não encontrado!');
         }
 
-        $routes = RouteGroup::orderBy('sequence')->with(['routes' => function ($query) use ($id_system) {
+        $routes = RouteGroup::orderBy('sequence')->with(['routes' => function ($query) {
             $query->select([
                 "id_route", "id_route_group", "label", "name", "uri", "controller", "resources", "icon", "sequence", "root"
-            ])->with(['permissions' => function ($subquery) use ($id_system) {
-                $subquery->where('id_system', $id_system)->whereNull('id_user')->whereNull('id_user');
-            }])->whereHas('permissions', function ($subquery) use ($id_system) {
-                $subquery->where('id_system', $id_system)->whereNull('id_user')->whereNull('id_user');
+            ])->with(['permissions' => function ($subquery) {
+                $subquery->whereNull('id_user')->whereNull('id_profile');
+            }])->whereHas('permissions', function ($subquery) {
+                $subquery->whereNull('id_user')->whereNull('id_profile');
             })->orderBy('sequence');
-        }])->whereHas('routes', function ($query) use ($id_system) {
-            $query->whereHas('permissions', function ($subquery) use ($id_system) {
-                $subquery->where('id_system', $id_system)->whereNull('id_user')->whereNull('id_user');
+        }])->whereHas('routes', function ($query) {
+            $query->whereHas('permissions', function ($subquery) {
+                $subquery->whereNull('id_user')->whereNull('id_profile');
             });
         })->get();
 
-        $permissions = Permission::where(['id_system' => $id_system, 'id_user' => $id])->whereNull('id_profile')->get()->keyBy('id_route');
+        $permissions = Permission::where('id_user', $id)->whereNull('id_profile')->get()->keyBy('id_route');
 
         $profiles = UserProfile::where(['id_user' => $id])->pluck('id_profile')->toArray();
-        $permissions_profiles = Permission::where('id_system', $id_system)->whereIn('id_profile', $profiles)->whereNull('id_user')->with('profile')->get();
+        $permissions_profiles = Permission::whereIn('id_profile', $profiles)->whereNull('id_user')->with('profile')->get();
 
         $group_permissions = [];
         foreach ($permissions_profiles as $permission) {
@@ -68,8 +67,6 @@ class UserPermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $id_system = request('__id_system');
-
         if (!in_array('update', request('__permissions_page'))) {
             return redirect()->back()->with('error', 'Você não tem permissão para salvar nessa página!')->withInput();
         }
@@ -77,11 +74,10 @@ class UserPermissionController extends Controller
         try {
             $user = User::find($id);
             if ($user) {
-                Permission::where('id_system', $id_system)->where('id_user', $id)->delete();
+                Permission::where('id_user', $id)->delete();
                 if (isset($request->route)) {
                     foreach ($request->route as $id_route => $value) {
                         $data = [];
-                        $data['id_system'] = $id_system;
                         $data['id_user'] = $id;
                         $data['id_route'] = $id_route;
 
