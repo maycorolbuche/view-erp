@@ -54,6 +54,12 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'root_user' => [
+        'username' => env('ROOT_USER_USERNAME', 'admin'),
+        'email' => env('ROOT_USER_EMAIL'),
+        'password' => env('ROOT_USER_PASSWORD'),
+    ],
+
     'asset_url' => env('ASSET_URL', null),
 
     /*

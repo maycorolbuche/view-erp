@@ -47,18 +47,14 @@ class LoginController extends Controller
                 ->withErrors(trans('auth.failed'));
         }
 
-        if (!app()->environment('local')) {
-            if (!Auth::attempt($credentials, $remember)) {
-                return redirect()
-                    ->route('login')
-                    ->withInput()
-                    ->withErrors(trans('auth.failed'));
-            }
-
-            $user = Auth::user();
-        } else {
-            Auth::login($user, $remember);
+        if (!Auth::attempt($credentials, $remember)) {
+            return redirect()
+                ->route('login')
+                ->withInput()
+                ->withErrors(trans('auth.failed'));
         }
+
+        $user = Auth::user();
 
         if ($user->active <= 0) {
             Auth::logout();
