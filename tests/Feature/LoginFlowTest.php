@@ -13,6 +13,10 @@ class LoginFlowTest extends TestCase
     {
         parent::setUp();
 
+        // Never recreate tables on a persistent connection, even with cached config.
+        $this->assertSame('sqlite', config('database.default'));
+        $this->assertSame(':memory:', config('database.connections.sqlite.database'));
+
         Schema::dropIfExists('users');
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id_user');
@@ -22,6 +26,11 @@ class LoginFlowTest extends TestCase
             $table->string('password')->nullable();
             $table->boolean('active')->default(true);
             $table->boolean('root')->default(false);
+            // Authenticated triggers UpdateLastAccess and the audit trait.
+            $table->dateTime('last_access')->nullable();
+            $table->integer('count_access')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -37,6 +46,11 @@ class LoginFlowTest extends TestCase
         ])->assertRedirect('/');
 
         $this->assertAuthenticatedAs($user);
+
+        $user->refresh();
+        $this->assertNotNull($user->last_access);
+        $this->assertSame(1, (int) $user->count_access);
+        $this->assertSame($user->id_user, (int) $user->updated_by);
     }
 
     public function test_user_can_log_in_with_email(): void
