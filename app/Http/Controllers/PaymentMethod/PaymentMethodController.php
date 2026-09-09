@@ -36,7 +36,8 @@ class PaymentMethodController extends Controller
             $payment_method = PaymentMethod::create($request->all());
             return redirect()->route('payment-methods.show', ['id' => $payment_method->id_payment_method])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -85,7 +86,8 @@ class PaymentMethodController extends Controller
                 return redirect()->route('payment-methods')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -110,7 +112,8 @@ class PaymentMethodController extends Controller
                 return redirect()->route('payment-methods')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 

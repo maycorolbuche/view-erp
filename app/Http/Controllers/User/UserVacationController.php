@@ -31,7 +31,8 @@ class UserVacationController extends Controller
                 return redirect()->route('users-vacations')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -58,7 +59,8 @@ class UserVacationController extends Controller
             $user_vacation = UserVacation::create($request->all());
             return redirect()->route('users-vacations.show', ['pid' => $pid, 'id' => $user_vacation->id_user_vacation])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -120,7 +122,8 @@ class UserVacationController extends Controller
                 return redirect()->route('users-vacations')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -151,7 +154,8 @@ class UserVacationController extends Controller
                 return redirect()->route('users-vacations.index', compact('pid'))->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 

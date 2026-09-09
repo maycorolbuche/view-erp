@@ -43,7 +43,8 @@ class DiscountController extends Controller
 
             return redirect()->route('discounts.show', ['id' => $discount->id_discount])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -101,7 +102,8 @@ class DiscountController extends Controller
                 return redirect()->route('discounts')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -126,7 +128,8 @@ class DiscountController extends Controller
                 return redirect()->route('discounts')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 

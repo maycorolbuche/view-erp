@@ -326,7 +326,7 @@ class DataTableHelper
                 if ($row->authorization_type->type == 'cash-advance' || $row->authorization_type->type == 'cash-advance-return') {
                     $html .= 'Valor: <b>R$ ' . number_format(abs($row->amount), 2, ',', '.') . '</b> | ';
                 }
-                return $html . $row->description;
+                return $html . e($row->description);
             })
             ->editColumn('amount', function ($row) {
                 return number_format($row->amount, 2, ',', '.');
@@ -1035,7 +1035,7 @@ class DataTableHelper
                 return '<span class="' . ($amount < 0 ? 'text-danger' : ($amount > 0 ? 'text-info' : '')) . '">' . number_format($amount, 2, ',', '.') . '</span>';
             })
             ->addColumn('description', function ($row) {
-                return ($row->transaction ? $row->transaction->description : ($row->id_batch ? '<span class="text-info">Lote ' . $row->id_batch . "</span>" : ''));
+                return ($row->transaction ? e($row->transaction->description) : ($row->id_batch ? '<span class="text-info">Lote ' . (int) $row->id_batch . "</span>" : ''));
             })
             ->addIndexColumn()
             ->rawColumns(['amount', 'previous_balance', 'current_balance', 'description'])
@@ -1061,7 +1061,7 @@ class DataTableHelper
                 if ($row->id_batch) {
                     $details .= " <span class='label label-dark'>#Lote " . $row->id_batch . "</span>";
                 }
-                return $row->description . $details;
+                return e($row->description) . $details;
             })
             ->rawColumns(['amount', 'description'])
             ->make(true);

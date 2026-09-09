@@ -36,7 +36,8 @@ class PhoneTypeController extends Controller
             $phone_type = PhoneType::create($request->all());
             return redirect()->route('phones-types.show', ['id' => $phone_type->id_phone_type])->with('success', 'Registro cadastrado com sucesso');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -85,7 +86,8 @@ class PhoneTypeController extends Controller
                 return redirect()->route('phones-types')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
@@ -110,7 +112,8 @@ class PhoneTypeController extends Controller
                 return redirect()->route('phones-types')->with('error', 'Registro não encontrado!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 

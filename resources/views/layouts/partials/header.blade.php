@@ -44,7 +44,7 @@
                 </x-dropdown.item>
                 <x-dropdown.item icon="database" href="{{ route('me-batches') }}">Lotes</x-dropdown.item>
                 <x-dropdown.item icon="box-arrow-right" type="danger"
-                    href="{{ route('logout') }}">Desconectar</x-dropdown.item>
+                    href="{{ route('logout') }}" method="post">Desconectar</x-dropdown.item>
             </x-dropdown>
 
         </div>

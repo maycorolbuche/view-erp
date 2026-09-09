@@ -45,7 +45,8 @@ class PasswordChangeController extends Controller
                 return back()->withErrors(['current_password' => 'A senha atual não corresponde.'])->withInput();
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 }

@@ -18,8 +18,10 @@ class Item extends BaseComponent
         public ?string $href = null,
         public ?int $count = 0,
         public ?string $type = null,
+        public string $method = 'get',
     ) {
         $this->icon = $this->formatIcon($icon);
+        $this->method = strtolower($method);
     }
 
     /**

@@ -54,10 +54,12 @@ class AuthorizationExpenseController extends Controller
                 $this->sendMail($authorization_expense->id_authorization);
                 return redirect()->route('authorizations-expenses')->with('success', 'Autorização solicitada com sucesso.');
             } catch (\Exception $e) {
-                return redirect()->back()->with('error', 'A solicitação de despesa foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
+                report($e);
+                return redirect()->back()->with('error', 'A solicitação de despesa foi cadastrada, porém houve um erro ao enviar o e-mail aos responsáveis.')->withInput();
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível concluir a operação. Tente novamente ou contate o suporte.')->withInput();
         }
     }
 
