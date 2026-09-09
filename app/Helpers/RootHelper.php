@@ -2,191 +2,93 @@
 
 namespace App\Helpers;
 
-use App\Models\User;
-use App\Models\System;
+use App\Models\Notification;
 use App\Models\Permission;
 use App\Models\Profile;
-use App\Models\UserProfile;
 use App\Models\Route;
-use App\Models\UserSystem;
-use App\Models\Notification;
+use App\Models\User;
 use App\Models\UserNotification;
-use Illuminate\Database\QueryException;
+use App\Models\UserProfile;
 
 class RootHelper
 {
-
-    public static function run()
+    public static function run(): void
     {
-        //Adiciona todas as rotas para os sistemas "root"
-        $routes = Route::select(['id_route', 'permissions'])/*->where('root', true)*/->get();
-        $systems = System::select('id_system')->where('root', true)->get();
-        foreach ($systems as $system) {
-            foreach ($routes as $route) {
-                $permission = Permission::where([
-                    'id_route' => $route->id_route,
-                    'id_system' => $system->id_system,
-                    'id_user' => null,
-                    'id_profile' => null,
-                ])->first();
-                if ($permission == null) {
-                    Permission::create([
-                        'id_route' => $route->id_route,
-                        'id_system' => $system->id_system,
-                        'permissions' => $route->permissions,
-                    ]);
-                } else {
-                    Permission::where('id_route', $route->id_route)
-                        ->where('id_system', $system->id_system)
-                        ->where('id_user', null)
-                        ->where('id_profile', null)
-                        ->update([
-                            'permissions' => $route->permissions,
-                        ]);
-                }
-            }
+        $routes = Route::select(['id_route', 'permissions'])->get();
+        $routeIds = $routes->pluck('id_route');
+
+        Permission::whereNotIn('id_route', $routeIds)->delete();
+
+        foreach ($routes as $route) {
+            Permission::updateOrCreate(
+                ['id_route' => $route->id_route, 'id_user' => null, 'id_profile' => null],
+                ['permissions' => $route->permissions]
+            );
         }
 
+        foreach (User::select(['id_user', 'root'])->get() as $user) {
+            self::synchronizePermissions('id_user', $user->id_user, (bool) $user->root, $routes);
+        }
 
-        //Verifica as permissões
-        $users = User::select(['id_user', 'root'])->get();
-        $systems = System::select('id_system')->get();
+        if (!Profile::where('root', true)->exists()) {
+            Profile::create(['name' => 'Acesso Total', 'root' => true]);
+        }
 
-        foreach ($systems as $system) {
+        foreach (Profile::select(['id_profile', 'root'])->get() as $profile) {
+            self::synchronizePermissions('id_profile', $profile->id_profile, (bool) $profile->root, $routes);
+        }
 
-            //Verifica as rotas que esse sistema tem acesso
-            $routes = Permission::select(['id_route', 'permissions'])->where(['id_system' => $system->id_system, 'id_user' => null, 'id_profile' => null])->get();
-            $routes_ids = array_map(function ($route) {
-                return $route['id_route'];
-            }, $routes->toArray());
+        self::synchronizeNotifications();
+    }
 
-            //Apaga as permissões dos usuarios e dos perfis que o sistema não tem acesso
-            Permission::where('id_system', $system->id_system)->whereNotIn('id_route', $routes_ids)->where(function ($query) {
-                $query->whereNotNull('id_user')->orWhereNotNull('id_profile');
-            })->delete();
+    private static function synchronizePermissions(string $ownerColumn, int $ownerId, bool $root, $routes): void
+    {
+        $otherOwnerColumn = $ownerColumn === 'id_user' ? 'id_profile' : 'id_user';
 
-            foreach ($users as $user) {
-                foreach ($routes  as $route) {
-                    if ($user->root == true) {
-                        try {
-                            Permission::create([
-                                'id_route' => $route->id_route,
-                                'id_system' => $system->id_system,
-                                'id_user' => $user->id_user,
-                                'permissions' => $route->permissions,
-                            ]);
-                        } catch (QueryException $e) {
-                            Permission::where('id_route', $route->id_route)
-                                ->where('id_system', $system->id_system)
-                                ->where('id_user', $user->id_user)
-                                ->update([
-                                    'permissions' => $route->permissions,
-                                ]);
-                        }
-                    } else {
-                        $permission = Permission::select('permissions')
-                            ->where('id_route', $route->id_route)
-                            ->where('id_system', $system->id_system)
-                            ->where('id_user', $user->id_user)
-                            ->first();
-                        if ($permission != null) {
-                            $res = array_values(array_intersect($permission['permissions'], $route->permissions));
-                            Permission::select('permissions')
-                                ->where('id_route', $route->id_route)
-                                ->where('id_system', $system->id_system)
-                                ->where('id_user', $user->id_user)
-                                ->update([
-                                    'permissions' => $res
-                                ]);
-                        }
-                    }
-                }
+        foreach ($routes as $route) {
+            $attributes = [
+                'id_route' => $route->id_route,
+                $ownerColumn => $ownerId,
+                $otherOwnerColumn => null,
+            ];
 
-                if ($user->root == true) {
-                    try {
-                        UserSystem::create([
-                            'id_system' => $system->id_system,
-                            'id_user' => $user->id_user
-                        ]);
-                    } catch (QueryException $e) {
-                        continue;
-                    }
-                }
-            }
+            $permission = Permission::where($attributes)->first();
 
-            //Verifica se esse sistema tem perfil root, com acesso total, e cria se não tiver
-            $profiles_root = Profile::select(['id_profile', 'root'])->where(['id_system' => $system->id_system, 'root' => true])->get();
-            if (count($profiles_root->toArray()) <= 0) {
-                Profile::create([
-                    'name' => 'Acesso Total',
-                    'id_system' => $system->id_system,
-                    'root' => true
+            if ($root) {
+                Permission::updateOrCreate($attributes, ['permissions' => $route->permissions]);
+            } elseif ($permission) {
+                $permission->update([
+                    'permissions' => array_values(array_intersect(
+                        $permission->permissions ?? [],
+                        $route->permissions ?? []
+                    )),
                 ]);
             }
-
-            $profiles = Profile::select(['id_profile', 'root'])->where('id_system', $system->id_system)->get();
-            foreach ($profiles as $profile) {
-                foreach ($routes  as $route) {
-                    if ($profile->root == true) {
-                        try {
-                            Permission::create([
-                                'id_route' => $route->id_route,
-                                'id_system' => $system->id_system,
-                                'id_profile' => $profile->id_profile,
-                                'permissions' => $route->permissions,
-                            ]);
-                        } catch (QueryException $e) {
-                            Permission::where('id_route', $route->id_route)
-                                ->where('id_system', $system->id_system)
-                                ->where('id_profile', $profile->id_profile)
-                                ->update([
-                                    'permissions' => $route->permissions,
-                                ]);
-                        }
-                    } else {
-                        $permission = Permission::select('permissions')
-                            ->where('id_route', $route->id_route)
-                            ->where('id_system', $system->id_system)
-                            ->where('id_profile', $profile->id_profile)
-                            ->first();
-                        if ($permission != null) {
-                            $res = array_values(array_intersect($permission['permissions'], $route->permissions));
-                            Permission::select('permissions')
-                                ->where('id_route', $route->id_route)
-                                ->where('id_system', $system->id_system)
-                                ->where('id_profile', $profile->id_profile)
-                                ->update([
-                                    'permissions' => $res
-                                ]);
-                        }
-                    }
-                }
-            }
         }
+    }
 
-        //Adiciona as notificações das rotas autorizadas
+    private static function synchronizeNotifications(): void
+    {
         UserNotification::where('required', true)->update(['required' => false]);
-        $notifications = Notification::whereNotNull('id_route')->get();
-        foreach ($notifications as $notification) {
-            //por Usuários
-            $users = Permission::where('id_route', $notification->id_route)->whereNotNull('id_user')->get();
-            foreach ($users as $user) {
+
+        foreach (Notification::whereNotNull('id_route')->get() as $notification) {
+            $userIds = Permission::where('id_route', $notification->id_route)
+                ->whereNotNull('id_user')
+                ->pluck('id_user');
+
+            $profileIds = Permission::where('id_route', $notification->id_route)
+                ->whereNotNull('id_profile')
+                ->pluck('id_profile');
+
+            $userIds = $userIds->merge(
+                UserProfile::whereIn('id_profile', $profileIds)->pluck('id_user')
+            )->unique();
+
+            foreach ($userIds as $userId) {
                 UserNotification::updateOrCreate(
-                    ['id_user' => $user->id_user, 'id_notification' => $notification->id_notification],
+                    ['id_user' => $userId, 'id_notification' => $notification->id_notification],
                     ['required' => true]
                 );
-            }
-
-            //por Perfis
-            $profiles = Permission::where('id_route', $notification->id_route)->whereNotNull('id_profile')->get();
-            foreach ($profiles as $profile) {
-                $users = UserProfile::where('id_profile', $profile->id_profile)->get();
-                foreach ($users as $user) {
-                    UserNotification::updateOrCreate(
-                        ['id_user' => $user->id_user, 'id_notification' => $notification->id_notification],
-                        ['required' => true]
-                    );
-                }
             }
         }
     }

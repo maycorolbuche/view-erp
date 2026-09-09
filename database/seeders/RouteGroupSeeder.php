@@ -17,14 +17,6 @@ class RouteGroupSeeder extends Seeder
     public function run()
     {
         RouteGroup::updateOrCreate(
-            ['id_route_group' => 1],
-            [
-                'icon' => 'bi bi-grid',
-                'label' => 'Sistemas',
-                'sequence' => self::sequence(),
-            ]
-        );
-        RouteGroup::updateOrCreate(
             ['id_route_group' => 2],
             [
                 'icon' => 'bi bi-gear',

@@ -14,7 +14,7 @@
     </x-title>
     @if ($user->root == true)
         <x-note type="warning">
-            Este é um usuário do sistema.
+            Este é um usuário raiz.
         </x-note>
     @endif
 @endif

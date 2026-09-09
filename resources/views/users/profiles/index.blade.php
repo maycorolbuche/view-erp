@@ -14,27 +14,17 @@
 
             @include('layouts.partials.messages')
 
-            @if (!$has_access)
-                <x-note type="danger">
-                    Este usuário não tem acesso ao sistema {{ request('__system')['name'] }}. Autorize o acesso a este
-                    sistema primeiro!
+            @if ($user->root == true)
+                <x-note type="warning">
+                    Este é um usuário raiz. Não é possível alterar os perfis.
                 </x-note>
-            @else
-                @if ($user->root == true)
-                    <x-note type="warning">
-                        Este é um usuário raiz. Não é possível alterar os perfis.
-                    </x-note>
-                @endif
+            @endif
 
                 <x-form action-name="users-profiles" action="{{ route('users-profiles.update', compact('pid')) }}">
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <span class="panel-title">
                                 Lista de Perfis
-                            </span>
-                            <span class="panel-title" style="float: right;">
-                                <i class='{{ request('__system')['icon'] }}'></i>
-                                {{ request('__system')['name'] }}
                             </span>
                         </div>
                         <div class="panel-body pn">
@@ -69,8 +59,6 @@
                         <x-button type="cancel" route-name="users-profiles" />
                     </x-group>
                 </x-form>
-
-            @endif
 
         </x-panel>
 

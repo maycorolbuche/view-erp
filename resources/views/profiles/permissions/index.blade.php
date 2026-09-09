@@ -16,7 +16,7 @@
 
             @if ($profile->root == true)
                 <x-note type="warning">
-                    Este é um perfil do sistema. Não é possível alterar as permissões.
+                    Este é um perfil raiz. Não é possível alterar as permissões.
                 </x-note>
             @endif
 

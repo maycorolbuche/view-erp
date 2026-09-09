@@ -16,6 +16,7 @@ class RouteSeeder extends Seeder
 
     public function run()
     {
+        Route::whereIn('id_route', [1, 2, 18])->delete();
 
         $all_resources = ["index",  "store", "show", "update", "destroy"];
         $all_permissions = ["store", "update", "destroy"];
@@ -33,39 +34,6 @@ class RouteSeeder extends Seeder
         $index_resources = ["index"];
         $index_permissions = [];
 
-
-        /* SISTEMAS */
-        $id_route_group = 1;
-        Route::updateOrCreate(
-            ['id_route' => 1],
-            [
-                'id_route_group' => $id_route_group,
-                'label' => 'Sistemas',
-                'name' => 'systems',
-                'uri' => 'systems',
-                'controller' => 'System\SystemController',
-                'resources' => $all_resources,
-                'permissions' => $all_permissions,
-                'icon' => 'glyphicons glyphicons-show_big_thumbnails',
-                'sequence' => self::sequence(),
-                'root' => 1,
-            ]
-        );
-        Route::updateOrCreate(
-            ['id_route' => 2],
-            [
-                'id_route_group' => $id_route_group,
-                'label' => 'Acessos Sistemas',
-                'name' => 'systems-permissions',
-                'uri' => 'systems/{pid}/permissions',
-                'controller' => 'System\SystemPermissionController',
-                'resources' => $update_all_resources,
-                'permissions' => $update_permissions,
-                'icon' => 'glyphicon glyphicon-th-list',
-                'sequence' => self::sequence(),
-                'root' => 1,
-            ]
-        );
 
         /* PARAMETRIZAÇÃO */
         $id_route_group = 2;
@@ -308,21 +276,6 @@ class RouteSeeder extends Seeder
                 'resources' => $update_all_resources,
                 'permissions' => $update_permissions,
                 'icon' => 'fas fa-users',
-                'sequence' => self::sequence(),
-                'root' => 0,
-            ]
-        );
-        Route::updateOrCreate(
-            ['id_route' => 18],
-            [
-                'id_route_group' => $id_route_group,
-                'label' => 'Sistemas Usuários',
-                'name' => 'users-systems',
-                'uri' => 'users/{pid}/systems',
-                'controller' => 'User\UserSystemController',
-                'resources' => $update_all_resources,
-                'permissions' => $update_permissions,
-                'icon' => 'fas fa-user-cog',
                 'sequence' => self::sequence(),
                 'root' => 0,
             ]

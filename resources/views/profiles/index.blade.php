@@ -15,7 +15,7 @@
 
             @if (isset($data) && $data->root == true)
                 <x-note type="warning">
-                    Este perfil não pode ser apagado, pois é um perfil do sistema.
+                    Este perfil não pode ser apagado, pois é o perfil raiz.
                 </x-note>
             @endif
 
