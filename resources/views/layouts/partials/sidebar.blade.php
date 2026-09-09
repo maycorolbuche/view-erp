@@ -12,7 +12,7 @@
     <div class="sidebar-header">
         <div class="brand">
             <div class="brand-text">
-                <span class="logo">VIEW</span><span class="sub">INTRANET</span>
+                <x-logo zoom="0.6" />
             </div>
             <button class="collapse-btn d-none d-lg-flex" id="collapseBtn" title="Recolher menu">
                 <i class="bi bi-list"></i>

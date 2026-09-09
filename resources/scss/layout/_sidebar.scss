@@ -43,6 +43,14 @@
         }
     }
 
+    .brand-text {
+        max-width: 180px;
+        opacity: 1;
+        transform: translateX(0);
+        overflow: hidden;
+        transition: all 0.25s ease;
+    }
+
     &.collapsed:not(:hover) {
         width: var(--sidebar-w-collapsed);
 
@@ -54,13 +62,19 @@
             padding-left: 6px;
         }
 
-        .brand-text,
         .nav-item .label,
         .nav-item .chev,
         .user-card .grow,
         .user-card > .chev,
         .submenu {
             display: none !important;
+        }
+
+        .brand-text {
+            max-width: 0;
+            opacity: 0;
+            transform: translateX(-8px);
+            pointer-events: none;
         }
 
         .brand {
