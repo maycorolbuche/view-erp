@@ -5,6 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 // Plugins
 import "./plugins/jquery";
+import "./plugins/chart";
 import "./plugins/datatable";
 import "./plugins/tom-select";
 import "./plugins/vanta";
