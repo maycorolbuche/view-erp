@@ -19,6 +19,7 @@
             </button>
         </div>
 
+        {{--
         <div class="user-card">
             <img src="https://i.pravatar.cc/80?img=12" alt="">
             <div class="grow">
@@ -27,6 +28,7 @@
             </div>
             <i class="bi bi-chevron-down chev"></i>
         </div>
+        --}}
     </div>
 
     <div class="sidebar-body">

@@ -3,30 +3,32 @@
         <form action="{{ $href }}" method="POST">
             @csrf
             <button type="submit"
-                class="dropdown-item d-flex align-items-center gap-2 p-2 py-3 {{ $type ? 'text-' . $type : '' }}">
-    @else
-        <a class="dropdown-item d-flex align-items-center gap-2 p-2 py-3 {{ $type ? 'text-' . $type : '' }}"
-            href="{{ $href }}">
+                class="dropdown-item d-flex align-items-center gap-2 p-2 py-3 {{ $type ? 'text-' . $type : '' }}"
+                style="font-size: 12.5px;
+    font-weight: 400;">
+            @else
+                <a class="dropdown-item d-flex align-items-center gap-2 p-2 py-3 {{ $type ? 'text-' . $type : '' }}"
+                    href="{{ $href }}">
     @endif
-        @if ($icon)
-            <div>
-                <i class="icon {{ $icon }}"></i>
-            </div>
-        @endif
-        <div class="d-flex flex-column flex-fill">
-            @if ($title)
-                <span class="fw-medium">{{ $title }}</span>
-            @endif
-            @if ($subtitle)
-                <span class="fw-light">{{ $subtitle }}</span>
-            @endif
-            {{ $slot }}
+    @if ($icon)
+        <div>
+            <i class="icon {{ $icon }}"></i>
         </div>
-        @if ($count > 0)
-            <span class="badge bg-primary">{{ $count }}</span>
+    @endif
+    <div class="d-flex flex-column flex-fill">
+        @if ($title)
+            <span class="fw-medium">{{ $title }}</span>
         @endif
+        @if ($subtitle)
+            <span class="fw-light">{{ $subtitle }}</span>
+        @endif
+        {{ $slot }}
+    </div>
+    @if ($count > 0)
+        <span class="badge bg-primary">{{ $count }}</span>
+    @endif
     @if ($method !== 'get')
-            </button>
+        </button>
         </form>
     @else
         </a>
