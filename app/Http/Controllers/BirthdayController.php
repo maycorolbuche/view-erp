@@ -14,7 +14,6 @@ class BirthdayController extends Controller
         return view('birthdays.index', [
             'months' => BirthdayHelper::MONTHS,
             'birthdaysByMonth' => $users->whereNotNull('month')->sortBy('day')->groupBy('month'),
-            'withoutBirthday' => $users->whereNull('month'),
         ]);
     }
 }

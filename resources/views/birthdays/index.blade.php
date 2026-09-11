@@ -4,8 +4,6 @@
 @section('content')
     <div class="title-bar">
         <h1>Aniversariantes</h1>
-        <p>Datas de aniversário de todos os usuários, organizadas por mês.</p>
-        <a class="link" href="{{ route('dashboard') }}">Voltar ao dashboard</a>
     </div>
 
     <div class="row g-3">
@@ -20,14 +18,5 @@
                 </x-card>
             </div>
         @endforeach
-        @if ($withoutBirthday->isNotEmpty())
-            <div class="col-12">
-                <x-card title="Sem data de aniversário">
-                    @foreach ($withoutBirthday as $birthday)
-                        <x-birthday :birthday="$birthday" />
-                    @endforeach
-                </x-card>
-            </div>
-        @endif
     </div>
 @endsection

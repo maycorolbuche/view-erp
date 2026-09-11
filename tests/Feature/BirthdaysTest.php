@@ -65,7 +65,6 @@ class BirthdaysTest extends TestCase
         $data = (new BirthdayController())->index()->getData();
         $this->assertSame(['Inativo', 'Fim do mês'], $data['birthdaysByMonth'][5]->pluck('name')->all());
         $this->assertSame(['Janeiro'], $data['birthdaysByMonth'][1]->pluck('name')->all());
-        $this->assertSame(['Inválida', 'Sem data'], $data['withoutBirthday']->pluck('name')->all());
         $this->assertCount(12, $data['months']);
         $this->assertSame('02/05', $data['birthdaysByMonth'][5]->first()['date']);
     }

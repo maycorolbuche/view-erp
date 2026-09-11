@@ -224,7 +224,7 @@
                 @forelse ($birthdays as $birthday)
                     <x-birthday :birthday="$birthday" />
                 @empty
-                    <p class="text-body-secondary mb-0">Nenhum aniversário cadastrado para usuários ativos.</p>
+                    <p class="text-body-secondary mb-0">Nenhum aniversariante neste período.</p>
                 @endforelse
                 <div class="text-end mt-2">
                     <a class="link" href="{{ route('dashboard.birthdays') }}">Ver todos</a>
