@@ -64,6 +64,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
         Route::group(['middleware' => ['permissions']], function () {
             Route::get('/', 'HomeController@index')->name('dashboard');
+            Route::get('/birthdays', 'BirthdayController@index')->name('dashboard.birthdays');
 
             try {
                 $routes = Routes::all();

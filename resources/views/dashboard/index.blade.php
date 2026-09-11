@@ -221,25 +221,14 @@
 
         <div class="col-12 col-md-6 col-xl-3">
             <x-card title="Aniversariantes" full-height>
-                <div class="bday"><img src="https://i.pravatar.cc/80?img=15">
-                    <div>
-                        <div class="n">Rafael Almeida</div>
-                        <div class="w">Hoje</div>
-                    </div>
+                @forelse ($birthdays as $birthday)
+                    <x-birthday :birthday="$birthday" />
+                @empty
+                    <p class="text-body-secondary mb-0">Nenhum aniversário cadastrado para usuários ativos.</p>
+                @endforelse
+                <div class="text-end mt-2">
+                    <a class="link" href="{{ route('dashboard.birthdays') }}">Ver todos</a>
                 </div>
-                <div class="bday"><img src="https://i.pravatar.cc/80?img=47">
-                    <div>
-                        <div class="n">Juliana Costa</div>
-                        <div class="w">25 Mai</div>
-                    </div>
-                </div>
-                <div class="bday"><img src="https://i.pravatar.cc/80?img=33">
-                    <div>
-                        <div class="n">Marcos Paulo</div>
-                        <div class="w">27 Mai</div>
-                    </div>
-                </div>
-                <div class="text-end mt-2"><a class="link" href="javascript:">Ver todos</a></div>
             </x-card>
         </div>
     </div>

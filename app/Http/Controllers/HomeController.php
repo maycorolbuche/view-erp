@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Helpers\BirthdayHelper;
 use App\Helpers\AuthorizationHelper;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,8 @@ class HomeController extends Controller
         $batch_review_count = Batch::reviewPending()->whereNull('revised_by')->count();
         $batch_payments_count = Batch::paymentPending()->count();
 
-        return view('dashboard.index', compact('permissions', 'batch_review_count', 'batch_payments_count', 'authorizations_pending_count', 'pages', 'user'));
+        $birthdays = BirthdayHelper::upcoming();
+
+        return view('dashboard.index', compact('birthdays', 'permissions', 'batch_review_count', 'batch_payments_count', 'authorizations_pending_count', 'pages', 'user'));
     }
 }
