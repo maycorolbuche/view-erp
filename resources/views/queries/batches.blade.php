@@ -80,6 +80,7 @@
                         <th type='currency' class='text-center'>Reembolsável?</th>
                         <th orderable="false"></th>
                         <th orderable="false"></th>
+                        <th orderable="false"></th>
                     </thead>
                     <tbody>
                         @foreach ($data->expenses as $expense)
@@ -119,6 +120,14 @@
                                             data-content="{{ $expense->notes }}">
                                             <i class="glyphicons glyphicons-notes"></i>
                                         </button>
+                                    @endif
+                                </td>
+                                <td class="text-right">
+                                    @if ($expense->file)
+                                        <a class="btn btn-danger btn-sm fs12" href="{{ $expense->file->url }}"
+                                            target="_blank" data-type="file">
+                                            <i class="fas fa-file"></i>
+                                        </a>
                                     @endif
                                 </td>
                             </tr>
