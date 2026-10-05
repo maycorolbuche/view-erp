@@ -10,6 +10,7 @@
 
     @include('layouts.partials.meta')
     @include('layouts.partials.css')
+    @include('layouts.partials.loading')
     @stack('styles')
 
 </head>
