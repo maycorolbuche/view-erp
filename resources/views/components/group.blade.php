@@ -8,8 +8,8 @@
         </div>
     @endif
 
-    <div
-        style="display: flex;flex-direction: row;flex-wrap: wrap;align-items: stretch;{{ $right ? 'justify-content: flex-end;' : '' }};{{ $attributes['style'] ?? '' }}">
+    <div style="display: flex;flex-direction: row;flex-wrap: wrap;align-items: stretch;{{ $right ? 'justify-content: flex-end;' : '' }};{{ $attributes['style'] ?? '' }}"
+        {{ $cache ? 'data-cache=' . $cache : '' }}>
         {{ $slot }}
     </div>
 

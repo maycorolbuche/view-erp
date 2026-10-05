@@ -617,5 +617,76 @@
         // Remove iframe (importantíssimo)
         $(this).find('iframe').remove();
     });
+
+    $(function() {
+
+        $("[data-cache]").each(function() {
+            const $container = $(this);
+            const cacheKey = $container.data('cache');
+
+            if (!cacheKey) {
+                return;
+            }
+
+            const cachePrefix = 'form-cache:' + cacheKey + ':';
+
+            // Restaura os valores salvos
+            $container.find("input, select, textarea").each(function() {
+                const $field = $(this);
+                const fieldName = $field.attr('name') || $field.attr('id');
+
+                if (!fieldName) {
+                    return;
+                }
+
+                const value = localStorage.getItem(cachePrefix + fieldName);
+
+                if (value === null) {
+                    return;
+                }
+
+                if ($field.is(':checkbox, :radio')) {
+                    $field.prop('checked', value === '1');
+                } else {
+                    $field.val(value);
+
+                    // Atualiza o Chosen caso seja um select
+                    if ($field.is('select')) {
+                        $field.trigger('chosen:updated');
+                    }
+                }
+
+                // Aciona blur caso tenha valor
+                if (
+                    ($field.is(':checkbox, :radio') && $field.is(':checked')) ||
+                    (!$field.is(':checkbox, :radio') && value !== '')
+                ) {
+                    $field.trigger('blur');
+                }
+            });
+
+            // Salva alterações
+            $container.find("input, select, textarea").on("change", function() {
+                const $field = $(this);
+                const fieldName = $field.attr('name') || $field.attr('id');
+
+                if (!fieldName) {
+                    return;
+                }
+
+                const key = cachePrefix + fieldName;
+
+                if ($field.is(':checkbox, :radio')) {
+                    localStorage.setItem(
+                        key,
+                        $field.is(':checked') ? '1' : '0'
+                    );
+                } else {
+                    localStorage.setItem(key, $field.val());
+                }
+            });
+        });
+
+    });
 </script>
 <!-- END: PAGE SCRIPTS -->

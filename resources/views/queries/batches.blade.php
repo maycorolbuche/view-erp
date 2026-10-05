@@ -232,7 +232,7 @@
                     ],
                 ]) }}"
                 searchable="no">
-                <x-group title="Filtros de Busca">
+                <x-group title="Filtros de Busca" cache="query-batches">
                     <x-input type="date" name="start_date" width="150" label="Data Inicial" />
                     <x-input type="date" name="end_date" width="150" label="Data Final" />
                     <x-input type="select" name="id_user" width="250" label="Usuário"

@@ -183,7 +183,7 @@
                 ]) }}"
                 created-row="if (data['refundable'] !== 1) { $('td', row).addClass('danger'); }" searchable="no">
 
-                <x-group title="Filtros de Busca">
+                <x-group title="Filtros de Busca" cache="query-expenses">
                     <x-input type="date" name="start_date" width="150" label="Data Inicial"
                         value="{{ date('Y-m-01') }}" />
                     <x-input type="date" name="end_date" width="150" label="Data Final"

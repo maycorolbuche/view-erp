@@ -7,7 +7,6 @@ use Illuminate\View\Component;
 class Group extends Component
 {
     public bool $right;
-
     /**
      * Create a new component instance.
      *
@@ -15,6 +14,7 @@ class Group extends Component
      */
     public function __construct(
         string $right = 'false',
+        public null|string $cache = null,
         public string $title = '',
         public string $type = '',
     ) {
