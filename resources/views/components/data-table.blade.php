@@ -10,6 +10,12 @@
             </tbody>
         </table>
     </div>
+
+    <div class="text-right" style="margin-top: 10px; margin-bottom: 10px;">
+        <button type="button" class="btn btn-sm btn-success" data-table-export="{{ $id }}">
+            Exportar CSV
+        </button>
+    </div>
 </div>
 
 @push('scripts')
@@ -78,6 +84,77 @@
                 .change(function() {
                     table_{{ $id }}.draw();
                 });
+
+            $("[data-table-export='{{ $id }}']").click(function() {
+                const rows = table_{{ $id }}.rows({
+                    page: 'current'
+                }).data().toArray();
+
+                if (!rows.length) {
+                    return;
+                }
+
+                const columns = {!! html_entity_decode($columns) !!}.filter(function(column) {
+                    return column.data !== 'actions_search' && column.data !== 'actions' && column
+                        .data !== 'checkbox';
+                });
+
+                const csv = [];
+
+                // Cabeçalho
+                csv.push(
+                    columns.map(function(column) {
+                        let title = column.title || column.data || '';
+
+                        // Remove HTML do título
+                        title = $('<div>').html(title).text();
+
+                        return '"' + String(title).replace(/"/g, '""') + '"';
+                    }).join(';')
+                );
+
+                // Dados
+                rows.forEach(function(row) {
+                    csv.push(
+                        columns.map(function(column) {
+                            let value = '';
+
+                            if (column.data !== undefined && column.data !== null) {
+                                value = row[column.data] ?? '';
+                            }
+
+                            // Remove HTML
+                            value = $('<div>').html(value).text();
+
+                            // Limpa espaços extras
+                            value = String(value).trim();
+
+                            // Escapa aspas para CSV
+                            value = value.replace(/"/g, '""');
+
+                            return '"' + value + '"';
+                        }).join(';')
+                    );
+                });
+
+                const blob = new Blob(
+                    ['\uFEFF' + csv.join('\r\n')], {
+                        type: 'text/csv;charset=utf-8;'
+                    }
+                );
+
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+
+                link.href = url;
+                link.download = 'export.csv';
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                URL.revokeObjectURL(url);
+            });
         });
     </script>
 @endpush

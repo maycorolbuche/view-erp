@@ -268,4 +268,9 @@
     .dataTables_length {
         padding-bottom: 6px;
     }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 </style>
