@@ -10,6 +10,34 @@ class Batch extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
+    public const STATUSES = [
+        'rejected' => [
+            'type' => 'rejected',
+            'color' => 'danger',
+            'label' => 'Rejeitado',
+        ],
+        'pending' => [
+            'type' => 'pending',
+            'color' => 'warning',
+            'label' => 'Pendente p/ Análise',
+        ],
+        'analyzing' => [
+            'type' => 'analyzing',
+            'color' => 'info',
+            'label' => 'Em Revisão',
+        ],
+        'reviewed' => [
+            'type' => 'reviewed',
+            'color' => 'info',
+            'label' => 'Aprovado',
+        ],
+        'closed' => [
+            'type' => 'closed',
+            'color' => 'success',
+            'label' => 'Concluído',
+        ],
+    ];
+
     protected $table = 'batches';
     protected $primaryKey = 'id_batch';
 
@@ -40,22 +68,22 @@ class Batch extends Model
     public function getStatusAttribute()
     {
         if ($this->revised_status === 'pending' && !is_null($this->revised_by)) {
-            return ['type' => 'rejected', 'color' => 'danger', 'label' => 'Rejeitado'];
+            return self::STATUSES['rejected'];
         }
 
         if ($this->revised_status === 'pending') {
-            return ['type' => 'pending', 'color' => 'warning', 'label' => 'Pendente p/ Análise'];
+            return self::STATUSES['pending'];
         }
 
         if ($this->revised_status === 'analyzing') {
-            return ['type' => 'analyzing', 'color' => 'info', 'label' => 'Em Revisão'];
+            return self::STATUSES['analyzing'];
         }
 
         if ($this->active) {
-            return ['type' => 'reviewed', 'color' => 'info', 'label' => 'Aprovado'];
+            return self::STATUSES['reviewed'];
         }
 
-        return ['type' => 'closed', 'color' => 'success', 'label' => 'Concluído'];
+        return self::STATUSES['closed'];
     }
 
     public function user()
@@ -98,5 +126,32 @@ class Batch extends Model
     public function scopePaymentPending($query)
     {
         return $query->active()->where('revised_status',  'approved');
+    }
+    public function scopeStatus($query, string $status)
+    {
+        if (!isset(self::STATUSES[$status])) {
+            return $query;
+        }
+
+        return match ($status) {
+            'rejected' => $query
+                ->where('revised_status', 'pending')
+                ->whereNotNull('revised_by'),
+
+            'pending' => $query
+                ->where('revised_status', 'pending')
+                ->whereNull('revised_by'),
+
+            'analyzing' => $query
+                ->where('revised_status', 'analyzing'),
+
+            'reviewed' => $query
+                ->where('active', true)
+                ->whereNotIn('revised_status', ['pending', 'analyzing']),
+
+            'closed' => $query
+                ->where('active', false)
+                ->whereNotIn('revised_status', ['pending', 'analyzing']),
+        };
     }
 }

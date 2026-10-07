@@ -122,6 +122,11 @@ class DataTableHelper
                         $q->where('clients.id_client', $f);
                     });
                 }
+                if ($f = request('status')) {
+                    $query->whereHas('batch', function ($q) use ($f) {
+                        $q->status($f);
+                    });
+                }
             })
             ->addIndexColumn()
             ->addColumn('actions', function ($row) use ($id_field) {

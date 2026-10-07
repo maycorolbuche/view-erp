@@ -19,6 +19,8 @@ class DataTable extends Component
         public string $queryString = '',
         public string $idField = '',
         public string $searchable = '',
+        public int $pageLength = 10,
+        public array $lengthMenu = [10, 25, 50, 100],
         string $order = '',
         string $orderDir = '',
         string $id = '',

@@ -33,6 +33,13 @@
                 }).DataTable({
                     serverSide: true,
                     processing: true,
+
+                    pageLength: @json($pageLength ?? 10),
+                    lengthMenu: [
+                        @json(array_map(fn($item) => $item === 'all' ? -1 : $item, $lengthMenu)),
+                        @json(array_map(fn($item) => $item === 'all' ? 'Todos' : $item, $lengthMenu))
+                    ],
+
                     @if ($searchable == 'no')
                         dom: 'lrtip',
                     @endif

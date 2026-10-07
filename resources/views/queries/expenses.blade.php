@@ -126,7 +126,8 @@
         <x-panel title="Dados" type="warning">
 
             <x-data-table id="expenses_query" data-origin="queries-expenses.datatable"
-                query-string="route=queries-expenses.show" order="date" order-dir="desc"
+                query-string="route=queries-expenses.show" order="date" order-dir="desc" :page-length=100
+                :length-menu="[10, 25, 50, 100, 500, 1000, 'all']"
                 columns="{{ json_encode([
                     [
                         'data' => 'actions_search',
@@ -190,6 +191,8 @@
                         value="{{ date('Y-m-t') }}" />
                     <x-input type="number" name="id_batch" width="130" label="Lote" />
 
+                    <x-input type="select" name="status" width="200" label="Status"
+                        list="{{ json_encode($statuses) }}" list-value="type" list-text="label" />
                     <x-input type="select" name="id_category" width="200" label="Tipo de Despesa"
                         list="{{ json_encode($categories) }}" list-value="id_category" list-text="name" />
                     <x-input type="select" name="id_payment_method" width="200" label="Tipo de Pagamento"

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\PaymentMethod;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Batch;
 use App\Helpers\DataTableHelper;
 use Illuminate\Support\Facades\DB;
 
@@ -28,8 +29,9 @@ class ExpenseController extends Controller
         $payment_methods = PaymentMethod::orderBy('name')->get();
         $clients = Client::orderBy('name')->get();
         $users = User::orderBy('name')->get();
+        $statuses = Batch::STATUSES;
 
-        return view('queries.expenses', compact('categories', 'payment_methods', 'clients', 'users'));
+        return view('queries.expenses', compact('categories', 'payment_methods', 'clients', 'users', 'statuses'));
     }
 
 
@@ -51,9 +53,10 @@ class ExpenseController extends Controller
         $payment_methods = PaymentMethod::orderBy('name')->get();
         $clients = Client::orderBy('name')->get();
         $users = User::orderBy('name')->get();
+        $statuses = Batch::STATUSES;
 
         if ($data) {
-            return view('queries.expenses', compact('data', 'categories', 'payment_methods', 'clients', 'users'));
+            return view('queries.expenses', compact('data', 'categories', 'payment_methods', 'clients', 'users', 'statuses'));
         } else {
             return redirect()->route('queries-expenses')->with('error', 'Registro não encontrado!');
         }
