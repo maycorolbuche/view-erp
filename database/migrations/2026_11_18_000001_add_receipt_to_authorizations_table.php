@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('authorizations', function (Blueprint $table) {
-            $table->unsignedInteger('id_file')->nullable();
+            $table->unsignedInteger('id_file')->nullable()->after('approved');
             $table->foreign('id_file')->references('id_file')->on('files');
         });
     }
