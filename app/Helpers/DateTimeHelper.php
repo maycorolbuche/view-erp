@@ -7,7 +7,7 @@ use DateTime;
 
 class DateTimeHelper
 {
-    public static function distribute(float $amount, DateTime $start_date, int $days, DateTime $end_date, int $id_branch)
+    public static function distribute(float $amount, DateTime $start_date, int $days, DateTime $end_date, int|null $id_branch)
     {
         $date = $start_date;
         $max_date = $end_date;
@@ -35,10 +35,12 @@ class DateTimeHelper
             }
 
             //Verifica se é feriado
-            $holidays = HolidayHelper::date($d, $id_branch);
-            if (count($holidays) > 0) {
-                $days++;
-                continue;
+            if ($id_branch) {
+                $holidays = HolidayHelper::date($d, $id_branch);
+                if (count($holidays) > 0) {
+                    $days++;
+                    continue;
+                }
             }
 
             $items[$d->format('Y-m-d')] = $partial_amount;
