@@ -8,6 +8,9 @@ use App\Models\AuthorizationClient;
 use App\Models\AuthorizationStatus;
 use App\Models\AuthorizationType;
 use App\Helpers\UserHelper;
+use App\Helpers\FileUploadHelper;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\AuthorizationCashAdvanceReturnRequest;
 use App\Notifications\AuthorizationNotification;
 use Illuminate\Support\Facades\Notification;
@@ -55,18 +58,27 @@ class AuthorizationCashAdvanceReturnController extends Controller
             'amount' => $request->amount * -1
         ]);
 
+        $file = null;
         try {
-            $authorization_expense = Authorization::create($request->all());
-            $this->authorizationsUsers($authorization_expense->id_authorization, $parents ?? []);
+            DB::transaction(function () use ($request, $parents, &$file) {
+                $file = FileUploadHelper::upload($request->file('file'), 'cash-advance-returns');
+                if (!$file) {
+                    throw new \RuntimeException('É necessário anexar o comprovante de devolução.');
+                }
 
-            try {
-                //$this->sendMail($authorization_expense->id_authorization);
-                return redirect()->route('authorizations-cash-advance-returns')->with('success', 'Autorização solicitada com sucesso.');
-            } catch (\Exception $e) {
-                return redirect()->back()->with('error', 'A solicitação de devolução foi cadastrada com sucesso, porém, houve um erro ao enviar e-mail aos seus responsáveis. Favor, entrar em contato com seus responsáveis! - ' . $e->getMessage())->withInput();
-            }
+                $authorization_expense = new Authorization($request->except(['file', 'id_file']));
+                $authorization_expense->id_file = $file->id_file;
+                $authorization_expense->save();
+                $this->authorizationsUsers($authorization_expense->id_authorization, $parents ?? []);
+            });
+
+            return redirect()->route('authorizations-cash-advance-returns')->with('success', 'Autorização solicitada com sucesso.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            if ($file) {
+                Storage::disk($file->disk)->delete($file->path);
+            }
+            report($e);
+            return redirect()->back()->with('error', 'Não foi possível salvar a devolução e seu comprovante. Tente novamente.')->withInput();
         }
     }
 

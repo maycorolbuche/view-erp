@@ -35,6 +35,7 @@ class AuthorizationCashAdvanceReturnRequest extends FormRequest
                 'max:' . $max_amount,
             ],
             'description' => 'required',
+            'file' => 'required|file|max:20480|mimes:jpg,jpeg,png,pdf',
         ];
     }
 
@@ -43,6 +44,7 @@ class AuthorizationCashAdvanceReturnRequest extends FormRequest
         return [
             'amount' => 'valor',
             'description' => 'motivo da devolução',
+            'file' => 'comprovante de devolução',
         ];
     }
 

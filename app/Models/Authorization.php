@@ -79,6 +79,11 @@ class Authorization extends Model
         return $description;
     }
 
+    public function file()
+    {
+        return $this->hasOne(File::class, 'id_file', 'id_file');
+    }
+
     public function clients()
     {
         return $this->belongsToMany(Client::class, AuthorizationClient::class, 'id_authorization', 'id_client');

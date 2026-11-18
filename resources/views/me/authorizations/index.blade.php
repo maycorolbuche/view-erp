@@ -59,6 +59,8 @@
 
                     <br>
 
+                    @include('authorizations-cash-advance-returns.components.receipt')
+
                     @if (trim($data->agreement_terms) != '' && auth()->user()->id_user == $data->id_user)
                         <x-note>
                             <small>
