@@ -48,27 +48,36 @@ class BatchNotification extends Notification
         $html = "";
 
         if ($this->type == 'new') {
+            if ($notifiable->id_user == $this->data->id_user) {
+                $html .= "Você gerou o lote nº <b>" . $this->data->id_batch . "</b>:";
+                $html .= "<p>Aguarde a validação do mesmo pelo financeiro para calcular o valor do reembolso, caso seja reembolsável.</p>";
 
-            $html .= "<b>" . $this->data->user->name . "</b> gerou o lote nº <b>" . $this->data->id_batch . "</b>:";
+                return (new MailMessage)
+                    ->subject('Novo Lote Gerado | ' . $this->data->id_batch)
+                    ->greeting('Olá, ' . $userName . '!')
+                    ->line($html)
+                    ->markdown('vendor.notifications.email');
+            } else {
+                $html .= "<b>" . $this->data->user->name . "</b> gerou o lote nº <b>" . $this->data->id_batch . "</b>:";
 
-            $html .= "<p>Detalhes do lote:";
-            $html .= "<hr style='border:0;border-top:1px solid #AAA'>";
+                $html .= "<p>Detalhes do lote:";
+                $html .= "<hr style='border:0;border-top:1px solid #AAA'>";
 
-            $html .= "<p><b>Quantidade de Despesas: </b>" . $this->data->expenses_count;
-            $html .= "<br><b>Valor do Lote: </b> R$ " . number_format($this->data->amount, 2, ',', '.');
-            $html .= "<br><b>(-) Vl. não Reembolsável: </b> R$ " . number_format($this->data->non_refundable_amount, 2, ',', '.');
-            $html .= "<br><b>(-) Vl. Desconto: </b> R$ " . number_format($this->data->discount, 2, ',', '.');
-            $html .= "<br><b>(=) Valor do Reembolso: </b> R$ " . number_format($this->data->refund_amount, 2, ',', '.');
+                $html .= "<p><b>Quantidade de Despesas: </b>" . $this->data->expenses_count;
+                $html .= "<br><b>Valor do Lote: </b> R$ " . number_format($this->data->amount, 2, ',', '.');
+                $html .= "<br><b>(-) Vl. não Reembolsável: </b> R$ " . number_format($this->data->non_refundable_amount, 2, ',', '.');
+                $html .= "<br><b>(-) Vl. Desconto: </b> R$ " . number_format($this->data->discount, 2, ',', '.');
+                $html .= "<br><b>(=) Valor do Reembolso: </b> R$ " . number_format($this->data->refund_amount, 2, ',', '.');
 
-            return (new MailMessage)
-                ->subject('Novo Lote Gerado | ' . $this->data->id_batch)
-                ->greeting('Olá, ' . $userName . '!')
-                ->line($html)
-                ->action('ACESSAR DOCUMENTO', route('pdf.batch', ['id' => Crypt::encrypt($this->data->id_batch)]))
-                ->markdown('vendor.notifications.email');
+                return (new MailMessage)
+                    ->subject('Novo Lote Gerado | ' . $this->data->id_batch)
+                    ->greeting('Olá, ' . $userName . '!')
+                    ->line($html)
+                    ->action('ACESSAR DOCUMENTO', route('pdf.batch', ['id' => Crypt::encrypt($this->data->id_batch)]))
+                    ->markdown('vendor.notifications.email');
+            }
         } elseif ($this->type == 'delete') {
-
-            $html .= "<b>" . auth()->user()->name . "</b> desfez o lote nº <b>" . $this->data . "</b>:";
+            $html .= "<b>O lote nº <b>" . $this->data . "</b> foi desfeito.";
 
             return (new MailMessage)
                 ->subject('Lote Desfeito | ' . $this->data)
