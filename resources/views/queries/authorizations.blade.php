@@ -62,6 +62,8 @@
                     </x-note>
                 @endif
 
+                @include('authorizations-cash-advance-returns.components.receipt')
+
                 @if ($data->authorization_type->type == 'expense')
                     <div class="panel-heading">
                         <span class="panel-title">

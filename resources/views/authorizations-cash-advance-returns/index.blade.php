@@ -23,7 +23,7 @@
                     </p>
                 </x-note>
             @else
-                <x-form action-name="authorizations-cash-advance-returns" action-id="{{ null }}">
+                <x-form action-name="authorizations-cash-advance-returns" action-id="{{ null }}" files>
                     <x-group>
                         <x-input type="money" name="amount" width="150" label="Valor" required
                             value="{{ $user_cash }}" />
@@ -35,6 +35,10 @@
                     </x-group>
                     <x-group>
                         <x-input name="description" width="600" label="Motivo da Devolução" required />
+                    </x-group>
+                    <x-group>
+                        <x-input type="file" name="file" width="350" label="Comprovante de Devolução"
+                            accept=".jpg,.jpeg,.png,.pdf" required />
                     </x-group>
                     <x-group>
                         <div class="form-group" style="padding: 0 5px 0 5px;">
