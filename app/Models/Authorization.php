@@ -170,7 +170,6 @@ class Authorization extends Model
                 $query->where('authorizations_statuses.id_user', $id_user)
                     ->whereNull('approved');
             })
-            ->type('expense')
             ->active()
             ->pending();
     }
